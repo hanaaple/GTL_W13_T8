@@ -28,7 +28,6 @@ public:
     
     void PrepareCubeMapRenderState();
     void UpdateCubeMapConstantBuffer(UPointLightComponent*& PointLight, const FMatrix& WorldMatrix) const;
-    void RenderCubeMap(const std::shared_ptr<FEditorViewportClient>& Viewport, UPointLightComponent*& PointLight);
     void SetLightData(const TArray<class UPointLightComponent*>& InPointLights, const TArray<class USpotLightComponent*>& InSpotLights);
 
     virtual void Initialize(FDXDBufferManager* InBufferManager, FGraphicsDevice* InGraphics, FDXDShaderManager* InShaderManager) override;
@@ -37,14 +36,13 @@ public:
     void PrepareCSMRenderState();
     virtual void PrepareRenderArr() override;
     void UpdateIsShadowConstant(int32 IsShadow) const;
-    void Render(ULightComponentBase* Light);
     virtual void Render(const std::shared_ptr<FEditorViewportClient>& Viewport) override;    
     virtual void ClearRenderArr() override;
 
-    void RenderPrimitive(FStaticMeshRenderData* RenderData, const TArray<FStaticMaterial*> Materials, TArray<UMaterial*> OverrideMaterials, int32 SelectedSubMeshIndex);
-    virtual void RenderAllStaticMeshes(const std::shared_ptr<FEditorViewportClient>& Viewport);
-    void RenderAllStaticMeshesForCSM(const std::shared_ptr<FEditorViewportClient>& Viewport,
+    virtual void RenderAllMeshes(const std::shared_ptr<FEditorViewportClient>& Viewport);
+    void RenderAllMeshesForCSM(const std::shared_ptr<FEditorViewportClient>& Viewport,
                                      FCascadeConstantBuffer FCasCadeData);
+
     void BindResourcesForSampling();
 
     void RenderAllStaticMeshesForPointLight(const std::shared_ptr<FEditorViewportClient>& Viewport, UPointLightComponent*& PointLight);
@@ -57,6 +55,8 @@ protected:
     
 private:
     TArray<class UStaticMeshComponent*> StaticMeshComponents;
+    TArray<class USkeletalMeshComponent*> SkeletalMeshComponents;
+    
     TArray<UPointLightComponent*> PointLights;
     TArray<USpotLightComponent*> SpotLights;
     
@@ -64,7 +64,6 @@ private:
 
     ID3D11InputLayout* StaticMeshIL;
     ID3D11VertexShader* DepthOnlyVS;
-    ID3D11PixelShader* DepthOnlyPS;
     ID3D11SamplerState* Sampler;
 
     ID3D11VertexShader* DepthCubeMapVS;
@@ -76,8 +75,7 @@ private:
     ID3D11PixelShader* CascadedShadowMapPS;
 
     D3D11_VIEWPORT ShadowViewport;
-
-
+    
     uint32 ShadowMapWidth = 2048;
     uint32 ShadowMapHeight = 2048;
 
