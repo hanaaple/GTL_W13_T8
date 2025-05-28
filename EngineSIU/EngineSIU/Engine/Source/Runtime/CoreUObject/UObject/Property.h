@@ -1102,11 +1102,9 @@ struct TEnumProperty : public FProperty
 
     virtual void DisplayInImGui(UObject* Object) const override
     {
-        ImGui::BeginDisabled(HasAnyFlags(Flags, EPropertyFlags::VisibleAnywhere));
         {
             FProperty::DisplayInImGui(Object);
         }
-        ImGui::EndDisabled();
     }
 
 protected:
@@ -1114,41 +1112,108 @@ protected:
     {
         FProperty::DisplayRawDataInImGui_Implement(PropertyLabel, DataPtr, OwnerObject);
 
+        if (HasAnyFlags(Flags, BitMask))
+        {
+            DisplayBitMask(PropertyLabel, DataPtr, OwnerObject);
+        }
+        else
+        {
+            DisplayComboBox(PropertyLabel, DataPtr, OwnerObject);
+        }
+    }
+
+private:
+    void DisplayBitMask(const char* PropertyLabel, void* DataPtr, UObject* OwnerObject) const
+    {
+        using namespace magic_enum::bitwise_operators;
+
         EnumType* Data = static_cast<EnumType*>(DataPtr);
         constexpr auto EnumEntries = magic_enum::enum_entries<EnumType>();
 
-        const std::string_view CurrentNameView = magic_enum::enum_name(*Data);
-        const std::string CurrentName = std::string(CurrentNameView);
+        if (ImGui::TreeNode(PropertyLabel))
+        {
+            // 툴팁 표시
+            if (Metadata.ToolTip.IsSet())
+            {
+                ImGui::SetItemTooltip("%s", **Metadata.ToolTip);
+            }
 
-        ImGui::Text("%s", PropertyLabel);
-        // 툴팁 표시
-        if (Metadata.ToolTip.IsSet())
-        {
-            ImGui::SetItemTooltip("%s", **Metadata.ToolTip);
-        }
-        ImGui::SameLine();
-        if (ImGui::BeginCombo(std::format("##{}", PropertyLabel).c_str(), CurrentName.c_str()))
-        {
             for (const auto& [Enum, NameView] : EnumEntries)
             {
                 const std::string EnumName = std::string(NameView);
-                const bool bIsSelected = (*Data == Enum);
-                if (ImGui::Selectable(EnumName.c_str(), bIsSelected))
+                const auto EnumValue = static_cast<std::underlying_type_t<EnumType>>(Enum);
+
+                // enum 값 자체가 이미 비트 플래그인 경우
+                bool IsChecked = (*Data & Enum) == Enum;
+
+                ImGui::PushID(static_cast<int>(EnumValue));
+                ImGui::Text("%s", EnumName.c_str());
+                ImGui::SameLine();
+
+                if (ImGui::Checkbox(std::format("##{}", EnumName).c_str(), &IsChecked))
                 {
-                    *Data = Enum;
+                    if (IsChecked)
+                    {
+                        *Data = static_cast<EnumType>(*Data | Enum);
+                    }
+                    else
+                    {
+                        *Data = static_cast<EnumType>(*Data & ~Enum);
+                    }
+
                     if (IsValid(OwnerObject))
                     {
                         FPropertyChangedEvent Event{const_cast<TEnumProperty*>(this), OwnerObject, EPropertyChangeType::ValueSet};
                         OwnerObject->PostEditChangeProperty(Event);
                     }
                 }
-                if (bIsSelected)
-                {
-                    ImGui::SetItemDefaultFocus();
-                }
+                ImGui::PopID();
             }
-            ImGui::EndCombo();
+            ImGui::TreePop();
         }
+    }
+
+    void DisplayComboBox(const char* PropertyLabel, void* DataPtr, UObject* OwnerObject) const
+    {
+        EnumType* Data = static_cast<EnumType*>(DataPtr);
+        constexpr auto EnumEntries = magic_enum::enum_entries<EnumType>();
+
+        const std::string_view CurrentNameView = magic_enum::enum_name(*Data);
+        const std::string CurrentName = std::string(CurrentNameView);
+
+        ImGui::BeginDisabled(HasAnyFlags(Flags, EPropertyFlags::VisibleAnywhere));
+        {
+            ImGui::Text("%s", PropertyLabel);
+            // 툴팁 표시
+            if (Metadata.ToolTip.IsSet())
+            {
+                ImGui::SetItemTooltip("%s", **Metadata.ToolTip);
+            }
+            ImGui::SameLine();
+            if (ImGui::BeginCombo(std::format("##{}", PropertyLabel).c_str(), CurrentName.c_str()))
+            {
+                for (const auto& [Enum, NameView] : EnumEntries)
+                {
+                    const std::string EnumName = std::string(NameView);
+                    const bool bIsSelected = (*Data == Enum);
+                    if (ImGui::Selectable(EnumName.c_str(), bIsSelected))
+                    {
+                        *Data = Enum;
+                        if (IsValid(OwnerObject))
+                        {
+                            FPropertyChangedEvent Event{const_cast<TEnumProperty*>(this), OwnerObject, EPropertyChangeType::ValueSet};
+                            OwnerObject->PostEditChangeProperty(Event);
+                        }
+                    }
+                    if (bIsSelected)
+                    {
+                        ImGui::SetItemDefaultFocus();
+                    }
+                }
+                ImGui::EndCombo();
+            }
+        }
+        ImGui::EndDisabled();
     }
 };
 
@@ -1265,6 +1330,21 @@ struct FUnresolvedPtrProperty : public FProperty
 
 namespace PropertyFactory::Private
 {
+template <typename E>
+constexpr bool IsFlagsRegistered()
+{
+    if constexpr (
+        requires { magic_enum::customize::enum_range<E>::is_flags; }
+    )
+    {
+        if constexpr (std::same_as<decltype(magic_enum::customize::enum_range<E>::is_flags), const bool>)
+        {
+            return magic_enum::customize::enum_range<E>::is_flags;
+        }
+    }
+    return false;
+}
+
 template <typename T, EPropertyFlags InFlags>
 FProperty* CreatePropertyForContainerType();
 
@@ -1280,28 +1360,41 @@ FProperty* MakeProperty(
     constexpr EPropertyType TypeEnum = GetPropertyType<T>();
 
     // Flags 검사
-    if constexpr (HasAllFlags<InFlags>(EPropertyFlags::EditAnywhere | EPropertyFlags::VisibleAnywhere))
-    {
-        // EditAnywhere와 VisibleAnywhere는 서로 같이 사용할 수 없음!!
-        static_assert(TAlwaysFalse<T>, "EditAnywhere and VisibleAnywhere cannot be set at the same time.");
-    }
-    else if constexpr (HasAllFlags<InFlags>(EPropertyFlags::LuaReadOnly | EPropertyFlags::LuaReadWrite))
-    {
-        // LuaReadOnly와 LuaReadWrite는 서로 같이 사용할 수 없음!!
-        static_assert(TAlwaysFalse<T>, "LuaReadOnly and LuaReadWrite cannot be set at the same time.");
-    }
-    else if constexpr (
-        !(
-            TypeEnum == EPropertyType::Object
-            || TypeEnum == EPropertyType::UnresolvedPointer
-            || TypeEnum == EPropertyType::Array
-        )
-        && HasAnyFlags<InFlags>(EPropertyFlags::EditInline)
-    )
-    {
-        // UObject가 아닌 타입에 대해서는 EditInline을 사용할 수 없음!!
-        static_assert(TAlwaysFalse<T>, "EditInline cannot be set for non-UObject types.");
-    }
+    // EditAnywhere와 VisibleAnywhere는 서로 같이 사용할 수 없음!!
+    static_assert(
+        !HasAllFlags<InFlags>(EPropertyFlags::EditAnywhere | EPropertyFlags::VisibleAnywhere),
+        "EditAnywhere and VisibleAnywhere cannot be set at the same time."
+    );
+
+    // LuaReadOnly와 LuaReadWrite는 서로 같이 사용할 수 없음!!
+    static_assert(
+        !HasAllFlags<InFlags>(EPropertyFlags::LuaReadOnly | EPropertyFlags::LuaReadWrite),
+        "LuaReadOnly and LuaReadWrite cannot be set at the same time."
+    );
+
+    // UObject가 아닌 타입에 대해서는 EditInline을 사용할 수 없음!!
+    static_assert(
+        TypeEnum == EPropertyType::Object
+        || TypeEnum == EPropertyType::UnresolvedPointer
+        || TypeEnum == EPropertyType::Array
+        || !HasAnyFlags<InFlags>(EPropertyFlags::EditInline),
+        "EditInline cannot be set for non-UObject types."
+    );
+
+    // Enum이 아닌 타입에 대해서는 BitMask를 사용할 수 없음!!
+    static_assert(
+        TypeEnum == EPropertyType::Enum
+        || !HasAnyFlags<InFlags>(EPropertyFlags::BitMask),
+        "BitMask cannot be set for non-Enum types."
+    );
+
+    // Enum에 BitMask를 사용하지만 magic_enum에 bit_flags를 등록하지 않은 경우
+    static_assert(
+        TypeEnum != EPropertyType::Enum
+        || IsFlagsRegistered<T>()
+        || !HasAnyFlags<InFlags>(EPropertyFlags::BitMask),
+        "magic_enum bit_flags must be registered for Enum type."
+    );
 
     if constexpr      (TypeEnum == EPropertyType::Int8)               { return new FInt8Property               { InOwnerStruct, InPropertyName, sizeof(T), InOffset, InFlags, std::move(InMetadata) }; }
     else if constexpr (TypeEnum == EPropertyType::Int16)              { return new FInt16Property              { InOwnerStruct, InPropertyName, sizeof(T), InOffset, InFlags, std::move(InMetadata) }; }
