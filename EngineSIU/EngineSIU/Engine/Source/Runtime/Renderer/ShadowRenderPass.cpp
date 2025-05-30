@@ -33,13 +33,6 @@ void FShadowRenderPass::InitializeShadowManager(class FShadowManager* InShadowMa
 
 void FShadowRenderPass::PrepareRenderState()
 {
-    // Shader Hot Reload 대응 
-    StaticMeshIL = ShaderManager->GetInputLayoutByKey(L"StaticMeshVertexShader");
-    DepthOnlyVS = ShaderManager->GetVertexShaderByKey(L"DepthOnlyVS_SM");
-    
-    Graphics->DeviceContext->IASetInputLayout(StaticMeshIL);
-    Graphics->DeviceContext->VSSetShader(DepthOnlyVS, nullptr, 0);
-
     // Note : PS만 언바인드할 뿐, UpdateLightBuffer에서 바인딩된 SRV 슬롯들은 그대로 남아 있음
     Graphics->DeviceContext->PSSetShader(nullptr, nullptr, 0);
     Graphics->DeviceContext->RSSetState(Graphics->RasterizerShadow);
@@ -51,12 +44,7 @@ void FShadowRenderPass::PrepareRenderState()
 
 void FShadowRenderPass::PrepareCSMRenderState()
 {
-    StaticMeshIL = ShaderManager->GetInputLayoutByKey(L"StaticMeshVertexShader");
-    CascadedShadowMapVS = ShaderManager->GetVertexShaderByKey(L"CascadedShadowMapVS_SM");
     CascadedShadowMapPS = ShaderManager->GetPixelShaderByKey(L"CascadedShadowMapPS");
-
-    Graphics->DeviceContext->IASetInputLayout(StaticMeshIL);
-    Graphics->DeviceContext->VSSetShader(CascadedShadowMapVS, nullptr, 0);
     Graphics->DeviceContext->GSSetShader(CascadedShadowMapGS, nullptr, 0);
 
     // Note : PS만 언바인드할 뿐, UpdateLightBuffer에서 바인딩된 SRV 슬롯들은 그대로 남아 있음
@@ -155,7 +143,7 @@ void FShadowRenderPass::Render(const std::shared_ptr<FEditorViewportClient>& Vie
         BufferManager->UpdateConstantBuffer(TEXT("FShadowConstantBuffer"), ShadowData);
 
         ShadowManager->BeginSpotShadowPass(Idx);
-        RenderAllMeshes(Viewport);
+        RenderAllMeshesForSpotLight(Viewport);
            
         Graphics->DeviceContext->RSSetViewports(0, nullptr);
         Graphics->DeviceContext->OMSetRenderTargets(0, nullptr, nullptr);
@@ -165,7 +153,7 @@ void FShadowRenderPass::Render(const std::shared_ptr<FEditorViewportClient>& Vie
     for (int Idx = 0 ; Idx < PointLights.Num(); Idx++)
     {
         ShadowManager->BeginPointShadowPass(Idx);
-        RenderAllStaticMeshesForPointLight(Viewport, PointLights[Idx]);
+        RenderAllMeshesForPointLight(Viewport, PointLights[Idx]);
     }
 
     CleanUpRender(Viewport);
@@ -183,8 +171,14 @@ void FShadowRenderPass::SetLightData(const TArray<class UPointLightComponent*>& 
     SpotLights = InSpotLights;
 }
 
-void FShadowRenderPass::RenderAllMeshes(const std::shared_ptr<FEditorViewportClient>& Viewport)
+void FShadowRenderPass::RenderAllMeshesForSpotLight(const std::shared_ptr<FEditorViewportClient>& Viewport)
 {
+    StaticMeshIL = ShaderManager->GetInputLayoutByKey(L"StaticMeshVertexShader");
+    DepthOnlyVS = ShaderManager->GetVertexShaderByKey(L"DepthOnlyVS_SM");
+    
+    Graphics->DeviceContext->IASetInputLayout(StaticMeshIL);
+    Graphics->DeviceContext->VSSetShader(DepthOnlyVS, nullptr, 0);
+
     for (UStaticMeshComponent* Comp : StaticMeshComponents)
     {
         if (!Comp || !Comp->GetStaticMesh())
@@ -241,6 +235,12 @@ void FShadowRenderPass::RenderAllMeshes(const std::shared_ptr<FEditorViewportCli
 
 void FShadowRenderPass::RenderAllMeshesForCSM(const std::shared_ptr<FEditorViewportClient>& Viewport, FCascadeConstantBuffer FCasCadeData)
 {
+    StaticMeshIL = ShaderManager->GetInputLayoutByKey(L"StaticMeshVertexShader");
+    CascadedShadowMapVS = ShaderManager->GetVertexShaderByKey(L"CascadedShadowMapVS_SM");
+    
+    Graphics->DeviceContext->IASetInputLayout(StaticMeshIL);
+    Graphics->DeviceContext->VSSetShader(CascadedShadowMapVS, nullptr, 0);
+    
     for (UStaticMeshComponent* Comp : StaticMeshComponents)
     {
         if (!Comp || !Comp->GetStaticMesh())
@@ -308,8 +308,14 @@ void FShadowRenderPass::BindResourcesForSampling()
     );
 }
 
-void FShadowRenderPass::RenderAllStaticMeshesForPointLight(const std::shared_ptr<FEditorViewportClient>& Viewport, UPointLightComponent*& PointLight)
+void FShadowRenderPass::RenderAllMeshesForPointLight(const std::shared_ptr<FEditorViewportClient>& Viewport, UPointLightComponent*& PointLight)
 {
+    StaticMeshIL = ShaderManager->GetInputLayoutByKey(L"StaticMeshVertexShader");
+    DepthCubeMapVS = ShaderManager->GetVertexShaderByKey(L"DepthCubeMapVS_SM");
+
+    Graphics->DeviceContext->IASetInputLayout(StaticMeshIL);
+    Graphics->DeviceContext->VSSetShader(DepthCubeMapVS, nullptr, 0);
+    
     for (UStaticMeshComponent* Comp : StaticMeshComponents)
     {
         if (!Comp || !Comp->GetStaticMesh()) { continue; }
@@ -317,10 +323,7 @@ void FShadowRenderPass::RenderAllStaticMeshesForPointLight(const std::shared_ptr
         FStaticMeshRenderData* RenderData = Comp->GetStaticMesh()->GetRenderData();
         if (RenderData == nullptr) { continue; }
 
-        UEditorEngine* Engine = Cast<UEditorEngine>(GEngine);
-
         FMatrix WorldMatrix = Comp->GetWorldMatrix();
-
         UpdateCubeMapConstantBuffer(PointLight, WorldMatrix);
 
         RenderStaticMesh_Internal(RenderData, Comp->GetStaticMesh()->GetMaterials(), Comp->GetOverrideMaterials(), Comp->GetselectedSubMeshIndex());
@@ -345,9 +348,6 @@ void FShadowRenderPass::RenderAllStaticMeshesForPointLight(const std::shared_ptr
         }
 
         FMatrix WorldMatrix = Comp->GetWorldMatrix();
-        FVector4 UUIDColor = Comp->EncodeUUID() / 255.0f;
-        constexpr bool bIsSelected = false;
-
         UpdateCubeMapConstantBuffer(PointLight, WorldMatrix);
 
         UpdateBones(Comp);
@@ -445,12 +445,7 @@ void FShadowRenderPass::CreateResource()
 
 void FShadowRenderPass::PrepareCubeMapRenderState()
 {
-    DepthCubeMapVS = ShaderManager->GetVertexShaderByKey(L"DepthCubeMapVS_SM");
     DepthCubeMapGS = ShaderManager->GetGeometryShaderByKey(L"DepthCubeMapGS");
-
-    Graphics->DeviceContext->VSSetShader(DepthCubeMapVS, nullptr, 0);
-    Graphics->DeviceContext->IASetInputLayout(StaticMeshIL);
-    
     Graphics->DeviceContext->GSSetShader(DepthCubeMapGS, nullptr, 0);
     
     Graphics->DeviceContext->PSSetShader(nullptr, nullptr, 0);

@@ -39,13 +39,13 @@ public:
     virtual void Render(const std::shared_ptr<FEditorViewportClient>& Viewport) override;    
     virtual void ClearRenderArr() override;
 
-    virtual void RenderAllMeshes(const std::shared_ptr<FEditorViewportClient>& Viewport);
+    virtual void RenderAllMeshesForSpotLight(const std::shared_ptr<FEditorViewportClient>& Viewport);
     void RenderAllMeshesForCSM(const std::shared_ptr<FEditorViewportClient>& Viewport,
                                      FCascadeConstantBuffer FCasCadeData);
 
     void BindResourcesForSampling();
 
-    void RenderAllStaticMeshesForPointLight(const std::shared_ptr<FEditorViewportClient>& Viewport, UPointLightComponent*& PointLight);
+    void RenderAllMeshesForPointLight(const std::shared_ptr<FEditorViewportClient>& Viewport, UPointLightComponent*& PointLight);
 
 protected:
     virtual void PrepareRender(const std::shared_ptr<FEditorViewportClient>& Viewport) override;
