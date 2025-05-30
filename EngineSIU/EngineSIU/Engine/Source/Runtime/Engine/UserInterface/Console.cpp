@@ -1,6 +1,7 @@
 #include "Console.h"
 #include <cstdarg>
 #include <cstdio>
+#include <print>
 
 #include "Actors/PointLightActor.h"
 #include "Actors/SpotLightActor.h"
@@ -13,6 +14,26 @@
 #include "UnrealEd/EditorViewportClient.h"
 #include "UObject/UObjectIterator.h"
 
+namespace LogColors
+{
+constexpr const char* COLOR_DEBUG = "\x1b[36m";   // Cyan
+constexpr const char* COLOR_INFO = "\x1b[32m";    // Green
+constexpr const char* COLOR_WARNING = "\x1b[33m"; // Yellow
+constexpr const char* COLOR_ERROR = "\x1b[31m";   // Red
+constexpr const char* COLOR_FATAL = "\x1b[35m";   // Magenta
+constexpr const char* COLOR_RESET = "\x1b[0m";    // Reset
+
+static const char* GetColorForLevel(ELogLevel level)
+{
+    switch (level)
+    {
+    case ELogLevel::Display: return COLOR_INFO;
+    case ELogLevel::Warning: return COLOR_WARNING;
+    case ELogLevel::Error: return COLOR_ERROR;
+    default: return "";
+    }
+}
+}
 
 void FStatOverlay::ToggleStat(const std::string& Command)
 {
@@ -189,7 +210,13 @@ void FConsole::AddLog(ELogLevel Level, const ANSICHAR* Fmt, ...)
     char Buf[1024];
     vsnprintf_s(Buf, sizeof(Buf), _TRUNCATE, Fmt, Args);
 
-    Items.Emplace(Level, std::string(Buf));
+    std::string Message(Buf);
+    const char* Color = LogColors::GetColorForLevel(Level);
+    const char* Reset = LogColors::COLOR_RESET;
+
+    std::println("{}{}{}", Color, Message, Reset);
+    std::flush(std::cout);
+    Items.Emplace(Level, std::move(Message));
     va_end(Args);
 
     ScrollToBottom = true;
@@ -204,7 +231,14 @@ void FConsole::AddLog(ELogLevel Level, const WIDECHAR* Fmt, ...)
     wchar_t Buf[1024];
     _vsnwprintf_s(Buf, sizeof(Buf), _TRUNCATE, Fmt, Args);
 
-    Items.Emplace(Level, FString(Buf).ToAnsiString());
+    std::string Message = FString(Buf).ToAnsiString();
+
+    const char* Color = LogColors::GetColorForLevel(Level);
+    const char* Reset = LogColors::COLOR_RESET;
+
+    std::println("{}{}{}", Color, Message, Reset);
+    std::flush(std::cout);
+    Items.Emplace(Level, std::move(Message));
     va_end(Args);
 
     ScrollToBottom = true;
@@ -212,6 +246,11 @@ void FConsole::AddLog(ELogLevel Level, const WIDECHAR* Fmt, ...)
 
 void FConsole::AddLog(ELogLevel Level, const FString& Message)
 {
+    const char* Color = LogColors::GetColorForLevel(Level);
+    const char* Reset = LogColors::COLOR_RESET;
+
+    std::println("{}{}{}", Color, *Message, Reset);
+    std::flush(std::cout);
     Items.Emplace(Level, Message);
     ScrollToBottom = true;
 }
