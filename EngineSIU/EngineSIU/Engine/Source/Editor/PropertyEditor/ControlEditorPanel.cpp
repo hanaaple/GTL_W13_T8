@@ -183,8 +183,7 @@ void ControlEditorPanel::CreateMenuButton(const ImVec2 ButtonSize, ImFont* IconF
         if (UEditorEngine* EditorEngine = Cast<UEditorEngine>(GEngine))
         {
             EditorEngine->NewLevel();
-        }
-    }
+        }}
 
     if (ImGui::MenuItem("Load Level"))
     {
@@ -194,7 +193,7 @@ void ControlEditorPanel::CreateMenuButton(const ImVec2 ButtonSize, ImFont* IconF
         if (FileName == nullptr)
         {
             tinyfd_messageBox("Error", "파일을 불러올 수 없습니다.", "ok", "error", 1);
-            ImGui::End();
+            //ImGui::End();
             return;
         }
         if (UEditorEngine* EditorEngine = Cast<UEditorEngine>(GEngine))
@@ -213,7 +212,7 @@ void ControlEditorPanel::CreateMenuButton(const ImVec2 ButtonSize, ImFont* IconF
 
         if (FileName == nullptr)
         {
-            ImGui::End();
+            //ImGui::End();
             return;
         }
         if (const UEditorEngine* EditorEngine = Cast<UEditorEngine>(GEngine))

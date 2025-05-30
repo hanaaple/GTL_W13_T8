@@ -162,10 +162,29 @@ namespace LuaBindingHelpers
     inline void BindController(sol::state& Lua)
     {
         Lua.set_function("controller",
-            [](const std::string& Key, const std::function<void(float)>& Callback)
+            [](const std::string& Key, AActor* LuaObj, const std::function<void(float)>& Callback)
             {
                 //FString 주면 됨
-                GEngine->ActiveWorld->GetPlayerController()->BindAction(FString(Key), Callback);
+                if (GEngine->ActiveWorld->GetPlayerController())
+                {
+                    return GEngine->ActiveWorld->GetPlayerController()->BindLuaAction(FString(Key), LuaObj, Callback);
+                }
+
+                return UINT64_MAX;
+            }
+        );
+    }
+
+    inline void BindUnBindController(sol::state& Lua)
+    {
+        Lua.set_function("unBindController",
+            [](const std::string& Key, uint64 HandleId)
+            {
+                //FString 주면 됨
+                if (GEngine->ActiveWorld->GetPlayerController())
+                {
+                    GEngine->ActiveWorld->GetPlayerController()->UnBindLuaAction(FString(Key),HandleId);
+                }
             }
         );
     }

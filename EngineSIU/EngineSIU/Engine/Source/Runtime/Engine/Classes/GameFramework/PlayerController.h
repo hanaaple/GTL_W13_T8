@@ -45,7 +45,11 @@ public:
     {
         return Cast<T>(Pawn);
     }
-    
+
+    virtual uint64 BindLuaAction(const FString& Key, AActor* LuaObj, const TFunction<void(float)>& Callback);
+
+    virtual void UnBindLuaAction(const FString& Key, uint64 HandleId);
+
     // 카메라 관련 함수
     AActor* GetViewTarget() const;
 

@@ -219,12 +219,35 @@ void PropertyEditorPanel::Render()
                 Prop->DisplayInImGui(SelectedActor);
             }
         }
+
+        for (UActorComponent* ActorComponent : SelectedActor->GetComponents())
+        {
+            if (!ActorComponent->IsA<USceneComponent>())
+            {
+                ImGui::Separator();
+                const UClass* TempClass = ActorComponent->GetClass();
+
+                for (; TempClass; TempClass = TempClass->GetSuperClass())
+                {
+                    const TArray<FProperty*>& Properties = TempClass->GetProperties();
+                    if (!Properties.IsEmpty())
+                    {
+                        ImGui::SeparatorText(*Class->GetName());
+                    }
+
+                    for (const FProperty* Prop : Properties)
+                    {
+                        Prop->DisplayInImGui(ActorComponent);
+                    }
+                }
+            }
+        } 
     }
 
-    if (SelectedComponent)
+    if (USceneComponent* TempTargetComponent = GetTargetComponent<USceneComponent>(SelectedActor, SelectedComponent))
     {
         ImGui::Separator();
-        const UClass* Class = GetTargetComponent<USceneComponent>(SelectedActor, SelectedComponent)->GetClass();
+        const UClass* Class = TempTargetComponent->GetClass();
 
         for (; Class; Class = Class->GetSuperClass())
         {
@@ -236,7 +259,7 @@ void PropertyEditorPanel::Render()
 
             for (const FProperty* Prop : Properties)
             {
-                Prop->DisplayInImGui(SelectedComponent);
+                Prop->DisplayInImGui(TempTargetComponent);
             }
         }
     }
@@ -417,7 +440,10 @@ void PropertyEditorPanel::RenderForActor(AActor* SelectedActor, USceneComponent*
             LuaDisplayPath = NewScript->GetDisplayName();
         }
     }
-    ImGui::InputText("Script File", GetData(LuaDisplayPath), IM_ARRAYSIZE(*LuaDisplayPath),
+
+    std::string temp = LuaDisplayPath.ToAnsiString();
+    temp += '\0';
+    ImGui::InputText("Script File", temp.data(), temp.length(),
         ImGuiInputTextFlags_ReadOnly);
 
     if (ImGui::TreeNodeEx("Component", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen)) // 트리 노드 생성

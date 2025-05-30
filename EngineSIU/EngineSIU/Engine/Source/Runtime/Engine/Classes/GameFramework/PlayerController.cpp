@@ -104,6 +104,22 @@ void APlayerController::BindAction(const FString& Key, const std::function<void(
     }
 }
 
+uint64 APlayerController::BindLuaAction(const FString& Key, AActor* LuaObj, const TFunction<void(float)>& Callback)
+{
+    if (InputComponent)
+    {
+        return InputComponent->BindLuaAction(Key, LuaObj, Callback);
+    }
+}
+
+void APlayerController::UnBindLuaAction(const FString& Key, uint64 HandleId)
+{
+    if (InputComponent)
+    {
+        return InputComponent->UnBindLuaAction(Key, HandleId);
+    }
+}
+
 AActor* APlayerController::GetViewTarget() const
 {
     AActor* CameraManagerViewTarget = PlayerCameraManager ? PlayerCameraManager->GetViewTarget() : nullptr;

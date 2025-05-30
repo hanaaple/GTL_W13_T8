@@ -254,6 +254,22 @@ LRESULT CALLBACK FEngineLoop::AppWndProc(HWND hWnd, uint32 Msg, WPARAM wParam, L
 
     switch (Msg)
     {
+    case WM_CLOSE:
+        if (UEditorEngine* EditorEngine = Cast<UEditorEngine>(GEngine))
+        {
+            bool bIsSave = false;
+            if (EditorEngine->TryQuit(bIsSave))
+            {
+                if (bIsSave)
+                {
+                    EditorEngine->SaveLevel("Saved/AutoSaves.scene");
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
     case WM_DESTROY:
         PostQuitMessage(0);
         if (auto LevelEditor = GEngineLoop.GetLevelEditor())
