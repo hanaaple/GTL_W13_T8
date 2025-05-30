@@ -18,6 +18,7 @@
 #include "World/ParticleViewerWorld.h"
 #include "Physics/PhysicsManager.h"
 #include "SkeletalMesh.h"
+#include "tinyfiledialogs.h"
 #include "PhysicsEngine/PhysicsAsset.h"
 #include "Particles/ParticleSystem.h"
 
@@ -80,6 +81,39 @@ void UEditorEngine::Release()
     PhysicsManager->ShutdownPhysX();
     
     Super::Release();
+}
+
+bool UEditorEngine::TryQuit(bool& bOutIsSave)
+{
+    int response = tinyfd_messageBox(
+    "Engine SIU",
+    "변경 사항을 저장하시겠습니까?",
+    "yesnocancel", // 버튼 세 개
+    "question",    // 아이콘
+    0              // 기본 버튼 (0 = 첫 번째 버튼이 기본)
+);
+
+    if (response == 1)
+    {
+        // Save
+        bOutIsSave = true;
+        return true;
+    }
+    else if (response == 2)
+    {
+        // Do not Save
+        bOutIsSave = false;
+        return true;
+    }
+    else if (response == 0)
+    {
+        // 취소
+        bOutIsSave = false;
+        return false;
+    }
+
+    bOutIsSave = false;
+    return true;   
 }
 
 void UEditorEngine::Tick(float DeltaTime)
