@@ -26,6 +26,12 @@ void UEngine::Release()
     AssetManager->ReleaseAssetManager();
 }
 
+bool UEngine::TryQuit(bool& BIsSave)
+{
+    BIsSave = false;
+    return true;
+}
+
 FWorldContext* UEngine::GetWorldContextFromWorld(const UWorld* InWorld)
 {
     for (FWorldContext* WorldContext : WorldList)

@@ -27,6 +27,8 @@ public:
     virtual void Tick(float DeltaTime) override;
     void Release() override;
 
+    virtual bool TryQuit(bool& bOutIsSave) override;
+
     UWorld* PIEWorld = nullptr;
     USkeletalViewerWorld* SkeletalMeshViewerWorld = nullptr;
     UParticleViewerWorld* ParticleViewerWorld = nullptr;

@@ -32,6 +32,8 @@ public:
     virtual void Tick(float DeltaTime) = 0;
     virtual void Release();
 
+    virtual bool TryQuit(bool& BIsSave);
+    
     // TODO: UObject->GetWorld() 구현 이후 추가.
     UWorld* GetWorldFromContextObject(const UObject* Object) const;
     FWorldContext* GetWorldContextFromWorld(const UWorld* InWorld);
@@ -41,6 +43,7 @@ public:
     
     void LoadLevel(const FString& FileName) const;
     void SaveLevel(const FString& FileName) const;
+
 };
 
 extern class UEngine* GEngine;
