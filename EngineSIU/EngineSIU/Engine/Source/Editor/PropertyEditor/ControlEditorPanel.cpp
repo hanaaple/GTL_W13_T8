@@ -386,7 +386,7 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                     LightActor->SetActorLabel(TEXT("OBJ_POINTLIGHT"));
                     break;
                 }
-                case ESpawnObjectTypes::DirectionalLgiht:
+                case ESpawnObjectTypes::DirectionalLight:
                 {
                     ADirectionalLight* LightActor = World->SpawnActor<ADirectionalLight>();
                     LightActor->SetActorLabel(TEXT("OBJ_DIRECTIONALLGIHT"));
@@ -398,7 +398,7 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                     LightActor->SetActorLabel(TEXT("OBJ_AMBIENTLIGHT"));
                     break;
                 }
-                case ESpawnObjectTypes::Particle_Lagacy:
+                case ESpawnObjectTypes::Particle_Legacy:
                 {
                     SpawnedActor = World->SpawnActor<AActor>();
                     SpawnedActor->SetActorLabel(TEXT("OBJ_PARTICLE"));

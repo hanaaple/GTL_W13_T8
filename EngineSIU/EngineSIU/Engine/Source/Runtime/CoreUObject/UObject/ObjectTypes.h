@@ -8,11 +8,11 @@ enum class ESpawnObjectTypes : uint8
 
     Spotlight,
     Pointlight,
-    DirectionalLgiht,
+    DirectionalLight,
     AmbientLight,
     Fog,
 
-    Particle_Lagacy,
+    Particle_Legacy,
     ParticleSystem,
     TextRender,
 
