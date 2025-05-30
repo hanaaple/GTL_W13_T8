@@ -1,5 +1,6 @@
 #pragma once
 #include "Actor.h"
+#include "GameModeBase.h"
 #include "Delegates/DelegateCombination.h"
 
 DECLARE_MULTICAST_DELEGATE(FOnGameInit);
@@ -15,10 +16,10 @@ struct FGameInfo
     uint32 CoinScore = 0;
 };
 
-class AGameMode : public AActor
+class AGameMode : public AGameModeBase
 {
-    DECLARE_CLASS(AGameMode, AActor)
-    
+    DECLARE_CLASS(AGameMode, AGameModeBase)
+
 public:
     AGameMode();
     virtual ~AGameMode() override;
@@ -31,7 +32,7 @@ public:
 
 
     // 게임 모드 초기화
-    virtual void InitGame();
+    virtual void InitGame() override;
 
     // 게임 시작
     virtual void StartMatch();

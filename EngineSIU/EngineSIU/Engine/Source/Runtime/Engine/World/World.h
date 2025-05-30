@@ -8,6 +8,7 @@
 #include "Actors/Player.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/EventManager.h"
+#include "GameFramework/GameModeBase.h"
 #include "UObject/UObjectIterator.h"
 
 class UPrimitiveComponent;
@@ -55,6 +56,12 @@ public:
         requires std::derived_from<T, AActor>
     T* SpawnActor();
 
+    template <typename T>
+    T* SpawnActor(UClass* InClass, FName InActorName = NAME_None)
+    {
+        return Cast<T>(SpawnActor(InClass, InActorName));
+    }
+
     /** World에 존재하는 Actor를 제거합니다. */
     bool DestroyActor(AActor* ThisActor);
 
@@ -69,13 +76,27 @@ public:
     
     FEventManager EventManager;
 
-    void SetMainPlayer(APlayer* InPlayer){ MainPlayer = InPlayer; }
-    APlayer* GetMainPlayer() const;
+    void SetMainPlayer(APawn* InPlayer) { MainPlayer = InPlayer; }
+    APawn* GetMainPlayer() const;
 
     void SetPlayerController(APlayerController* InPlayerController){ PlayerController = InPlayerController; }
     APlayerController* GetPlayerController() const;
 
-    AGameMode* GetGameMode() const { return GameMode; }
+    //~ GameMode 관련
+    AGameModeBase* GetGameMode() const { return GameModeInstance; }
+
+    template <typename T>
+        requires std::derived_from<T, AGameModeBase>
+    T* GetGameMode() const
+    {
+        return Cast<T>(GameModeInstance);
+    }
+
+    void SetGameModeClass(const TSubclassOf<AGameModeBase>& InGameModeClass);
+
+    void InitGameMode();
+    void DestroyGameMode();
+    // ~GameMode 관련
     
     void CheckOverlap(const UPrimitiveComponent* Component, TArray<FOverlapResult>& OutOverlaps) const;
 
@@ -83,11 +104,16 @@ public:
     double TimeSeconds;
 
 protected:
-    
+    /** Game이나 PIE 모드일 때 Spawn되는 GameMode */
+    UPROPERTY(
+        EditAnywhere,
+        TSubclassOf<AGameModeBase>, GameModeClass, ;
+    )
+
     FString WorldName = "DefaultWorld";
     
 private:
-    AGameMode* GameMode = nullptr;
+    AGameModeBase* GameModeInstance = nullptr;
 
 
     ULevel* ActiveLevel;
@@ -98,7 +124,7 @@ private:
     // TODO: 싱글 플레이어면 상관 없지만, 로컬 멀티 플레이어인 경우를 위해 배열로 관리하는 방법을 고려하기.
     APlayerController* PlayerController = nullptr;
 
-    APlayer* MainPlayer = nullptr;
+    APawn* MainPlayer = nullptr;
 
     UTextComponent* MainTextComponent = nullptr;
 

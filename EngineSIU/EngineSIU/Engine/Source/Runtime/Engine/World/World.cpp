@@ -46,6 +46,7 @@ UObject* UWorld::Duplicate(UObject* InOuter)
     UWorld* NewWorld = Cast<UWorld>(Super::Duplicate(InOuter));
     NewWorld->ActiveLevel = Cast<ULevel>(ActiveLevel->Duplicate(NewWorld));
     NewWorld->ActiveLevel->InitLevel(NewWorld);
+    NewWorld->GameModeClass = GameModeClass;
     
     NewWorld->CollisionManager = new FCollisionManager();
     
@@ -69,14 +70,6 @@ void UWorld::Tick(float DeltaTime)
 
 void UWorld::BeginPlay()
 {
-    if (!GameMode && this->WorldType == EWorldType::PIE)
-    {
-        GameMode = this->SpawnActor<AGameMode>();
-        GameMode->SetActorLabel(TEXT("OBJ_GAMEMODE"));
-        GameMode->InitializeComponent();
-
-        GameMode->InitGame();
-    }
     for (AActor* Actor : ActiveLevel->Actors)
     {
         if (Actor->GetWorld() == this)
@@ -182,22 +175,12 @@ UWorld* UWorld::GetWorld() const
     return const_cast<UWorld*>(this);
 }
 
-APlayer* UWorld::GetMainPlayer() const
+APawn* UWorld::GetMainPlayer() const
 {
     if (MainPlayer)
     {
         return MainPlayer;
     }
-    
-    //메인플레이어 설정안하면 있는거중 한개
-    for (const auto Iter: TObjectRange<APlayer>())
-    {
-        if (Iter->GetWorld() == GEngine->ActiveWorld)
-        {
-            return Iter;
-        }
-    }
-    
     return nullptr;
 }
 
@@ -218,6 +201,53 @@ APlayerController* UWorld::GetPlayerController() const
     }
 
     return nullptr;
+}
+
+void UWorld::SetGameModeClass(const TSubclassOf<AGameModeBase>& InGameModeClass)
+{
+    if (InGameModeClass == nullptr)
+    {
+        UE_LOG(ELogLevel::Error, TEXT("SetGameModeClass failed: GameModeClass is null."));
+        return;
+    }
+    GameModeClass = InGameModeClass;
+}
+
+void UWorld::InitGameMode()
+{
+    if (
+        WorldType == EWorldType::Editor           // 일반적인 에디터 환경
+        || WorldType == EWorldType::EditorPreview // 머티리얼 에디터나 애님 블루프린트 같은 프리뷰 뷰포트
+    )
+    {
+        UE_LOG(ELogLevel::Display, TEXT("Skipping GameMode spawn for Editor/Preview world."));
+        return;
+    }
+
+    if (GameModeInstance)
+    {
+        UE_LOG(ELogLevel::Warning, TEXT("GameMode already exists in this world. Skipping spawn."));
+        return;
+    }
+
+    UClass* SubClass = GameModeClass.Get();
+    if (!SubClass)
+    {
+        SubClass = AGameModeBase::StaticClass();
+    }
+
+    AGameModeBase* SpawnGameMode = Cast<AGameModeBase>(SpawnActor(SubClass, "__World_GameMode__"));
+    SpawnGameMode->InitGame();
+    GameModeInstance = SpawnGameMode;
+}
+
+void UWorld::DestroyGameMode()
+{
+    if (GameModeInstance)
+    {
+        DestroyActor(GameModeInstance);
+        GameModeInstance = nullptr;
+    }
 }
 
 void UWorld::CheckOverlap(const UPrimitiveComponent* Component, TArray<FOverlapResult>& OutOverlaps) const

@@ -4,6 +4,7 @@
 #include "GameFramework/Actor.h" 
 #include "Classes/Components/InputComponent.h"
 
+class APawn;
 class APlayerCameraManager;
 
 class APlayerController : public AActor
@@ -30,18 +31,25 @@ public:
 
     void SetViewTarget(class AActor* NewViewTarget, struct FViewTargetTransitionParams TransitionParams);
 
-    virtual void Possess(AActor* InActor);
+    virtual void Possess(APawn* InPawn);
 
     virtual void UnPossess();
     
     virtual void BindAction(const FString& Key, const std::function<void(float)>& Callback);
 
+    APawn* GetPawn() const { return Pawn; }
+
+    /** Templated version of GetPawn, will return nullptr if cast fails */
+    template <typename T>
+    T* GetPawn() const
+    {
+        return Cast<T>(Pawn);
+    }
+
     virtual uint64 BindLuaAction(const FString& Key, AActor* LuaObj, const TFunction<void(float)>& Callback);
 
     virtual void UnBindLuaAction(const FString& Key, uint64 HandleId);
 
-    AActor* GetPossessedActor() const { return PossessedActor; }
-    
     // 카메라 관련 함수
     AActor* GetViewTarget() const;
 
@@ -58,7 +66,7 @@ protected:
 
     virtual void SetupInputComponent();
 
-    AActor* PossessedActor = nullptr;
+    APawn* Pawn = nullptr;
 
     bool bHasPossessed = false;
 };

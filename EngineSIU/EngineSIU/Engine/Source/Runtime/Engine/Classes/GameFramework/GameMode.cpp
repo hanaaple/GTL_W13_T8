@@ -72,6 +72,8 @@ UObject* AGameMode::Duplicate(UObject* InOuter)
 
 void AGameMode::InitGame()
 {
+    Super::InitGame();
+
     OnGameInit.Broadcast();
 }
 

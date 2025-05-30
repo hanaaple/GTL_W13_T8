@@ -1,26 +1,27 @@
 #pragma once
 
 
-enum OBJECTS : uint8
+enum class ESpawnObjectTypes : uint8
 {
-    OBJ_SPHERE,
-    OBJ_CUBE,
-    OBJ_SPOTLIGHT,
-    OBJ_POINTLIGHT,
-    OBJ_DIRECTIONALLGIHT,
-    OBJ_AMBIENTLIGHT,
-    OBJ_PARTICLE,
-    OBJ_PARTICLESYSTEM,
-    OBJ_TEXT,
-    OBJ_CAMERA,
-    OBJ_PLAYER,
-    OBJ_FOG,
-    OBJ_BOX_COLLISION,
-    OBJ_SPHERE_COLLISION,
-    OBJ_CAPSULE_COLLISION,
-    OBJ_SKELETALMESH,
-    OBJ_SEQUENCERPLAYER,
-    OBJ_END
+    Cube,
+    Sphere,
+
+    Spotlight,
+    Pointlight,
+    DirectionalLight,
+    AmbientLight,
+    Fog,
+
+    Particle_Legacy,
+    ParticleSystem,
+    TextRender,
+
+    BoxCollision,
+    SphereCollision,
+    CapsuleCollision,
+
+    SkeletalMeshActor,
+    PlayerStart,
 };
 
 enum ARROW_DIR : uint8

@@ -40,13 +40,18 @@ void UCameraComponent::TickComponent(float DeltaTime)
 
 void UCameraComponent::FollowMainPlayer()
 {
-    FVector PlayerLocation = GEngine->ActiveWorld->GetMainPlayer()->GetActorLocation();
-    
-    FVector PlayerBackward = -GEngine->ActiveWorld->GetMainPlayer()->GetActorForwardVector();
+    const AGameModeBase* GameMode = GetWorld()->GetGameMode();
+    const APlayerController* PlayerController = GameMode->GetPlayerController();
+    const APawn* PlayerPawn = PlayerController->GetPawn();
 
-    FVector CameraOffset = PlayerBackward * DistanceBehind + FVector(0, 0, CameraHeight);
-    
-    FVector MoveToLocation = FVector(PlayerLocation.X, PlayerLocation.Y, CameraZ) + CameraOffset;
+    // FVector PlayerLocation = GEngine->ActiveWorld->GetMainPlayer()->GetActorLocation();
+    // FVector PlayerBackward = -GEngine->ActiveWorld->GetMainPlayer()->GetActorForwardVector();
+
+    const FVector PlayerLocation = PlayerPawn->GetActorLocation();
+    const FVector PlayerBackward = -PlayerPawn->GetActorForwardVector();
+
+    const FVector CameraOffset = PlayerBackward * DistanceBehind + FVector(0, 0, CameraHeight);
+    const FVector MoveToLocation = FVector(PlayerLocation.X, PlayerLocation.Y, CameraZ) + CameraOffset;
     
     SetLocationWithFInterpTo(MoveToLocation);
 
@@ -91,7 +96,7 @@ void UCameraComponent::SetFInterpToSpeed(float InSpeed)
     FInterpToSpeed = InSpeed;
 }
 
-void UCameraComponent::SetLookTarget(FVector& Location)
+void UCameraComponent::SetLookTarget(const FVector& Location)
 {
     LookTarget = Location;
 }
