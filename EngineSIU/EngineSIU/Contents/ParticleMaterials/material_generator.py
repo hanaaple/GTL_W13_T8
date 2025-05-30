@@ -2,8 +2,6 @@ import os
 import glob
 from pathlib import Path
 
-os.chdir(r"C:\Users\Jungle\Desktop\GTL_W13_T8\EngineSIU\EngineSIU\Contents\ParticleMaterials")
-
 
 current_path = Path(os.getcwd())
 
