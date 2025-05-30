@@ -44,7 +44,7 @@ void FShadowRenderPass::PrepareRenderState()
 
 void FShadowRenderPass::PrepareCSMRenderState()
 {
-    CascadedShadowMapPS = ShaderManager->GetPixelShaderByKey(L"CascadedShadowMapPS");
+    CascadedShadowMapGS = ShaderManager->GetGeometryShaderByKey(L"CascadedShadowMapGS");
     Graphics->DeviceContext->GSSetShader(CascadedShadowMapGS, nullptr, 0);
 
     // Note : PS만 언바인드할 뿐, UpdateLightBuffer에서 바인딩된 SRV 슬롯들은 그대로 남아 있음
@@ -125,10 +125,6 @@ void FShadowRenderPass::Render(const std::shared_ptr<FEditorViewportClient>& Vie
         ShadowManager->BeginDirectionalShadowCascadePass(0);
 
         RenderAllMeshesForCSM(Viewport, CascadeData);
-
-        Graphics->DeviceContext->GSSetShader(nullptr, nullptr, 0);
-        Graphics->DeviceContext->RSSetViewports(0, nullptr);
-        Graphics->DeviceContext->OMSetRenderTargets(0, nullptr, nullptr);
     }
     
     PrepareRenderState();
