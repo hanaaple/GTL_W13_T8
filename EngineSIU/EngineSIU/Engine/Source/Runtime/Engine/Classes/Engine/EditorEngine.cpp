@@ -71,7 +71,7 @@ void UEditorEngine::Release()
         EndPhysicsAssetViewer();
     }
     
-    SaveLevel("Saved/AutoSaves.scene");
+    //SaveLevel("Saved/AutoSaves.scene");
     
     for (FWorldContext* WorldContext : WorldList)
     {
