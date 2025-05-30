@@ -1,6 +1,6 @@
 mtllib ParticleMaterials.mtl
 
+usemtl Explosion
 usemtl Flame
 usemtl Smoke
 usemtl SpriteBase
-usemtl T_Explosion_SubUV

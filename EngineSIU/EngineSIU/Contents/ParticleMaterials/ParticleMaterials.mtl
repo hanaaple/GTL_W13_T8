@@ -1,3 +1,6 @@
+newmtl Explosion
+map_Kd Explosion.png
+
 newmtl Flame
 map_Kd Flame.png
 
@@ -6,6 +9,3 @@ map_Kd Smoke.png
 
 newmtl SpriteBase
 map_Kd SpriteBase.png
-
-newmtl T_Explosion_SubUV
-map_Kd T_Explosion_SubUV.PNG
