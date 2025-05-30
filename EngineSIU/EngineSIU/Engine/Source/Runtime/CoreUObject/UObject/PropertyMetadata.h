@@ -9,7 +9,7 @@ class UObject;
 struct FPropertyMetadata
 {
     // 카테고리
-    // TOptional<FString> Category = {}; // TODO: 카테고리 만들기
+    TOptional<FString> Category = {}; // TODO: 카테고리 만들기
 
     // UI에 실제로 보여지는 이름
     TOptional<FString> DisplayName = {};
