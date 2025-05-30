@@ -279,6 +279,18 @@ void UPrimitiveComponent::GetProperties(TMap<FString, FString>& OutProperties) c
     OutProperties.Add(TEXT("bSimulate"), bSimulate ? TEXT("true") : TEXT("false"));
     OutProperties.Add(TEXT("bApplyGravity"), bApplyGravity ? TEXT("true") : TEXT("false"));
     OutProperties.Add(TEXT("RigidBodyType"), FString::FromInt(static_cast<uint8>(RigidBodyType)));
+
+    OutProperties.Add(TEXT("GeomAttributeNum"), FString::FromInt(GeomAttributes.Num()));
+    for (int32 i = 0; i < GeomAttributes.Num(); i++)
+    {
+        const AggregateGeomAttributes& GeomAttribute = GeomAttributes[i];
+        FString keyBase = FString("GeomAttribute " + FString::FromInt(i));
+                
+        OutProperties.Add(keyBase + "Type", FString::FromInt(static_cast<uint8>(GeomAttribute.GeomType)));
+        OutProperties.Add(keyBase + "Offset", GeomAttribute.Offset.ToString());
+        OutProperties.Add(keyBase + "Extent", GeomAttribute.Extent.ToString());
+        OutProperties.Add(keyBase + "Rotation", GeomAttribute.Rotation.ToString());
+    }
 }
 
 void UPrimitiveComponent::SetProperties(const TMap<FString, FString>& InProperties)
@@ -322,6 +334,22 @@ void UPrimitiveComponent::SetProperties(const TMap<FString, FString>& InProperti
     if (InProperties.Contains(TEXT("RigidBodyType")))
     {
         RigidBodyType = static_cast<ERigidBodyType>(FString::ToInt(InProperties[TEXT("RigidBodyType")]));
+    }
+
+    if (InProperties.Contains(TEXT("GeomAttributeNum")))
+    {
+        GeomAttributes.SetNum(FString::ToInt(InProperties[TEXT("GeomAttributeNum")]));
+
+        for (int32 i = 0; i < GeomAttributes.Num(); i++)
+        {
+            FString keyBase = FString("GeomAttribute " + FString::FromInt(i));
+            AggregateGeomAttributes& GeomAttribute = GeomAttributes[i];
+            
+            GeomAttribute.GeomType = static_cast<EGeomType>(FString::ToInt(InProperties[keyBase + "Type"]));
+            GeomAttribute.Offset.InitFromString(InProperties[keyBase + "Offset"]);
+            GeomAttribute.Extent.InitFromString(InProperties[keyBase + "Extent"]);
+            GeomAttribute.Rotation.InitFromString(InProperties[keyBase + "Rotation"]);
+        } 
     }
 }
 
