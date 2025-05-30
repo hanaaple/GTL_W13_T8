@@ -55,6 +55,12 @@ public:
         requires std::derived_from<T, AActor>
     T* SpawnActor();
 
+    template <typename T>
+    T* SpawnActor(UClass* InClass, FName InActorName = NAME_None)
+    {
+        return Cast<T>(SpawnActor(InClass, InActorName));
+    }
+
     /** World에 존재하는 Actor를 제거합니다. */
     bool DestroyActor(AActor* ThisActor);
 
