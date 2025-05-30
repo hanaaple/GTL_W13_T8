@@ -89,7 +89,7 @@ void FFogRenderPass::Render(const std::shared_ptr<FEditorViewportClient>& Viewpo
     }
 
     FViewportResource* ViewportResource = Viewport->GetViewportResource();
-    const EResourceType ResourceType = EResourceType::ERT_PP_Fog; 
+    const EResourceType ResourceType = EResourceType::ERT_Scene; 
     FRenderTargetRHI* RenderTargetRHI = ViewportResource->GetRenderTarget(ResourceType);
 
     Graphics->DeviceContext->OMSetRenderTargets(1, &RenderTargetRHI->RTV, nullptr);
