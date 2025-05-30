@@ -26,13 +26,13 @@ public:
     FShadowRenderPass() = default;
     virtual ~FShadowRenderPass() override = default;
     
-    void PrepareCubeMapRenderState();
+    void PreparePointLightRenderState();
     void UpdateCubeMapConstantBuffer(UPointLightComponent*& PointLight, const FMatrix& WorldMatrix) const;
     void SetLightData(const TArray<class UPointLightComponent*>& InPointLights, const TArray<class USpotLightComponent*>& InSpotLights);
 
     virtual void Initialize(FDXDBufferManager* InBufferManager, FGraphicsDevice* InGraphics, FDXDShaderManager* InShaderManager) override;
     void InitializeShadowManager(class FShadowManager* InShadowManager);
-    void PrepareRenderState();
+    void PrepareSpotLightRenderState();
     void PrepareCSMRenderState();
     virtual void PrepareRenderArr() override;
     void UpdateIsShadowConstant(int32 IsShadow) const;
@@ -68,7 +68,6 @@ private:
 
     ID3D11VertexShader* DepthCubeMapVS;
     ID3D11GeometryShader* DepthCubeMapGS;
-
 
     ID3D11VertexShader* CascadedShadowMapVS;
     ID3D11GeometryShader* CascadedShadowMapGS;

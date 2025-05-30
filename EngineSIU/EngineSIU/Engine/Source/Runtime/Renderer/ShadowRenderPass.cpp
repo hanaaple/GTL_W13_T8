@@ -31,14 +31,12 @@ void FShadowRenderPass::InitializeShadowManager(class FShadowManager* InShadowMa
     ShadowManager = InShadowManager;
 }
 
-void FShadowRenderPass::PrepareRenderState()
+void FShadowRenderPass::PrepareSpotLightRenderState()
 {
-    // Note : PS만 언바인드할 뿐, UpdateLightBuffer에서 바인딩된 SRV 슬롯들은 그대로 남아 있음
     Graphics->DeviceContext->PSSetShader(nullptr, nullptr, 0);
     Graphics->DeviceContext->RSSetState(Graphics->RasterizerShadow);
     
     BufferManager->BindConstantBuffer(TEXT("FShadowConstantBuffer"), 11, EShaderStage::Vertex);
-    BufferManager->BindConstantBuffer(TEXT("FShadowConstantBuffer"), 11, EShaderStage::Pixel);
     BufferManager->BindConstantBuffer(TEXT("FIsShadowConstants"), 5, EShaderStage::Pixel);
 }
 
@@ -109,6 +107,7 @@ void FShadowRenderPass::Render(const std::shared_ptr<FEditorViewportClient>& Vie
 {
     PrepareRender(Viewport);
 
+    // Directional Light
     PrepareCSMRenderState();
     for (const auto DirectionalLight : TObjectRange<UDirectionalLightComponent>())
     {
@@ -126,8 +125,12 @@ void FShadowRenderPass::Render(const std::shared_ptr<FEditorViewportClient>& Vie
 
         RenderAllMeshesForCSM(Viewport, CascadeData);
     }
-    
-    PrepareRenderState();
+    Graphics->DeviceContext->GSSetShader(nullptr, nullptr, 0);
+    Graphics->DeviceContext->RSSetViewports(0, nullptr);
+    Graphics->DeviceContext->OMSetRenderTargets(0, nullptr, nullptr);
+
+    // Spot Light
+    PrepareSpotLightRenderState();
     for (int Idx = 0 ; Idx < SpotLights.Num(); Idx++)
     {
         const auto& SpotLight = SpotLights[Idx];
@@ -140,17 +143,19 @@ void FShadowRenderPass::Render(const std::shared_ptr<FEditorViewportClient>& Vie
 
         ShadowManager->BeginSpotShadowPass(Idx);
         RenderAllMeshesForSpotLight(Viewport);
-           
-        Graphics->DeviceContext->RSSetViewports(0, nullptr);
-        Graphics->DeviceContext->OMSetRenderTargets(0, nullptr, nullptr);
     }
+    Graphics->DeviceContext->RSSetViewports(0, nullptr);
+    Graphics->DeviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 
-    PrepareCubeMapRenderState();
+    // Point Light
+    PreparePointLightRenderState();
     for (int Idx = 0 ; Idx < PointLights.Num(); Idx++)
     {
         ShadowManager->BeginPointShadowPass(Idx);
         RenderAllMeshesForPointLight(Viewport, PointLights[Idx]);
     }
+    Graphics->DeviceContext->RSSetViewports(0, nullptr);
+    Graphics->DeviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 
     CleanUpRender(Viewport);
 }
@@ -429,18 +434,17 @@ void FShadowRenderPass::CreateResource()
     }
 }
 
-void FShadowRenderPass::PrepareCubeMapRenderState()
+void FShadowRenderPass::PreparePointLightRenderState()
 {
     DepthCubeMapGS = ShaderManager->GetGeometryShaderByKey(L"DepthCubeMapGS");
     Graphics->DeviceContext->GSSetShader(DepthCubeMapGS, nullptr, 0);
-    
+
     Graphics->DeviceContext->PSSetShader(nullptr, nullptr, 0);
     Graphics->DeviceContext->RSSetState(Graphics->RasterizerSolidBack);
     
     // VS, GS에 대한 상수버퍼 업데이트
     BufferManager->BindConstantBuffer(TEXT("FPointLightGSBuffer"), 0, EShaderStage::Geometry);
     BufferManager->BindConstantBuffer(TEXT("FShadowConstantBuffer"), 11, EShaderStage::Vertex);
-    BufferManager->BindConstantBuffer(TEXT("FShadowConstantBuffer"), 11, EShaderStage::Pixel);
 }
 
 void FShadowRenderPass::UpdateCubeMapConstantBuffer(UPointLightComponent*& PointLight, const FMatrix& WorldMatrix) const
