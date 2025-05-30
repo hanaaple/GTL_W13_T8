@@ -65,7 +65,7 @@ public:
     PxShape* CreateCapsuleShape(const PxVec3& Pos, const PxQuat& Quat, float Radius, float HalfHeight) const;
     PxQuat EulerToQuat(const PxVec3& EulerAngles) const;
 
-    PxPhysics* GetPhysics() { return Physics; }
+    PxPhysics* GetPhysics() const { return Physics; }
     PxMaterial* GetMaterial() const { return Material; }
     
     void Simulate(float DeltaTime);
