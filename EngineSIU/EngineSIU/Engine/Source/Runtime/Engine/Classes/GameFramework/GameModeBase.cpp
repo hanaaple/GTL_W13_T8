@@ -25,6 +25,7 @@ void AGameModeBase::InitGame()
     APawn* NewPawn = World->SpawnActor<APawn>(DefaultPawnClass);
     NewPawn->SetActorLocation(PlayerStart->GetActorLocation());
     NewPawn->SetActorRotation(PlayerStart->GetActorRotation());
+    NewPawn->SetActorScale(PlayerStart->GetActorScale());
     NewPC->Possess(NewPawn);
     World->SetMainPlayer(NewPawn);
     UE_LOG(ELogLevel::Display, "Spawned Pawn: %s", *NewPawn->GetName());
@@ -52,7 +53,7 @@ AActor* AGameModeBase::FindPlayerStart(const FString& IncomingName) const
         OriginActor = World->SpawnActor<AActor>();
         OriginActor->SetActorLabel(TEXT("PlayerStart_Origin_0"));
         OriginActor->SetActorLocation(FVector::ZeroVector);
-        OriginActor->SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
+        OriginActor->SetActorRotation(FRotator::ZeroRotator);
     }
 
     return OriginActor;
