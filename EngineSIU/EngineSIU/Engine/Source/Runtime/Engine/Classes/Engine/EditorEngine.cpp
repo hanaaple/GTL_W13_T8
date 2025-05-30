@@ -2,24 +2,23 @@
 
 #include "FbxLoader.h"
 #include "FObjLoader.h"
-#include "World/World.h"
 #include "Level.h"
-#include "Animation/SkeletalMeshActor.h"
-#include "GameFramework/Actor.h"
-#include "Classes/Engine/AssetManager.h"
-#include "UObject/UObjectIterator.h"
+#include "SkeletalMesh.h"
 #include "Actors/DirectionalLightActor.h"
+#include "Animation/SkeletalMeshActor.h"
+#include "Classes/Engine/AssetManager.h"
 #include "Components/Light/DirectionalLightComponent.h"
-#include "LevelEditor/SLevelEditor.h"
 #include "Editor/UnrealEd/EditorViewportClient.h"
+#include "GameFramework/Actor.h"
+#include "LevelEditor/SLevelEditor.h"
+#include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "Physics/PhysicsManager.h"
+#include "PhysicsEngine/PhysicsAsset.h"
 #include "PropertyEditor/ParticleViewerPanel.h"
 #include "UnrealEd/UnrealEd.h"
 #include "World/ParticleViewerWorld.h"
-#include "Physics/PhysicsManager.h"
-#include "SkeletalMesh.h"
-#include "PhysicsEngine/PhysicsAsset.h"
-#include "Particles/ParticleSystem.h"
+#include "World/World.h"
 
 extern FEngineLoop GEngineLoop;
 
@@ -265,15 +264,14 @@ void UEditorEngine::StartPIE()
     FWorldContext& PIEWorldContext = CreateNewWorldContext(EWorldType::PIE);
 
     PIEWorld = Cast<UWorld>(EditorWorld->Duplicate(this));
+    PIEWorld->InitGameMode();
     PIEWorld->WorldType = EWorldType::PIE;
 
     PIEWorldContext.SetCurrentWorld(PIEWorld);
     ActiveWorld = PIEWorld;
 
     SetPhysXScene(PIEWorld);
-    
-    BindEssentialObjects();
-    
+
     PIEWorld->BeginPlay();
     // 여기서 Actor들의 BeginPlay를 해줄지 안에서 해줄 지 고민.
     // WorldList.Add(GetWorldContextFromWorld(PIEWorld));
@@ -530,35 +528,6 @@ void UEditorEngine::StartPhysicsAssetViewer(FName PreviewMeshKey, FName PhysicsA
     }
 }
 
-void UEditorEngine::BindEssentialObjects()
-{
-    for (const auto Iter: TObjectRange<APlayer>())
-    {
-        if (Iter->GetWorld() == ActiveWorld)
-        {
-            ActiveWorld->SetMainPlayer(Iter);
-            break;
-        }
-    }
-    
-    //실수로 안만들면 넣어주기
-    if (ActiveWorld->GetMainPlayer() == nullptr)
-    {
-        APlayer* TempPlayer = ActiveWorld->SpawnActor<APlayer>();
-        TempPlayer->SetActorLabel(TEXT("OBJ_PLAYER"));
-        TempPlayer->SetActorTickInEditor(false);
-        ActiveWorld->SetMainPlayer(TempPlayer);
-    }
-    
-    //무조건 PIE들어갈때 만들어주기
-    APlayerController* PlayerController = ActiveWorld->SpawnActor<APlayerController>();
-    PlayerController->SetActorLabel(TEXT("OBJ_PLAYER_CONTROLLER"));
-    PlayerController->SetActorTickInEditor(false);
-    ActiveWorld->SetPlayerController(PlayerController);
-    
-    ActiveWorld->GetPlayerController()->Possess(ActiveWorld->GetMainPlayer());
-}
-
 void UEditorEngine::SetPhysXScene(UWorld* World)
 {
     PhysicsManager->CreateScene(PIEWorld);
@@ -578,6 +547,8 @@ void UEditorEngine::EndPIE()
 {
     if (PIEWorld)
     {
+        PIEWorld->DestroyGameMode();
+
         this->ClearActorSelection(); // PIE World 기준 Select Actor 해제 
         WorldList.Remove(GetWorldContextFromWorld(PIEWorld));
         PIEWorld->Release();
