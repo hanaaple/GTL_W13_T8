@@ -331,14 +331,6 @@ void PropertyEditorPanel::RenderForCameraComponent(UCameraComponent* InCameraCom
     
 }
 
-void PropertyEditorPanel::RenderForPlayerActor(APlayer* InPlayerActor)
-{
-    if (ImGui::Button("SetMainPlayer"))
-    {
-        GEngine->ActiveWorld->SetMainPlayer(InPlayerActor);
-    }
-}
-
 void PropertyEditorPanel::RenderForActor(AActor* SelectedActor, USceneComponent* TargetComponent) const
 {
     if (ImGui::Button("Duplicate"))
