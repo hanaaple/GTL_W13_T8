@@ -1,11 +1,9 @@
 ﻿#pragma once
+#include "PlayerController.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/Pawn.h"
 #include "Template/SubclassOf.h"
 
-
-class AController;
-class APawn;
-class APlayerController;
 
 class AGameModeBase : public AActor
 {

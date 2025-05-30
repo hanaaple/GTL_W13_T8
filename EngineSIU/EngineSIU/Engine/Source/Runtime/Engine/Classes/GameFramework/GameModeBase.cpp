@@ -26,6 +26,7 @@ void AGameModeBase::InitGame()
     NewPawn->SetActorLocation(PlayerStart->GetActorLocation());
     NewPawn->SetActorRotation(PlayerStart->GetActorRotation());
     NewPC->Possess(NewPawn);
+    World->SetMainPlayer(NewPawn);
     UE_LOG(ELogLevel::Display, "Spawned Pawn: %s", *NewPawn->GetName());
 }
 
