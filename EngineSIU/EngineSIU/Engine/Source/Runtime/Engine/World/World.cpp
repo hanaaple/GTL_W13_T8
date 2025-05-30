@@ -235,7 +235,7 @@ void UWorld::InitGameMode()
         SubClass = AGameModeBase::StaticClass();
     }
 
-    AGameModeBase* SpawnGameMode = Cast<AGameModeBase>(SpawnActor(SubClass, "__World_AGameMode"));
+    AGameModeBase* SpawnGameMode = Cast<AGameModeBase>(SpawnActor(SubClass, "__World_GameMode__"));
     SpawnGameMode->InitGame();
     GameModeInstance = SpawnGameMode;
 }
