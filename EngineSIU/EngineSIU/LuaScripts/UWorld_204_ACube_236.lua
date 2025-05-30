@@ -7,6 +7,10 @@ end
 
 function EndPlay()
     print("[EndPlay]")
+    unBindController("W", HandleW)
+    unBindController("A", HandleA)
+    unBindController("S", HandleS)
+    unBindController("D", HandleD)
 end
 
 function OnOverlap(OtherActor)
@@ -52,8 +56,10 @@ function Tick(dt)
     -- actor.Location.X = actor.Location.X + dt
 end
 
-function BeginOverlap(OtherActor)
+function BeginOverlap()
+    print("BeginOverlap")
 end
 
-function EndOverlap(OtherActor)
+function EndOverlap()
+    print("EndOverlap")
 end

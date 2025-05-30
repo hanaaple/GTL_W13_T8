@@ -41,6 +41,9 @@ void ULuaScriptComponent::BeginPlay()
 {
     Super::BeginPlay();
 
+    GetOwner()->OnActorBeginOverlap.AddUObject(this, &ULuaScriptComponent::OnBeginOverlap);
+    GetOwner()->OnActorEndOverlap.AddUObject(this, &ULuaScriptComponent::OnEndOverlap);
+
     InitializeLuaState();
 
     DelegateHandles.Empty();
@@ -92,6 +95,16 @@ void ULuaScriptComponent::SetScriptPath(const FString& InScriptPath)
 {
     ScriptPath = InScriptPath;
     bScriptValid = false;
+}
+
+void ULuaScriptComponent::OnBeginOverlap(AActor* OverlappedActor, AActor* OtherActor)
+{
+    CallLuaFunction("BeginOverlap", OtherActor);
+}
+
+void ULuaScriptComponent::OnEndOverlap(AActor* OverlappedActor, AActor* OtherActor)
+{
+    CallLuaFunction("EndOverlap", OtherActor);
 }
 
 void ULuaScriptComponent::InitializeLuaState()

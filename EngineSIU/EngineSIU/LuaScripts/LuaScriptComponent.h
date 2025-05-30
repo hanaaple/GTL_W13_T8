@@ -21,7 +21,6 @@ public:
 
     TMap<FString, sol::object> ExposedProperties;
 
-
     virtual void BeginPlay() override;
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
     virtual void TickComponent(float DeltaTime) override;
@@ -43,6 +42,9 @@ public:
     }
 
     FOnLocationTenUp FOnLocationTenUp;
+
+    void OnBeginOverlap(AActor* OverlappedActor, AActor* OtherActor);
+    void OnEndOverlap(AActor* OverlappedActor, AActor* OtherActor);
     
 private:
     // Lua 환경 초기화

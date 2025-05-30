@@ -169,6 +169,7 @@ namespace LuaBindingHelpers
             }
         );
     }
+
 }
 
 namespace LuaDebugHelper
