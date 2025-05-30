@@ -349,38 +349,39 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
 
     if (ImGui::BeginPopup("PrimitiveControl"))
     {
-        struct Primitive
-        {
-            const char* Label;
-            int OBJ;
-        };
+        // struct Primitive
+        // {
+        //     const char* Label;
+        //     int OBJ;
+        // };
 
-        static const Primitive primitives[] = 
-        {
-            {.Label = "Cube", .OBJ = static_cast<int>(ESpawnObjectTypes::Cube)},
-            {.Label = "Sphere", .OBJ = static_cast<int>(ESpawnObjectTypes::Sphere)},
-            {.Label = "PointLight", .OBJ = static_cast<int>(ESpawnObjectTypes::Pointlight)},
-            {.Label = "SpotLight", .OBJ = static_cast<int>(ESpawnObjectTypes::Spotlight)},
-            {.Label = "DirectionalLight", .OBJ = static_cast<int>(ESpawnObjectTypes::DirectionalLgiht)},
-            {.Label = "AmbientLight", .OBJ = static_cast<int>(ESpawnObjectTypes::AmbientLight)},
-            {.Label = "Particle_Lagacy", .OBJ = static_cast<int>(ESpawnObjectTypes::Particle_Lagacy)},
-            {.Label = "ParticleSystem", .OBJ = static_cast<int>(ESpawnObjectTypes::ParticleSystem)},
-            {.Label = "TextRender", .OBJ = static_cast<int>(ESpawnObjectTypes::TextRender)},
-            {.Label = "Fog", .OBJ = static_cast<int>(ESpawnObjectTypes::Fog)},
-            {.Label = "BoxCol", .OBJ = static_cast<int>(ESpawnObjectTypes::BoxCollision)},
-            {.Label = "SphereCol", .OBJ = static_cast<int>(ESpawnObjectTypes::SphereCollision)},
-            {.Label = "CapsuleCol", .OBJ = static_cast<int>(ESpawnObjectTypes::CapsuleCollision)},
-            {.Label = "SkeletalMeshActor", .OBJ = static_cast<int>(ESpawnObjectTypes::SkeletalMeshActor)},
-            {.Label = "PlayerStart", .OBJ = static_cast<int>(ESpawnObjectTypes::PlayerStart)},
-        };
+        // static const Primitive primitives[] = 
+        // {
+        //     {.Label = "Cube", .OBJ = static_cast<int>(ESpawnObjectTypes::Cube)},
+        //     {.Label = "Sphere", .OBJ = static_cast<int>(ESpawnObjectTypes::Sphere)},
+        //     {.Label = "PointLight", .OBJ = static_cast<int>(ESpawnObjectTypes::Pointlight)},
+        //     {.Label = "SpotLight", .OBJ = static_cast<int>(ESpawnObjectTypes::Spotlight)},
+        //     {.Label = "DirectionalLight", .OBJ = static_cast<int>(ESpawnObjectTypes::DirectionalLgiht)},
+        //     {.Label = "AmbientLight", .OBJ = static_cast<int>(ESpawnObjectTypes::AmbientLight)},
+        //     {.Label = "Particle_Lagacy", .OBJ = static_cast<int>(ESpawnObjectTypes::Particle_Lagacy)},
+        //     {.Label = "ParticleSystem", .OBJ = static_cast<int>(ESpawnObjectTypes::ParticleSystem)},
+        //     {.Label = "TextRender", .OBJ = static_cast<int>(ESpawnObjectTypes::TextRender)},
+        //     {.Label = "Fog", .OBJ = static_cast<int>(ESpawnObjectTypes::Fog)},
+        //     {.Label = "BoxCol", .OBJ = static_cast<int>(ESpawnObjectTypes::BoxCollision)},
+        //     {.Label = "SphereCol", .OBJ = static_cast<int>(ESpawnObjectTypes::SphereCollision)},
+        //     {.Label = "CapsuleCol", .OBJ = static_cast<int>(ESpawnObjectTypes::CapsuleCollision)},
+        //     {.Label = "SkeletalMeshActor", .OBJ = static_cast<int>(ESpawnObjectTypes::SkeletalMeshActor)},
+        //     {.Label = "PlayerStart", .OBJ = static_cast<int>(ESpawnObjectTypes::PlayerStart)},
+        // };
 
-        for (const auto& primitive : primitives)
+        // for (const auto& primitive : primitives)
+        for (const auto& [Primitive, EnumNameView] : magic_enum::enum_entries<ESpawnObjectTypes>())
         {
-            if (ImGui::Selectable(primitive.Label))
+            if (ImGui::Selectable(EnumNameView.data()))
             {
                 UWorld* World = GEngine->ActiveWorld;
                 AActor* SpawnedActor = nullptr;
-                switch (static_cast<ESpawnObjectTypes>(primitive.OBJ))
+                switch (Primitive)
                 {
                 case ESpawnObjectTypes::Sphere:
                 {
@@ -495,11 +496,8 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                 {
                     SpawnedActor = World->SpawnActor<APlayerStart>();
                     SpawnedActor->SetActorLabel(TEXT("OBJ_PLAYER_START"));
-                }
-                case ESpawnObjectTypes::OBJ_CAMERA:
-                case ESpawnObjectTypes::OBJ_PLAYER:
-                case ESpawnObjectTypes::OBJ_END:
                     break;
+                }
                 }
 
                 if (SpawnedActor)

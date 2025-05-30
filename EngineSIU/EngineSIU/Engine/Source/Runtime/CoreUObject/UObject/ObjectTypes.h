@@ -3,25 +3,25 @@
 
 enum class ESpawnObjectTypes : uint8
 {
-    Sphere,
     Cube,
+    Sphere,
+
     Spotlight,
     Pointlight,
     DirectionalLgiht,
     AmbientLight,
+    Fog,
+
     Particle_Lagacy,
     ParticleSystem,
     TextRender,
-    OBJ_CAMERA,
-    OBJ_PLAYER,
-    Fog,
+
     BoxCollision,
     SphereCollision,
     CapsuleCollision,
+
     SkeletalMeshActor,
-    // OBJ_SEQUENCERPLAYER,
     PlayerStart,
-    OBJ_END
 };
 
 enum ARROW_DIR : uint8
