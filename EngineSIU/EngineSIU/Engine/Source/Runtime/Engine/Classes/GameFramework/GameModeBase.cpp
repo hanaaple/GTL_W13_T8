@@ -50,6 +50,7 @@ AActor* AGameModeBase::FindPlayerStart(const FString& IncomingName) const
     if (!OriginActor)
     {
         OriginActor = World->SpawnActor<AActor>();
+        OriginActor->SetActorLabel(TEXT("PlayerStart_Origin_0"));
         OriginActor->SetActorLocation(FVector::ZeroVector);
         OriginActor->SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
     }
