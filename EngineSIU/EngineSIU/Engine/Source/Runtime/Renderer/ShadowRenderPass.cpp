@@ -255,13 +255,8 @@ void FShadowRenderPass::RenderAllMeshesForCSM(const std::shared_ptr<FEditorViewp
         }
 
         FMatrix WorldMatrix = Comp->GetWorldMatrix();
-        FVector4 UUIDColor = Comp->EncodeUUID() / 255.0f;
-        constexpr bool bIsSelected = false;
-        
         FCasCadeData.World = WorldMatrix;
         BufferManager->UpdateConstantBuffer(TEXT("FCascadeConstantBuffer"), FCasCadeData);
-
-        UpdateObjectConstant(WorldMatrix, UUIDColor, bIsSelected);
 
         RenderStaticMesh_Internal(RenderData, Comp->GetStaticMesh()->GetMaterials(), Comp->GetOverrideMaterials(), Comp->GetselectedSubMeshIndex());
     }
@@ -285,13 +280,8 @@ void FShadowRenderPass::RenderAllMeshesForCSM(const std::shared_ptr<FEditorViewp
         }
 
         FMatrix WorldMatrix = Comp->GetWorldMatrix();
-        FVector4 UUIDColor = Comp->EncodeUUID() / 255.0f;
-        constexpr bool bIsSelected = false;
-
         FCasCadeData.World = WorldMatrix;
         BufferManager->UpdateConstantBuffer(TEXT("FCascadeConstantBuffer"), FCasCadeData);
-
-        UpdateObjectConstant(WorldMatrix, UUIDColor, bIsSelected);
 
         UpdateBones(Comp);
 
