@@ -407,7 +407,10 @@ void PropertyEditorPanel::RenderForActor(AActor* SelectedActor, USceneComponent*
             LuaDisplayPath = NewScript->GetDisplayName();
         }
     }
-    ImGui::InputText("Script File", GetData(LuaDisplayPath), IM_ARRAYSIZE(*LuaDisplayPath),
+
+    std::string temp = LuaDisplayPath.ToAnsiString();
+    temp += '\0';
+    ImGui::InputText("Script File", temp.data(), temp.length(),
         ImGuiInputTextFlags_ReadOnly);
 
     if (ImGui::TreeNodeEx("Component", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen)) // 트리 노드 생성
