@@ -123,6 +123,24 @@ void PropertyEditorPanel::Render()
             }
         }
     }
+    else
+    {
+        UWorld* World = GEngine->ActiveWorld;
+        assert(World);
+
+        for (const UClass* WorldClass = World->GetClass(); WorldClass; WorldClass = WorldClass->GetSuperClass())
+        {
+            const TArray<FProperty*>& Properties = WorldClass->GetProperties();
+            if (!Properties.IsEmpty())
+            {
+                ImGui::SeparatorText(*WorldClass->GetName());
+                for (const FProperty* Prop : Properties)
+                {
+                    Prop->DisplayInImGui(World);
+                }
+            }
+        }
+    }
     
     if (UAmbientLightComponent* LightComponent = GetTargetComponent<UAmbientLightComponent>(SelectedActor, SelectedComponent))
     {

@@ -46,6 +46,7 @@ UObject* UWorld::Duplicate(UObject* InOuter)
     UWorld* NewWorld = Cast<UWorld>(Super::Duplicate(InOuter));
     NewWorld->ActiveLevel = Cast<ULevel>(ActiveLevel->Duplicate(NewWorld));
     NewWorld->ActiveLevel->InitLevel(NewWorld);
+    NewWorld->GameModeClass = GameModeClass;
     
     NewWorld->CollisionManager = new FCollisionManager();
     
