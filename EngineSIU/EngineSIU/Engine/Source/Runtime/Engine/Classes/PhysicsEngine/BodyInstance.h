@@ -106,10 +106,10 @@ struct FBodyInstance
     UPROPERTY_WITH_FLAGS(EditAnywhere, float, MaxAngularVelocity, = 100)
     
     /** 위치 솔버 반복 횟수 */
-    UPROPERTY_WITH_FLAGS(EditAnywhere, uint8, PositionSolverIterationCount)
+    UPROPERTY_WITH_FLAGS(EditAnywhere, uint8, PositionSolverIterationCount, = 16)
     
     /** 속도 솔버 반복 횟수 */
-    UPROPERTY_WITH_FLAGS(EditAnywhere, uint8, VelocitySolverIterationCount)
+    UPROPERTY_WITH_FLAGS(EditAnywhere, uint8, VelocitySolverIterationCount, = 16)
     
     
     // PhysX 객체 참조
