@@ -34,16 +34,13 @@ AActor* AGameModeBase::FindPlayerStart(const FString& IncomingName) const
 {
     UWorld* World = GetWorld();
 
-    if (!IncomingName.IsEmpty())
+    const FName IncomingPlayerStartTag = IncomingName.IsEmpty() ? NAME_None : FName(IncomingName);
+    // TODO: 나중에 TActorIterator 만들기
+    for (APlayerStart* PlayerStart : TObjectRange<APlayerStart>())
     {
-        const FName IncomingPlayerStartTag = FName(*IncomingName);
-        // TODO: 나중에 TActorIterator 만들기
-        for (APlayerStart* PlayerStart : TObjectRange<APlayerStart>())
+        if (PlayerStart->PlayerStartTag == IncomingPlayerStartTag && PlayerStart->GetWorld() == World)
         {
-            if (PlayerStart->PlayerStartTag == IncomingPlayerStartTag && PlayerStart->GetWorld() == World)
-            {
-                return PlayerStart;
-            }
+            return PlayerStart;
         }
     }
 
