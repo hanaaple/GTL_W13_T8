@@ -36,6 +36,10 @@ public:
     
     virtual void BindAction(const FString& Key, const std::function<void(float)>& Callback);
 
+    virtual uint64 BindLuaAction(const FString& Key, AActor* LuaObj, const TFunction<void(float)>& Callback);
+
+    virtual void UnBindLuaAction(const FString& Key, uint64 HandleId);
+
     AActor* GetPossessedActor() const { return PossessedActor; }
     
     // 카메라 관련 함수
