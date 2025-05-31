@@ -2,10 +2,12 @@
 
 #include <fstream>
 
+#include "LuaScriptComponent.h"
 #include "Container/Array.h"
 #include "UObject/Object.h"
 #include "UObject/Class.h"
 #include "UObject/ScriptStruct.h"
+#include "UObject/UObjectIterator.h"
 #include "UserInterface/Console.h"
 
 void FLuaScriptManager::Initialize()
@@ -54,10 +56,10 @@ void FLuaScriptManager::Reload()
         if (IsFileOutdated(path))
         {
             LoadFile(path);
-            // for (const auto iter : TObjectRange<UScriptableComponent>())
-            // {
-            //     iter->LoadScriptAndBind();
-            // }
+            for (const auto iter : TObjectRange<ULuaScriptComponent>())
+            {
+                iter->LoadScriptAndBind();
+            }
         }
     }
 }
@@ -75,14 +77,15 @@ void FLuaScriptManager::ReloadForce()
         if (IsFileOutdated(path))
         {
             LoadFile(path);
-            // for (const auto iter : TObjectRange<UScriptableComponent>())
-            // {
-            //     iter->InitEnvironment();
-            //     iter->LoadScriptAndBind();
-            // }
+            for (const auto iter : TObjectRange<ULuaScriptComponent>())
+            {
+                iter->InitEnvironment();
+                iter->LoadScriptAndBind();
+            }
         }
     }
 }
+
 
 void FLuaScriptManager::BindPrimitiveTypes()
 {
@@ -141,7 +144,14 @@ void FLuaScriptManager::BindPrimitiveTypes()
     stringTypeTable["IsEmpty"] = &FString::IsEmpty;
 
     stringTypeTable[mFunc::addition] = [](const FString& a, const FString& b) { return a + b; };
-    stringTypeTable[mFunc::equal_to] = [](const FString& a, const FString& b) { return a == b; }; 
+    stringTypeTable[mFunc::equal_to] = [](const FString& a, const FString& b) { return a == b; };
+
+    // Print
+    LuaState["ToString"] = &FLuaScriptManager::ToString;
+    LuaState["PrintObj"] = [](const sol::object& obj) {UE_LOG(ELogLevel::Display, "%s", ToString(obj).c_str());};
+    LuaState["LogDisplay"] = [](const std::string& str) {UE_LOG(ELogLevel::Display, "%s", str.c_str());};
+    LuaState["LogWarning"] = [](const std::string& str) {UE_LOG(ELogLevel::Warning, "%s", str.c_str());};
+    LuaState["LogError"] = [](const std::string& str) {UE_LOG(ELogLevel::Error, "%s", str.c_str());};
 }
 
 void FLuaScriptManager::BindUObject()
@@ -177,28 +187,48 @@ void FLuaScriptManager::BindStructs()
 bool FLuaScriptManager::LoadFile(const FString& FileName)
 {
     std::string FileNameStr = GetData(FileName);
-    std::ifstream file(FileNameStr);
+    std::filesystem::path path(FileNameStr);
+    if (path.extension() != ".lua")
+    {
+        return false;
+    }
+    
+    std::ifstream file(path);
     if (!file.is_open())
     {
-        // Cannot find File
+        // Cannot open File
         UE_LOG(ELogLevel::Error, "Failed to open %s", FileNameStr.c_str());
         return false;
     }
-
-    LuaScriptInfo scriptInfo;
-    std::stringstream buffer;
-    buffer << file.rdbuf();
-    scriptInfo.Source = buffer.str();
-    scriptInfo.LastModifiedTime = std::filesystem::last_write_time(FileNameStr);
-    
-    sol::load_result res = LuaState.load_buffer(scriptInfo.Source.c_str(), scriptInfo.Source.size());
-    if (!res.valid())
+    if (!file.good())
     {
-        // Cannot compile Source
-        sol::error err = res;
-        UE_LOG(ELogLevel::Error, "Failed to open %s", err.what());
+        // Cannot read File
+        UE_LOG(ELogLevel::Error, "Failed to read %s", FileNameStr.c_str());
         return false;
     }
+    if (file.eof())
+    {
+        UE_LOG(ELogLevel::Warning, "File %s is empty", FileNameStr.c_str());
+        return false;
+    }
+    
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    std::string source = buffer.str();
+    auto lastWriteTime = std::filesystem::last_write_time(FileNameStr);
+
+    LuaScripts[FileName] = FLuaScriptInfo(
+        FileNameStr,
+        source,
+        lastWriteTime
+    );
+
+    // LuaScripts.Emplace(FileName, FLuaScriptInfo(
+    //     FileNameStr,
+    //     source,
+    //     lastWriteTime
+    // ));
+
     return true;
 }
 
@@ -209,15 +239,77 @@ bool FLuaScriptManager::IsFileOutdated(const FString& FileName)
         return false;
     
     auto currentTime = std::filesystem::last_write_time(FileNameStr);
-    std::filesystem::file_time_type lastModifiedTime;
-    for (const auto& [name, scriptInfo]: LuaScripts)
-    {
-        if (scriptInfo.FileName == FileNameStr)
-            lastModifiedTime = scriptInfo.LastModifiedTime;
-    }
+    std::filesystem::file_time_type lastModifiedTime = LuaScripts[FileName].LastModifiedTime;
+
     // 만약 메인 파일의 저장된 타임스탬프가 없거나 현재와 다르면 변경된 것으로 처리
     if (lastModifiedTime != currentTime)
         return true;
         
     return false;
+}
+
+std::string FLuaScriptManager::ToString(const sol::object& obj, int depth, bool showHidden) {
+    if (obj.get_type() == sol::type::nil) {
+       return "nil";
+    } else if (obj.is<std::string>()) {
+        return "\"" + obj.as<std::string>() + "\"";
+    } else if (obj.is<int>()) {
+        return std::to_string(obj.as<int>());
+    } else if (obj.is<double>()) {
+        return std::to_string(obj.as<double>());
+    } else if (obj.is<bool>()) {
+        return obj.as<bool>() ? "true" : "false";
+    } else if (obj.get_type() == sol::type::table) {
+        std::string result = "{";
+        sol::table tbl = obj;
+        bool first = true;
+        for (auto& kv : tbl) {
+            if (!showHidden && kv.first.as<std::string>().starts_with("__"))
+                continue;
+            if (!first) result += ", ";
+            first = false;
+            result += ToString(kv.first, depth + 1, showHidden) + " : " + ToString(kv.second, depth + 1, showHidden);
+        }
+        result += "}";
+        return result;
+    } else  if (obj.get_type() == sol::type::userdata) {
+        sol::table tbl = obj;
+        sol::table metatable = tbl[sol::metatable_key];
+        std::string type = metatable["__type"]["name"];
+        if (obj.is<FVector>())
+        {
+            FVector vec = obj.as<FVector>();
+            std::string result = "[FVector](";
+            result += GetData(vec.ToString());
+            result += ")";
+            return result;
+        }
+        else if (obj.is<FString>())
+        {
+            std::string result = "[FString]\"";
+            result += GetData(obj.as<FString>());
+            result += "\"";
+            return result;
+        }
+        else if (obj.is<FRotator>())
+        {
+            FRotator rot = obj.as<FRotator>();
+            std::string result = "[FRotator](";
+            result += GetData(rot.ToString());
+            result += ")";
+            return result;
+        }
+        else
+        {
+            std::string result = "[";
+            result += metatable["__type"]["name"];
+            result += "]:";
+            result += ToString(metatable, depth + 1, false);
+            return result;
+        }
+    } else if (obj.get_type() == sol::type::function) {
+        return "[function]";
+    } else {
+        return "[unknown type]";
+    }
 }

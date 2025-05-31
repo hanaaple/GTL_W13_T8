@@ -3,6 +3,10 @@ MoveSpeed = 10
 
 function BeginPlay()
     LogDisplay("[BeginPlay]")
+    PrintObj(obj)
+    PrintObj(obj:GetUUID())
+    PrintObj(obj:GetULuaScriptComponent())
+    PrintObj(obj:GetULuaScriptComponent():GetUUID())
 end
 
 function EndPlay()

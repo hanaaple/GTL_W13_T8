@@ -4,13 +4,8 @@
 #include "World/World.h"
 #include "Engine/EditorEngine.h"
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
-// #include "Engine/Engine.h"
 
 ULuaScriptComponent::ULuaScriptComponent()
-{
-}
-
-ULuaScriptComponent::~ULuaScriptComponent()
 {
 }
 
@@ -41,7 +36,7 @@ void ULuaScriptComponent::BeginPlay()
 {
     Super::BeginPlay();
 
-    InitializeLuaState();
+    LoadScriptAndBind();
 
     DelegateHandles.Empty();
     
@@ -94,120 +89,65 @@ void ULuaScriptComponent::SetScriptPath(const FString& InScriptPath)
     bScriptValid = false;
 }
 
-void ULuaScriptComponent::InitializeLuaState()
+void ULuaScriptComponent::LoadScriptAndBind()
 {
-    /*if (ScriptPath.IsEmpty()) {
-        bool bSuccess = LuaScriptFileUtils::CopyTemplateToActorScript(
-            L"template.lua",
-            GetOwner()->GetWorld()->GetName().ToWideString(),
-            GetOwner()->GetName().ToWideString(),
-            ScriptPath,
-            DisplayName
-        );
-        if (!bSuccess) {
-            UE_LOG(ELogLevel::Error, TEXT("Failed to create script from template"));
-            return;
-        }
-    }*/
-
-    LuaState.open_libraries();
-    BindEngineAPI();
-
-    try {
-        LuaState.script_file((*ScriptPath));
-        bScriptValid = true;
-        const std::wstring FilePath = ScriptPath.ToWideString();
-        LastWriteTime = std::filesystem::last_write_time(FilePath);
+    if (!FEngineLoop::ScriptSys.LuaScripts.Contains(ScriptPath))
+    {
+        UE_LOG(ELogLevel::Error, "Can not find %s", GetData(ScriptPath));
+        return;
     }
-    catch (const sol::error& err) {
-        UE_LOG(ELogLevel::Error, TEXT("Lua Initialization error: %s"), err.what());
-    }
-
-    CallLuaFunction("InitializeLua");
-}
-
-void ULuaScriptComponent::BindEngineAPI()
-{
-    // [1] 바인딩 전 글로벌 키 스냅샷
-    TArray<FString> Before = LuaDebugHelper::CaptureGlobalNames(LuaState);
-
-    LuaBindingHelpers::BindPrint(LuaState);    // 0) Print 바인딩
-    LuaBindingHelpers::BindFVector(LuaState);   // 2) FVector 바인딩
-    LuaBindingHelpers::BindFRotator(LuaState);
-    LuaBindingHelpers::BindController(LuaState);
-    LuaBindingHelpers::BindUnBindController(LuaState);
     
-    auto ActorType = LuaState.new_usertype<AActor>("Actor",
-        sol::constructors<>(),
-        "Location", sol::property(
-            &AActor::GetActorLocation,
-            &AActor::SetActorLocation
-        ),
-        "Rotator", sol::property(
-            &AActor::GetActorRotation,
-            &AActor::SetActorRotation
-        ),
-        "Forward", &AActor::GetActorForwardVector
-    );
+    if (!CompEnvironment.valid())
+    {
+        InitEnvironment();
+    }
+    CompEnvironment["obj"] = GetOwner();
+
+    const FLuaScriptInfo& scriptInfo = FEngineLoop::ScriptSys.LuaScripts[ScriptPath];
     
-    // 프로퍼티 바인딩
-    LuaState["actor"] = GetOwner();
+    // compile script
+    sol::load_result loadResult = FEngineLoop::ScriptSys.GetState().load_buffer(scriptInfo.Source.c_str(), scriptInfo.Source.length());
+    sol::function script = loadResult;
 
-    // [2] 바인딩 후, 새로 추가된 글로벌 키만 자동 로그
-    LuaDebugHelper::LogNewBindings(LuaState, Before);
-}
-
-bool ULuaScriptComponent::CheckFileModified()
-{
-    if (ScriptPath.IsEmpty()) return false;
-
-    try {
-        std::wstring FilePath = ScriptPath.ToWideString();
-        const auto CurrentTime = std::filesystem::last_write_time(FilePath);
-
-        if (CurrentTime > LastWriteTime) {
-            LastWriteTime = CurrentTime;
-            return true;
-        }
-    }
-    catch (const std::exception& e) {
-        UE_LOG(ELogLevel::Error, TEXT("Failed to check lua script file"));
-    }
-    return false;
-}
-
-void ULuaScriptComponent::ReloadScript()
-{
-    sol::table PersistentData;
-    if (bScriptValid && LuaState["PersistentData"].valid()) {
-        PersistentData = LuaState["PersistentData"];
+    if (!loadResult.valid() || !script.valid())
+    {
+        // compile error
+        sol::error err = loadResult;
+        UE_LOG(ELogLevel::Error, "Failed to compile %s@%s", GetData(ScriptPath), err.what());
+        bScriptValid = false;
+        return;
     }
 
-    LuaState = sol::state();
-    InitializeLuaState();
-
-    if (PersistentData.valid()) {
-        LuaState["PersistentData"] = PersistentData;
+    if (!script.valid())
+    {
+        sol::error err = loadResult;
+        UE_LOG(ELogLevel::Error, "Failed to compile %s@%s", GetData(ScriptPath), err.what());
+        bScriptValid = false;
+        return;
     }
 
-    CallLuaFunction("OnHotReload");
-    CallLuaFunction("BeginPlay");
+    // execute script
+    sol::set_environment(CompEnvironment, script);
+    sol::protected_function_result res = script();
+    if (!res.valid())
+    {
+        // execute error
+        sol::error err = res;
+        UE_LOG(ELogLevel::Error, "Failed to execute %s@%s", GetData(ScriptPath), err.what());
+        bScriptValid = false;
+        return;
+    }
+    bScriptValid = true;
 }
 
 void ULuaScriptComponent::TickComponent(float DeltaTime)
 {
     Super::TickComponent(DeltaTime);
-
     CallLuaFunction("Tick", DeltaTime);
-
-    if (CheckFileModified()) {
-        try {
-            ReloadScript();
-            UE_LOG(ELogLevel::Display, TEXT("Lua script reloaded"));
-        }
-        catch (const sol::error& e) {
-            UE_LOG(ELogLevel::Error, TEXT("Failed to reload lua script"));
-        }
-    }
 }
 
+void ULuaScriptComponent::InitEnvironment()
+{
+    sol::state& lua = FEngineLoop::ScriptSys.GetState();
+    CompEnvironment = sol::environment(lua, sol::create, FEngineLoop::ScriptSys.GetSharedEnvironment());
+}

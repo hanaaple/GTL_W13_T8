@@ -5,7 +5,7 @@
 #include "Container/String.h"
 #include "sol/sol.hpp"
 
-struct LuaScriptInfo
+struct FLuaScriptInfo
 {
     std::string FileName;   // 스크립트 파일명
     std::string Source;     // 스크립트 내용
@@ -24,7 +24,9 @@ public:
     void Reload();
     void ReloadForce();
 
-    TMap<FString, LuaScriptInfo> LuaScripts;
+    TMap<FString, FLuaScriptInfo> LuaScripts;
+    
+    static std::string ToString(const sol::object& obj, int depth = 0, bool showHidden = false);
 private:
     sol::state LuaState;
     sol::environment SharedEnvironment;

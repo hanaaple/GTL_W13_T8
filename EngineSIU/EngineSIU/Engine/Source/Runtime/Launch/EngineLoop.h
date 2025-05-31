@@ -42,7 +42,7 @@ private:
 public:
     static FGraphicsDevice GraphicDevice;
     static FRenderer Renderer;
-    static FLuaScriptManager LuaScriptManager;
+    static FLuaScriptManager ScriptSys;
     static UPrimitiveDrawBatch PrimitiveDrawBatch;
     static FResourceManager ResourceManager;
     static uint32 TotalAllocationBytes;
