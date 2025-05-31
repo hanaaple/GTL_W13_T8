@@ -1,7 +1,7 @@
 #pragma once
 #include "EngineLoop.h"
 #include "NameTypes.h"
-#include "sol/sol.hpp"
+#include "ScriptBind.h"
 #include "Misc/CoreMiscDefines.h"
 
 struct FPropertyChangedEvent;
@@ -14,51 +14,7 @@ class UActorComponent;
 
 namespace SolTypeBinding
 {
-    template<typename... Types>
-    struct TypeList {};
 
-    // PushBack
-    template<typename List, typename NewType>
-    struct PushBack;
-
-    // Pushback
-    template<typename... Types, typename NewType>
-    struct PushBack<TypeList<Types...>, NewType> {
-        using type = TypeList<Types..., NewType>;
-    };
-
-    // Base 클래스를 상속하는 모든 타입을 리스트로 모은다
-    template<typename Derived, typename Base = void>
-    struct InheritList;
-
-    // Base 없는 경우 (Root 클래스)
-    template<typename Derived>
-    struct InheritList<Derived, void> {
-        using type = TypeList<Derived>;
-    };
-
-    // Base 있는 경우 (Derived -> Base)
-    template<typename Derived, typename Base>
-    struct InheritList {
-        using base_list = typename Base::InheritTypes;
-        using type = typename PushBack<base_list, Derived>::type;
-    };
-
-    // to unpack types
-    template<typename TypeList>
-    struct TypeListToBases;
-
-    // to unpack types
-    template<typename... Types>
-    struct TypeListToBases<TypeList<Types...>> {
-        static auto Get() {
-            return sol::bases<Types...>();
-        }
-    };
-
-    // for Register to AActor::GetComponentByClass
-    template <typename T>
-    constexpr bool IsCompleteType_v = requires { sizeof(T); };
     
     // Register to AActor::GetComponentByClass
     template <typename T>
@@ -70,10 +26,10 @@ namespace SolTypeBinding
             using FuncType = T* (AActor::*)();
             auto funcPtr = static_cast<FuncType>(&AActor::template GetComponentByClass<T>);
             AActor::GetLuaUserType(lua)["Get" + className] = funcPtr;
-            std::cout << "Register AActor::Get" << className << std::endl;
+            std::cout << "Register AActor::Get" << className << '\n';
         } else
         {
-            std::cout << "Failed Register AActor::Get" << className << std::endl;
+            std::cout << "Failed Register AActor::Get" << className << '\n';
         }
     }
 }

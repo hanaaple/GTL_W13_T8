@@ -5,6 +5,7 @@
 #include "Container/Array.h"
 #include "UObject/Object.h"
 #include "UObject/Class.h"
+#include "UObject/ScriptStruct.h"
 #include "UserInterface/Console.h"
 
 void FLuaScriptManager::Initialize()
@@ -19,6 +20,8 @@ void FLuaScriptManager::Initialize()
 
     LuaState["SCRIPT_BASE_PATH"] = BasePath;
     SharedEnvironment = sol::environment(LuaState, sol::create, LuaState.globals());
+    
+    BindTypes();
 }
 
 sol::state& FLuaScriptManager::GetState()
@@ -29,6 +32,13 @@ sol::state& FLuaScriptManager::GetState()
 sol::environment& FLuaScriptManager::GetSharedEnvironment()
 {
     return SharedEnvironment;
+}
+
+void FLuaScriptManager::BindTypes()
+{
+    BindPrimitiveTypes();
+    BindUObject();
+    BindStructs();
 }
 
 void FLuaScriptManager::Reload()
@@ -140,7 +150,28 @@ void FLuaScriptManager::BindUObject()
     UObjectTypeTable["GetUUID"] = &UObject::GetUUID;
     UObjectTypeTable["GetName"] = &UObject::GetName;
     UObjectTypeTable["GetClass"] = &UObject::GetClass;
-    UObjectTypeTable["IsA"] = static_cast<bool (UObject::*)(const UClass*) const>(&UObject::IsA);
+    UObjectTypeTable["IsA"] = static_cast<bool (UObject::*)(const UClass*) const>(&UObject::IsA); // 오버라이드 함수 명시화.
+
+    for (const auto& [name, type]: UClass::GetClassMap())
+    {
+        if (type->BindPropertiesToLua != nullptr)
+        {
+            UE_LOG(ELogLevel::Display, "Binding Script %s", GetData(name.ToString()));
+            type->BindPropertiesToLua(LuaState);
+        }
+    }
+}
+
+void FLuaScriptManager::BindStructs()
+{
+    for (const auto& [name, type]: UScriptStruct::GetScriptStructMap())
+    {
+        if (type->BindPropertiesToLua != nullptr)
+        {
+            UE_LOG(ELogLevel::Display, "Binding Script %s", GetData(name.ToString()));
+            type->BindPropertiesToLua(LuaState);
+        }
+    }
 }
 
 bool FLuaScriptManager::LoadFile(const FString& FileName)

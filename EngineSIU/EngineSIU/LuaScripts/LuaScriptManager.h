@@ -19,6 +19,8 @@ public:
     sol::state& GetState();
     sol::environment& GetSharedEnvironment();
 
+    void BindTypes();
+    
     void Reload();
     void ReloadForce();
 
@@ -29,6 +31,7 @@ private:
 
     void BindPrimitiveTypes();
     void BindUObject();
+    void BindStructs();
     bool LoadFile(const FString& FileName);
 
     bool IsFileOutdated(const FString& FileName);

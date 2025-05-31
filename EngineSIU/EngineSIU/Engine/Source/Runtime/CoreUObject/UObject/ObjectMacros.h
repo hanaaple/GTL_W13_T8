@@ -29,9 +29,11 @@ private: \
             AddClassToChildListMap(ThisClass::StaticClass()); \
         } \
     } TClass##_StaticClassRegistrar_PRIVATE{}; \
-public: \
-    using Super = TSuperClass; \
-    using ThisClass = TClass; \
+private: \
+    static TMap<FString, std::function<void(sol::usertype<TClass>)>>& BindFunctions() { \
+        static TMap<FString, std::function<void(sol::usertype<TClass>)>> _binds; \
+        return _binds; \
+    } \
 public: \
     using InheritTypes = SolTypeBinding::InheritList<TClass, TSuperClass>::type; \
     static sol::usertype<TClass> GetLuaUserType(sol::state& lua) { \
@@ -42,6 +44,16 @@ public: \
         ); \
         return usertype; \
     } \
+    static void BindPropertiesToLua(sol::state& lua) { \
+        sol::usertype<TClass> table = GetLuaUserType(lua); \
+        for (const auto [name, bind] : BindFunctions()) \
+        { \
+            bind(table); \
+        } \
+    } \
+public: \
+    using Super = TSuperClass; \
+    using ThisClass = TClass; \
 
 // RTTI를 위한 클래스 매크로
 #define DECLARE_CLASS(TClass, TSuperClass) \
@@ -56,7 +68,8 @@ public: \
                 void* RawMemory = FPlatformMemory::AlignedMalloc<EAT_Object>(sizeof(TClass), alignof(TClass)); \
                 ::new (RawMemory) TClass; \
                 return static_cast<UObject*>(RawMemory); \
-            } \
+            }, \
+            TClass::BindPropertiesToLua \
         }; \
         return &ClassInfo; \
     }
@@ -70,7 +83,8 @@ public: \
             static_cast<uint32>(sizeof(TClass)), \
             static_cast<uint32>(alignof(TClass)), \
             TSuperClass::StaticClass(), \
-            []() -> UObject* { return nullptr; } \
+            []() -> UObject* { return nullptr; }, \
+            nullptr \
         }; \
         return &ClassInfo; \
     }
@@ -86,12 +100,18 @@ private: \
             UScriptStruct::GetScriptStructMap().Add(FName(INLINE_STRINGIFY(TStruct)), TStruct::StaticStruct()); \
         } \
     } Z_##TStruct##_StructRegistrar_Instance_PRIVATE{}; \
+private: \
+    static TMap<FString, std::function<void(sol::usertype<TStruct>)>>& BindFunctions() { \
+        static TMap<FString, std::function<void(sol::usertype<TStruct>)>> _binds; \
+        return _binds; \
+    } \
 public: \
     using Super = TSuperStruct; \
     using ThisClass = TStruct;
 
 #define DECLARE_STRUCT_WITH_SUPER(TStruct, TSuperStruct) \
     DECLARE_COMMON_STRUCT_BODY(TStruct, TSuperStruct) \
+    using InheritTypes = SolTypeBinding::InheritList<TStruct, TSuperStruct>::type; \
     static UScriptStruct* StaticStruct() \
     { \
         static_assert(std::derived_from<TStruct, TSuperStruct>, INLINE_STRINGIFY(TStruct) " must inherit from " INLINE_STRINGIFY(TSuperStruct)); \
@@ -99,23 +119,56 @@ public: \
             INLINE_STRINGIFY(TStruct), \
             static_cast<uint32>(sizeof(TStruct)), \
             static_cast<uint32>(alignof(TStruct)), \
-            TSuperStruct::StaticStruct() \
+            TSuperStruct::StaticStruct(), \
+            TStruct::BindPropertiesToLua \
         }; \
         return &StructInfo; \
-    }
+    } \
+public: \
+    static sol::usertype<TClass> GetLuaUserType(sol::state& lua) { \
+        static sol::usertype<TClass> usertype = lua.new_usertype<TStruct>( \
+            #TStruct, \
+            sol::base_classes, \
+            SolTypeBinding::TypeListToBases<typename SolTypeBinding::InheritList<TStruct, TSuperStruct>::base_list>::Get() \
+        ); \
+        return usertype; \
+    } \
+    static void BindPropertiesToLua(sol::state& lua) { \
+        sol::usertype<TStruct> table = GetLuaUserType(lua); \
+        for (const auto [name, bind] : BindFunctions()) \
+        { \
+            bind(table); \
+        } \
+    } \
 
 #define DECLARE_STRUCT_NO_SUPER(TStruct) \
     DECLARE_COMMON_STRUCT_BODY(TStruct, TStruct) \
+    using InheritTypes = SolTypeBinding::InheritList<TStruct, void>::type; \
     static UScriptStruct* StaticStruct() \
     { \
         static UScriptStruct StructInfo{ \
             INLINE_STRINGIFY(TStruct), \
             static_cast<uint32>(sizeof(TStruct)), \
             static_cast<uint32>(alignof(TStruct)), \
-            nullptr \
+            nullptr, \
+            TStruct::BindPropertiesToLua \
         }; \
         return &StructInfo; \
-    }
+    } \
+public: \
+    static sol::usertype<TStruct> GetLuaUserType(sol::state& lua) { \
+        static sol::usertype<TStruct> usertype = lua.new_usertype<TStruct>( \
+            #TStruct \
+        ); \
+        return usertype; \
+    } \
+    static void BindPropertiesToLua(sol::state& lua) { \
+        sol::usertype<TStruct> table = GetLuaUserType(lua); \
+        for (const auto [name, bind] : BindFunctions()) \
+        { \
+            bind(table); \
+        } \
+    } \
 
 #define GET_OVERLOADED_STRUCT_MACRO(_1, _2, MACRO, ...) MACRO
 
@@ -131,6 +184,17 @@ public: \
     InType InVarName FIRST_ARG(__VA_ARGS__); \
     inline static struct InVarName##_PropRegistrar_PRIVATE \
     { \
+        template <typename T> \
+        void Bind() \
+        { \
+            if constexpr (T::value) { \
+                static_assert((T::value) && (sizeof(InType) > 0), "Cannot use LuaReadWrite or LuaReadOnly with incomplete type"); \
+                static_assert((T::value) && (sizeof(typename std::remove_pointer<InType>::type)) > 0, "Cannot use LuaReadWrite or LuaReadOnly with incomplete type"); \
+                BindFunctions().Add(#InVarName, [](sol::usertype<ThisClass> table) { \
+                    table[#InVarName] = &ThisClass::InVarName; \
+                }); \
+            } \
+        } \
         InVarName##_PropRegistrar_PRIVATE() \
         { \
             constexpr int64 Offset = offsetof(ThisClass, InVarName); \
@@ -144,6 +208,8 @@ public: \
                     FPropertyMetadata InMetadata \
                 ) \
             ); \
+            constexpr bool LuaFlag = (Flags & LuaReadOnly) || (Flags & LuaReadWrite); \
+            Bind<std::bool_constant<LuaFlag>>(); \
         } \
     } InVarName##_PropRegistrar_PRIVATE{};
 
@@ -167,6 +233,8 @@ public: \
  * UPROPERTY(EPropertyFlags::EditAnywhere, int, Value, = 10) // Flag를 지정하면 기본값은 필수
  * 
  * UPROPERTY(EPropertyFlags::EditAnywhere, ({ .Category="NewCategory", .DisplayName="MyValue" }), int, Value, = 10) // Metadata를 지정하면 Flag와 기본값은 필수
+ *
+ * @warning LuaReadOnly 또는 LuaReadWrite를 사용할 경우 불완전한 타입은 사용할 수 없습니다.
  */
 #define UPROPERTY(...) \
     EXPAND_MACRO(GET_OVERLOADED_PROPERTY_MACRO(__VA_ARGS__, UPROPERTY_WITH_METADATA, UPROPERTY_WITH_FLAGS, UPROPERTY_DEFAULT, UPROPERTY_DEFAULT)(__VA_ARGS__))
