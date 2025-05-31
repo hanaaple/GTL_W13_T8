@@ -31,6 +31,13 @@ public:
     void GetEndPoints(FVector& OutStart, FVector& OutEnd) const;
     
 private:
-    float CapsuleHalfHeight = 0.88f;
-    float CapsuleRadius = 0.34f;
+    UPROPERTY(
+        EditAnywhere, { .Category = "Capsule" },
+        float, CapsuleHalfHeight, = 0.88f;
+    )
+
+    UPROPERTY(
+        EditAnywhere, { .Category = "Capsule" },
+        float, CapsuleRadius, = 0.34f;
+    )
 };

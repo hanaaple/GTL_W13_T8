@@ -19,9 +19,16 @@ public:
     UShapeComponent();
 
     virtual void TickComponent(float DeltaTime) override;
-    
-    FColor ShapeColor = FColor(180, 180, 180, 255);
-    bool bDrawOnlyIfSelected = true;
+
+    UPROPERTY(
+        EditAnywhere,
+        FColor, ShapeColor, = FColor(180, 180, 180, 255);
+    )
+
+    UPROPERTY(
+        EditAnywhere,
+        bool, bDrawOnlyIfSelected, = true;
+    )
 
     EShapeType GetShapeType() const { return ShapeType; }
 
