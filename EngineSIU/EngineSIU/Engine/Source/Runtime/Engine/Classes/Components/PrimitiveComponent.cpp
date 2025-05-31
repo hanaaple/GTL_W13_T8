@@ -1,17 +1,12 @@
 #include "PrimitiveComponent.h"
 
-#include "BoxComponent.h"
-#include "CapsuleComponent.h"
 #include "PhysicsManager.h"
-#include "SphereComp.h"
-#include "SphereComponent.h"
 #include "Engine/Engine.h"
 #include "UObject/Casts.h"
 #include "Engine/OverlapInfo.h"
 #include "Engine/OverlapResult.h"
 #include "GameFramework/Actor.h"
 #include "Math/JungleMath.h"
-#include "Misc/Parse.h"
 #include "World/World.h"
 #include "PhysicsEngine/PhysicsAsset.h"
 
@@ -163,6 +158,33 @@ UPrimitiveComponent::UPrimitiveComponent()
 {
     ////////////////////////////////////// 테스트 코드
     BodySetup = FObjectFactory::ConstructObject<UBodySetup>(this);
+}
+
+void UPrimitiveComponent::BeginPlay()
+{
+    USceneComponent::BeginPlay();
+
+    UpdatePhysXGameObject();
+}
+
+void UPrimitiveComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+    USceneComponent::EndPlay(EndPlayReason);
+
+    if (BodyInstance)
+    {
+        DestroyPhysXGameObject();
+    }
+}
+
+void UPrimitiveComponent::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+    USceneComponent::PostEditChangeProperty(PropertyChangedEvent);
+    bool* ValuePtr = PropertyChangedEvent.Property->GetPropertyData<bool>(PropertyChangedEvent.ObjectThatChanged);
+    if (&bSimulate == ValuePtr)
+    {
+        UpdatePhysXGameObject();
+    }
 }
 
 void UPrimitiveComponent::InitializeComponent()
@@ -553,11 +575,23 @@ const TArray<FOverlapInfo>& UPrimitiveComponent::GetOverlapInfos() const
     return OverlappingComponents;
 }
 
+void UPrimitiveComponent::SetSimulate(bool bInSimulate)
+{
+    bSimulate = bInSimulate;
+
+    UpdatePhysXGameObject();
+}
+
 void UPrimitiveComponent::CreatePhysXGameObject()
 {
-    if (!bSimulate)
+    if (bSimulate == false || BodyInstance != nullptr)
     {
         return;
+    }
+
+    if (GetWorld()->WorldType != EWorldType::PIE)
+    {
+        UE_LOG(ELogLevel::Warning, TEXT("This World is not PIE Mode."));
     }
     
     BodyInstance = new FBodyInstance(this);
@@ -582,6 +616,8 @@ void UPrimitiveComponent::CreatePhysXGameObject()
         GeomAttributes.Add(DefaultAttribute);
     }
 
+    PxMaterial* Material = GEngine->PhysicsManager->GetPhysics()->createMaterial(BodySetup->StaticFriction, BodySetup->DynamicFriction, BodySetup->Restitution);
+        
     for (const auto& GeomAttribute : GeomAttributes)
     {
         PxVec3 Offset = PxVec3(GeomAttribute.Offset.X, GeomAttribute.Offset.Y, GeomAttribute.Offset.Z);
@@ -593,31 +629,54 @@ void UPrimitiveComponent::CreatePhysXGameObject()
         {
         case EGeomType::ESphere:
         {
-            PxShape* PxSphere = GEngine->PhysicsManager->CreateSphereShape(Offset, GeomPQuat, Extent.x);
+            PxShape* PxSphere = GEngine->PhysicsManager->CreateSphereShape(Offset, GeomPQuat, Extent.x, Material);
             BodySetup->AggGeom.SphereElems.Add(PxSphere);
             break;
         }
         case EGeomType::EBox:
         {
-            PxShape* PxBox = GEngine->PhysicsManager->CreateBoxShape(Offset, GeomPQuat, Extent);
+            PxShape* PxBox = GEngine->PhysicsManager->CreateBoxShape(Offset, GeomPQuat, Extent, Material);
             BodySetup->AggGeom.BoxElems.Add(PxBox);
             break;
         }
         case EGeomType::ECapsule:
         {
-            PxShape* PxCapsule = GEngine->PhysicsManager->CreateCapsuleShape(Offset, GeomPQuat, Extent.x, Extent.z);
+            PxShape* PxCapsule = GEngine->PhysicsManager->CreateCapsuleShape(Offset, GeomPQuat, Extent.x, Extent.z, Material);
             BodySetup->AggGeom.CapsuleElems.Add(PxCapsule);
             break;
         }
         }
     }
     
-    GameObject* Obj = GEngine->PhysicsManager->CreateGameObject(PPos, PQuat, BodyInstance,  BodySetup, RigidBodyType);
+    GameObject* Obj = GEngine->PhysicsManager->CreateGameObject(PPos, PQuat, BodyInstance, BodySetup, Material, RigidBodyType);
 }
 
-void UPrimitiveComponent::BeginPlay()
+void UPrimitiveComponent::DestroyPhysXGameObject()
 {
-    USceneComponent::BeginPlay();
+    if (BodyInstance == nullptr || BodyInstance->BIGameObject == nullptr)
+    {
+        return;
+    }
+
+    GEngine->PhysicsManager->DestroyGameObject(BodyInstance->BIGameObject);
+    
+    delete BodyInstance;
+    BodyInstance = nullptr;
+}
+
+void UPrimitiveComponent::UpdatePhysXGameObject()
+{
+    if (bSimulate == true && BodyInstance == nullptr)
+    {
+        if (GetWorld()->WorldType == EWorldType::PIE)
+        {
+            CreatePhysXGameObject();
+        }
+    }
+    else if (bSimulate == false && BodyInstance != nullptr)
+    {
+        DestroyPhysXGameObject();
+    }
 }
 
 void UPrimitiveComponent::UpdateOverlapsImpl(const TArray<FOverlapInfo>* NewPendingOverlaps, bool bDoNotifies, const TArray<const FOverlapInfo>* OverlapsAtEndLocation)
