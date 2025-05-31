@@ -49,62 +49,78 @@ void OutlinerEditorPanel::Render()
         return;
     }
 
-    std::function<void(USceneComponent*)> CreateNode =
-        [&CreateNode, &Engine](USceneComponent* InComp)->void
-        {
-            FString Name = InComp->GetName();
-
-            ImGuiTreeNodeFlags Flags = ImGuiTreeNodeFlags_None;
-            if (InComp->GetAttachChildren().Num() == 0)
-            {
-                Flags |= ImGuiTreeNodeFlags_Leaf;
-            }
-            
-            ImGui::SetNextItemOpen(true, ImGuiCond_Always);
-            bool NodeOpen = ImGui::TreeNodeEx(*Name, Flags);
-
-            if (ImGui::IsItemClicked())
-            {
-                Engine->SelectActor(InComp->GetOwner());
-                Engine->SelectComponent(InComp);
-            }
-
-            if (NodeOpen)
-            {
-                for (USceneComponent* Child : InComp->GetAttachChildren())
-                {
-                    CreateNode(Child);
-                }
-                ImGui::TreePop(); // 트리 닫기
-            }
-        };
-
-    for (AActor* Actor : Engine->ActiveWorld->GetActiveLevel()->Actors)
+    TFunction<void(USceneComponent*)> CreateNode = [&CreateNode, &Engine](
+        USceneComponent* InComp
+    )-> void
     {
-        ImGuiTreeNodeFlags Flags = ImGuiTreeNodeFlags_None;
+        FString Name = InComp->GetName();
+
+        ImGuiTreeNodeFlags Flags = ImGuiTreeNodeFlags_DefaultOpen;
+        if (InComp->GetAttachChildren().Num() == 0)
+        {
+            Flags |= ImGuiTreeNodeFlags_Leaf;
+        }
+
+        if (Engine->GetSelectedComponent() == InComp)
+        {
+            Flags |= ImGuiTreeNodeFlags_Selected;
+        }
 
         ImGui::SetNextItemOpen(true, ImGuiCond_Always);
-
-        bool NodeOpen = ImGui::TreeNodeEx(*Actor->GetName(), Flags);
+        bool NodeOpen = ImGui::TreeNodeEx(*Name, Flags);
 
         if (ImGui::IsItemClicked())
         {
-            Engine->SelectActor(Actor);
-            Engine->DeselectComponent(Engine->GetSelectedComponent());
+            Engine->SelectActor(InComp->GetOwner());
+            Engine->SelectComponent(InComp);
         }
 
         if (NodeOpen)
         {
-            if (Actor->GetRootComponent())
+            for (USceneComponent* Child : InComp->GetAttachChildren())
             {
-                CreateNode(Actor->GetRootComponent());
+                CreateNode(Child);
             }
-                ImGui::TreePop();
+            ImGui::TreePop(); // 트리 닫기
         }
+    };
+
+    for (AActor* Actor : Engine->ActiveWorld->GetActiveLevel()->Actors)
+    {
+        ImGuiTreeNodeFlags Flags = ImGuiTreeNodeFlags_DefaultOpen
+            | ImGuiTreeNodeFlags_SpanAvailWidth // 클릭 영역 확대
+            | ImGuiTreeNodeFlags_FramePadding   // 패딩
+            | ImGuiTreeNodeFlags_Leaf;          // 트리 열기 버튼 숨기기
+
+        if (Engine->GetSelectedActor() == Actor)
+        {
+            Flags |= ImGuiTreeNodeFlags_Selected;
+        }
+
+        ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.5f, 0.5f, 0.5f, 0.2f));
+        {
+            ImGui::SetNextItemOpen(true, ImGuiCond_Always);
+            const bool NodeOpen = ImGui::TreeNodeEx(*Actor->GetActorLabel(), Flags);
+
+            if (ImGui::IsItemClicked())
+            {
+                Engine->SelectActor(Actor);
+                Engine->DeselectComponent(Engine->GetSelectedComponent());
+            }
+
+            if (NodeOpen)
+            {
+                if (USceneComponent* SceneComp = Actor->GetRootComponent())
+                {
+                    CreateNode(SceneComp);
+                }
+                ImGui::TreePop();
+            }
+        }
+        ImGui::PopStyleColor();
     }
 
     ImGui::EndChild();
-
     ImGui::End();
 }
     
