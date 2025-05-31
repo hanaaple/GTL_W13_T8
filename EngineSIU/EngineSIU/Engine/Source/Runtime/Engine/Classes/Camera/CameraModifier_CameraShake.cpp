@@ -153,3 +153,16 @@ UCameraShakeBase* UCameraModifier_CameraShake::ReclaimShakeFromExpiredPool(UClas
     }
     return nullptr;
 }
+
+void UCameraModifier_CameraShake::DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator)
+{
+    Super::DuplicateSubObjects(Source, InOuter, Duplicator);
+    const UCameraModifier_CameraShake* SrcCameraShake = static_cast<const UCameraModifier_CameraShake*>(Source);
+
+    ActiveShakes.Empty();
+    for (UCameraShakeBase* Shake : SrcCameraShake->ActiveShakes)
+    {
+        ActiveShakes.Add(Shake);
+    }
+
+}

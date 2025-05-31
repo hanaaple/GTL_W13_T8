@@ -45,6 +45,6 @@ public:
 
     virtual void SetBlendDuration(float InBlendDuration);
 private:
-    USkeleton* CurrentSkeleton;
+    UPROPERTY(ShallowCopy, USkeleton*, CurrentSkeleton, = nullptr)
     
 };

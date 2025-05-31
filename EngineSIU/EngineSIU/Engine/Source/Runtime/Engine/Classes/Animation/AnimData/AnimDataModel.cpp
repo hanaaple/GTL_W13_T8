@@ -239,3 +239,16 @@ FBoneAnimationTrack* UAnimDataModel::FindMutableBoneTrackByName(FName Name)
         return Track.Name == Name;
     });
 }
+
+void UAnimDataModel::DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator)
+{
+    Super::DuplicateSubObjects(Source, InOuter, Duplicator);
+
+    const UAnimDataModel* SrcAnimModel = static_cast<const UAnimDataModel*>(Source);
+    BoneAnimationTracks.Empty();
+    
+    for (FBoneAnimationTrack Track : SrcAnimModel->GetBoneAnimationTracks())
+    {
+        BoneAnimationTracks.Add(Track);
+    }
+}

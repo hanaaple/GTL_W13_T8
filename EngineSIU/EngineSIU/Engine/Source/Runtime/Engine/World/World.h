@@ -33,7 +33,7 @@ public:
     static UWorld* CreateWorld(UObject* InOuter, const EWorldType InWorldType, const FString& InWorldName = "DefaultWorld");
 
     void InitializeNewWorld();
-    virtual UObject* Duplicate(UObject* InOuter) override;
+    //virtual UObject* Duplicate(UObject* InOuter) override;
 
     virtual void Tick(float DeltaTime);
     void BeginPlay();
@@ -99,8 +99,9 @@ public:
     // ~GameMode 관련
     
     void CheckOverlap(const UPrimitiveComponent* Component, TArray<FOverlapResult>& OutOverlaps) const;
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
+    virtual void PostDuplicate() override;
 
-public:
     double TimeSeconds;
 
 protected:
@@ -115,8 +116,7 @@ protected:
 private:
     AGameModeBase* GameModeInstance = nullptr;
 
-
-    ULevel* ActiveLevel;
+    UPROPERTY(ULevel*, ActiveLevel, = nullptr)
 
     /** Actor가 Spawn되었고, 아직 BeginPlay가 호출되지 않은 Actor들 */
     TArray<AActor*> PendingBeginPlayActors;
@@ -139,8 +139,7 @@ T* UWorld::SpawnActor()
     return Cast<T>(SpawnActor(T::StaticClass()));
 }
 
-template <typename T>
-    requires std::derived_from<T, AActor>
+template <typename T> requires std::derived_from<T, AActor>
 T* UWorld::DuplicateActor(T* InActor)
 {
     if (ULevel* ActiveLevel = GetActiveLevel())
@@ -152,4 +151,5 @@ T* UWorld::DuplicateActor(T* InActor)
     }
     return nullptr;
 }
+
 

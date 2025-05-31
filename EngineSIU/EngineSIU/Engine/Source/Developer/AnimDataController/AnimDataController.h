@@ -30,5 +30,5 @@ public:
     void SetFrameRate(int32 FrameRate);
 
 private:
-    UAnimDataModel* Model;
+    UPROPERTY(ShallowCopy, UAnimDataModel*, Model, = nullptr)
 };

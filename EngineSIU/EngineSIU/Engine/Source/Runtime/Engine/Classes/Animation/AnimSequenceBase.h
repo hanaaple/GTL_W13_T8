@@ -19,14 +19,14 @@ public:
 
     TArray<FAnimNotifyTrack> AnimNotifyTracks;
 
-    float RateScale;
+    UPROPERTY(EditAnywhere, float,  RateScale, = 1.0f)
 
-    bool bLoop;
+    UPROPERTY(EditAnywhere, bool,  bLoop, = true)
 
 protected:
-    UAnimDataModel* DataModel;
+    UPROPERTY(ShallowCopy, UAnimDataModel*, DataModel, = nullptr)
 
-    UAnimDataController* Controller;
+    UPROPERTY(ShallowCopy, UAnimDataController*, Controller, = nullptr)
     
 public:
     virtual float GetPlayLength() const override;
@@ -56,4 +56,7 @@ public:
 
 private:
     void CreateModel();
+
+public:
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
 };

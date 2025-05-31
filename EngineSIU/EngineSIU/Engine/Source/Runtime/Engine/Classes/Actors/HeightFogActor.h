@@ -11,5 +11,5 @@ class AHeightFogActor : public AActor
 public:
     AHeightFogActor();
 
-    UHeightFogComponent* HeightFogComponent;
+    UPROPERTY(EditAnywhere, UHeightFogComponent*, HeightFogComponent, = nullptr)
 };

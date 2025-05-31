@@ -37,28 +37,28 @@ void USkeletalMeshComponent::InitializeComponent()
     InitAnim();
 }
 
-UObject* USkeletalMeshComponent::Duplicate(UObject* InOuter)
-{
-    ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
-
-    NewComponent->SetRelativeTransform(GetRelativeTransform());
-    NewComponent->SetSkeletalMeshAsset(SkeletalMeshAsset);
-    NewComponent->SetAnimationMode(AnimationMode);
-    if (AnimationMode == EAnimationMode::AnimationBlueprint)
-    {
-        NewComponent->SetAnimClass(AnimClass);
-        // TODO: 애님 인스턴스 세팅하기
-        //UMyAnimInstance* AnimInstance = Cast<UMyAnimInstance>(NewComponent->GetAnimInstance());
-        //AnimInstance->SetPlaying(Cast<UMyAnimInstance>(AnimScriptInstance)->IsPlaying());
-    }
-    else
-    {
-        NewComponent->SetAnimation(GetAnimation());
-    }
-    NewComponent->SetLooping(this->IsLooping());
-    NewComponent->SetPlaying(this->IsPlaying());
-    return NewComponent;
-}
+// UObject* USkeletalMeshComponent::Duplicate(UObject* InOuter)
+// {
+//     ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
+//
+//     NewComponent->SetRelativeTransform(GetRelativeTransform());
+//     NewComponent->SetSkeletalMeshAsset(SkeletalMeshAsset);
+//     NewComponent->SetAnimationMode(AnimationMode);
+//     if (AnimationMode == EAnimationMode::AnimationBlueprint)
+//     {
+//         NewComponent->SetAnimClass(AnimClass);
+//         // TODO: 애님 인스턴스 세팅하기
+//         //UMyAnimInstance* AnimInstance = Cast<UMyAnimInstance>(NewComponent->GetAnimInstance());
+//         //AnimInstance->SetPlaying(Cast<UMyAnimInstance>(AnimScriptInstance)->IsPlaying());
+//     }
+//     else
+//     {
+//         NewComponent->SetAnimation(GetAnimation());
+//     }
+//     NewComponent->SetLooping(this->IsLooping());
+//     NewComponent->SetPlaying(this->IsPlaying());
+//     return NewComponent;
+// }
 
 void USkeletalMeshComponent::SetProperties(const TMap<FString, FString>& InProperties)
 {
@@ -809,6 +809,58 @@ void USkeletalMeshComponent::SetAnimInstanceClass(class UClass* NewClass)
         AnimClass = nullptr;
         ClearAnimScriptInstance();
     }
+}
+
+void USkeletalMeshComponent::DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator)
+{
+    Super::DuplicateSubObjects(Source, InOuter, Duplicator);
+    const USkeletalMeshComponent* SrcComp = static_cast<const USkeletalMeshComponent*>(Source);
+
+    InitAnim();
+
+    BonePoseContext.Pose.Empty();
+    RefBonePoseTransforms.Empty();
+    AABB = FBoundingBox(SkeletalMeshAsset->GetRenderData()->BoundingBoxMin, SkeletalMeshAsset->GetRenderData()->BoundingBoxMax);
+    
+    const FReferenceSkeleton& RefSkeleton = SkeletalMeshAsset->GetSkeleton()->GetReferenceSkeleton();
+    BonePoseContext.Pose.InitBones(RefSkeleton.RawRefBoneInfo.Num());
+    for (int32 i = 0; i < RefSkeleton.RawRefBoneInfo.Num(); ++i)
+    {
+        BonePoseContext.Pose[i] = RefSkeleton.RawRefBonePose[i];
+        RefBonePoseTransforms.Add(RefSkeleton.RawRefBonePose[i]);
+    }
+    
+    CPURenderData->Vertices = SkeletalMeshAsset->GetRenderData()->Vertices;
+    CPURenderData->Indices = SkeletalMeshAsset->GetRenderData()->Indices;
+    CPURenderData->ObjectName = SkeletalMeshAsset->GetRenderData()->ObjectName;
+    CPURenderData->MaterialSubsets = SkeletalMeshAsset->GetRenderData()->MaterialSubsets;
+
+    ClearAnimScriptInstance();
+
+    if (GetSkeletalMeshAsset() && AnimationMode == EAnimationMode::AnimationBlueprint)
+    {
+        InitializeAnimScriptInstance();
+    }
+    
+    if (AnimationMode == EAnimationMode::AnimationBlueprint)
+    {
+        SetAnimClass(SrcComp->AnimClass);
+        // TODO: 애님 인스턴스 세팅하기
+        //UMyAnimInstance* AnimInstance = Cast<UMyAnimInstance>(NewComponent->GetAnimInstance());
+        //AnimInstance->SetPlaying(Cast<UMyAnimInstance>(AnimScriptInstance)->IsPlaying());
+    }
+    else
+    {
+        SetAnimation(SrcComp->GetAnimation());
+        
+    }
+    SetLooping(SrcComp->IsLooping());
+    SetPlaying(SrcComp->IsPlaying());
+}
+
+void USkeletalMeshComponent::PostDuplicate()
+{
+    Super::PostDuplicate();
 }
 
 void USkeletalMeshComponent::SetAnimation(UAnimationAsset* NewAnimToPlay)

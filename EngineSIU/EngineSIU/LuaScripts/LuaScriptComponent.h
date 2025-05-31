@@ -21,11 +21,9 @@ public:
 
     TMap<FString, sol::object> ExposedProperties;
 
-
     virtual void BeginPlay() override;
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
     virtual void TickComponent(float DeltaTime) override;
-    virtual UObject* Duplicate(UObject* InOuter) override;
     virtual void InitializeComponent() override;
 
     // Lua 함수 호출 메서드
@@ -43,6 +41,9 @@ public:
     }
 
     FOnLocationTenUp FOnLocationTenUp;
+
+    void OnBeginOverlap(AActor* OverlappedActor, AActor* OtherActor);
+    void OnEndOverlap(AActor* OverlappedActor, AActor* OtherActor);
     
 private:
     // Lua 환경 초기화
@@ -51,8 +52,8 @@ private:
     // Lua-Engine 바인딩
     void BindEngineAPI();
 
-    FString ScriptPath;
-    FString DisplayName;
+    UPROPERTY(FString, ScriptPath, = TEXT("None"))
+    UPROPERTY(FString, DisplayName, = TEXT("None"))
 
     TArray<FDelegateHandle> DelegateHandles;
     

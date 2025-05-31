@@ -32,5 +32,5 @@ public:
     USkeleton* GetSkeleton() const { return Skeleton; }
 
 private:
-    USkeleton* Skeleton;
+    UPROPERTY(EditAnywhere | ShallowCopy, USkeleton*, Skeleton, = nullptr)
 };

@@ -62,7 +62,7 @@ private:
 
     bool bIsExit = false;
     // @todo Option으로 선택 가능하도록
-    int32 TargetFPS = 999;
+    int32 TargetFPS = 60;
 
 public:
     SLevelEditor* GetLevelEditor() const { return LevelEditor; }

@@ -24,16 +24,32 @@ void ULevel::Release()
     Actors.Empty();
 }
 
-UObject* ULevel::Duplicate(UObject* InOuter)
+void ULevel::DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator)
 {
-    ThisClass* NewLevel = Cast<ThisClass>(Super::Duplicate(InOuter));
+    Super::DuplicateSubObjects(Source, InOuter, Duplicator);
+    const ULevel* SrcLevel = static_cast<const ULevel*>(Source);
 
-    NewLevel->OwningWorld = OwningWorld;
+    Actors.Empty();
 
-    for (AActor* Actor : Actors)
+    for (AActor* SrcActor : SrcLevel->Actors)
     {
-        NewLevel->Actors.Emplace(static_cast<AActor*>(Actor->Duplicate(InOuter)));
+        // 같은 Duplicator 인스턴스를 재사용
+        UObject* Copied = Duplicator.DuplicateObject(SrcActor);
+        AActor* NewActor = static_cast<AActor*>(Copied);
+        Actors.Add(NewActor);
     }
-
-    return NewLevel;
 }
+
+// UObject* ULevel::Duplicate(UObject* InOuter)
+// {
+//     ThisClass* NewLevel = Cast<ThisClass>(Super::Duplicate(InOuter));
+//
+//     NewLevel->OwningWorld = OwningWorld;
+//
+//     for (AActor* Actor : Actors)
+//     {
+//         NewLevel->Actors.Emplace(static_cast<AActor*>(Actor->Duplicate(InOuter)));
+//     }
+//
+//     return NewLevel;
+// }

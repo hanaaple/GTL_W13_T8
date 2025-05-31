@@ -35,3 +35,12 @@ void USimpleCameraShakePattern::TeardownShakePatternImpl()
 {
     State = FCameraShakeState();
 }
+
+void USimpleCameraShakePattern::DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator)
+{
+    Super::DuplicateSubObjects(Source, InOuter, Duplicator);
+
+    const USimpleCameraShakePattern* SrcCameraShakePattern = static_cast<const USimpleCameraShakePattern*>(Source);
+
+    State = SrcCameraShakePattern->State;
+}

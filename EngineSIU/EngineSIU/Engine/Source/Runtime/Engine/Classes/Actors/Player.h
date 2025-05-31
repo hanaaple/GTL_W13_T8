@@ -67,11 +67,11 @@ public:
 
     virtual void PostSpawnInitialize() override;
     virtual void Tick(float DeltaTime) override;
-    virtual UObject* Duplicate(UObject* InOuter) override;
 
     FName Socket = "jx_c_camera";
-    USkeletalMeshComponent* SkeletalMeshComponent = nullptr;
+
+    UPROPERTY(EditAnywhere, USkeletalMeshComponent*, SkeletalMeshComponent, = nullptr)
 
 private:
-    UCameraComponent* CameraComponent = nullptr;
+    UPROPERTY(EditAnywhere, UCameraComponent*, CameraComponent, = nullptr)
 };

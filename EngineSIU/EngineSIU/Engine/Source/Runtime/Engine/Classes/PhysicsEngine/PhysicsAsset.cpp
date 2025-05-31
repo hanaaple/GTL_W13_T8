@@ -21,6 +21,14 @@ void UBodySetup::SerializeAsset(FArchive& Ar)
     Ar << GeomAttributes;
 }
 
+void UBodySetup::DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator)
+{
+    Super::DuplicateSubObjects(Source, InOuter, Duplicator);
+    
+    const UBodySetup* SrcBodySetup = static_cast<const UBodySetup*>(Source);
+    AggGeom = SrcBodySetup->AggGeom;
+}
+
 bool UPhysicsAsset::SetPreviewMesh(USkeletalMesh* PreviewMesh)
 {
     if (PreviewMesh)
@@ -80,4 +88,17 @@ FArchive& operator<<(FArchive& Ar, AggregateGeomAttributes& Attributes)
     }
 
     return Ar << Attributes.Offset << Attributes.Rotation << Attributes.Extent;
+}
+
+void UPhysicsAsset::DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator)
+{
+    Super::DuplicateSubObjects(Source, InOuter, Duplicator);
+    const UPhysicsAsset* SrcAsset = static_cast<const UPhysicsAsset*>(Source);
+
+    ConstraintSetups.Empty();
+
+    for (FConstraintSetup* ConstraintSetup : SrcAsset->ConstraintSetups)
+    {
+        ConstraintSetups.Add(ConstraintSetup);
+    }
 }

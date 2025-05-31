@@ -17,10 +17,10 @@ function OnOverlap(OtherActor)
 end
 
 function InitializeLua()
-    controller("W", actor, OnPressW)    
-    controller("S", actor, OnPressS)
-    controller("A", actor, OnPressA)
-    controller("D", actor, OnPressD)
+    controller("W", OnPressW)    
+    controller("S", OnPressS)
+    controller("A", OnPressA)
+    controller("D", OnPressD)
 end
 
 function OnPressW(dt)
@@ -56,8 +56,10 @@ function Tick(dt)
     -- actor.Location.X = actor.Location.X + dt
 end
 
-function BeginOverlap(OtherActor)
+function BeginOverlap()
+    print("BeginOverlap")
 end
 
-function EndOverlap(OtherActor)
+function EndOverlap()
+    print("EndOverlap")
 end

@@ -12,6 +12,7 @@
 #include "Templates/TemplateUtilities.h"
 #include "Templates/TypeUtilities.h"
 
+class FObjectDuplicator;
 class UScriptStruct;
 
 
@@ -63,6 +64,8 @@ public:
      * @param OwnerObject Data를 가지고 있는 Object
      */
     virtual void DisplayRawDataInImGui(const char* PropertyLabel, void* DataPtr, UObject* OwnerObject) const;
+
+    virtual void CopyData(const void* SrcPtr, void* DstPtr, FObjectDuplicator& Duplicator) const;
 
 protected:
     virtual void DisplayRawDataInImGui_Implement(const char* PropertyLabel, void* DataPtr, UObject* OwnerObject) const;
@@ -414,6 +417,9 @@ struct FStrProperty : public FProperty
 
 protected:
     virtual void DisplayRawDataInImGui_Implement(const char* PropertyLabel, void* DataPtr, UObject* OwnerObject) const override;
+
+public:
+    virtual void CopyData(const void* SrcPtr, void* DstPtr, FObjectDuplicator& Duplicator) const override;
 };
 
 struct FNameProperty : public FProperty
@@ -780,7 +786,36 @@ protected:
             ImGui::TreePop();
         }
     }
+
+public:
+    virtual void CopyData(const void* SrcPtr, void* DstPtr, FObjectDuplicator& Duplicator) const override;
 };
+
+template <typename InArrayType>
+void TArrayProperty<InArrayType>::CopyData(const void* SrcPtr, void* DstPtr, FObjectDuplicator& Duplicator) const
+{
+    // 원본·대상 배열 참조 얻기
+    const InArrayType& SrcArr = *reinterpret_cast<const InArrayType*>(SrcPtr);
+    InArrayType&       DstArr = *reinterpret_cast<InArrayType*>(DstPtr);
+
+    // 대상 배열 초기화 및 예약
+    DstArr.Empty();
+    DstArr.Reserve(SrcArr.Num());
+
+    // 요소별 복제
+    for (int32 i = 0; i < SrcArr.Num(); ++i)
+    {
+        // 새 요소 추가 (기본값 생성)
+        DstArr.AddDefaulted();
+
+        // 원본·대상 요소 포인터
+        const void* ElemSrcPtr = &SrcArr[i];
+        void*       ElemDstPtr = &DstArr[i];
+
+        // ElementProperty에 위임하여 복제
+        ElementProperty->CopyData(ElemSrcPtr, ElemDstPtr, Duplicator);
+    }
+}
 
 template <typename InMapType>
 struct TMapProperty : public FProperty
@@ -944,7 +979,39 @@ protected:
             ImGui::TreePop();
         }
     }
+
+    void CopyData(const void* SrcPtr, void* DstPtr, FObjectDuplicator& Duplicator) const override;
+
 };
+
+template <typename InMapType>
+void TMapProperty<InMapType>::CopyData(const void* SrcPtr, void* DstPtr, FObjectDuplicator& Duplicator) const
+{
+    const InMapType& SrcMap = *reinterpret_cast<const InMapType*>(SrcPtr);
+    InMapType&       DstMap = *reinterpret_cast<InMapType*>(DstPtr);
+
+    // 대상 맵 초기화 및 용량 확보
+    DstMap.Empty();
+    if constexpr (requires { DstMap.Reserve(SrcMap.Num()); })
+    {
+        DstMap.Reserve(SrcMap.Num());
+    }
+
+    // 각 키·값 쌍 복제
+    for (const auto& Pair : SrcMap)
+    {
+        // 키 복제
+        KeyType KeyDst{};
+        KeyProperty->CopyData(&Pair.Key, &KeyDst, Duplicator);
+
+        // 값 복제
+        ValueType ValDst{};
+        ValueProperty->CopyData(&Pair.Value, &ValDst, Duplicator);
+
+        // 맵에 추가
+        DstMap.Add(KeyDst, ValDst);
+    }
+}
 
 template <typename InSetType>
 struct TSetProperty : public FProperty
@@ -1081,7 +1148,39 @@ protected:
             ImGui::TreePop();
         }
     }
+
+public:
+    virtual void CopyData(const void* SrcPtr, void* DstPtr, FObjectDuplicator& Duplicator) const override;
 };
+
+template <typename InSetType>
+void TSetProperty<InSetType>::CopyData(const void* SrcPtr, void* DstPtr, FObjectDuplicator& Duplicator) const
+{
+    // 원본·대상 Set 참조 얻기
+    const InSetType& SrcSet = *reinterpret_cast<const InSetType*>(SrcPtr);
+    InSetType&       DstSet = *reinterpret_cast<InSetType*>(DstPtr);
+
+    // 대상 Set 초기화 및 용량 확보(가능 시)
+    DstSet.Empty();
+    if constexpr (requires { DstSet.Reserve(SrcSet.Num()); })
+    {
+        DstSet.Reserve(SrcSet.Num());
+    }
+
+    // 각 원소 복제
+    for (const auto& ElemSrc : SrcSet)
+    {
+        // 요소 타입별 복제
+        using ElemType = typename InSetType::ElementType;
+        ElemType ElemDst{};
+
+        // ElementProperty에 위임하여 복제 로직 수행
+        ElementProperty->CopyData(&ElemSrc, &ElemDst, Duplicator);
+
+        // 복제된 요소를 대상 Set에 추가
+        DstSet.Add(ElemDst);
+    }
+}
 
 template <typename InEnumType>
 struct TEnumProperty : public FProperty
@@ -1215,7 +1314,21 @@ private:
         }
         ImGui::EndDisabled();
     }
+
+public:
+    virtual void CopyData(const void* SrcPtr, void* DstPtr, FObjectDuplicator& Duplicator) const override;
 };
+
+template <typename InEnumType>
+void TEnumProperty<InEnumType>::CopyData(const void* SrcPtr, void* DstPtr, FObjectDuplicator& Duplicator) const
+{
+    // SrcPtr/DstPtr는 InEnumType 값을 저장하는 메모리 주소입니다.
+    const InEnumType* SrcVal = reinterpret_cast<const InEnumType*>(SrcPtr);
+    InEnumType*       DstVal = reinterpret_cast<InEnumType*>(DstPtr);
+
+    // 단순 값 복사
+    *DstVal = *SrcVal;
+}
 
 struct FSubclassOfProperty : public FProperty
 {
@@ -1253,6 +1366,9 @@ struct FObjectProperty : public FProperty, public FDisplayMembersRecursiveTrait
 
 protected:
     virtual void DisplayRawDataInImGui_Implement(const char* PropertyLabel, void* DataPtr, UObject* OwnerObject) const override;
+
+public:
+    virtual void CopyData(const void* SrcPtr, void* DstPtr, FObjectDuplicator& Duplicator) const override;
 };
 
 struct UMaterialProperty : public FProperty
@@ -1322,6 +1438,7 @@ struct FUnresolvedPtrProperty : public FProperty
     virtual void DisplayInImGui(UObject* Object) const override;
     virtual void DisplayRawDataInImGui(const char* PropertyLabel, void* DataPtr, UObject* OwnerObject) const override;
     virtual void Resolve() override;
+    virtual void CopyData(const void* SrcPtr, void* DstPtr, FObjectDuplicator& Duplicator) const override;
 };
 
 // struct FDelegateProperty : public FProperty {};  // TODO: 나중에 Delegate Property 만들기

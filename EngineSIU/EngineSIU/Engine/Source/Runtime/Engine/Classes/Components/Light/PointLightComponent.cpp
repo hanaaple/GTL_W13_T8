@@ -220,17 +220,6 @@ void UPointLightComponent::InitShadowDebugView()
     }
 }
 
-UObject* UPointLightComponent::Duplicate(UObject* InOuter)
-{
-
-    ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
-    if (NewComponent)
-    {
-        NewComponent->PointLightInfo = PointLightInfo;
-    }
-    return NewComponent;
-}
-
 void UPointLightComponent::GetProperties(TMap<FString, FString>& OutProperties) const
 {
     Super::GetProperties(OutProperties);

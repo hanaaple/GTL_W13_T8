@@ -9,9 +9,8 @@ class USkySphereComponent : public UStaticMeshComponent
 public:
     USkySphereComponent();
 
-    virtual UObject* Duplicate(UObject* InOuter) override;
-
     virtual void TickComponent(float DeltaTime) override;
-    float UOffset = 0;
-    float VOffset = 0;
+
+    UPROPERTY(EditAnywhere, float, UOffset, = 0.0f)
+    UPROPERTY(EditAnywhere, float, VOffset, = 0.0f)
 };

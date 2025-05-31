@@ -37,20 +37,6 @@ void UHeightFogComponent::SetFogColor(FLinearColor Color)
     FogInscatteringColor = Color;
 }
 
-UObject* UHeightFogComponent::Duplicate(UObject* InOuter)
-{
-    ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
-
-    NewComponent->FogDensity = FogDensity;
-    NewComponent->FogHeightFalloff = FogHeightFalloff;
-    NewComponent->StartDistance = StartDistance;
-    NewComponent->FogDistanceWeight = FogDistanceWeight;
-    NewComponent->EndDistance = EndDistance;
-    NewComponent->FogInscatteringColor = FogInscatteringColor;
-
-    return NewComponent;
-}
-
 void UHeightFogComponent::GetProperties(TMap<FString, FString>& OutProperties) const
 {
     Super::GetProperties(OutProperties);

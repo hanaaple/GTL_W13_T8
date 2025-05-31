@@ -104,23 +104,23 @@ public:
         CurrentKey = InCurrentKey;
     }
 private:
-    UAnimationAsset* CurrentAsset;
-    
-    float ElapsedTime;
+    UPROPERTY(EditAnywhere | ShallowCopy, UAnimationAsset*, CurrentAsset, = nullptr)
+ 
+    UPROPERTY(EditAnywhere, float, ElapsedTime, = 0.0f)
 
-    float PreviousTime;
-    
-    float PlayRate;
-    
-    bool bLooping;
-    
-    bool bPlaying;
-    
-    bool bReverse;
+    UPROPERTY(EditAnywhere, float, PreviousTime, = 0.0f)
 
-    int32 LoopStartFrame;
+    UPROPERTY(EditAnywhere, float, PlayRate, = 1.0f)
 
-    int32 LoopEndFrame;
+    UPROPERTY(EditAnywhere, bool, bLooping, = true)
 
-    int CurrentKey;
+    UPROPERTY(EditAnywhere, bool, bPlaying, = true)
+
+    UPROPERTY(EditAnywhere, bool, bReverse, = false)
+    
+    UPROPERTY(EditAnywhere, int32, LoopStartFrame, = 0)
+    
+    UPROPERTY(EditAnywhere, int32, LoopEndFrame, = 0)
+    
+    UPROPERTY(EditAnywhere, int32, CurrentKey, = 0)
 };

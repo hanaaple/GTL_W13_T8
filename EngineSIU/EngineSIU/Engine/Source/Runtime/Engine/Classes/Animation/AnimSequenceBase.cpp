@@ -47,6 +47,25 @@ void UAnimSequenceBase::CreateModel()
     DataModel = FObjectFactory::ConstructObject<UAnimDataModel>(this);
 }
 
+void UAnimSequenceBase::DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator)
+{
+    Super::DuplicateSubObjects(Source, InOuter, Duplicator);
+
+    const UAnimSequenceBase* SrcaAnimSequenceBase = static_cast<const UAnimSequenceBase*>(Source);
+    Notifies.Empty();
+    AnimNotifyTracks.Empty();
+
+    for (FAnimNotifyEvent Notify : SrcaAnimSequenceBase->Notifies)
+    {
+        Notifies.Add(Notify);
+    }
+
+    for (FAnimNotifyTrack NotifyTrack : SrcaAnimSequenceBase->AnimNotifyTracks)
+    { 
+        AnimNotifyTracks.Add(NotifyTrack);
+    }
+}
+
 bool UAnimSequenceBase::AddNotifyTrack(const FName& TrackName, int32& OutNewTrackIndex)
 {
     OutNewTrackIndex = INDEX_NONE;

@@ -7,14 +7,6 @@ UAmbientLightComponent::UAmbientLightComponent()
     AmbientLightInfo.AmbientColor = FLinearColor(0.1f, 0.1f, 0.1f, 1.0f);
 }
 
-UObject* UAmbientLightComponent::Duplicate(UObject* InOuter)
-{
-    ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
-
-    NewComponent->AmbientLightInfo = AmbientLightInfo;
-    return NewComponent;
-}
-
 void UAmbientLightComponent::GetProperties(TMap<FString, FString>& OutProperties) const
 {
     Super::GetProperties(OutProperties);

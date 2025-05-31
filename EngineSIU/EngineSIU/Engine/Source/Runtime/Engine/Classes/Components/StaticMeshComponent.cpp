@@ -9,16 +9,6 @@
 
 #include "GameFramework/Actor.h"
 
-UObject* UStaticMeshComponent::Duplicate(UObject* InOuter)
-{
-    ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
-
-    NewComponent->StaticMesh = StaticMesh;
-    NewComponent->SelectedSubMeshIndex = SelectedSubMeshIndex;
-
-    return NewComponent;
-}
-
 void UStaticMeshComponent::GetProperties(TMap<FString, FString>& OutProperties) const
 {
     Super::GetProperties(OutProperties);

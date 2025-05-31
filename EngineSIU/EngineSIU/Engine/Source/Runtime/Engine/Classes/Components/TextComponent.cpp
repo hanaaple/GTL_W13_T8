@@ -11,19 +11,19 @@ UTextComponent::UTextComponent()
     SetType(StaticClass()->GetName());
 }
 
-UObject* UTextComponent::Duplicate(UObject* InOuter)
-{
-    ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
-
-    NewComponent->Text = Text;
-    NewComponent->QuadSize = QuadSize;
-    NewComponent->RowCount = RowCount;
-    NewComponent->ColumnCount = ColumnCount;
-    NewComponent->QuadWidth = QuadWidth;
-    NewComponent->QuadHeight = QuadHeight;
-
-    return NewComponent;
-}
+// UObject* UTextComponent::Duplicate(UObject* InOuter)
+// {
+//     ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
+//
+//     NewComponent->Text = Text;
+//     NewComponent->QuadSize = QuadSize;
+//     NewComponent->RowCount = RowCount;
+//     NewComponent->ColumnCount = ColumnCount;
+//     NewComponent->QuadWidth = QuadWidth;
+//     NewComponent->QuadHeight = QuadHeight;
+//
+//     return NewComponent;
+// }
 
 void UTextComponent::GetProperties(TMap<FString, FString>& OutProperties) const
 {
@@ -131,4 +131,11 @@ int UTextComponent::CheckRayIntersection(const FVector& InRayOrigin, const FVect
     }
 
     return 0;
+}
+
+void UTextComponent::DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator)
+{
+    Super::DuplicateSubObjects(Source, InOuter, Duplicator);
+    const UTextComponent* SrcComp = static_cast<const UTextComponent*>(Source);
+    Text = SrcComp->Text;
 }

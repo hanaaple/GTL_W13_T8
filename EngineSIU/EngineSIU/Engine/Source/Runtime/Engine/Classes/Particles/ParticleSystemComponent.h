@@ -26,7 +26,7 @@ public:
     UParticleSystemComponent();
     virtual ~UParticleSystemComponent() override = default;
 
-    virtual UObject* Duplicate(UObject* InOuter) override;
+    //virtual UObject* Duplicate(UObject* InOuter) override;
 
     virtual void InitializeComponent() override;
     virtual void TickComponent(float DeltaTime) override;
@@ -48,14 +48,14 @@ public:
     FParticleDynamicData* GetParticleDynamicData() const { return ParticleDynamicData; }
     
     void ReBuildInstancesMemoryLayout();
-    
-public:
-    float AccumTickTime;
-    
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
+
+    UPROPERTY(EditAnywhere, float, AccumTickTime, = 0.0f)
+
 private:
     TArray<FParticleEmitterInstance*> EmitterInstances;
 
-    UPROPERTY_WITH_FLAGS(EditAnywhere, UParticleSystem*, Template)
+    UPROPERTY_WITH_FLAGS(EditAnywhere | ShallowCopy, UParticleSystem*, Template)
 
     TArray<FDynamicEmitterDataBase*> EmitterRenderData;
 

@@ -14,8 +14,6 @@ class USceneComponent : public UActorComponent
 public:
     USceneComponent();
 
-    virtual UObject* Duplicate(UObject* InOuter) override;
-    
     void GetProperties(TMap<FString, FString>& OutProperties) const override;
     void SetProperties(const TMap<FString, FString>& InProperties) override;
 
@@ -111,5 +109,5 @@ private:
     // TODO: 캐싱해서 사용하기
     bool bComponentToWorldUpdated = true;
 
-    FTransform ComponentToWorld;
+    UPROPERTY(FTransform, ComponentToWorld, = FTransform::Identity)
 };

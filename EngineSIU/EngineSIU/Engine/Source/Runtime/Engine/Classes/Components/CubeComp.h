@@ -9,5 +9,4 @@ public:
     UCubeComp();
 
     virtual void InitializeComponent() override;
-    virtual void TickComponent(float DeltaTime) override;
 };
