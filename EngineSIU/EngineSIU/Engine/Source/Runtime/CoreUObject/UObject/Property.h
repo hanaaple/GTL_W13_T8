@@ -109,7 +109,7 @@ private:
      * 만약 현재 저장된 타입이 T가 아니거나, Type이 해당 T를 가질 수 있는
      * EPropertyType 상태가 아니라면 std::nullopt를 반환합니다.
      *
-     * @tparam T 가져오고자 하는 타입 (예: UClass*, FStructInfo*, FName)
+     * @tparam T 가져오고자 하는 타입 (예: UClass*, UScriptStruct*, FName)
      * @return 해당 타입의 값을 담은 std::optional<T>, 또는 std::nullopt
      */
     template <typename T>
@@ -119,22 +119,18 @@ private:
         {
             switch (Type)  // NOLINT(clang-diagnostic-switch-enum)
             {
-                // Type이 Object와 SubclassOf 일 때만 UClass*가 유효
-                case EPropertyType::Object:
-                case EPropertyType::SubclassOf:
-                    break;
-                default:
-                    return std::nullopt;
+            // Type이 Object와 SubclassOf 일 때만 UClass*가 유효
+            case EPropertyType::Object:
+            case EPropertyType::Struct:
+            case EPropertyType::SubclassOf:
+                break;
+            default:
+                return std::nullopt;
             }
         }
-        // else if constexpr (std::same_as<T, FStructInfo*>) {
-        //     if (Type != EPropertyType::Struct) { // Struct 타입일 때만 FStructInfo*가 유효
-        //         return std::nullopt;
-        //     }
-        // }
         else if constexpr (std::same_as<T, FName>)
         {
-            if (Type != EPropertyType::UnresolvedPointer /* && Type != EPropertyType::UnresolvedStruct 등 */)
+            if (Type != EPropertyType::UnresolvedPointer)
             {
                 return std::nullopt;
             }
