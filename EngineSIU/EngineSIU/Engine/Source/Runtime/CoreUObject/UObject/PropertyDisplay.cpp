@@ -90,7 +90,7 @@ struct FPropertyUIHelper
 
 void FProperty::DisplayInImGui(UObject* Object) const
 {
-    void* Data = GetPropertyData(Object);
+    void* Data = GetPropertyDataUnsafe(Object);
     DisplayRawDataInImGui(*Metadata.DisplayName.Get(Name), Data, Object);
 }
 

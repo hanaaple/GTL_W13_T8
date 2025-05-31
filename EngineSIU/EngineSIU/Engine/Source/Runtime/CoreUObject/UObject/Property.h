@@ -90,15 +90,41 @@ public:
      * @param Object 변환할 값을 가지고 있는 Object
      * @return Object의 실제 값
      *
+     * @note 잘못된 타입으로 가져올 경우 nullptr이 반환됩니다.
+     */
+    template <typename T>
+        requires requires
+        {
+            requires sizeof(T); // 완전한 타입인 경우
+            requires GetPropertyType<T>() != EPropertyType::UnresolvedPointer;
+            requires GetPropertyType<T>() != EPropertyType::Unknown;
+        }
+    T* GetPropertyData(UObject* Object) const
+    {
+        constexpr EPropertyType InType = GetPropertyType<T>();
+        if (Type != InType)
+        {
+            return nullptr;
+        }
+
+        return GetPropertyDataUnsafe<T>(Object);
+    }
+
+    /**
+     * Property를 실제 데이터 타입으로 변환합니다.
+     * @tparam T 변환할 타입
+     * @param Object 변환할 값을 가지고 있는 Object
+     * @return Object의 실제 값
+     *
      * @warning 타입이 잘못되면 UB가 발생할 수 있습니다.
      */
     template <typename T>
-    T* GetPropertyData(UObject* Object) const
+    T* GetPropertyDataUnsafe(UObject* Object) const
     {
-        return reinterpret_cast<T*>(reinterpret_cast<std::byte*>(Object) + Offset);
+        return static_cast<T*>(GetPropertyDataUnsafe(Object));
     }
 
-    void* GetPropertyData(UObject* Object) const
+    void* GetPropertyDataUnsafe(UObject* Object) const
     {
         return reinterpret_cast<std::byte*>(Object) + Offset;
     }
