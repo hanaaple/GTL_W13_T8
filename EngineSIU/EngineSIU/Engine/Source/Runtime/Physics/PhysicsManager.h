@@ -42,13 +42,16 @@ struct GameObject {
             return;
         }
         
-        PxSceneWriteLock scopedWriteLock(*Scene);
         if (InBodyType == ERigidBodyType::KINEMATIC)
         {
+            PxSceneWriteLock scopedWriteLock(*Scene);
             DynamicRigidBody->setKinematicTarget(InTransform);
         }
-        //
-        // DynamicRigidBody->setGlobalPose(InTransform);
+        else if (InBodyType == ERigidBodyType::DYNAMIC)
+        {
+            PxSceneWriteLock scopedWriteLock(*Scene);
+            DynamicRigidBody->setGlobalPose(InTransform);
+        }
     }
     
     void SetRigidBodyType(ERigidBodyType RigidBody) const;

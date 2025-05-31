@@ -194,14 +194,13 @@ void UPrimitiveComponent::TickComponent(float DeltaTime)
         {
             // UE Transform → PhysX Transform 변환
             const FTransform& WorldXf = GetComponentTransform();
-            PxTransform P(PxVec3(WorldXf.GetTranslation().X, -WorldXf.GetTranslation().Y, WorldXf.GetTranslation().Z), 
+            PxTransform P(PxVec3(WorldXf.GetTranslation().X, WorldXf.GetTranslation().Y, WorldXf.GetTranslation().Z), 
                           PxQuat(WorldXf.GetRotation().X,WorldXf.GetRotation().Y, WorldXf.GetRotation().Z, WorldXf.GetRotation().W));
     
             // // Dynamic 또는 Kinematic 모두 Teleport 방식으로 갱신
             BodyInstance->BIGameObject->UpdateToPhysics(GEngine->PhysicsManager->GetScene(GEngine->ActiveWorld), P, RigidBodyType);
         }
     }
-    
 }
 
 void UPrimitiveComponent::EndPhysicsTickComponent(float DeltaTime)

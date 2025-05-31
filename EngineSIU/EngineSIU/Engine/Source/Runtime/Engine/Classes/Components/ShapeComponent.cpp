@@ -7,7 +7,7 @@ UShapeComponent::UShapeComponent()
 
 void UShapeComponent::TickComponent(float DeltaTime)
 {
-    UPrimitiveComponent::TickComponent(DeltaTime);
+    Super::TickComponent(DeltaTime);
 
     UpdateOverlaps();
 }
