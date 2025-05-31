@@ -9,5 +9,6 @@ APlayerStart::APlayerStart()
     CapsuleComponent->SetHalfHeight(9.2f);
     CapsuleComponent->SetRadius(4.0f);
     // CapsuleComponent->SetCollisionEnabled(false);
+    CapsuleComponent->bDrawOnlyIfSelected = false;
     SetRootComponent(CapsuleComponent);
 }
