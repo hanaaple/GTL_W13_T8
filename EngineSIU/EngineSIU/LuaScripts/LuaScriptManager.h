@@ -1,9 +1,12 @@
 ﻿#pragma once
 #include <filesystem>
 
+#include "Container/Array.h"
 #include "Container/Map.h"
 #include "Container/String.h"
 #include "sol/sol.hpp"
+
+class AActor;
 
 struct FLuaScriptInfo
 {
@@ -20,6 +23,7 @@ public:
     sol::environment& GetSharedEnvironment();
 
     void BindTypes();
+    void InitPIEScripts(TArray<AActor*>& Actors);
     
     void Reload();
     void ReloadForce();

@@ -307,6 +307,7 @@ void UEditorEngine::StartPIE()
 
     SetPhysXScene(PIEWorld);
 
+    FEngineLoop::ScriptSys.InitPIEScripts(PIEWorld->GetActiveLevel()->Actors);
     PIEWorld->BeginPlay();
     // 여기서 Actor들의 BeginPlay를 해줄지 안에서 해줄 지 고민.
     // WorldList.Add(GetWorldContextFromWorld(PIEWorld));

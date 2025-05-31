@@ -4,6 +4,7 @@
 
 #include "LuaScriptComponent.h"
 #include "Container/Array.h"
+#include "Engine/Engine.h"
 #include "UObject/Object.h"
 #include "UObject/Class.h"
 #include "UObject/ScriptStruct.h"
@@ -41,6 +42,58 @@ void FLuaScriptManager::BindTypes()
     BindPrimitiveTypes();
     BindUObject();
     BindStructs();
+
+    // Print
+    LuaState["ToString"] = &FLuaScriptManager::ToString;
+    LuaState["PrintObj"] = [](const sol::object& obj) {UE_LOG(ELogLevel::Display, "%s", ToString(obj).c_str());};
+    LuaState["LogDisplay"] = [](const std::string& str) {UE_LOG(ELogLevel::Display, "%s", str.c_str());};
+    LuaState["LogWarning"] = [](const std::string& str) {UE_LOG(ELogLevel::Warning, "%s", str.c_str());};
+    LuaState["LogError"] = [](const std::string& str) {UE_LOG(ELogLevel::Error, "%s", str.c_str());};
+
+    LuaState.set_function("SpawnActor", [&](const std::string& className, sol::optional<std::string> luaActorName) -> AActor* 
+    {
+        UWorld* World = GEngine->ActiveWorld;
+        // 문자열 FName으로 변환
+        FString ClassName = className;
+        FName fnClassName(ClassName);
+
+        // UClass* 검색
+        UClass* cls = UClass::FindClass(fnClassName);
+        if (!cls) {
+            // 존재하지 않는 클래스 이름인 경우
+            return nullptr;
+        }
+
+        FName fnActorName = luaActorName ? FName{luaActorName->c_str()}
+        : FName{}; // 기본 생성자는 none
+
+        //액터 스폰
+        return World->SpawnActor(cls, fnActorName);
+    });
+    
+    LuaState.set_function("GetActorByName", [&](const std::string& str) -> AActor*
+    {
+        TArray<AActor*> Actors = GEngine->ActiveWorld->GetActiveLevel()->Actors;
+        for (AActor* Actor: Actors)
+        {
+            // TODO: PIE로 복사됐을 때 Original의 Label을 찾아가야 하나?
+            if (Actor->GetDefaultActorLabel() == FString(str))
+            {
+                return Actor;
+            }
+        }
+        return nullptr;
+    }); 
+}
+
+void FLuaScriptManager::InitPIEScripts(TArray<AActor*>& Actors)
+{
+    SharedEnvironment = sol::environment(LuaState, sol::create, LuaState.globals());
+    for (AActor* Actor: Actors)
+    {
+        // TODO: PIE로 복사됐을 때 Original의 Label을 찾아가야 하나?
+        SharedEnvironment[GetData(Actor->GetDefaultActorLabel())] = Actor;
+    }
 }
 
 void FLuaScriptManager::Reload()
@@ -146,12 +199,7 @@ void FLuaScriptManager::BindPrimitiveTypes()
     stringTypeTable[mFunc::addition] = [](const FString& a, const FString& b) { return a + b; };
     stringTypeTable[mFunc::equal_to] = [](const FString& a, const FString& b) { return a == b; };
 
-    // Print
-    LuaState["ToString"] = &FLuaScriptManager::ToString;
-    LuaState["PrintObj"] = [](const sol::object& obj) {UE_LOG(ELogLevel::Display, "%s", ToString(obj).c_str());};
-    LuaState["LogDisplay"] = [](const std::string& str) {UE_LOG(ELogLevel::Display, "%s", str.c_str());};
-    LuaState["LogWarning"] = [](const std::string& str) {UE_LOG(ELogLevel::Warning, "%s", str.c_str());};
-    LuaState["LogError"] = [](const std::string& str) {UE_LOG(ELogLevel::Error, "%s", str.c_str());};
+    
 }
 
 void FLuaScriptManager::BindUObject()
@@ -248,9 +296,10 @@ bool FLuaScriptManager::IsFileOutdated(const FString& FileName)
     return false;
 }
 
-std::string FLuaScriptManager::ToString(const sol::object& obj, int depth, bool showHidden) {
+std::string FLuaScriptManager::ToString(const sol::object& obj, int depth, bool showHidden)
+{
     if (obj.get_type() == sol::type::nil) {
-       return "nil";
+        return "nil";
     } else if (obj.is<std::string>()) {
         return "\"" + obj.as<std::string>() + "\"";
     } else if (obj.is<int>()) {
