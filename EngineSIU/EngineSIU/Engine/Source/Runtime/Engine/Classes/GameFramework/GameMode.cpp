@@ -59,6 +59,8 @@ void AGameMode::InitializeComponent()
 
 void AGameMode::InitGame()
 {
+    Super::InitGame();
+
     OnGameInit.Broadcast();
 }
 

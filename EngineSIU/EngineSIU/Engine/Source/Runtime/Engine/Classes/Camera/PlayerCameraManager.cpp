@@ -21,9 +21,9 @@ void FTViewTarget::CheckViewTarget(APlayerController* OwningController)
     if (Target != nullptr)
     {
         // PossessActor가 있을때
-        if (OwningController->GetPossessedActor() && !OwningController->GetPossessedActor()->IsActorBeingDestroyed() )
+        if (OwningController->GetPawn() && !OwningController->GetPawn()->IsActorBeingDestroyed())
         {
-            OwningController->PlayerCameraManager->AssignViewTarget(OwningController->GetPossessedActor(), *this);
+            OwningController->PlayerCameraManager->AssignViewTarget(OwningController->GetPawn(), *this);
         }
         else
         {
@@ -46,7 +46,7 @@ AActor* FTViewTarget::GetTargetActor() const
 
     if (APlayerController* Controller = Cast<APlayerController>(Target))
     {
-        return Controller->GetPossessedActor();
+        return Controller->GetPawn();
     }
 
     return nullptr;
@@ -305,7 +305,7 @@ void APlayerCameraManager::SetViewTarget(class AActor* NewTarget, struct FViewTa
 
 		BlendTimeToGo = TransitionParams.BlendTime;
 
-		AssignViewTarget(PCOwner->GetPossessedActor(), ViewTarget);
+        AssignViewTarget(PCOwner->GetPawn(), ViewTarget);
 		AssignViewTarget(NewTarget, PendingViewTarget, TransitionParams);
 
 	}

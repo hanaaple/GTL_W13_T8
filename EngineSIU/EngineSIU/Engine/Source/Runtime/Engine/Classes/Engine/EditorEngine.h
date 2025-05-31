@@ -25,7 +25,9 @@ public:
 
     virtual void Init() override;
     virtual void Tick(float DeltaTime) override;
-    void Release() override;
+    virtual void Release() override;
+
+    virtual bool TryQuit(bool& bOutIsSave) override;
 
     UWorld* PIEWorld = nullptr;
     USkeletalViewerWorld* SkeletalMeshViewerWorld = nullptr;
@@ -39,8 +41,6 @@ public:
     void StartParticleViewer(UParticleSystem* ParticleSystemAsset);
 
     void StartPhysicsAssetViewer(FName PreviewMeshKey, FName PhysicsAssetName);
-
-    void BindEssentialObjects();
 
     void EndPIE();
     void EndSkeletalMeshViewer();

@@ -1,6 +1,7 @@
 #pragma once
 #include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/Pawn.h"
 #include "UObject/ObjectMacros.h"
 #include "UObject/ObjectTypes.h"
 
@@ -56,21 +57,9 @@ public:
     ECoordMode GetCoordMode() const { return CoordMode; }
 };
 
-class APlayer : public AActor
+class ASequencerPlayer : public APawn
 {
-    DECLARE_CLASS(APlayer, AActor)
-
-public:
-    APlayer() = default;
-
-    // virtual UObject* Duplicate(UObject* InOuter) override;
-    virtual void Tick(float DeltaTime) override;
-};
-
-#pragma region W10
-class ASequencerPlayer : public APlayer
-{
-    DECLARE_CLASS(ASequencerPlayer, APlayer)
+    DECLARE_CLASS(ASequencerPlayer, APawn)
 
 public:
     ASequencerPlayer();
@@ -86,4 +75,3 @@ public:
 private:
     UPROPERTY(EditAnywhere, UCameraComponent*, CameraComponent, = nullptr)
 };
-#pragma endregion

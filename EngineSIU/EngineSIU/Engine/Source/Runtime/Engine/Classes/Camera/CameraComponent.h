@@ -25,7 +25,7 @@ public:
 
     void SetLocationWithFInterpTo(const FVector& ToLocation);
     void SetFInterpToSpeed(float InSpeed);
-    void SetLookTarget(FVector& Location);
+    void SetLookTarget(const FVector& Location);
 
     FVector GetLocationWithFInterpTo() const { return FInterpTargetLocation; }
 

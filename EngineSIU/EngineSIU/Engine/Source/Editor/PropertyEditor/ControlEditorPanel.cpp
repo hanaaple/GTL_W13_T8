@@ -39,6 +39,7 @@
 #include "Renderer/CompositingPass.h"
 #include <Engine/FbxLoader.h>
 #include "Engine/Classes/Engine/AssetManager.h"
+#include "GameFramework/PlayerStart.h"
 #include "Particles/ParticleSystemComponent.h"
 
 ControlEditorPanel::ControlEditorPanel()
@@ -182,8 +183,7 @@ void ControlEditorPanel::CreateMenuButton(const ImVec2 ButtonSize, ImFont* IconF
         if (UEditorEngine* EditorEngine = Cast<UEditorEngine>(GEngine))
         {
             EditorEngine->NewLevel();
-        }
-    }
+        }}
 
     if (ImGui::MenuItem("Load Level"))
     {
@@ -346,40 +346,16 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
 
     if (ImGui::BeginPopup("PrimitiveControl"))
     {
-        struct Primitive
+        // TODO: SearchBar 만들기
+        for (const auto& [Primitive, EnumNameView] : magic_enum::enum_entries<ESpawnObjectTypes>())
         {
-            const char* Label;
-            int OBJ;
-        };
-
-        static const Primitive primitives[] = 
-        {
-            { .Label = "Cube",              .OBJ = OBJ_CUBE },
-            { .Label = "Sphere",            .OBJ = OBJ_SPHERE },
-            { .Label = "PointLight",        .OBJ = OBJ_POINTLIGHT },
-            { .Label = "SpotLight",         .OBJ = OBJ_SPOTLIGHT },
-            { .Label = "DirectionalLight",  .OBJ = OBJ_DIRECTIONALLGIHT },
-            { .Label = "AmbientLight",      .OBJ = OBJ_AMBIENTLIGHT },
-            { .Label = "Particle",          .OBJ = OBJ_PARTICLE },
-            { .Label = "ParticleSystem",    .OBJ = OBJ_PARTICLESYSTEM },
-            { .Label = "Text",              .OBJ = OBJ_TEXT },
-            { .Label = "Fog",               .OBJ = OBJ_FOG },
-            { .Label = "BoxCol",            .OBJ = OBJ_BOX_COLLISION },
-            { .Label = "SphereCol",         .OBJ = OBJ_SPHERE_COLLISION },
-            { .Label = "CapsuleCol",        .OBJ = OBJ_CAPSULE_COLLISION },
-            { .Label = "SkeletalMeshActor", .OBJ = OBJ_SKELETALMESH },
-            { .Label = "SequencerPlayer",   .OBJ = OBJ_SEQUENCERPLAYER },
-        };
-
-        for (const auto& primitive : primitives)
-        {
-            if (ImGui::Selectable(primitive.Label))
+            if (ImGui::Selectable(EnumNameView.data()))
             {
                 UWorld* World = GEngine->ActiveWorld;
                 AActor* SpawnedActor = nullptr;
-                switch (static_cast<OBJECTS>(primitive.OBJ))
+                switch (Primitive)
                 {
-                case OBJ_SPHERE:
+                case ESpawnObjectTypes::Sphere:
                 {
                     SpawnedActor = World->SpawnActor<AActor>();
                     SpawnedActor->SetActorLabel(TEXT("OBJ_SPHERE"));
@@ -387,7 +363,7 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                     SphereComp->SetStaticMesh(FObjManager::GetStaticMesh(L"Contents/Sphere.obj"));
                     break;
                 }
-                case OBJ_CUBE:
+                case ESpawnObjectTypes::Cube:
                 {
                     // TODO: 다른 부분들 전부 Actor만 소환하도록 하고, Component 생성은 Actor가 자체적으로 하도록 변경.
                     ACube* CubeActor = World->SpawnActor<ACube>();
@@ -395,31 +371,31 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                     break;
                 }
 
-                case OBJ_SPOTLIGHT:
+                case ESpawnObjectTypes::Spotlight:
                 {
                     ASpotLight* SpotActor = World->SpawnActor<ASpotLight>();
                     SpotActor->SetActorLabel(TEXT("OBJ_SPOTLIGHT"));
                     break;
                 }
-                case OBJ_POINTLIGHT:
+                case ESpawnObjectTypes::Pointlight:
                 {
                     APointLight* LightActor = World->SpawnActor<APointLight>();
                     LightActor->SetActorLabel(TEXT("OBJ_POINTLIGHT"));
                     break;
                 }
-                case OBJ_DIRECTIONALLGIHT:
+                case ESpawnObjectTypes::DirectionalLight:
                 {
                     ADirectionalLight* LightActor = World->SpawnActor<ADirectionalLight>();
                     LightActor->SetActorLabel(TEXT("OBJ_DIRECTIONALLGIHT"));
                     break;
                 }
-                case OBJ_AMBIENTLIGHT:
+                case ESpawnObjectTypes::AmbientLight:
                 {
                     AAmbientLight* LightActor = World->SpawnActor<AAmbientLight>();
                     LightActor->SetActorLabel(TEXT("OBJ_AMBIENTLIGHT"));
                     break;
                 }
-                case OBJ_PARTICLE:
+                case ESpawnObjectTypes::Particle_Legacy:
                 {
                     SpawnedActor = World->SpawnActor<AActor>();
                     SpawnedActor->SetActorLabel(TEXT("OBJ_PARTICLE"));
@@ -431,7 +407,7 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                     SpawnedActor->SetActorTickInEditor(true);
                     break;
                 }
-                case OBJ_PARTICLESYSTEM:
+                case ESpawnObjectTypes::ParticleSystem:
                 {
                     SpawnedActor = World->SpawnActor<AActor>();
                     SpawnedActor->SetActorLabel(TEXT("OBJ_PARTICLESYSTEM"));
@@ -440,7 +416,7 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                     SpawnedActor->SetActorTickInEditor(true);
                     break;
                 }
-                case OBJ_TEXT:
+                case ESpawnObjectTypes::TextRender:
                 {
                     SpawnedActor = World->SpawnActor<AActor>();
                     SpawnedActor->SetActorLabel(TEXT("OBJ_TEXT"));
@@ -452,51 +428,48 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                     
                     break;
                 }
-                case OBJ_FOG:
+                case ESpawnObjectTypes::Fog:
                 {
                     SpawnedActor = World->SpawnActor<AHeightFogActor>();
                     SpawnedActor->SetActorLabel(TEXT("OBJ_FOG"));
                     break;
                 }
-                case OBJ_BOX_COLLISION:
+                case ESpawnObjectTypes::BoxCollision:
                 {
                     SpawnedActor = World->SpawnActor<ACubeActor>();
                     SpawnedActor->SetActorLabel(TEXT("OBJ_BOX_COLLISION"));
                     SpawnedActor->SetActorTickInEditor(true); // TODO: 콜리전 테스트 용도
                     break;
                 }
-                case OBJ_SPHERE_COLLISION:
+                case ESpawnObjectTypes::SphereCollision:
                 {
                     SpawnedActor = World->SpawnActor<ASphereActor>();
                     SpawnedActor->SetActorLabel(TEXT("OBJ_SPHERE_COLLISION"));
                     SpawnedActor->SetActorTickInEditor(true); // TODO: 콜리전 테스트 용도
                     break;
                 }
-                case OBJ_CAPSULE_COLLISION:
+                case ESpawnObjectTypes::CapsuleCollision:
                 {
                     SpawnedActor = World->SpawnActor<ACapsuleActor>();
                     SpawnedActor->SetActorLabel(TEXT("OBJ_CAPSULE_COLLISION"));
                     SpawnedActor->SetActorTickInEditor(true); // TODO: 콜리전 테스트 용도
                     break;
                 }
-                case OBJ_SKELETALMESH:
-                    {
-                        SpawnedActor = World->SpawnActor<AActor>();
-                        SpawnedActor->SetActorTickInEditor(true);
-                        auto* MeshComp = SpawnedActor->AddComponent<USkeletalMeshComponent>();
-                        SpawnedActor->SetRootComponent(MeshComp);
-                        SpawnedActor->SetActorLabel(TEXT("OBJ_SKELETALMESH"));
-                    }
-                    break;
-                case OBJ_SEQUENCERPLAYER:
+                case ESpawnObjectTypes::SkeletalMeshActor:
                 {
-                    SpawnedActor = World->SpawnActor<ASequencerPlayer>();
-                    SpawnedActor->SetActorLabel(TEXT("OBJ_SEQUENCERPLAYER"));
-                }
-                case OBJ_CAMERA:
-                case OBJ_PLAYER:
-                case OBJ_END:
+                    SpawnedActor = World->SpawnActor<AActor>();
+                    SpawnedActor->SetActorTickInEditor(true);
+                    auto* MeshComp = SpawnedActor->AddComponent<USkeletalMeshComponent>();
+                    SpawnedActor->SetRootComponent(MeshComp);
+                    SpawnedActor->SetActorLabel(TEXT("OBJ_SKELETALMESH"));
                     break;
+                }
+                case ESpawnObjectTypes::PlayerStart:
+                {
+                    SpawnedActor = World->SpawnActor<APlayerStart>();
+                    SpawnedActor->SetActorLabel(TEXT("OBJ_PLAYER_START"));
+                    break;
+                }
                 }
 
                 if (SpawnedActor)

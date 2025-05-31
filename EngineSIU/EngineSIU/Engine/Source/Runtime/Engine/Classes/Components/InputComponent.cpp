@@ -1,4 +1,5 @@
 #include "InputComponent.h"
+#include "GameFramework/Actor.h"
 
 void UInputComponent::ProcessInput(float DeltaTime)
 {
@@ -136,4 +137,24 @@ void UInputComponent::BindAction(const FString& Key, const std::function<void(fl
     {
         Callback(DeltaTime);
     });
+}
+
+uint64 UInputComponent::BindLuaAction(const FString& Key, AActor* LuaObj, const TFunction<void(float)>& Callback)
+{
+    if (Callback == nullptr)
+    {
+        return UINT64_MAX;
+    }
+    
+    FDelegateHandle Handle = KeyBindDelegate[Key].AddWeakLambda(LuaObj, [this, Callback](float DeltaTime)
+    {
+        Callback(DeltaTime);
+    });
+
+    return Handle.GetHandleId();
+}
+
+void UInputComponent::UnBindLuaAction(const FString& Key, uint64 HandleId)
+{
+    KeyBindDelegate[Key].Remove(FDelegateHandle(HandleId));
 }

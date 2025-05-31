@@ -616,19 +616,13 @@ FVector AEditorPlayer::ControlBoneScale(FTransform& BoneTransform, UGizmoBaseCom
     
     return BoneScale;
 }
-
-void APlayer::Tick(float DeltaTime)
-{
-    AActor::Tick(DeltaTime);
-}
-
 ASequencerPlayer::ASequencerPlayer()
 {
 }
 
 void ASequencerPlayer::PostSpawnInitialize()
 {
-    APlayer::PostSpawnInitialize();
+    Super::PostSpawnInitialize();
     
     RootComponent = AddComponent<USceneComponent>();
 
@@ -638,7 +632,7 @@ void ASequencerPlayer::PostSpawnInitialize()
 
 void ASequencerPlayer::Tick(float DeltaTime)
 {
-    APlayer::Tick(DeltaTime);
+    Super::Tick(DeltaTime);
 
     if (SkeletalMeshComponent)
     {

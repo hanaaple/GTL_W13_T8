@@ -17,5 +17,8 @@ public:
     void SetBoxExtent(FVector InExtent) { BoxExtent = InExtent; }
 
 private:
-    UPROPERTY(EditAnywhere, FVector, BoxExtent, = FVector::OneVector)
+    UPROPERTY(
+        EditAnywhere, { .Category = "Box"},
+        FVector, BoxExtent, = FVector::OneVector;
+    )
 };

@@ -14,11 +14,13 @@
 class FDelegateHandle
 {
 	friend struct std::hash<FDelegateHandle>;
-
+public:
+    explicit FDelegateHandle(uint64 HandleId) : HandleId(HandleId) {}
+    
+private:
 	uint64 HandleId;
 	explicit FDelegateHandle() : HandleId(0) {}
-	explicit FDelegateHandle(uint64 HandleId) : HandleId(HandleId) {}
-
+    
 	static uint64 GenerateNewID()
 	{
 		static std::atomic<uint64> NextHandleId = 1;
@@ -39,6 +41,8 @@ public:
 	{
 		return FDelegateHandle{GenerateNewID()};
 	}
+
+    uint64 GetHandleId() const { return HandleId; }
 
 	bool IsValid() const { return HandleId != 0; }
 	void Invalidate() { HandleId = 0; }

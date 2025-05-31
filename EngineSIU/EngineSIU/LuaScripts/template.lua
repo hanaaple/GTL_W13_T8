@@ -7,16 +7,20 @@ end
 
 function EndPlay()
     print("[EndPlay]")
+    unBindController("W", HandleW)
+    unBindController("A", HandleA)
+    unBindController("S", HandleS)
+    unBindController("D", HandleD)
 end
 
 function OnOverlap(OtherActor)
 end
 
 function InitializeLua()
-    controller("W", OnPressW)    
-    controller("S", OnPressS)
-    controller("A", OnPressA)
-    controller("D", OnPressD)
+    controller("W", actor, OnPressW)    
+    controller("S", actor, OnPressS)
+    controller("A", actor, OnPressA)
+    controller("D", actor, OnPressD)
 end
 
 function OnPressW(dt)

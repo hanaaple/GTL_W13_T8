@@ -17,5 +17,8 @@ public:
     float GetRadius() const { return SphereRadius; }
     
 private:
-    UPROPERTY(EditAnywhere, float, SphereRadius, = 1.f)
+    UPROPERTY(
+        EditAnywhere, { .Category = "Sphere" },
+        float, SphereRadius, = 1.f;
+    )
 };

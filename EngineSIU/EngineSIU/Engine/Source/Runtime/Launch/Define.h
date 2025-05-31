@@ -1,5 +1,4 @@
 #pragma once
-#include <cmath>
 #include <algorithm>
 #include "Core/Container/String.h"
 #include "Core/Container/Array.h"
@@ -211,8 +210,6 @@ struct FPoint
 {
     FPoint() : x(0), y(0) {}
     FPoint(float _x, float _y) : x(_x), y(_y) {}
-    FPoint(long _x, long _y) : x(_x), y(_y) {}
-    FPoint(int _x, int _y) : x(_x), y(_y) {}
 
     float x, y;
 };
@@ -223,10 +220,10 @@ struct FBoundingBox
     FBoundingBox(FVector InMin, FVector InMax) : MinLocation(InMin), MaxLocation(InMax) {}
     
     FVector MinLocation; // Minimum extents
-    float pad;
+    float pad = 0.0f;
     
     FVector MaxLocation; // Maximum extents
-    float pad1;
+    float pad1 = 0.0f;
 
     bool IsValidBox() const
     {

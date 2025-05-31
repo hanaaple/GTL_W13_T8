@@ -60,9 +60,9 @@ void APlayerController::SetViewTarget(class AActor* NewViewTarget, struct FViewT
     }
 }
 
-void APlayerController::Possess(AActor* InActor)
+void APlayerController::Possess(APawn* InPawn)
 {
-    PossessedActor = InActor;
+    Pawn = InPawn;
     bHasPossessed = true;
 
     if (InputComponent)
@@ -73,12 +73,12 @@ void APlayerController::Possess(AActor* InActor)
 
 void APlayerController::UnPossess()
 {
-    if (!bHasPossessed && PossessedActor == nullptr)
+    if (!bHasPossessed && Pawn == nullptr)
     {
         return;
     }
-    
-    PossessedActor = nullptr;
+
+    Pawn = nullptr;
     bHasPossessed = false;
 
     if (InputComponent)
@@ -101,6 +101,22 @@ void APlayerController::BindAction(const FString& Key, const std::function<void(
     if (InputComponent)
     {
         InputComponent->BindAction(Key, Callback);
+    }
+}
+
+uint64 APlayerController::BindLuaAction(const FString& Key, AActor* LuaObj, const TFunction<void(float)>& Callback)
+{
+    if (InputComponent)
+    {
+        return InputComponent->BindLuaAction(Key, LuaObj, Callback);
+    }
+}
+
+void APlayerController::UnBindLuaAction(const FString& Key, uint64 HandleId)
+{
+    if (InputComponent)
+    {
+        return InputComponent->UnBindLuaAction(Key, HandleId);
     }
 }
 

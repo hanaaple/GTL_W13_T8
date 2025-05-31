@@ -40,7 +40,7 @@ public:
     bool bGenerateOverlapEvents = true;
     bool bBlockComponent = true;
 
-    FBodyInstance* BodyInstance= nullptr;
+    FBodyInstance* BodyInstance = nullptr;
 
     FComponentHitSignature OnComponentHit;
 

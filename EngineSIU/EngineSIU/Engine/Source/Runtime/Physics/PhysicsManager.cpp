@@ -702,8 +702,25 @@ void FPhysicsManager::Simulate(float DeltaTime)
     if (CurrentScene)
     {
         QUICK_SCOPE_CYCLE_COUNTER(SimulatePass_CPU)
-        CurrentScene->simulate(DeltaTime);
-        CurrentScene->fetchResults(true);
+
+        static float AccumulatedTime = 0.0f;
+        constexpr float FixedDeltaTime = 1.0f / 60.0f;
+        constexpr float TickMaxStep = 5;
+
+        AccumulatedTime += DeltaTime;
+
+        float CurrentStep = 0;
+        while (AccumulatedTime >= FixedDeltaTime)
+        {
+            CurrentScene->simulate(FixedDeltaTime);
+            CurrentScene->fetchResults(true);
+
+            AccumulatedTime -= FixedDeltaTime;
+            if (++CurrentStep > TickMaxStep)
+            {
+                break;
+            }
+        }
     }
 }
 

@@ -47,6 +47,49 @@
 #include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
 
+namespace
+{
+void CreateNode(USceneComponent* InComp)
+{
+    if (UEditorEngine* Engine = Cast<UEditorEngine>(GEngine))
+    {
+        const FString Name = InComp->GetName();
+
+        ImGuiTreeNodeFlags Flags = ImGuiTreeNodeFlags_DefaultOpen
+            | ImGuiTreeNodeFlags_OpenOnDoubleClick;
+
+        if (InComp->GetAttachChildren().Num() == 0)
+        {
+            Flags |= ImGuiTreeNodeFlags_Leaf;
+        }
+
+        if (Engine->GetSelectedComponent() == InComp)
+        {
+            Flags |= ImGuiTreeNodeFlags_Selected;
+        }
+
+        ImGui::SetNextItemOpen(true, ImGuiCond_Always);
+        const bool NodeOpen = ImGui::TreeNodeEx(*Name, Flags);
+
+        if (ImGui::IsItemClicked())
+        {
+            Engine->SelectActor(InComp->GetOwner());
+            Engine->SelectComponent(InComp);
+        }
+
+        if (NodeOpen)
+        {
+            for (USceneComponent* Child : InComp->GetAttachChildren())
+            {
+                CreateNode(Child);
+            }
+            ImGui::TreePop(); // 트리 닫기
+        }
+    }
+};
+}
+
+
 PropertyEditorPanel::PropertyEditorPanel()
 {
     SetSupportedWorldTypes(EWorldTypeBitFlag::Editor| EWorldTypeBitFlag::PIE);
@@ -92,6 +135,42 @@ void PropertyEditorPanel::Render()
         TargetComponent = SelectedActor->GetRootComponent();
     }
 
+    if (SelectedActor)
+    {
+        // 컴포넌트 노드 표시
+        ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
+        if (ImGui::TreeNodeEx("Components", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            USceneComponent* RootComponent = SelectedActor->GetRootComponent();
+
+            ImGuiTreeNodeFlags Flags = ImGuiTreeNodeFlags_DefaultOpen
+                | ImGuiTreeNodeFlags_OpenOnDoubleClick;
+
+            if (Engine->GetSelectedComponent() == RootComponent)
+            {
+                Flags |= ImGuiTreeNodeFlags_Selected;
+            }
+
+            ImGui::SetNextItemOpen(true, ImGuiCond_Always);
+            if (ImGui::TreeNodeEx(*RootComponent->GetName(), Flags))
+            {
+                if (ImGui::IsItemClicked())
+                {
+                    Engine->SelectActor(SelectedActor);
+                    Engine->SelectComponent(RootComponent);
+                }
+
+                for (USceneComponent* Child : RootComponent->GetAttachChildren())
+                {
+                    CreateNode(Child);
+                }
+                ImGui::TreePop();
+            }
+            ImGui::TreePop();
+        }
+        ImGui::PopStyleColor();
+    }
+
     if (TargetComponent != nullptr)
     {
         AEditorPlayer* Player = Engine->GetEditorPlayer();
@@ -120,6 +199,24 @@ void PropertyEditorPanel::Render()
                     }
                 }
                 ImGui::EndCombo();
+            }
+        }
+    }
+    else
+    {
+        UWorld* World = GEngine->ActiveWorld;
+        assert(World);
+
+        for (const UClass* WorldClass = World->GetClass(); WorldClass; WorldClass = WorldClass->GetSuperClass())
+        {
+            const TArray<FProperty*>& Properties = WorldClass->GetProperties();
+            if (!Properties.IsEmpty())
+            {
+                ImGui::SeparatorText(*WorldClass->GetName());
+                for (const FProperty* Prop : Properties)
+                {
+                    Prop->DisplayInImGui(World);
+                }
             }
         }
     }
@@ -201,12 +298,35 @@ void PropertyEditorPanel::Render()
                 Prop->DisplayInImGui(SelectedActor);
             }
         }
+
+        for (UActorComponent* ActorComponent : SelectedActor->GetComponents())
+        {
+            if (!ActorComponent->IsA<USceneComponent>())
+            {
+                ImGui::Separator();
+                const UClass* TempClass = ActorComponent->GetClass();
+
+                for (; TempClass; TempClass = TempClass->GetSuperClass())
+                {
+                    const TArray<FProperty*>& Properties = TempClass->GetProperties();
+                    if (!Properties.IsEmpty())
+                    {
+                        ImGui::SeparatorText(*Class->GetName());
+                    }
+
+                    for (const FProperty* Prop : Properties)
+                    {
+                        Prop->DisplayInImGui(ActorComponent);
+                    }
+                }
+            }
+        } 
     }
 
-    if (SelectedComponent)
+    if (USceneComponent* TempTargetComponent = GetTargetComponent<USceneComponent>(SelectedActor, SelectedComponent))
     {
         ImGui::Separator();
-        const UClass* Class = GetTargetComponent<USceneComponent>(SelectedActor, SelectedComponent)->GetClass();
+        const UClass* Class = TempTargetComponent->GetClass();
 
         for (; Class; Class = Class->GetSuperClass())
         {
@@ -218,7 +338,7 @@ void PropertyEditorPanel::Render()
 
             for (const FProperty* Prop : Properties)
             {
-                Prop->DisplayInImGui(SelectedComponent);
+                Prop->DisplayInImGui(TempTargetComponent);
             }
         }
     }
@@ -331,14 +451,6 @@ void PropertyEditorPanel::RenderForCameraComponent(UCameraComponent* InCameraCom
     
 }
 
-void PropertyEditorPanel::RenderForPlayerActor(APlayer* InPlayerActor)
-{
-    if (ImGui::Button("SetMainPlayer"))
-    {
-        GEngine->ActiveWorld->SetMainPlayer(InPlayerActor);
-    }
-}
-
 void PropertyEditorPanel::RenderForActor(AActor* SelectedActor, USceneComponent* TargetComponent) const
 {
     if (ImGui::Button("Duplicate"))
@@ -407,7 +519,10 @@ void PropertyEditorPanel::RenderForActor(AActor* SelectedActor, USceneComponent*
             LuaDisplayPath = NewScript->GetDisplayName();
         }
     }
-    ImGui::InputText("Script File", GetData(LuaDisplayPath), IM_ARRAYSIZE(*LuaDisplayPath),
+
+    std::string temp = LuaDisplayPath.ToAnsiString();
+    temp += '\0';
+    ImGui::InputText("Script File", temp.data(), temp.length(),
         ImGuiInputTextFlags_ReadOnly);
 
     if (ImGui::TreeNodeEx("Component", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen)) // 트리 노드 생성

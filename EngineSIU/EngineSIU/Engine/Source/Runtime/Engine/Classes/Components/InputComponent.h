@@ -16,6 +16,8 @@ public:
     UInputComponent() = default;
     virtual ~UInputComponent() override = default;
     void BindAction(const FString& Key, const std::function<void(float)>& Callback);
+    uint64 BindLuaAction(const FString& Key, AActor* LuaObj, const TFunction<void(float)>& Callback);
+    void UnBindLuaAction(const FString& Key, uint64 HandleId);
 
     void ProcessInput(float DeltaTime);
     
