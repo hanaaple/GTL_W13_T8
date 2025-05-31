@@ -19,12 +19,13 @@ public:
     UShapeComponent();
 
     virtual void TickComponent(float DeltaTime) override;
-    
-    FColor ShapeColor = FColor(180, 180, 180, 255);
+
+    UPROPERTY(EditAnywhere, FColor, ShapeColor, = FColor(180, 180, 180, 255))
+
     bool bDrawOnlyIfSelected = true;
 
     EShapeType GetShapeType() const { return ShapeType; }
 
 protected:
-    EShapeType ShapeType = EShapeType::Max;
+    UPROPERTY(EditAnywhere, EShapeType, ShapeType, = EShapeType::Max)
 };

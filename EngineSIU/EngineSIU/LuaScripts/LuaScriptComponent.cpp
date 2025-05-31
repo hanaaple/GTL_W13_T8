@@ -58,17 +58,6 @@ void ULuaScriptComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
     CallLuaFunction("EndPlay");
 }
 
-UObject* ULuaScriptComponent::Duplicate(UObject* InOuter)
-{
-    ULuaScriptComponent* NewComponent = Cast<ULuaScriptComponent>(Super::Duplicate(InOuter));
-    if (NewComponent)
-    {
-        NewComponent->ScriptPath = ScriptPath;
-        NewComponent->DisplayName = DisplayName;
-    }
-    return NewComponent;
-}
-
 /* ActorComponent가 Actor와 World에 등록이 되었다는 전제하에 호출됩니다
  * So That we can use GetOwner() and GetWorld() safely
  */

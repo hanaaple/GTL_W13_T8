@@ -4,7 +4,6 @@
 ACubeActor::ACubeActor()
 {
     BoxComponent = AddComponent<UBoxComponent>();
-    RootComponent = BoxComponent;
 }
 
 UBoxComponent* ACubeActor::GetShapeComponent() const

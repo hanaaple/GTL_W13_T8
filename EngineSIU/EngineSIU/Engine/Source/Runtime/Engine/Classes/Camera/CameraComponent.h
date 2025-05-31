@@ -9,20 +9,19 @@ public:
 
     UCameraComponent() = default;
 
-    virtual UObject* Duplicate(UObject* InOuter) override;
     virtual void InitializeComponent() override;
     virtual void TickComponent(float DeltaTime) override;
     void FollowMainPlayer();
 
-    float ViewFOV = 70.0f;
-    float NearClip = 0.1f;
-    float FarClip = 1000.0f;
+    UPROPERTY(EditAnywhere, float, ViewFOV, = 70.0f)
+    UPROPERTY(EditAnywhere, float, NearClip, = 0.1f)
+    UPROPERTY(EditAnywhere, float, FarClip, = 1000.0f)
 
-    float DistanceBehind = 10.f;
-    float CameraHeight = 15.f;
-    float CurrentCameraZ = 0.f;
-    float CameraZ = 0.f; //바닥에 닿을때마다 바닥 Z로 업데이트
-    float CameraZOffset = 8.f; //너무 아래 보기때문에 조금 위를 향해서 보는 변수
+    UPROPERTY(EditAnywhere, float, DistanceBehind, = 10.f)
+    UPROPERTY(EditAnywhere, float, CameraHeight, =  15.f)
+    UPROPERTY(EditAnywhere, float, CurrentCameraZ, =  0.f)
+    UPROPERTY(EditAnywhere, float, CameraZ, =0.f)
+    UPROPERTY(EditAnywhere, float, CameraZOffset, = 8.f)
 
     void SetLocationWithFInterpTo(const FVector& ToLocation);
     void SetFInterpToSpeed(float InSpeed);
@@ -30,8 +29,8 @@ public:
 
     FVector GetLocationWithFInterpTo() const { return FInterpTargetLocation; }
 
-    bool bFollowCustomTarget = false;
-    FVector CustomTargetLocation;
+    UPROPERTY(EditAnywhere, bool, bFollowCustomTarget, = false)
+    UPROPERTY(EditAnywhere, FVector, CustomTargetLocation, = FVector::ZeroVector)
 
     void SetFollowCustomTarget(const FVector& InLocation);
     void ResetFollowToPlayer();
@@ -39,8 +38,8 @@ public:
 
 private:
     void ProceedFInterp(float DeltaTime);
-    
-    FVector FInterpTargetLocation = FVector::ZeroVector;
-    FVector LookTarget = FVector::ZeroVector;
-    float FInterpToSpeed = 0.8f;
+
+    UPROPERTY(EditAnywhere, FVector, FInterpTargetLocation, = FVector::ZeroVector)
+    UPROPERTY(EditAnywhere, FVector, LookTarget, = FVector::ZeroVector)
+    UPROPERTY(EditAnywhere, float, FInterpToSpeed, = 0.8f)
 };

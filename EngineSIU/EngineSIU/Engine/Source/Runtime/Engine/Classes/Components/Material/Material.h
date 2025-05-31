@@ -9,7 +9,7 @@ class UMaterial : public UObject
 public:
     UMaterial() = default;
 
-    virtual UObject* Duplicate(UObject* InOuter) override;
+    //virtual UObject* Duplicate(UObject* InOuter) override;
 
     FMaterialInfo& GetMaterialInfo() { return MaterialInfo; }
     void SetMaterialInfo(const FMaterialInfo& Info) { MaterialInfo = Info; }
@@ -35,6 +35,7 @@ public:
     void SetTextureInfo(const TArray<FTextureInfo>& InTextureInfo) { MaterialInfo.TextureInfos = InTextureInfo; }
     
     virtual void SerializeAsset(FArchive& Ar) override;
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
 
 private:
     FMaterialInfo MaterialInfo;

@@ -14,3 +14,4 @@ UStaticMeshComponent* AStaticMeshActor::GetStaticMeshComponent() const
     return StaticMeshComponent;
 }
 
+

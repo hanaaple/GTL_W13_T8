@@ -4,17 +4,6 @@
 #include "UObject/Casts.h"
 #include "World/World.h"
 
-UObject* UCameraComponent::Duplicate(UObject* InOuter)
-{
-    ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
-
-    NewComponent->ViewFOV = ViewFOV;
-    NewComponent->NearClip = NearClip;
-    NewComponent->FarClip = FarClip;
-    
-    return NewComponent;
-}
-
 void UCameraComponent::InitializeComponent()
 {
     USceneComponent::InitializeComponent();

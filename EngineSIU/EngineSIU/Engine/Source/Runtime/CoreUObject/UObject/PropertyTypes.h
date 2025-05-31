@@ -169,6 +169,8 @@ enum EPropertyFlags : uint32  // NOLINT(performance-enum-size)
     BitField           = 1 << 6,  // BitField인 경우
     Transient          = 1 << 7,  // 휘발성 변수인 경우 (이 값은 저장이 안됨)
     DuplicateTransient = 1 << 8,  // Duplicate할 때 기본값으로 복제
+    ShallowCopy        = 1 << 9,  // 얕은 복사 용(에셋 같은 경우 포인터 그대로 복사)
+    DeepCopy           = 1 << 10, // 깊은 복사 용(그 외의 포인터는 복제해서 전달)
     // ... 필요한 다른 플래그들 (예: SaveGame, Replicated 등)
 };
 

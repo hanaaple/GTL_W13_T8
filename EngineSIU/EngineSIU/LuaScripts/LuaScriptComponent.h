@@ -24,7 +24,6 @@ public:
     virtual void BeginPlay() override;
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
     virtual void TickComponent(float DeltaTime) override;
-    virtual UObject* Duplicate(UObject* InOuter) override;
     virtual void InitializeComponent() override;
 
     // Lua 함수 호출 메서드
@@ -53,8 +52,8 @@ private:
     // Lua-Engine 바인딩
     void BindEngineAPI();
 
-    FString ScriptPath;
-    FString DisplayName;
+    UPROPERTY(FString, ScriptPath, = TEXT("None"))
+    UPROPERTY(FString, DisplayName, = TEXT("None"))
 
     TArray<FDelegateHandle> DelegateHandles;
     

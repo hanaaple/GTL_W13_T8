@@ -12,7 +12,6 @@ class UBillboardComponent : public UPrimitiveComponent
 public:
     UBillboardComponent();
     virtual ~UBillboardComponent() override = default;
-    virtual UObject* Duplicate(UObject* InOuter) override;
     virtual void GetProperties(TMap<FString, FString>& OutProperties) const override;
     virtual void SetProperties(const TMap<FString, FString>& InProperties) override;
     virtual void InitializeComponent() override;
@@ -31,10 +30,12 @@ public:
     bool bIsEditorBillboard = false;
 
 protected:
-    USceneComponent* UUIDParent = nullptr;
-    FString TexturePath = TEXT("default");
+    UPROPERTY(USceneComponent*, UUIDParent, = nullptr)
+    UPROPERTY(FString, TexturePath, = TEXT("default"))
 
     // NDC 픽킹을 위한 내부 함수 : quadVertices는 월드 공간 정점 배열
     bool CheckPickingOnNDC(const TArray<FVector>& QuadVertices, float& HitDistance) const;
 
+public:
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
 };

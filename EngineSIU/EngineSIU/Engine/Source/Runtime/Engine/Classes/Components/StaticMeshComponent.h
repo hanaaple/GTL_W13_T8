@@ -11,8 +11,6 @@ class UStaticMeshComponent : public UMeshComponent
 public:
     UStaticMeshComponent() = default;
 
-    virtual UObject* Duplicate(UObject* InOuter) override;
-
 
     virtual void GetProperties(TMap<FString, FString>& OutProperties) const override;
 
@@ -46,6 +44,7 @@ public:
     }
 
 protected:
-    UStaticMesh* StaticMesh = nullptr;
+    UPROPERTY(EditAnywhere | ShallowCopy, UStaticMesh*, StaticMesh, = nullptr)
+    //UStaticMesh* StaticMesh = nullptr;
     int SelectedSubMeshIndex = -1;
 };

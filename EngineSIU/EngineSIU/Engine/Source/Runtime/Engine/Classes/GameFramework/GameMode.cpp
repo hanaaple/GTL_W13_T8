@@ -56,19 +56,6 @@ void AGameMode::InitializeComponent()
     //RootComponent = this->AddComponent<USceneComponent>("USceneComponent_0");
 }
 
-UObject* AGameMode::Duplicate(UObject* InOuter)
-{
-    AGameMode* NewActor = Cast<AGameMode>(Super::Duplicate(InOuter));
-
-    if (NewActor)
-    {
-        NewActor->bGameRunning = bGameRunning;
-        NewActor->bGameEnded = bGameEnded;
-        NewActor->GameInfo = GameInfo;
-    }
-    return NewActor;
-}
-
 
 void AGameMode::InitGame()
 {

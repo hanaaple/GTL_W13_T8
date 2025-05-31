@@ -40,17 +40,17 @@ void UWorld::InitializeNewWorld()
     CollisionManager = new FCollisionManager();
 }
 
-UObject* UWorld::Duplicate(UObject* InOuter)
-{
-    // TODO: UWorld의 Duplicate는 역할 분리후 만드는것이 좋을듯
-    UWorld* NewWorld = Cast<UWorld>(Super::Duplicate(InOuter));
-    NewWorld->ActiveLevel = Cast<ULevel>(ActiveLevel->Duplicate(NewWorld));
-    NewWorld->ActiveLevel->InitLevel(NewWorld);
-    
-    NewWorld->CollisionManager = new FCollisionManager();
-    
-    return NewWorld;
-}
+// UObject* UWorld::Duplicate(UObject* InOuter)
+// {
+//     // TODO: UWorld의 Duplicate는 역할 분리후 만드는것이 좋을듯
+//     UWorld* NewWorld = Cast<UWorld>(Super::Duplicate(InOuter));
+//     NewWorld->ActiveLevel = Cast<ULevel>(ActiveLevel->Duplicate(NewWorld));
+//     NewWorld->ActiveLevel->InitLevel(NewWorld);
+//     
+//     NewWorld->CollisionManager = new FCollisionManager();
+//     
+//     return NewWorld;
+// }
 
 void UWorld::Tick(float DeltaTime)
 {
@@ -101,7 +101,7 @@ void UWorld::Release()
         CollisionManager = nullptr;
     }
     
-    GUObjectArray.ProcessPendingDestroyObjects();
+    //GUObjectArray.ProcessPendingDestroyObjects();
 }
 
 AActor* UWorld::SpawnActor(UClass* InClass, FName InActorName)
@@ -228,3 +228,14 @@ void UWorld::CheckOverlap(const UPrimitiveComponent* Component, TArray<FOverlapR
     }
 }
 
+void UWorld::DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator)
+{
+    Super::DuplicateSubObjects(Source, InOuter, Duplicator);
+}
+
+void UWorld::PostDuplicate()
+{
+    UObject::PostDuplicate();
+    ActiveLevel->InitLevel(this);
+    CollisionManager = new FCollisionManager();
+}

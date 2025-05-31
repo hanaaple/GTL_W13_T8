@@ -344,7 +344,7 @@ void PropertyEditorPanel::RenderForActor(AActor* SelectedActor, USceneComponent*
     if (ImGui::Button("Duplicate"))
     {
         UEditorEngine* Engine = Cast<UEditorEngine>(GEngine);
-        AActor* NewActor = Engine->ActiveWorld->DuplicateActor(Engine->GetSelectedActor());
+        AActor* NewActor = static_cast<AActor*>(Engine->ActiveWorld->DuplicateActor(Engine->GetSelectedActor()));
         Engine->SelectActor(NewActor);
         Engine->DeselectComponent(Engine->GetSelectedComponent());
     }

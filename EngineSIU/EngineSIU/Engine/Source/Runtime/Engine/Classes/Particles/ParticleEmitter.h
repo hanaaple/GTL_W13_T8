@@ -23,17 +23,16 @@ public:
     UParticleLODLevel* GetLODLevel(int32 LODIndex) const;
 
     virtual void SerializeAsset(FArchive& Ar) override;
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
 
-public:
     UPROPERTY_WITH_FLAGS(EditAnywhere, FName, EmitterName, = "Default")
-    int32 PeakActiveParticles = 0;
+
+    UPROPERTY(int32, PeakActiveParticles, = 0)
 
     // Below is information updated by calling CacheEmitterModuleInfo
-    
-    int32 ParticleSize;
+    UPROPERTY(EditAnywhere, int32, ParticleSize, = 0)
 
-    EDynamicEmitterType EmitterType;
-
+    UPROPERTY(EditAnywhere, EDynamicEmitterType, EmitterType, = EDynamicEmitterType::DET_Unknown)
 private:
     TArray<UParticleLODLevel*> LODLevels; // 현재는 Level 0만 사용
 };

@@ -11,21 +11,21 @@ UProjectileMovementComponent::UProjectileMovementComponent()
     AccumulatedTime = 0;
 }
 
-UObject* UProjectileMovementComponent::Duplicate(UObject* InOuter)
-{
-
-    ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
-
-    NewComponent->ProjectileLifetime = ProjectileLifetime;
-    NewComponent->AccumulatedTime = AccumulatedTime;
-    NewComponent->InitialSpeed = InitialSpeed;
-    NewComponent->MaxSpeed = MaxSpeed;
-    NewComponent->Gravity = Gravity;
-    NewComponent->Velocity = Velocity;
-
-    return NewComponent;
-    
-}
+// UObject* UProjectileMovementComponent::Duplicate(UObject* InOuter)
+// {
+//
+//     ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
+//
+//     NewComponent->ProjectileLifetime = ProjectileLifetime;
+//     NewComponent->AccumulatedTime = AccumulatedTime;
+//     NewComponent->InitialSpeed = InitialSpeed;
+//     NewComponent->MaxSpeed = MaxSpeed;
+//     NewComponent->Gravity = Gravity;
+//     NewComponent->Velocity = Velocity;
+//
+//     return NewComponent;
+//     
+// }
 
 void UProjectileMovementComponent::BeginPlay()
 {

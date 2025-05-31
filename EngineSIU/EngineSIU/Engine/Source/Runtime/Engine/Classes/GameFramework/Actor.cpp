@@ -11,90 +11,90 @@ void AActor::PostSpawnInitialize()
 {
 }
 
-UObject* AActor::Duplicate(UObject* InOuter)
-{
-    ThisClass* NewActor = Cast<ThisClass>(Super::Duplicate(InOuter));
-
-    NewActor->Owner = Owner;
-    NewActor->bTickInEditor = bTickInEditor;
-    // 기본적으로 있던 컴포넌트 제거
-    TSet CopiedComponents = NewActor->OwnedComponents;
-
-    //임시용 디폴트 컴포넌트 이름 저장
-    //TODO: 디퐅트 컴포넌트를 삭제하지 않고 그 컴포넌트에 프로퍼티를 복사하는 방법으로 변경 필요
-    TArray<FName> DefaultCopiedComponentNames;
-    for (UActorComponent* Components : CopiedComponents)
-    {
-        if (Components)
-        {
-            DefaultCopiedComponentNames.Add(Components->GetFName());
-            Components->DestroyComponent(true);
-        }
-    }
-    NewActor->OwnedComponents.Empty();
-
-
-    // 부모-자식 관계 저장용 맵
-    TMap<USceneComponent*, USceneComponent*> ParentChildMap;
-
-    // 컴포넌트 복제 및 부모-자식 관계 추적
-    TMap<USceneComponent*, USceneComponent*> OriginalToDuplicateMap; // 원본 -> 복제된 컴포넌트 매핑
-
-    for (UActorComponent* Component : OwnedComponents)
-    {
-
-        UActorComponent* NewComponent = Cast<UActorComponent>(Component->Duplicate(NewActor));
-        NewComponent->OwnerPrivate = NewActor;
-        NewActor->OwnedComponents.Add(NewComponent);
-
-        //디폴트 컴포넌트 이름 동일하게 
-        for (const auto DefaultCopiedName : DefaultCopiedComponentNames)
-        {
-            if (DefaultCopiedName == Component->GetFName())
-            {
-                NewComponent->SetFName(DefaultCopiedName);
-            }
-        }
-  
-        // RootComponent 설정
-        if (RootComponent == Component)
-        {
-            NewActor->RootComponent = static_cast<USceneComponent*>(NewComponent);
-        }
-
-        // 부모-자식 관계 저장 (USceneComponent만 해당)
-        if (USceneComponent* SceneComp = Cast<USceneComponent>(Component))
-        {
-            OriginalToDuplicateMap.Add(SceneComp, static_cast<USceneComponent*>(NewComponent));
-            if (USceneComponent* ParentComp = SceneComp->GetAttachParent())
-            {
-                ParentChildMap.Add(static_cast<USceneComponent*>(NewComponent), ParentComp);
-            }
-        }
-
-        // 컴포넌트 초기화
-        /* ActorComponent가 Actor와 World에 등록이 되었다는 전제하에 호출됩니다 */
-        if (!NewComponent->HasBeenInitialized())
-        {
-            // TODO: RegisterComponent() 생기면 제거
-            NewComponent->InitializeComponent();
-        }
-    }
-
-    // 부모-자식 관계 복원
-    for (const auto& [ChildComp, OriginalParentComp] : ParentChildMap)
-    {
-        // 복제된 부모를 찾아 설정
-        if (USceneComponent** NewParentComp = OriginalToDuplicateMap.Find(OriginalParentComp))
-        {
-            ChildComp->AttachToComponent(*NewParentComp);
-        }
-    }
-
-    
-
-    return NewActor;
-}
+// UObject* AActor::Duplicate(UObject* InOuter)
+// {
+//     ThisClass* NewActor = Cast<ThisClass>(Super::Duplicate(InOuter));
+//
+//     NewActor->Owner = Owner;
+//     NewActor->bTickInEditor = bTickInEditor;
+//     // 기본적으로 있던 컴포넌트 제거 (이게 아마 생성자에서 생기는 애들 삭제하는 것인듯)
+//     TSet CopiedComponents = NewActor->OwnedComponents;
+//
+//     //임시용 디폴트 컴포넌트 이름 저장
+//     //TODO: 디퐅트 컴포넌트를 삭제하지 않고 그 컴포넌트에 프로퍼티를 복사하는 방법으로 변경 필요
+//     TArray<FName> DefaultCopiedComponentNames;
+//     for (UActorComponent* Components : CopiedComponents)
+//     {
+//         if (Components)
+//         {
+//             DefaultCopiedComponentNames.Add(Components->GetFName());
+//             Components->DestroyComponent(true);
+//         }
+//     }
+//     NewActor->OwnedComponents.Empty();
+//
+//
+//     // 부모-자식 관계 저장용 맵
+//     TMap<USceneComponent*, USceneComponent*> ParentChildMap;
+//
+//     // 컴포넌트 복제 및 부모-자식 관계 추적
+//     TMap<USceneComponent*, USceneComponent*> OriginalToDuplicateMap; // 원본 -> 복제된 컴포넌트 매핑
+//
+//     for (UActorComponent* Component : OwnedComponents)
+//     {
+//
+//         UActorComponent* NewComponent = Cast<UActorComponent>(Component->Duplicate(NewActor));
+//         NewComponent->OwnerPrivate = NewActor;
+//         NewActor->OwnedComponents.Add(NewComponent);
+//
+//         //디폴트 컴포넌트 이름 동일하게 
+//         for (const auto DefaultCopiedName : DefaultCopiedComponentNames)
+//         {
+//             if (DefaultCopiedName == Component->GetFName())
+//             {
+//                 NewComponent->SetFName(DefaultCopiedName);
+//             }
+//         }
+//   
+//         // RootComponent 설정
+//         if (RootComponent == Component)
+//         {
+//             NewActor->RootComponent = static_cast<USceneComponent*>(NewComponent);
+//         }
+//
+//         // 부모-자식 관계 저장 (USceneComponent만 해당)
+//         if (USceneComponent* SceneComp = Cast<USceneComponent>(Component))
+//         {
+//             OriginalToDuplicateMap.Add(SceneComp, static_cast<USceneComponent*>(NewComponent));
+//             if (USceneComponent* ParentComp = SceneComp->GetAttachParent())
+//             {
+//                 ParentChildMap.Add(static_cast<USceneComponent*>(NewComponent), ParentComp);
+//             }
+//         }
+//
+//         // 컴포넌트 초기화
+//         /* ActorComponent가 Actor와 World에 등록이 되었다는 전제하에 호출됩니다 */
+//         if (!NewComponent->HasBeenInitialized())
+//         {
+//             // TODO: RegisterComponent() 생기면 제거
+//             NewComponent->InitializeComponent();
+//         }
+//     }
+//
+//     // 부모-자식 관계 복원
+//     for (const auto& [ChildComp, OriginalParentComp] : ParentChildMap)
+//     {
+//         // 복제된 부모를 찾아 설정
+//         if (USceneComponent** NewParentComp = OriginalToDuplicateMap.Find(OriginalParentComp))
+//         {
+//             ChildComp->AttachToComponent(*NewParentComp);
+//         }
+//     }
+//
+//     
+//
+//     return NewActor;
+// }
 
 void AActor::BeginPlay()
 {
@@ -370,4 +370,43 @@ bool AActor::AddActorScale(const FVector& DeltaScale)
 void AActor::SetActorTickInEditor(bool InbInTickInEditor)
 {
     bTickInEditor = InbInTickInEditor;
+}
+
+void AActor::DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator)
+{
+    Super::DuplicateSubObjects(Source, InOuter, Duplicator);
+    const AActor* SrcActor = static_cast<const AActor*>(Source);
+    
+    // 기본적으로 있던 컴포넌트 제거 (생성자에서 생기는 애들 삭제)
+    TSet CopiedComponents = OwnedComponents;
+    for (UActorComponent* Components : CopiedComponents)
+    {
+        if (Components)
+        {
+            Components->DestroyComponent(true);
+        }
+    }
+    OwnedComponents.Empty();
+    
+    for (UActorComponent* SrcComp : SrcActor->OwnedComponents)
+    {
+        // 같은 Duplicator 인스턴스를 재사용
+        UObject* Copied = Duplicator.DuplicateObject(SrcComp);
+        UActorComponent* NewComp = static_cast<UActorComponent*>(Copied);
+
+        if (SrcComp == SrcActor->RootComponent)
+        {
+            RootComponent = static_cast<USceneComponent*>(NewComp);
+        }
+        
+        OwnedComponents.Add(NewComp);
+        NewComp->OwnerPrivate = this;
+
+        /* ActorComponent가 Actor와 World에 등록이 되었다는 전제하에 호출됩니다 */
+        if (!NewComp->HasBeenInitialized())
+        {
+            // TODO: RegisterComponent() 생기면 제거
+            NewComp->InitializeComponent();
+        }
+    }
 }

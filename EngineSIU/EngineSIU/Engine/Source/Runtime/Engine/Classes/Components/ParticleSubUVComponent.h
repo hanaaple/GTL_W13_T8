@@ -11,8 +11,6 @@ class UParticleSubUVComponent : public UBillboardComponent
 public:
     UParticleSubUVComponent();
 
-    virtual UObject* Duplicate(UObject* InOuter) override;
-    
     void GetProperties(TMap<FString, FString>& OutProperties) const override;
     void SetProperties(const TMap<FString, FString>& InProperties) override;
     
@@ -29,24 +27,24 @@ public:
 
 protected:
 
-    FVector2D UVScale;
-    FVector2D UVOffset;
+    UPROPERTY(EditAnywhere, FVector2D, UVScale, = FVector2D::OneVector)
+    UPROPERTY(EditAnywhere, FVector2D, UVOffset, = FVector2D::OneVector)
 
     // 애니메이션 반복 여부 (Loop)
-    bool bIsLoop = true;
+    UPROPERTY(EditAnywhere, bool, bIsLoop, = true)
 
     // 현재 애니메이션 프레임 (열, 행 인덱스)
-    int IndexU = 0;
-    int IndexV = 0;
+    UPROPERTY(EditAnywhere, int, IndexU, = 0)
+    UPROPERTY(EditAnywhere, int, IndexV, = 0)
 
     // 누적 시간 (프레임 전환을 위한)
-    float ElapsedTime = 0.0f;
+    UPROPERTY(EditAnywhere, float, ElapsedTime, = 0.0f)
     // 프레임 당
     // 지속 시간 (밀리초 단위, 필요에 따라 조정)
-    float FrameDuration = 75.0f;
+    UPROPERTY(EditAnywhere, float, FrameDuration, = 75.0f)
 
     // 텍스처 아틀라스의 셀 수 (행, 열)
-    int CellsPerRow = 1;
-    int CellsPerColumn = 1;
+    UPROPERTY(EditAnywhere, int, CellsPerRow, = 0)
+    UPROPERTY(EditAnywhere, int, CellsPerColumn, = 0)
 
 };

@@ -191,7 +191,7 @@ public:
     
     void StopShake(bool bImmediately = true);
 
-    float ShakeScale;
+    UPROPERTY(EditAnywhere, float, ShakeScale, = 1.0f)
 
     UCameraShakePattern* GetRootShakePattern() const { return RootShakePattern; }
 
@@ -202,7 +202,7 @@ public:
     bool IsFinished() const;
     
 private:
-    UCameraShakePattern* RootShakePattern;
+    UPROPERTY(EditAnywhere | ShallowCopy, UCameraShakePattern*, RootShakePattern, = nullptr)
 
     APlayerCameraManager* CameraManager;
 

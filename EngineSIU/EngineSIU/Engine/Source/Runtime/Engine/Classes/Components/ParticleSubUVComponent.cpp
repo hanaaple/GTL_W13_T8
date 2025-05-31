@@ -10,25 +10,6 @@ UParticleSubUVComponent::UParticleSubUVComponent()
     bIsLoop = true;
 }
 
-// Duplicate: 버퍼 포인터는 복사하지 않고 애니메이션 상태만 복제
-UObject* UParticleSubUVComponent::Duplicate(UObject* InOuter)
-{
-    UParticleSubUVComponent* NewComponent = Cast<UParticleSubUVComponent>(Super::Duplicate(InOuter));
-    if (NewComponent)
-    {
-        NewComponent->bIsLoop = bIsLoop;
-        NewComponent->CellsPerRow = CellsPerRow;
-        NewComponent->CellsPerColumn = CellsPerColumn;
-        NewComponent->IndexU = IndexU;
-        NewComponent->IndexV = IndexV;
-        NewComponent->ElapsedTime = ElapsedTime;
-        NewComponent->FrameDuration = FrameDuration;
-        NewComponent->UVScale = UVScale;
-        NewComponent->UVOffset = UVOffset;
-    }
-    return NewComponent;
-}
-
 void UParticleSubUVComponent::GetProperties(TMap<FString, FString>& OutProperties) const
 {
     Super::GetProperties(OutProperties);

@@ -12,7 +12,7 @@ class UTextComponent : public UBillboardComponent
 public:
     UTextComponent();
 
-    virtual UObject* Duplicate(UObject* InOuter) override;
+    //virtual UObject* Duplicate(UObject* InOuter) override;
     
     void GetProperties(TMap<FString, FString>& OutProperties) const override;
     
@@ -35,6 +35,7 @@ public:
     
     float GetRowCount() const { return RowCount; }
     float GetColumnCount() const { return ColumnCount; }
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
 
 protected:
 
@@ -43,13 +44,13 @@ protected:
 
     //TArray<FVertexTexture> vertexTextureArr;
 
-    int QuadSize = 2;
+    UPROPERTY(int, QuadSize, = 2)
 
-    int RowCount;
-    int ColumnCount;
-
-    float QuadWidth = 2.0f;
-    float QuadHeight = 2.0f;
+    UPROPERTY(int, RowCount, = 0)
+    UPROPERTY(int, ColumnCount, = 0)
+    
+    UPROPERTY(int, QuadWidth, = 2.0f)
+    UPROPERTY(int, QuadHeight, = 2.0f)
 
 private:
     //FString TextAtlasBufferKey;

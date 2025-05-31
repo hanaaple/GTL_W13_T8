@@ -8,7 +8,7 @@ public:
     UProjectileMovementComponent();
     virtual ~UProjectileMovementComponent() override = default;
 
-    virtual UObject* Duplicate(UObject* InOuter) override;
+    //virtual UObject* Duplicate(UObject* InOuter) override;
 
     void SetVelocity(FVector NewVelocity) { Velocity = NewVelocity; }
 
@@ -38,13 +38,15 @@ public:
     virtual void SetProperties(const TMap<FString, FString>& InProperties) override;
 
 private:
-    float ProjectileLifetime; // 생명주기
-    float AccumulatedTime;
 
-    float InitialSpeed;
-    float MaxSpeed;
+    UPROPERTY(EditAnywhere, float, ProjectileLifetime, = 10.0f)
+    UPROPERTY(EditAnywhere, float, AccumulatedTime, = 0.0f)
 
-    float Gravity;
-    FVector Velocity;
+    UPROPERTY(EditAnywhere, float, InitialSpeed, = 0.0f)
+    UPROPERTY(EditAnywhere, float, MaxSpeed, = 0.0f)
+
+    UPROPERTY(EditAnywhere, float, Gravity, = 0.0f)
+
+    UPROPERTY(EditAnywhere, FVector, Velocity, = FVector::ZeroVector)
 };
 

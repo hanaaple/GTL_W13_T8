@@ -3,6 +3,7 @@
 #include "Container/Set.h"
 #include "Engine/EngineTypes.h"
 #include "UObject/Casts.h"
+#include "UObject/FObjectDuplicator.h"
 #include "UObject/Object.h"
 #include "UObject/ObjectFactory.h"
 #include "UObject/ObjectMacros.h"
@@ -22,7 +23,7 @@ public:
 
     virtual void PostSpawnInitialize();
 
-    virtual UObject* Duplicate(UObject* InOuter) override;
+    //virtual UObject* Duplicate(UObject* InOuter) override;
 
     /** Actor가 게임에 배치되거나 스폰될 때 호출됩니다. */
     virtual void BeginPlay();
@@ -107,7 +108,8 @@ public:
 
 protected:
     UPROPERTY
-    (USceneComponent*, RootComponent, = nullptr)
+    (DuplicateTransient, USceneComponent*, RootComponent, = nullptr)
+    //USceneComponent* RootComponent = nullptr;
 
 private:
     /** 이 Actor를 소유하고 있는 다른 Actor의 정보 */
@@ -144,11 +146,12 @@ public:
 
     bool IsHidden() const { return bHidden; }
     void SetHidden(bool InbHidden) { bHidden = InbHidden; }
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
 
 private:
-    bool bTickInEditor = false;     // Editor Tick을 수행 여부
+    UPROPERTY(bool, bTickInEditor, = false)
 
-    bool bHidden = false;
+    UPROPERTY(bool, bHidden, = false)
     
 public:
     /** 

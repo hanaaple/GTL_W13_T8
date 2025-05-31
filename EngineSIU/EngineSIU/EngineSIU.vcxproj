@@ -225,6 +225,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\FBX\lib\x64\$
     <ClCompile Include="Engine\Source\Editor\UnrealEd\UnrealEd.cpp" />
     <ClCompile Include="Engine\Source\Runtime\CoreUObject\UObject\Casts.cpp" />
     <ClCompile Include="Engine\Source\Runtime\CoreUObject\UObject\Class.cpp" />
+    <ClCompile Include="Engine\Source\Runtime\CoreUObject\UObject\FObjectDuplicator.cpp" />
     <ClCompile Include="Engine\Source\Runtime\CoreUObject\UObject\NameTypes.cpp" />
     <ClCompile Include="Engine\Source\Runtime\CoreUObject\UObject\Object.cpp" />
     <ClCompile Include="Engine\Source\Runtime\CoreUObject\UObject\ObjectFactory.cpp" />
@@ -516,6 +517,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\FBX\lib\x64\$
     <ClInclude Include="Engine\Contents\AnimInstance\MyAnimInstance.h" />
     <ClInclude Include="Engine\Contents\Objects\DamageCameraShake.h" />
     <ClInclude Include="Engine\Source\Editor\PropertyEditor\PhysicsAssetViewerPanel.h" />
+    <ClInclude Include="Engine\Source\Runtime\CoreUObject\UObject\FObjectDuplicator.h" />
     <ClInclude Include="Engine\Source\Runtime\CoreUObject\UObject\PropertyEvent.h" />
     <ClInclude Include="Engine\Source\Developer\AnimDataController\AnimDataController.h" />
     <ClInclude Include="Engine\Source\Developer\LuaTypes\LuaUserTypes.h" />

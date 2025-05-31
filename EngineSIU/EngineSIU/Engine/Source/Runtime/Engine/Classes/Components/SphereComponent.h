@@ -8,7 +8,7 @@ class USphereComponent : public UShapeComponent
 public:
     USphereComponent();
 
-    virtual UObject* Duplicate(UObject* InOuter) override;
+    //virtual UObject* Duplicate(UObject* InOuter) override;
 
     virtual void SetProperties(const TMap<FString, FString>& InProperties) override;
     virtual void GetProperties(TMap<FString, FString>& OutProperties) const override;
@@ -17,5 +17,5 @@ public:
     float GetRadius() const { return SphereRadius; }
     
 private:
-    float SphereRadius = 1.f;
+    UPROPERTY(EditAnywhere, float, SphereRadius, = 1.f)
 };

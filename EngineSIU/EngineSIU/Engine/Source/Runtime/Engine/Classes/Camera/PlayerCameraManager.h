@@ -95,7 +95,7 @@ public:
 class APlayerCameraManager : public AActor
 {
     DECLARE_CLASS(APlayerCameraManager, AActor)
-
+    
     APlayerController* PCOwner;
     
 public:

@@ -3,6 +3,7 @@
 #include "NameTypes.h"
 #include "Misc/CoreMiscDefines.h"
 
+class FObjectDuplicator;
 struct FPropertyChangedEvent;
 extern FEngineLoop GEngineLoop;
 
@@ -45,7 +46,7 @@ public:
     UObject();
     virtual ~UObject() = default;
 
-    virtual UObject* Duplicate(UObject* InOuter);
+    UObject* Duplicate(UObject* InOuter);
 
     /**
      * 이 객체의 프로퍼티 중 하나가 에디터 등 외부 요인에 의해 변경된 후 호출됩니다.
@@ -99,4 +100,7 @@ public:
     }
 
     virtual void SerializeAsset(FArchive& Ar) {}
+    virtual void PostDuplicate();
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator);
+
 };

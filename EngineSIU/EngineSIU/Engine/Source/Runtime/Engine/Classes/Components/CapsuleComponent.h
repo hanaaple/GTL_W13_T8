@@ -9,7 +9,7 @@ class UCapsuleComponent : public UShapeComponent
 public:
     UCapsuleComponent();
 
-    virtual UObject* Duplicate(UObject* InOuter) override;
+    //virtual UObject* Duplicate(UObject* InOuter) override;
 
     virtual void SetProperties(const TMap<FString, FString>& InProperties) override;
     virtual void GetProperties(TMap<FString, FString>& OutProperties) const override;
@@ -31,6 +31,6 @@ public:
     void GetEndPoints(FVector& OutStart, FVector& OutEnd) const;
     
 private:
-    float CapsuleHalfHeight = 0.88f;
-    float CapsuleRadius = 0.34f;
+    UPROPERTY(EditAnywhere, float, CapsuleHalfHeight, = 0.88f)
+    UPROPERTY(EditAnywhere, float, CapsuleRadius, = 0.88f)
 };

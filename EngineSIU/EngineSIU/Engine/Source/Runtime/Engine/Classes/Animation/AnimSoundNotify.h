@@ -16,6 +16,5 @@ public:
     FName GetSoundName() const { return SoundName; }
     void SetSoundName(FName InSoundName) { SoundName = InSoundName; }
 private:
-    FName SoundName;
-    
+    UPROPERTY(EditAnywhere, FName, SoundName, = NAME_None)
 };

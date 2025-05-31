@@ -35,6 +35,22 @@ struct GameObject {
         WorldMatrix = XMLoadFloat4x4(reinterpret_cast<const XMFLOAT4X4*>(&mat));
     }
 
+    void UpdateToPhysics(PxScene* Scene, const PxTransform& InTransform, ERigidBodyType InBodyType)
+    {
+        if (DynamicRigidBody == nullptr || InBodyType == ERigidBodyType::STATIC)
+        {
+            return;
+        }
+        
+        PxSceneWriteLock scopedWriteLock(*Scene);
+        if (InBodyType == ERigidBodyType::KINEMATIC)
+        {
+            DynamicRigidBody->setKinematicTarget(InTransform);
+        }
+        //
+        // DynamicRigidBody->setGlobalPose(InTransform);
+    }
+    
     void SetRigidBodyType(ERigidBodyType RigidBody) const;
 };
 

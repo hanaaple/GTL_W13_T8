@@ -33,13 +33,13 @@ protected:
     APlayerCameraManager* CameraOwner;
 
 protected:
-    uint32 bDisabled : 1;
-    uint32 bPendingDisable : 1;
+    UPROPERTY(EditAnywhere, uint32, bDisabled, = false)
+    UPROPERTY(EditAnywhere, uint32, bPendingDisable, = false)
 
-    uint8 Priority;
+    UPROPERTY(EditAnywhere, uint8, Priority, = 0)
 
-    float AlphaInTime;
-    float AlphaOutTime;
-    float Alpha;
+    UPROPERTY(EditAnywhere, float, AlphaInTime, = 0.0f)
+    UPROPERTY(EditAnywhere, uint8, AlphaOutTime, = 0.0f)
+    UPROPERTY(EditAnywhere, uint8, Alpha, = 0.0f)
 };
 

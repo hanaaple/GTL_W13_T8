@@ -15,17 +15,6 @@ USceneComponent::USceneComponent()
 {
 }
 
-UObject* USceneComponent::Duplicate(UObject* InOuter)
-{
-    ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
-
-    NewComponent->RelativeLocation = RelativeLocation;
-    NewComponent->RelativeRotation = RelativeRotation;
-    NewComponent->RelativeScale3D = RelativeScale3D;
-
-    return NewComponent;
-}
-
 void USceneComponent::GetProperties(TMap<FString, FString>& OutProperties) const
 {
     Super::GetProperties(OutProperties);
