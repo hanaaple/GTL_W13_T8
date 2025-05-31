@@ -226,7 +226,7 @@ void UPrimitiveComponent::EndPhysicsTickComponent(float DeltaTime)
         FRotator Rotator = MyQuat.Rotator();
         
         // ✅ Unreal Engine에 적용 (라디안 → 도 변환)
-        SetWorldLocation(FVector(pos.x, -pos.y, pos.z));
+        SetWorldLocation(FVector(pos.x, pos.y, pos.z));
         SetWorldRotation(Rotator);
     }
 }
@@ -605,7 +605,7 @@ void UPrimitiveComponent::CreatePhysXGameObject()
         case EGeomType::ECapsule:
         {
             PxShape* PxCapsule = GEngine->PhysicsManager->CreateCapsuleShape(Offset, GeomPQuat, Extent.x, Extent.z);
-            BodySetup->AggGeom.SphereElems.Add(PxCapsule);
+            BodySetup->AggGeom.CapsuleElems.Add(PxCapsule);
             break;
         }
         }
