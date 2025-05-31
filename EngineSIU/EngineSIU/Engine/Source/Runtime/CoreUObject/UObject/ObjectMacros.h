@@ -53,6 +53,7 @@ public: \
         { \
             bind(table); \
         } \
+        SolTypeBinding::RegisterGetComponentByClass<AActor, UActorComponent, TClass>(lua, #TClass); \
     } \
 public: \
     using Super = TSuperClass; \

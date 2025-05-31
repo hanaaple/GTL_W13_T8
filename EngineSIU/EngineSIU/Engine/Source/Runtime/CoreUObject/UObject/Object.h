@@ -14,23 +14,17 @@ class UActorComponent;
 
 namespace SolTypeBinding
 {
-
-    
     // Register to AActor::GetComponentByClass
-    template <typename T>
+    // IsCompleteType_v<T>의 인스턴스화 위해 AActor, UActorComponent 역시 템플릿으로 받음.
+    template <typename A, typename C, typename T>
     void RegisterGetComponentByClass(sol::state& lua, std::string className)
     {
-        if constexpr ( IsCompleteType_v<AActor> && IsCompleteType_v<UActorComponent> && std::derived_from<T, UActorComponent> )
+        if constexpr ( IsCompleteType_v<A> && IsCompleteType_v<C> && std::derived_from<T, C> )
         {
-            // 암시적 형변환에서 AActor가 완전한 타입임을 요구해서 명시적으로 형변환.
-            using FuncType = T* (AActor::*)();
-            auto funcPtr = static_cast<FuncType>(&AActor::template GetComponentByClass<T>);
-            AActor::GetLuaUserType(lua)["Get" + className] = funcPtr;
-            std::cout << "Register AActor::Get" << className << '\n';
-        } else
-        {
-            std::cout << "Failed Register AActor::Get" << className << '\n';
-        }
+            auto funcPtr = static_cast<T* (A::*)() const>(&A::template GetComponentByClass<T>);
+            A::GetLuaUserType(lua)["Get" + className] = funcPtr;
+            UE_LOG(ELogLevel::Display, "Register AActor::Get%s", className.c_str());
+        } 
     }
 }
 
