@@ -19,9 +19,9 @@ public:
     UShapeComponent();
 
     virtual void TickComponent(float DeltaTime) override;
-UPROPERTY(
+    UPROPERTY(
         EditAnywhere,
-        FColor, ShapeColor, = FColor(180, 180, 180, 255));
+        FColor, ShapeColor, = FColor(180, 180, 180, 255);
     )
 
     UPROPERTY(
