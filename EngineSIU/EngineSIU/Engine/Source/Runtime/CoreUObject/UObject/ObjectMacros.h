@@ -13,6 +13,9 @@
 // name을 문자열화 해주는 매크로
 #define INLINE_STRINGIFY(name) #name
 
+#define CONCAT_IMPL(x, y) x##y
+#define CONCAT(x, y) CONCAT_IMPL(x, y)
+
 
 // 공통 클래스 정의 부분
 #define DECLARE_COMMON_CLASS_BODY(TClass, TSuperClass) \
@@ -238,3 +241,57 @@ public: \
  */
 #define UPROPERTY(...) \
     EXPAND_MACRO(GET_OVERLOADED_PROPERTY_MACRO(__VA_ARGS__, UPROPERTY_WITH_METADATA, UPROPERTY_WITH_FLAGS, UPROPERTY_DEFAULT, UPROPERTY_DEFAULT)(__VA_ARGS__))
+
+
+// 오버로딩 고려해서 Id로 __COUNTER__를 받음
+#define UFUNCTION_IMPL(Type, FuncName, Id, ...) \
+    Type FuncName (__VA_ARGS__); \
+    inline static struct CONCAT(FuncName##_PropRegister_, Id) \
+    { \
+        CONCAT(FuncName##_PropRegister_, Id)() \
+        { \
+            BindFunctions().Add(#FuncName, [](sol::usertype<ThisClass> table) { \
+                table[#FuncName] = static_cast<Type (ThisClass::*)(__VA_ARGS__)>(&ThisClass::FuncName); \
+            }); \
+        } \
+    } CONCAT(FuncName##_PropRegister_Init_, Id) {}; \
+
+/**
+ * Lua에 Function을 바인딩합니다
+ *
+ * ----- Example Code -----
+ *
+ * UFUNCTION(const int, GetValue)
+ *
+ * UFUNCTION(bool, SetActorLocation, const FVector&)
+ *
+ * @warning 불완전한 타입은 사용할 수 없습니다.
+ */
+#define UFUNCTION(Type, FuncName, ...) \
+    UFUNCTION_IMPL(Type, FuncName, __COUNTER__, __VA_ARGS__) \
+
+#define UFUNCTION_CONST_IMPL(Type, FuncName, Id, ...) \
+    Type FuncName (__VA_ARGS__) const; \
+    inline static struct CONCAT(FuncName##_PropRegister_, Id) \
+    { \
+        CONCAT(FuncName##_PropRegister_, Id)() \
+        { \
+            BindFunctions().Add(#FuncName, [](sol::usertype<ThisClass> table) { \
+                table[#FuncName] = static_cast<Type (ThisClass::*)(__VA_ARGS__) const>(&ThisClass::FuncName); \
+            }); \
+        } \
+    } CONCAT(FuncName##_PropRegister_Init_, Id) {}; \
+
+/**
+ * Lua에 const Function을 바인딩합니다
+ *
+ * ----- Example Code -----
+ *
+ * UFUNCTION_CONST(const int, GetValue)
+ *
+ * UFUNCTION_CONST(bool, SetActorLocation, const FVector&)
+ *
+ * @warning 불완전한 타입은 사용할 수 없습니다.
+ */
+#define UFUNCTION_CONST(Type, FuncName, ...) \
+    UFUNCTION_CONST_IMPL(Type, FuncName, __COUNTER__, __VA_ARGS__) \

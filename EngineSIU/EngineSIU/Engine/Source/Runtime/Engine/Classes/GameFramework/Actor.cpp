@@ -297,6 +297,21 @@ FVector AActor::GetActorScale() const
     return RootComponent ? RootComponent->GetRelativeScale3D() : FVector(FVector::OneVector); 
 }
 
+FVector AActor::GetActorForwardVector() const
+{
+    return RootComponent ? RootComponent->GetForwardVector() : FVector::ForwardVector;
+}
+
+FVector AActor::GetActorRightVector() const
+{
+    return RootComponent ? RootComponent->GetRightVector() : FVector::RightVector;
+}
+
+FVector AActor::GetActorUpVector() const
+{
+    return RootComponent ? RootComponent->GetUpVector() : FVector::UpVector;
+}
+
 bool AActor::SetActorLocation(const FVector& NewLocation)
 {
     if (RootComponent)
