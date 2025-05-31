@@ -568,6 +568,8 @@ void USkeletalMeshComponent::CreatePhysXGameObject()
     {
         FBodyInstance* NewBody = new FBodyInstance(this);
 
+        PxMaterial* Material = GEngine->PhysicsManager->GetPhysics()->createMaterial(BodySetup->StaticFriction, BodySetup->DynamicFriction, BodySetup->Restitution);
+
         for (const auto& GeomAttribute : BodySetups[i]->GeomAttributes)
         {
             PxVec3 Offset = PxVec3(GeomAttribute.Offset.X, GeomAttribute.Offset.Y, GeomAttribute.Offset.Z);
@@ -579,19 +581,19 @@ void USkeletalMeshComponent::CreatePhysXGameObject()
             {
             case EGeomType::ESphere:
             {
-                PxShape* PxSphere = GEngine->PhysicsManager->CreateSphereShape(Offset, GeomPQuat, Extent.x);
+                PxShape* PxSphere = GEngine->PhysicsManager->CreateSphereShape(Offset, GeomPQuat, Extent.x, Material);
                 BodySetups[i]->AggGeom.SphereElems.Add(PxSphere);
                 break;
             }
             case EGeomType::EBox:
             {
-                PxShape* PxBox = GEngine->PhysicsManager->CreateBoxShape(Offset, GeomPQuat, Extent);
+                PxShape* PxBox = GEngine->PhysicsManager->CreateBoxShape(Offset, GeomPQuat, Extent, Material);
                 BodySetups[i]->AggGeom.BoxElems.Add(PxBox);
                 break;
             }
             case EGeomType::ECapsule:
             {
-                PxShape* PxCapsule = GEngine->PhysicsManager->CreateCapsuleShape(Offset, GeomPQuat, Extent.x, Extent.z);
+                PxShape* PxCapsule = GEngine->PhysicsManager->CreateCapsuleShape(Offset, GeomPQuat, Extent.x, Extent.z, Material);
                 BodySetups[i]->AggGeom.CapsuleElems.Add(PxCapsule);
                 break;
             }
@@ -614,7 +616,7 @@ void USkeletalMeshComponent::CreatePhysXGameObject()
         //FVector Location = GetComponentLocation();
         PxVec3 Pos = PxVec3(Location.X, Location.Y, Location.Z);
         PxQuat Quat = PxQuat(Rotation.X, Rotation.Y, Rotation.Z, Rotation.W);
-        GameObject* Obj = GEngine->PhysicsManager->CreateGameObject(Pos, Quat, NewBody, BodySetups[i], RigidBodyType);
+        GameObject* Obj = GEngine->PhysicsManager->CreateGameObject(Pos, Quat, NewBody, BodySetups[i], Material, RigidBodyType);
 
         if (RigidBodyType != ERigidBodyType::STATIC)
         {

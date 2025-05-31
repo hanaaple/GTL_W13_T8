@@ -95,7 +95,7 @@ public:
     template <typename T>
         requires requires
         {
-            requires sizeof(T); // 완전한 타입인 경우
+            { sizeof(T) }; // 완전한 타입인 경우 
             requires GetPropertyType<T>() != EPropertyType::UnresolvedPointer;
             requires GetPropertyType<T>() != EPropertyType::Unknown;
         }

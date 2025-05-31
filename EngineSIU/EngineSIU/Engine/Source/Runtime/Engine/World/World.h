@@ -28,7 +28,7 @@ class UWorld : public UObject
 
 public:
     UWorld() = default;
-    virtual ~UWorld() override;
+    virtual ~UWorld() = default;
 
     static UWorld* CreateWorld(UObject* InOuter, const EWorldType InWorldType, const FString& InWorldName = "DefaultWorld");
 

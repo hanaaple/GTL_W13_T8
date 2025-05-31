@@ -51,58 +51,56 @@ void FPhysicsManager::InitPhysX()
     }
     
     Physics = PxCreatePhysics(PX_PHYSICS_VERSION, *Foundation, PxTolerancesScale(), true, Pvd);
-    
-    Material = Physics->createMaterial(0.5f, 0.7f, 0.1f);
 
     PxInitExtensions(*Physics, Pvd);
 }
 
-PxScene* FPhysicsManager::CreateScene(UWorld* World)
+void FPhysicsManager::CreateAndSetScene(UWorld* World)
 {
-    if (SceneMap[World])
+    if (!SceneMap.Contains(World))
     {
-        // PVD 클라이언트 생성 및 씬 연결
-        if (Pvd && Pvd->isConnected()) {
-            PxPvdSceneClient* pvdClient = SceneMap[World]->getScenePvdClient();
-            if (pvdClient) {
-                pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, true);
-                pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
-                pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
-            }
-        }
-        return SceneMap[World];
+        PxSceneDesc SceneDesc(Physics->getTolerancesScale());
+    
+        SceneDesc.gravity = PxVec3(0, 0, -9.81f);
+    
+        unsigned int hc = std::thread::hardware_concurrency();
+        Dispatcher = PxDefaultCpuDispatcherCreate(hc-2);
+        SceneDesc.cpuDispatcher = Dispatcher;
+    
+        SceneDesc.filterShader = PxDefaultSimulationFilterShader;
+    
+        // sceneDesc.simulationEventCallback = gMyCallback; // TODO: 이벤트 핸들러 등록(옵저버 or component 별 override)
+    
+        SceneDesc.flags |= PxSceneFlag::eENABLE_ACTIVE_ACTORS;
+        SceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
+        SceneDesc.flags |= PxSceneFlag::eENABLE_PCM;
+    
+        PxScene* NewScene = Physics->createScene(SceneDesc);
+        SceneMap.Add(World, NewScene);
     }
     
-    PxSceneDesc SceneDesc(Physics->getTolerancesScale());
-    
-    SceneDesc.gravity = PxVec3(0, 0, -9.81f);
-    
-    unsigned int hc = std::thread::hardware_concurrency();
-    Dispatcher = PxDefaultCpuDispatcherCreate(hc-2);
-    SceneDesc.cpuDispatcher = Dispatcher;
-    
-    SceneDesc.filterShader = PxDefaultSimulationFilterShader;
-    
-    // sceneDesc.simulationEventCallback = gMyCallback; // TODO: 이벤트 핸들러 등록(옵저버 or component 별 override)
-    
-    SceneDesc.flags |= PxSceneFlag::eENABLE_ACTIVE_ACTORS;
-    SceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
-    SceneDesc.flags |= PxSceneFlag::eENABLE_PCM;
-    
-    PxScene* NewScene = Physics->createScene(SceneDesc);
-    SceneMap.Add(World, NewScene);
-
     // PVD 클라이언트 생성 및 씬 연결
-    if (Pvd && Pvd->isConnected()) {
-        PxPvdSceneClient* pvdClient = NewScene->getScenePvdClient();
-        if (pvdClient) {
+    if (Pvd && Pvd->isConnected())
+    {
+        PxPvdSceneClient* pvdClient = SceneMap[World]->getScenePvdClient();
+        if (pvdClient)
+        {
             pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, true);
             pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
             pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
         }
     }
+    
+    CurrentScene = SceneMap[World];
+}
 
-    return NewScene;
+void FPhysicsManager::ReleaseScene(UWorld* World)
+{
+    if (SceneMap.Contains(World))
+    {
+        SceneMap[World]->release();
+        SceneMap.Remove(World);
+    }
 }
 
 bool FPhysicsManager::ConnectPVD()
@@ -138,27 +136,10 @@ bool FPhysicsManager::ConnectPVD()
     return connected;
 }
 
-GameObject FPhysicsManager::CreateBox(const PxVec3& Pos, const PxVec3& HalfExtents) const
-{
-    GameObject Obj;
-    
-    PxTransform Pose(Pos);
-    Obj.DynamicRigidBody = Physics->createRigidDynamic(Pose);
-    
-    PxShape* Shape = Physics->createShape(PxBoxGeometry(HalfExtents), *Material);
-    Obj.DynamicRigidBody->attachShape(*Shape);
-    
-    PxRigidBodyExt::updateMassAndInertia(*Obj.DynamicRigidBody, 10.0f);
-    CurrentScene->addActor(*Obj.DynamicRigidBody);
-    
-    Obj.UpdateFromPhysics(CurrentScene);
-    
-    return Obj;
-}
-
-GameObject* FPhysicsManager::CreateGameObject(const PxVec3& Pos, const PxQuat& Rot, FBodyInstance* BodyInstance, UBodySetup* BodySetup, ERigidBodyType RigidBodyType) const
+GameObject* FPhysicsManager::CreateGameObject(const PxVec3& Pos, const PxQuat& Rot, FBodyInstance* BodyInstance, UBodySetup* BodySetup, PxMaterial* Material, ERigidBodyType RigidBodyType) const
 {
     GameObject* Obj = new GameObject();
+    Obj->Material = Material;
     
     // RigidBodyType에 따라 다른 타입의 Actor 생성
     switch (RigidBodyType)
@@ -647,20 +628,34 @@ void FPhysicsManager::CreateJoint(const GameObject* Obj1, const GameObject* Obj2
     ConstraintInstance->ConstraintData = Joint;
 }
 
-void FPhysicsManager::DestroyGameObject(GameObject* GameObject) const
+void FPhysicsManager::DestroyGameObject(GameObject*& InOutGameObject) const
 {
-    // TODO: StaticRigidBody 분기 처리 필요
-    if (GameObject && GameObject->DynamicRigidBody)
+    if (InOutGameObject)
     {
-        CurrentScene->removeActor(*GameObject->DynamicRigidBody);
-        GameObject->DynamicRigidBody->release();
-        GameObject->DynamicRigidBody = nullptr;
+        if (InOutGameObject->DynamicRigidBody)
+        {
+            CurrentScene->removeActor(*InOutGameObject->DynamicRigidBody);
+            InOutGameObject->DynamicRigidBody->release();
+            InOutGameObject->DynamicRigidBody = nullptr;
+        }
+        if (InOutGameObject->StaticRigidBody)
+        {
+            CurrentScene->removeActor(*InOutGameObject->StaticRigidBody);
+            InOutGameObject->StaticRigidBody->release();
+            InOutGameObject->StaticRigidBody = nullptr;
+        }
+        if (InOutGameObject->Material)
+        {
+            InOutGameObject->Material->release();
+            InOutGameObject->Material = nullptr;
+        }
     }
-    delete GameObject;
+    delete InOutGameObject;
+    InOutGameObject = nullptr;
 }
 
-PxShape* FPhysicsManager::CreateBoxShape(const PxVec3& Pos, const PxQuat& Quat, const PxVec3& HalfExtents) const
-{
+PxShape* FPhysicsManager::CreateBoxShape(const PxVec3& Pos, const PxQuat& Quat, const PxVec3& HalfExtents, PxMaterial* Material) const
+{    
     // Box 모양 생성
     PxShape* Result = Physics->createShape(PxBoxGeometry(HalfExtents), *Material);
     
@@ -673,7 +668,7 @@ PxShape* FPhysicsManager::CreateBoxShape(const PxVec3& Pos, const PxQuat& Quat, 
     return Result;
 }
 
-PxShape* FPhysicsManager::CreateSphereShape(const PxVec3& Pos, const PxQuat& Quat, float Radius) const
+PxShape* FPhysicsManager::CreateSphereShape(const PxVec3& Pos, const PxQuat& Quat, float Radius, PxMaterial* Material) const
 {
     // Sphere 모양 생성 (구는 회전에 영향받지 않지만 일관성을 위해 적용)
     PxShape* Result = Physics->createShape(PxSphereGeometry(Radius), *Material);
@@ -685,7 +680,7 @@ PxShape* FPhysicsManager::CreateSphereShape(const PxVec3& Pos, const PxQuat& Qua
     return Result;
 }
 
-PxShape* FPhysicsManager::CreateCapsuleShape(const PxVec3& Pos, const PxQuat& Quat, float Radius, float HalfHeight) const
+PxShape* FPhysicsManager::CreateCapsuleShape(const PxVec3& Pos, const PxQuat& Quat, float Radius, float HalfHeight, PxMaterial* Material) const
 {
     // Capsule 모양 생성
     PxShape* Result = Physics->createShape(PxCapsuleGeometry(Radius, HalfHeight), *Material);
@@ -736,11 +731,6 @@ void FPhysicsManager::ShutdownPhysX()
         Dispatcher->release();
         Dispatcher = nullptr;
     }
-    if(Material)
-    {
-        Material->release();
-        Material = nullptr;
-    }
     if(Physics)
     {
         Physics->release();
@@ -764,14 +754,5 @@ void FPhysicsManager::CleanupPVD() {
         }
         Pvd->release();
         Pvd = nullptr;
-    }
-}
-
-void FPhysicsManager::CleanupScene()
-{
-    if (CurrentScene)
-    {
-        CurrentScene->release();
-        CurrentScene = nullptr;
     }
 }

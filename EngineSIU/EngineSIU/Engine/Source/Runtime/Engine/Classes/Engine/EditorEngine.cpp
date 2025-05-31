@@ -486,9 +486,7 @@ void UEditorEngine::StartPhysicsAssetViewer(FName PreviewMeshKey, FName PhysicsA
 
     ActiveWorld = PhysicsAssetViewerWorld;
     PhysicsAssetViewerWorld->WorldType = EWorldType::PhysicsAssetViewer;
-    PhysicsManager->CreateScene(ActiveWorld);
-    PhysicsManager->SetCurrentScene(ActiveWorld);
-
+    
     // 스켈레탈 액터 스폰
     ASkeletalMeshActor* SkeletalActor = PhysicsAssetViewerWorld->SpawnActor<ASkeletalMeshActor>();
     SkeletalActor->SetActorTickInEditor(true);
@@ -565,35 +563,26 @@ void UEditorEngine::StartPhysicsAssetViewer(FName PreviewMeshKey, FName PhysicsA
 
 void UEditorEngine::SetPhysXScene(UWorld* World)
 {
-    PhysicsManager->CreateScene(PIEWorld);
-    PhysicsManager->SetCurrentScene(PIEWorld);
-
-    for (const auto& Actor : World->GetActiveLevel()->Actors)
-    {
-        TArray<UPrimitiveComponent*> PrimitiveComponents = Actor->GetComponentsByClass<UPrimitiveComponent>();
-        for (UPrimitiveComponent* PrimitiveComponent : PrimitiveComponents)
-        {
-            PrimitiveComponent->CreatePhysXGameObject();
-        }
-    }
+    PhysicsManager->CreateAndSetScene(World);
 }
 
 void UEditorEngine::EndPIE()
 {
     if (PIEWorld)
     {
+        this->ClearActorSelection(); // PIE World 기준 Select Actor 해제
+        
         PIEWorld->DestroyGameMode();
-
-        this->ClearActorSelection(); // PIE World 기준 Select Actor 해제 
-        WorldList.Remove(GetWorldContextFromWorld(PIEWorld));
         PIEWorld->Release();
+        
+        WorldList.Remove(GetWorldContextFromWorld(PIEWorld));
+        
         GUObjectArray.MarkRemoveObject(PIEWorld);
         PIEWorld = nullptr;
 
         // TODO: PIE에서 EditorWorld로 돌아올 때, 기존 선택된 Picking이 유지되어야 함. 현재는 에러를 막기위해 임시조치.
         ClearActorSelection();
         ClearComponentSelection();
-        PhysicsManager->CleanupScene();
     }
 
     FSlateAppMessageHandler* Handler = GEngineLoop.GetAppMessageHandler();
