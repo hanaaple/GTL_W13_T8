@@ -49,57 +49,23 @@ void OutlinerEditorPanel::Render()
         return;
     }
 
-    TFunction<void(USceneComponent*)> CreateNode = [&CreateNode, &Engine](
-        USceneComponent* InComp
-    )-> void
-    {
-        FString Name = InComp->GetName();
-
-        ImGuiTreeNodeFlags Flags = ImGuiTreeNodeFlags_DefaultOpen;
-        if (InComp->GetAttachChildren().Num() == 0)
-        {
-            Flags |= ImGuiTreeNodeFlags_Leaf;
-        }
-
-        if (Engine->GetSelectedComponent() == InComp)
-        {
-            Flags |= ImGuiTreeNodeFlags_Selected;
-        }
-
-        ImGui::SetNextItemOpen(true, ImGuiCond_Always);
-        bool NodeOpen = ImGui::TreeNodeEx(*Name, Flags);
-
-        if (ImGui::IsItemClicked())
-        {
-            Engine->SelectActor(InComp->GetOwner());
-            Engine->SelectComponent(InComp);
-        }
-
-        if (NodeOpen)
-        {
-            for (USceneComponent* Child : InComp->GetAttachChildren())
-            {
-                CreateNode(Child);
-            }
-            ImGui::TreePop(); // 트리 닫기
-        }
-    };
-
     for (AActor* Actor : Engine->ActiveWorld->GetActiveLevel()->Actors)
     {
         ImGuiTreeNodeFlags Flags = ImGuiTreeNodeFlags_DefaultOpen
-            | ImGuiTreeNodeFlags_SpanAvailWidth // 클릭 영역 확대
-            | ImGuiTreeNodeFlags_FramePadding   // 패딩
-            | ImGuiTreeNodeFlags_Leaf;          // 트리 열기 버튼 숨기기
+            | ImGuiTreeNodeFlags_SpanAvailWidth    // 클릭 영역 확대
+            | ImGuiTreeNodeFlags_FramePadding      // 패딩
+            | ImGuiTreeNodeFlags_OpenOnDoubleClick // 두번 클릭 시 열기 (한번 클릭했을 때, 아이콘 움직이는거 방지)
+            | ImGuiTreeNodeFlags_Leaf;             // 트리 열기 버튼 숨기기
 
         if (Engine->GetSelectedActor() == Actor)
         {
             Flags |= ImGuiTreeNodeFlags_Selected;
+            Flags &= ~ImGuiTreeNodeFlags_Leaf;
         }
 
         ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.5f, 0.5f, 0.5f, 0.2f));
         {
-            ImGui::SetNextItemOpen(true, ImGuiCond_Always);
+            ImGui::SetNextItemOpen(false, ImGuiCond_Always);
             const bool NodeOpen = ImGui::TreeNodeEx(*Actor->GetActorLabel(), Flags);
 
             if (ImGui::IsItemClicked())
@@ -110,10 +76,6 @@ void OutlinerEditorPanel::Render()
 
             if (NodeOpen)
             {
-                if (USceneComponent* SceneComp = Actor->GetRootComponent())
-                {
-                    CreateNode(SceneComp);
-                }
                 ImGui::TreePop();
             }
         }
