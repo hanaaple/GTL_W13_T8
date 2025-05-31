@@ -3,6 +3,8 @@
 #include <fstream>
 
 #include "Container/Array.h"
+#include "UObject/Object.h"
+#include "UObject/Class.h"
 #include "UserInterface/Console.h"
 
 void FLuaScriptManager::Initialize()
@@ -74,10 +76,71 @@ void FLuaScriptManager::ReloadForce()
 
 void FLuaScriptManager::BindPrimitiveTypes()
 {
+    using mFunc = sol::meta_function;
+    
+    // FVector
+    sol::usertype<FVector> vectorTypeTable = LuaState.new_usertype<FVector>("FVector",
+        sol::call_constructor,
+        sol::constructors<FVector(), FVector(float, float, float)>()
+    );
+
+    vectorTypeTable["x"] = &FVector::X;
+    vectorTypeTable["y"] = &FVector::Y;
+    vectorTypeTable["z"] = &FVector::Z;
+    vectorTypeTable["Dot"] = &FVector::Dot;
+    vectorTypeTable["Cross"] = &FVector::Cross;
+    vectorTypeTable["Length"] = &FVector::Length;
+    vectorTypeTable["SquaredLength"] = &FVector::SquaredLength;
+    vectorTypeTable["Distance"] = &FVector::Distance;
+    vectorTypeTable["Normal"] = &FVector::GetSafeNormal;
+    vectorTypeTable["Normalize"] = &FVector::Normalize;
+    
+    vectorTypeTable[mFunc::addition] = [](const FVector& a, const FVector& b) { return a + b; };
+    vectorTypeTable[mFunc::subtraction] = [](const FVector& a, const FVector& b) { return a - b; };
+    vectorTypeTable[mFunc::multiplication] = [](const FVector& v, const float f) { return v * f; };
+    vectorTypeTable[mFunc::equal_to] = [](const FVector& a, const FVector& b) { return a == b; };
+
+    // FRotator
+    sol::usertype<FRotator> rotatorTypeTable = LuaState.new_usertype<FRotator>("FRotator",
+        sol::call_constructor,
+        sol::constructors<FRotator(), FRotator(float, float, float)>()
+    );
+    
+    rotatorTypeTable["Pitch"] = &FRotator::Pitch;
+    rotatorTypeTable["Yaw"] = &FRotator::Yaw;
+    rotatorTypeTable["Roll"] = &FRotator::Roll;
+    rotatorTypeTable["ClampAxis"] = &FRotator::ClampAxis;
+    rotatorTypeTable["GetNormalized"] = &FRotator::GetNormalized;
+    
+    rotatorTypeTable[mFunc::addition] = [](const FRotator& a, const FRotator& b) { return a + b; };
+    rotatorTypeTable[mFunc::subtraction] = [](const FRotator& a, const FRotator& b) { return a - b; };
+    rotatorTypeTable[mFunc::multiplication] = [](const FRotator& v, const float f) { return v * f; };
+    rotatorTypeTable[mFunc::equal_to] = [](const FRotator& a, const FRotator& b) { return a == b; };
+    
+    // FString
+    sol::usertype<FString> stringTypeTable = LuaState.new_usertype<FString>("FString",
+        sol::call_constructor,
+        sol::constructors<FString(), FString(const std::string&), FString(const ANSICHAR*)>()
+    );
+    
+    stringTypeTable["ToBool"] = &FString::ToBool;
+    stringTypeTable["ToFloat"] = &FString::ToFloat;
+    stringTypeTable["ToInt"] = &FString::ToInt;
+    stringTypeTable["ToString"] = [](const FString& String) -> const char* { return GetData(String); };
+    stringTypeTable["Len"] = &FString::Len;
+    stringTypeTable["IsEmpty"] = &FString::IsEmpty;
+
+    stringTypeTable[mFunc::addition] = [](const FString& a, const FString& b) { return a + b; };
+    stringTypeTable[mFunc::equal_to] = [](const FString& a, const FString& b) { return a == b; }; 
 }
 
 void FLuaScriptManager::BindUObject()
 {
+    sol::usertype<UObject> UObjectTypeTable = LuaState.new_usertype<UObject>("UObject");
+    UObjectTypeTable["GetUUID"] = &UObject::GetUUID;
+    UObjectTypeTable["GetName"] = &UObject::GetName;
+    UObjectTypeTable["GetClass"] = &UObject::GetClass;
+    UObjectTypeTable["IsA"] = static_cast<bool (UObject::*)(const UClass*) const>(&UObject::IsA);
 }
 
 bool FLuaScriptManager::LoadFile(const FString& FileName)

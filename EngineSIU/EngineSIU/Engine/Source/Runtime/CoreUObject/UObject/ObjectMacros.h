@@ -31,8 +31,17 @@ private: \
     } TClass##_StaticClassRegistrar_PRIVATE{}; \
 public: \
     using Super = TSuperClass; \
-    using ThisClass = TClass;
-
+    using ThisClass = TClass; \
+public: \
+    using InheritTypes = SolTypeBinding::InheritList<TClass, TSuperClass>::type; \
+    static sol::usertype<TClass> GetLuaUserType(sol::state& lua) { \
+        static sol::usertype<TClass> usertype = lua.new_usertype<TClass>( \
+            #TClass, \
+            sol::base_classes, \
+            SolTypeBinding::TypeListToBases<typename SolTypeBinding::InheritList<TClass, TSuperClass>::base_list>::Get() \
+        ); \
+        return usertype; \
+    } \
 
 // RTTI를 위한 클래스 매크로
 #define DECLARE_CLASS(TClass, TSuperClass) \
