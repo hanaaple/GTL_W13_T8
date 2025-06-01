@@ -29,4 +29,7 @@ protected:
 
     void SaveShakeInExpiredPool(UCameraShakeBase* ShakeInst);
     UCameraShakeBase* ReclaimShakeFromExpiredPool(UClass* ShakeClass);
+
+public:
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
 };

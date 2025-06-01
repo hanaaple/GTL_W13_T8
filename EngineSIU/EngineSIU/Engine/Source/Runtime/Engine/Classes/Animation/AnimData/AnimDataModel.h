@@ -55,15 +55,19 @@ private:
     TArray<FBoneAnimationTrack> BoneAnimationTracks;
 
     // Rate at which the animated data is sampled
-    int32 FrameRate;
+    UPROPERTY(int32, FrameRate, = 0)
 
     // Total number of sampled animated frames
-    int32 NumberOfFrames;
+    UPROPERTY(int32, NumberOfFrames, = 0)
 
     // Total number of sampled animated keys
-    int32 NumberOfKeys;
+    UPROPERTY(int32, NumberOfKeys, = 0)
 
     FBoneAnimationTrack* FindMutableBoneTrackByName(FName Name);
-    
+
+public:
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
+
+private:
     friend class UAnimDataController;
 };

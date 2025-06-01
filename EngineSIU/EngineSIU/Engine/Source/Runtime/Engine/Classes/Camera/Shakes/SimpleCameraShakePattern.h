@@ -10,13 +10,13 @@ public:
     USimpleCameraShakePattern() = default;
     
     /** Duration in seconds of this shake. Zero or less means infinite. */
-    float Duration = 1.f;
+    UPROPERTY(EditAnywhere, float, Duration, = 1.f)
 
     /** Blend-in time for this shake. Zero or less means no blend-in. */
-    float BlendInTime = 0.2f;
+    UPROPERTY(EditAnywhere, float, BlendInTime, = 0.2f)
 
     /** Blend-out time for this shake. Zero or less means no blend-out. */
-    float BlendOutTime = 0.2f;
+    UPROPERTY(EditAnywhere, float, BlendOutTime, = 0.2f)
 
 protected:
 
@@ -26,6 +26,9 @@ protected:
     virtual bool IsFinishedImpl() const override;
     virtual void StopShakePatternImpl(bool bImmediately) override;
     virtual void TeardownShakePatternImpl()  override;
+
+public:
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
 
 protected:
 

@@ -2,6 +2,7 @@
 #include "Property.h"
 
 #include "Class.h"
+#include "FObjectDuplicator.h"
 #include "PropertyEvent.h"
 #include "ScriptStruct.h"
 #include "UObjectHash.h"
@@ -89,7 +90,7 @@ struct FPropertyUIHelper
 
 void FProperty::DisplayInImGui(UObject* Object) const
 {
-    void* Data = GetPropertyData(Object);
+    void* Data = GetPropertyDataUnsafe(Object);
     DisplayRawDataInImGui(*Metadata.DisplayName.Get(Name), Data, Object);
 }
 
@@ -107,6 +108,11 @@ void FProperty::DisplayRawDataInImGui(const char* PropertyLabel, void* DataPtr, 
     }
 
     DisplayRawDataInImGui_Implement(PropertyLabel, DataPtr, OwnerObject);
+}
+
+void FProperty::CopyData(const void* SrcPtr, void* DstPtr, FObjectDuplicator& Duplicator) const
+{
+    FPlatformMemory::Memcpy(DstPtr, SrcPtr, Size);
 }
 
 void FProperty::DisplayRawDataInImGui_Implement(const char* PropertyLabel, void* DataPtr, UObject* OwnerObject) const
@@ -381,6 +387,12 @@ void FStrProperty::DisplayRawDataInImGui_Implement(const char* PropertyLabel, vo
             OwnerObject->PostEditChangeProperty(Event);
         }
     }
+}
+
+void FStrProperty::CopyData(const void* SrcPtr, void* DstPtr, FObjectDuplicator& Duplicator) const
+{
+    const FString str = *static_cast<const FString*>(SrcPtr);
+    *static_cast<FString*>(DstPtr) = str;
 }
 
 void FNameProperty::DisplayRawDataInImGui_Implement(const char* PropertyLabel, void* DataPtr, UObject* OwnerObject) const
@@ -891,6 +903,13 @@ void FObjectProperty::DisplayRawDataInImGui_Implement(const char* PropertyLabel,
         }
         ImGui::TreePop();
     }
+}
+
+void FObjectProperty::CopyData(const void* SrcPtr, void* DstPtr, FObjectDuplicator& Duplicator) const
+{
+    UObject* SrcObj = *reinterpret_cast<UObject* const*>(SrcPtr);
+    UObject* DstObj = SrcObj ? Duplicator.DuplicateObject(SrcObj) : nullptr;
+    *reinterpret_cast<UObject**>(DstPtr) = DstObj;
 }
 
 void FStructProperty::DisplayRawDataInImGui_Implement(const char* PropertyLabel, void* DataPtr, UObject* OwnerObject) const

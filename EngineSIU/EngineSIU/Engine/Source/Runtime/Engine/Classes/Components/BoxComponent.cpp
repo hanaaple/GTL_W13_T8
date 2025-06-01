@@ -7,14 +7,14 @@ UBoxComponent::UBoxComponent()
     ShapeType = EShapeType::Box;
 }
 
-UObject* UBoxComponent::Duplicate(UObject* InOuter)
-{
-    ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
-    
-    NewComponent->BoxExtent = BoxExtent;
-    
-    return NewComponent;
-}
+// UObject* UBoxComponent::Duplicate(UObject* InOuter)
+// {
+//     ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
+//     
+//     NewComponent->BoxExtent = BoxExtent;
+//     
+//     return NewComponent;
+// }
 
 void UBoxComponent::GetProperties(TMap<FString, FString>& OutProperties) const
 {

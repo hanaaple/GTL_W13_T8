@@ -33,7 +33,10 @@ void OutlinerEditorPanel::Render()
     ImGui::SetNextWindowSize(ImVec2(PanelWidth, PanelHeight), ImGuiCond_Always);
 
     /* Panel Flags */
-    ImGuiWindowFlags PanelFlags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse;
+    ImGuiWindowFlags PanelFlags = ImGuiWindowFlags_NoResize
+        | ImGuiWindowFlags_NoMove
+        | ImGuiWindowFlags_NoCollapse
+        | ImGuiWindowFlags_HorizontalScrollbar;
     
     /* Render Start */
     ImGui::Begin("Outliner", nullptr, PanelFlags);
@@ -49,62 +52,40 @@ void OutlinerEditorPanel::Render()
         return;
     }
 
-    std::function<void(USceneComponent*)> CreateNode =
-        [&CreateNode, &Engine](USceneComponent* InComp)->void
-        {
-            FString Name = InComp->GetName();
+    for (AActor* Actor : Engine->ActiveWorld->GetActiveLevel()->Actors)
+    {
+        ImGuiTreeNodeFlags Flags = ImGuiTreeNodeFlags_DefaultOpen
+            | ImGuiTreeNodeFlags_SpanAvailWidth    // 클릭 영역 확대
+            | ImGuiTreeNodeFlags_FramePadding      // 패딩
+            | ImGuiTreeNodeFlags_OpenOnDoubleClick // 두번 클릭 시 열기 (한번 클릭했을 때, 아이콘 움직이는거 방지)
+            | ImGuiTreeNodeFlags_Leaf;             // 트리 열기 버튼 숨기기
 
-            ImGuiTreeNodeFlags Flags = ImGuiTreeNodeFlags_None;
-            if (InComp->GetAttachChildren().Num() == 0)
-            {
-                Flags |= ImGuiTreeNodeFlags_Leaf;
-            }
-            
-            ImGui::SetNextItemOpen(true, ImGuiCond_Always);
-            bool NodeOpen = ImGui::TreeNodeEx(*Name, Flags);
+        if (Engine->GetSelectedActor() == Actor)
+        {
+            Flags |= ImGuiTreeNodeFlags_Selected;
+            Flags &= ~ImGuiTreeNodeFlags_Leaf;
+        }
+
+        ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.5f, 0.5f, 0.5f, 0.2f));
+        {
+            ImGui::SetNextItemOpen(false, ImGuiCond_Always);
+            const bool NodeOpen = ImGui::TreeNodeEx(*Actor->GetActorLabel(), Flags);
 
             if (ImGui::IsItemClicked())
             {
-                Engine->SelectActor(InComp->GetOwner());
-                Engine->SelectComponent(InComp);
+                Engine->SelectActor(Actor);
+                Engine->DeselectComponent(Engine->GetSelectedComponent());
             }
 
             if (NodeOpen)
             {
-                for (USceneComponent* Child : InComp->GetAttachChildren())
-                {
-                    CreateNode(Child);
-                }
-                ImGui::TreePop(); // 트리 닫기
-            }
-        };
-
-    for (AActor* Actor : Engine->ActiveWorld->GetActiveLevel()->Actors)
-    {
-        ImGuiTreeNodeFlags Flags = ImGuiTreeNodeFlags_None;
-
-        ImGui::SetNextItemOpen(true, ImGuiCond_Always);
-
-        bool NodeOpen = ImGui::TreeNodeEx(*Actor->GetName(), Flags);
-
-        if (ImGui::IsItemClicked())
-        {
-            Engine->SelectActor(Actor);
-            Engine->DeselectComponent(Engine->GetSelectedComponent());
-        }
-
-        if (NodeOpen)
-        {
-            if (Actor->GetRootComponent())
-            {
-                CreateNode(Actor->GetRootComponent());
-            }
                 ImGui::TreePop();
+            }
         }
+        ImGui::PopStyleColor();
     }
 
     ImGui::EndChild();
-
     ImGui::End();
 }
     

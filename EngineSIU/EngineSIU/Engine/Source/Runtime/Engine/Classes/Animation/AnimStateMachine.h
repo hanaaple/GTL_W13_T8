@@ -26,7 +26,7 @@ class UAnimStateMachine : public UObject
     FString GetStateName(EAnimState State) const;
     EAnimState GetState() const;
     
-    private:
+private:
     EAnimState CurrentState;
     int MoveSpeed;
     bool bIsDancing;

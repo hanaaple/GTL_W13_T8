@@ -21,8 +21,6 @@ class UPrimitiveComponent : public USceneComponent
 public:
     UPrimitiveComponent();
 
-    virtual UObject* Duplicate(UObject* InOuter) override;
-
     virtual void InitializeComponent() override;
     virtual void TickComponent(float DeltaTime) override;
     virtual void EndPhysicsTickComponent(float DeltaTime) override;
@@ -34,7 +32,7 @@ public:
 
     virtual void GetProperties(TMap<FString, FString>& OutProperties) const override;
     virtual void SetProperties(const TMap<FString, FString>& InProperties) override;
-    
+
     FBoundingBox AABB;
 
     bool GetGenerateOverlapEvents() const { return bGenerateOverlapEvents; }
@@ -120,7 +118,7 @@ public:
 protected:
     TArray<FOverlapInfo> OverlappingComponents;
 
-    UBodySetup* BodySetup;
+    UPROPERTY(EditAnywhere, UBodySetup*, BodySetup, = nullptr)
 
     virtual void UpdateOverlapsImpl(const TArray<FOverlapInfo>* PendingOverlaps = nullptr, bool bDoNotifies = true, const TArray<const FOverlapInfo>* OverlapsAtEndLocation = nullptr) override;
 
@@ -140,6 +138,7 @@ public:
     }
     
     FBoundingBox GetBoundingBox() const { return AABB; }
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
 };
 
 

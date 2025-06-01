@@ -12,6 +12,7 @@ public:
     AStaticMeshActor();
 
     UStaticMeshComponent* GetStaticMeshComponent() const;
+    //virtual UObject* Duplicate(UObject* InOuter) override;
 
 protected:
     UPROPERTY

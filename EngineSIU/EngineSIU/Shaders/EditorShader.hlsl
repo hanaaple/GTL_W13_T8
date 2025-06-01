@@ -642,123 +642,184 @@ PS_INPUT CapsuleVS(
     static const float PI = 3.1415926535897932f;
 
     //— 3) offset 계산
-    float centerOffset = halfHeight - Radius;
+    float cylinderHalfLength = halfHeight - Radius;
+
 
     //— 4) 파트별 라인/버텍스 개수
-    uint horizTop = (stacks + 1) * segments;    // 수평 링: stacks+1 개
+    uint horizHemisphere = (stacks + 1) * segments;    // 수평 링: stacks+1 개
     uint vertTop = stacks * segments;           // 수직 줄: stacks 개
-    uint linesTop = horizTop + vertTop;         // = segments*(2*stacks+1)
-    uint vertsTop = linesTop * 2;               // 544 (stacks=8, segments=16)
+    uint linesTop = horizHemisphere + vertTop;         // = segments*(2*stacks+1)
+    uint vertsHemisphere  = linesTop * 2;               // 544 (stacks=8, segments=16)
 
     uint linesCyl = segments * 3;               // 48
     uint vertsCyl = linesCyl * 2;               // 96
 
-    uint vertsInst = vertsTop + vertsCyl + vertsTop; // 544+96+544 = 1184
+    uint vertsInst = vertsHemisphere  + vertsCyl + vertsHemisphere ; // 544+96+544 = 1184
 
     //— 5) 절차적 매핑
     float3 localPos;
     uint v = vertexID % vertsInst;
-    if (v < vertsTop)
+if (v < vertsHemisphere)
     {
-        // --- 상단 반구 ---
-        uint lineIdx = v / 2; // [0 .. linesTop-1]
+        // --- 시작 반구 (Positive X-axis end, X-up) ---
+        uint lineIdx = v / 2;
         bool isEnd = (v & 1) == 1;
 
         float3 p0, p1;
-        if (lineIdx < horizTop)
+        if (lineIdx < horizHemisphere)
         {
-            // 1) 수평 링
-            uint stackId = lineIdx / segments; // 0..stacks
+            // 1) 수평 링 (YZ 평면)
+            uint stackId = lineIdx / segments;
             uint segId = lineIdx % segments;
 
             float t = stackId / float(stacks);
-            float theta = t * (PI / 2);
-            float z0 = cos(theta), r0 = sin(theta);
+            // theta: Angle from positive X-axis (0 to PI/2 for positive-X hemisphere)
+            float theta = t * (PI / 2.0f);
+
+            // X-coordinate on unit sphere (polar axis is X)
+            float x0 = cos(theta); // <- X 좌표 계산
+            // Radius in YZ plane on unit sphere
+            float r_yz0 = sin(theta); // <- YZ 평면 반지름 계산
+
+            // phi: Azimuthal angle in YZ plane (0 to 2*PI)
             float phi = (segId / float(segments)) * 2 * PI;
-            p0 = float3(r0 * cos(phi), r0 * sin(phi), z0);
-            // 다음 세그먼트
             float phi1 = (((segId + 1) % segments) / float(segments)) * 2 * PI;
-            p1 = float3(r0 * cos(phi1), r0 * sin(phi1), z0);
+
+            // Point on unit sphere (X-up: X is polar, YZ is azimuthal)
+            p0 = float3(x0, r_yz0 * cos(phi), r_yz0 * sin(phi)); // <- X, Y, Z 좌표 구성 변경
+            p1 = float3(x0, r_yz0 * cos(phi1), r_yz0 * sin(phi1)); // <- X, Y, Z 좌표 구성 변경
         }
         else
         {
-            // 2) 수직 줄
-            uint vertIdx = lineIdx - horizTop; // 0..vertTop-1
-            uint stackId = vertIdx / segments; // 0..stacks-1
-            uint segId = vertIdx % segments;
-
-            // 두 스택 간의 점
-            float t0 = stackId / float(stacks);
-            float t1 = (stackId + 1) / float(stacks);
-            float theta0 = t0 * (PI / 2), theta1 = t1 * (PI / 2);
-            float z0 = cos(theta0), z1 = cos(theta1);
-            float r0 = sin(theta0), r1 = sin(theta1);
-            float phi = (segId / float(segments)) * 2 * PI;
-            p0 = float3(r0 * cos(phi), r0 * sin(phi), z0);
-            p1 = float3(r1 * cos(phi), r1 * sin(phi), z1);
-        }
-
-        // 적용: 반지름 스케일 + offset
-        float3 sph0 = p0 * Radius;
-        sph0.z += centerOffset;
-        float3 sph1 = p1 * Radius;
-        sph1.z += centerOffset;
-        localPos = isEnd ? sph1 : sph0;
-    }
-    else if (v < vertsTop + vertsCyl)
-    {
-        // --- 실린더 (unchanged) ---
-        uint cylID = (v - vertsTop) / 2;
-        bool isEnd = ((v - vertsTop) & 1) == 1;
-        uint segId = cylID % segments;
-        float ang = (2 * PI * segId) / segments;
-        float2 circ = float2(cos(ang), sin(ang)) * Radius;
-        float z = isEnd ? -centerOffset : +centerOffset;
-        localPos = float3(circ.x, circ.y, z);
-    }
-    else
-    {
-        // --- 하단 반구 (mirror of 상단) ---
-        uint vv = v - (vertsTop + vertsCyl);
-        uint lineIdx = vv / 2;
-        bool isEnd = (vv & 1) == 1;
-
-        float3 p0, p1;
-        if (lineIdx < horizTop)
-        {
-            // 수평 링
-            uint stackId = lineIdx / segments; // 0..stacks
-            uint segId = lineIdx % segments;
-
-            float t = stackId / float(stacks);
-            float theta = t * (PI / 2);
-            float z0 = -cos(theta), r0 = sin(theta);
-            float phi = (segId / float(segments)) * 2 * PI;
-            p0 = float3(r0 * cos(phi), r0 * sin(phi), z0);
-            float phi1 = (((segId + 1) % segments) / float(segments)) * 2 * PI;
-            p1 = float3(r0 * cos(phi1), r0 * sin(phi1), z0);
-        }
-        else
-        {
-            // 수직 줄
-            uint vertIdx = lineIdx - horizTop;
+            // 2) 수직 줄 (XY or XZ 평면)
+            uint vertIdx = lineIdx - horizHemisphere;
             uint stackId = vertIdx / segments;
             uint segId = vertIdx % segments;
 
             float t0 = stackId / float(stacks);
             float t1 = (stackId + 1) / float(stacks);
-            float theta0 = t0 * (PI / 2), theta1 = t1 * (PI / 2);
-            float z0 = -cos(theta0), z1 = -cos(theta1);
-            float r0 = sin(theta0), r1 = sin(theta1);
+            float theta0 = t0 * (PI / 2.0f);
+            float theta1 = t1 * (PI / 2.0f);
+
+            // X-coordinates on unit sphere for two stacks
+            float x0 = cos(theta0), x1 = cos(theta1); // <- X 좌표 계산
+            // Radii in YZ plane on unit sphere
+            float r_yz0 = sin(theta0), r_yz1 = sin(theta1); // <- YZ 평면 반지름 계산
+
+            // phi: Azimuthal angle in YZ plane
             float phi = (segId / float(segments)) * 2 * PI;
-            p0 = float3(r0 * cos(phi), r0 * sin(phi), z0);
-            p1 = float3(r1 * cos(phi), r1 * sin(phi), z1);
+
+            p0 = float3(x0, r_yz0 * cos(phi), r_yz0 * sin(phi)); // <- X, Y, Z 좌표 구성 변경
+            p1 = float3(x1, r_yz1 * cos(phi), r_yz1 * sin(phi)); // <- X, Y, Z 좌표 구성 변경
         }
 
+        // 적용: 반지름 스케일 + X-오프셋 (positive X end)
         float3 sph0 = p0 * Radius;
-        sph0.z -= centerOffset;
+        sph0.x += cylinderHalfLength; // <- 오프셋을 X축에 적용
         float3 sph1 = p1 * Radius;
-        sph1.z -= centerOffset;
+        sph1.x += cylinderHalfLength; // <- 오프셋을 X축에 적용
+
+        localPos = isEnd ? sph1 : sph0;
+    }
+    else if (v < vertsHemisphere + vertsCyl)
+    {
+        // --- 실린더 (X-up) ---
+        uint cylVertexIndex = v - vertsHemisphere;
+        uint lineWithinCylinder = cylVertexIndex / 2;
+        bool isEnd = (cylVertexIndex & 1) == 1;
+
+        float3 p0, p1;
+
+        uint lineType = lineWithinCylinder / segments; // 0: positive X end circle, 1: negative X end circle, 2: vertical
+        uint segId = lineWithinCylinder % segments;
+
+        float ang0 = (2 * PI * segId) / segments;
+        float ang1 = (2 * PI * ((segId + 1) % segments)) / segments;
+
+        // Points on the circle in the YZ plane (X=0 initially)
+        float3 circ0 = float3(0, cos(ang0) * Radius, sin(ang0) * Radius); // <- YZ 평면에 원 생성 (X=0)
+        float3 circ1 = float3(0, cos(ang1) * Radius, sin(ang1) * Radius); // <- YZ 평면에 원 생성 (X=0)
+
+        // X-coordinates for the positive and negative ends of the cylinder
+        float xPosEnd = cylinderHalfLength; // <- X축 높이
+        float xNegEnd = -cylinderHalfLength; // <- X축 높이
+
+        if (lineType == 0) // Positive X end circle perimeter lines
+        {
+            p0 = circ0 + float3(xPosEnd, 0, 0); // <- X 오프셋 적용
+            p1 = circ1 + float3(xPosEnd, 0, 0); // <- X 오프셋 적용
+        }
+        else if (lineType == 1) // Negative X end circle perimeter lines
+        {
+            p0 = circ0 + float3(xNegEnd, 0, 0); // <- X 오프셋 적용
+            p1 = circ1 + float3(xNegEnd, 0, 0); // <- X 오프셋 적용
+        }
+        else // lineType == 2, Vertical lines connecting positive to negative X end
+        {
+            p0 = circ0 + float3(xPosEnd, 0, 0); // <- X 오프셋 적용
+            p1 = circ0 + float3(xNegEnd, 0, 0); // <- X 오프셋 적용
+        }
+
+        localPos = isEnd ? p1 : p0;
+    }
+    else
+    {
+        // --- 끝 반구 (Negative X-axis end, X-up, mirror of 시작 반구) ---
+        uint vv = v - (vertsHemisphere + vertsCyl); // Index within the bottom hemisphere block
+        uint lineIdx = vv / 2;
+        bool isEnd = (vv & 1) == 1;
+
+        float3 p0, p1;
+        if (lineIdx < horizHemisphere)
+        {
+            // 수평 링 (YZ 평면)
+            uint stackId = lineIdx / segments;
+            uint segId = lineIdx % segments;
+
+            float t = stackId / float(stacks);
+            float theta = t * (PI / 2.0f);
+
+            // Map cos(theta) (1 to 0) to the negative X range (0 to -1)
+            float x0 = -cos(theta); // <- X 좌표 계산 (음수)
+            // Radius in YZ plane is still sin(theta)
+            float r_yz0 = sin(theta); // <- YZ 평면 반지름 계산
+
+            float phi = (segId / float(segments)) * 2 * PI;
+            float phi1 = (((segId + 1) % segments) / float(segments)) * 2 * PI;
+
+            p0 = float3(x0, r_yz0 * cos(phi), r_yz0 * sin(phi)); // <- X, Y, Z 좌표 구성 변경
+            p1 = float3(x0, r_yz0 * cos(phi1), r_yz0 * sin(phi1)); // <- X, Y, Z 좌표 구성 변경
+        }
+        else
+        {
+            // 2) 수직 줄 (XY or XZ 평면)
+            uint vertIdx = lineIdx - horizHemisphere;
+            uint stackId = vertIdx / segments;
+            uint segId = vertIdx % segments;
+
+            float t0 = stackId / float(stacks);
+            float t1 = (stackId + 1) / float(stacks);
+            float theta0 = t0 * (PI / 2.0f);
+            float theta1 = t1 * (PI / 2.0f);
+
+            // X-coordinates for two stacks (negative)
+            float x0 = -cos(theta0), x1 = -cos(theta1); // <- X 좌표 계산 (음수)
+            // Radii in YZ plane
+            float r_yz0 = sin(theta0), r_yz1 = sin(theta1); // <- YZ 평면 반지름 계산
+
+            float phi = (segId / float(segments)) * 2 * PI;
+
+            p0 = float3(x0, r_yz0 * cos(phi), r_yz0 * sin(phi)); // <- X, Y, Z 좌표 구성 변경
+            // Note: Corrected p1 assignment in the last line, was missing x1 and had y1 (typo from Y-up)
+            p1 = float3(x1, r_yz1 * cos(phi), r_yz1 * sin(phi)); // Corrected line
+        }
+
+        // 적용: 반지름 스케일 + X-오프셋 (하단)
+        float3 sph0 = p0 * Radius;
+        sph0.x -= cylinderHalfLength; // <- 오프셋을 X축에 적용 (음수)
+        float3 sph1 = p1 * Radius;
+        sph1.x -= cylinderHalfLength; // <- 오프셋을 X축에 적용 (음수)
+
         localPos = isEnd ? sph1 : sph0;
     }
 

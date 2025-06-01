@@ -14,17 +14,6 @@ UDirectionalLightComponent::UDirectionalLightComponent()
     DirectionalLightInfo.LightColor = FLinearColor(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
-UObject* UDirectionalLightComponent::Duplicate(UObject* InOuter)
-{
-    ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
-    if (NewComponent)
-    {
-        NewComponent->DirectionalLightInfo = DirectionalLightInfo;
-    }
-    
-    return NewComponent;
-}
-
 void UDirectionalLightComponent::GetProperties(TMap<FString, FString>& OutProperties) const
 {
     Super::GetProperties(OutProperties);

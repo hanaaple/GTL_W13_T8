@@ -17,6 +17,7 @@ public:
 
 public:
     UPROPERTY(
+        VisibleAnywhere,
         UCapsuleComponent*, CapsuleComponent, ;
     )
 

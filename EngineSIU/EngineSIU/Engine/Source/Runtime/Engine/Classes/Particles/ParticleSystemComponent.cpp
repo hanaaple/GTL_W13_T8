@@ -13,15 +13,15 @@ UParticleSystemComponent::UParticleSystemComponent()
 {
 }
 
-UObject* UParticleSystemComponent::Duplicate(UObject* InOuter)
-{
-    ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
-    NewComponent->SetRelativeTransform(GetRelativeTransform());
-
-    NewComponent->SetParticleSystem(GetParticleSystem());
-    
-    return NewComponent;
-}
+// UObject* UParticleSystemComponent::Duplicate(UObject* InOuter)
+// {
+//     ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
+//     NewComponent->SetRelativeTransform(GetRelativeTransform());
+//
+//     NewComponent->SetParticleSystem(GetParticleSystem());
+//     
+//     return NewComponent;
+// }
 
 void UParticleSystemComponent::InitializeComponent()
 {
@@ -199,4 +199,10 @@ void UParticleSystemComponent::ReBuildInstancesMemoryLayout()
             Instance->BuildMemoryLayout();
         }
     }
+}
+
+void UParticleSystemComponent::DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator)
+{
+    Super::DuplicateSubObjects(Source, InOuter, Duplicator);
+    const UParticleSystemComponent* SrcComp = static_cast<const UParticleSystemComponent*>(Source);
 }

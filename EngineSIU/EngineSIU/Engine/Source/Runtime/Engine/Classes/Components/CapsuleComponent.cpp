@@ -7,15 +7,15 @@ UCapsuleComponent::UCapsuleComponent()
     ShapeType = EShapeType::Capsule;
 }
 
-UObject* UCapsuleComponent::Duplicate(UObject* InOuter)
-{
-    ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
-
-    NewComponent->CapsuleHalfHeight = CapsuleHalfHeight;
-    NewComponent->CapsuleRadius = CapsuleRadius;
-    
-    return NewComponent;
-}
+// UObject* UCapsuleComponent::Duplicate(UObject* InOuter)
+// {
+//     ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
+//
+//     NewComponent->CapsuleHalfHeight = CapsuleHalfHeight;
+//     NewComponent->CapsuleRadius = CapsuleRadius;
+//     
+//     return NewComponent;
+// }
 
 void UCapsuleComponent::SetProperties(const TMap<FString, FString>& InProperties)
 {

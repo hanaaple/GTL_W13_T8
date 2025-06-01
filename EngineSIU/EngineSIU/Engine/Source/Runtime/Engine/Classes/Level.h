@@ -15,9 +15,10 @@ public:
 
     void InitLevel(UWorld* InOwningWorld);
     void Release();
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
 
-    virtual UObject* Duplicate(UObject* InOuter) override;
+    //virtual UObject* Duplicate(UObject* InOuter) override;
 
     TArray<AActor*> Actors;
-    UWorld* OwningWorld;
+    UPROPERTY(UWorld*, OwningWorld, = nullptr)
 };

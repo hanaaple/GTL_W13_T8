@@ -20,12 +20,12 @@ public:
 
     TMap<FString, sol::object> ExposedProperties;
 
-
     virtual void BeginPlay() override;
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
     virtual void TickComponent(float DeltaTime) override;
     void InitEnvironment();
     virtual UObject* Duplicate(UObject* InOuter) override;
+
     virtual void InitializeComponent() override;
     void LoadScriptAndBind();
 
@@ -38,11 +38,14 @@ public:
     FString GetDisplayName() const { return DisplayName; }
     void SetDisplayName(const FString& InDisplayName) { DisplayName = InDisplayName; }
 
-private:
+    void OnBeginOverlap(AActor* OverlappedActor, AActor* OtherActor);
+    void OnEndOverlap(AActor* OverlappedActor, AActor* OtherActor);
 
-    FString DisplayName;
-    FString ScriptPath;
+private:
     sol::environment CompEnvironment;
+
+    UPROPERTY(FString, ScriptPath, = TEXT("None"))
+    UPROPERTY(FString, DisplayName, = TEXT("None"))
 
     TArray<FDelegateHandle> DelegateHandles;
     

@@ -2,16 +2,8 @@
 
 #include "CoreMiscDefines.h"
 #include "UObject/Casts.h"
+#include "UObject/FObjectDuplicator.h"
 
-
-UObject* UMeshComponent::Duplicate(UObject* InOuter)
-{
-    ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
-
-    NewComponent->OverrideMaterials = OverrideMaterials;
-
-    return NewComponent;
-}
 
 void UMeshComponent::GetProperties(TMap<FString, FString>& OutProperties) const
 {
@@ -73,6 +65,22 @@ void UMeshComponent::GetUsedMaterials(TArray<UMaterial*>& Out) const
         if (UMaterial* Material = GetMaterial(ElementIndex))
         {
             Out.Add(Material);
+        }
+    }
+}
+
+void UMeshComponent::DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator)
+{
+    Super::DuplicateSubObjects(Source, InOuter, Duplicator);
+    const UMeshComponent* SrcComp = static_cast<const UMeshComponent*>(Source);
+    OverrideMaterials.Empty();
+
+    for (UMaterial* Material : SrcComp->OverrideMaterials)
+    {
+        if (Material != nullptr)
+        {
+            UMaterial* DuplicatedMaterial = static_cast<UMaterial*>(Duplicator.DuplicateObject(Material));
+            OverrideMaterials.Add(DuplicatedMaterial);
         }
     }
 }

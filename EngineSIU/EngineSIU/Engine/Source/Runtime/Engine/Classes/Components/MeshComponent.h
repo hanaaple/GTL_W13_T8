@@ -8,8 +8,6 @@ class UMeshComponent : public UPrimitiveComponent
 public:
     UMeshComponent() = default;
 
-    virtual UObject* Duplicate(UObject* InOuter) override;
-
     virtual void GetProperties(TMap<FString, FString>& OutProperties) const override;
     virtual void SetProperties(const TMap<FString, FString>& InProperties) override;
     
@@ -27,5 +25,6 @@ protected:
     TArray<UMaterial*> OverrideMaterials;
 public:
     const TArray<UMaterial*>& GetOverrideMaterials() const { return OverrideMaterials; }
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
 };
 

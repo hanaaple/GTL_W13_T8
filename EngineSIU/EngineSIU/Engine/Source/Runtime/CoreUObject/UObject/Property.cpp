@@ -48,3 +48,13 @@ void FUnresolvedPtrProperty::Resolve()
     TypeSpecificData = std::monostate{};
     UE_LOGFMT(ELogLevel::Error, "Unknown Property Type: {}", Name);
 }
+
+void FUnresolvedPtrProperty::CopyData(const void* SrcPtr, void* DstPtr, FObjectDuplicator& Duplicator) const
+{
+    if (Type == EPropertyType::Unknown)
+    {
+        return;
+    }
+    
+    ResolvedProperty->CopyData(SrcPtr, DstPtr, Duplicator);
+}

@@ -55,7 +55,7 @@ public:
     UBodySetupCore() = default;
     void SetBoneName(const FName& InBoneName) { BoneName = InBoneName; }
 
-    FName BoneName;
+    UPROPERTY(FName, BoneName, = TEXT("None"))
 
     virtual void SerializeAsset(FArchive& Ar) override;
 };
@@ -69,10 +69,11 @@ public:
 
     // DisplayName = Primitives
     FKAggregateGeom AggGeom;
-    
-    TArray<AggregateGeomAttributes> GeomAttributes;
+
+    UPROPERTY(EditAnywhere, TArray<AggregateGeomAttributes>, GeomAttributes, = {})
 
     virtual void SerializeAsset(FArchive& Ar) override;
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
 };
 
 class UPhysicsAsset : public UObject
@@ -82,9 +83,9 @@ class UPhysicsAsset : public UObject
 public:
     UPhysicsAsset() = default;
 
-    USkeletalMesh* PreviewSkeletalMesh;
-    
-    TArray<UBodySetup*> BodySetups;
+    UPROPERTY(EditAnywhere | ShallowCopy, USkeletalMesh*, PreviewSkeletalMesh, = nullptr)
+
+    UPROPERTY(EditAnywhere, TArray<UBodySetup*>, BodySetups, ={})
 
     /**
      * 언리얼 엔진에서는 UPhysicsConstraintTemplate의 배열을 가지고있고,
@@ -100,4 +101,5 @@ public:
     virtual USkeletalMesh* GetPreviewMesh() const;
 
     virtual void SerializeAsset(FArchive& Ar) override;
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
 };

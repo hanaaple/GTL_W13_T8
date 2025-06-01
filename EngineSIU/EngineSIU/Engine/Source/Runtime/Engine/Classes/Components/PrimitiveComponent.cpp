@@ -165,19 +165,6 @@ UPrimitiveComponent::UPrimitiveComponent()
     BodySetup = FObjectFactory::ConstructObject<UBodySetup>(this);
 }
 
-UObject* UPrimitiveComponent::Duplicate(UObject* InOuter)
-{
-    ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
-
-    NewComponent->AABB = AABB;
-    NewComponent->bSimulate = bSimulate;
-    NewComponent->bApplyGravity = bApplyGravity;
-    NewComponent->GeomAttributes = GeomAttributes;
-    NewComponent->RigidBodyType = RigidBodyType;
-
-    return NewComponent;
-}
-
 void UPrimitiveComponent::InitializeComponent()
 {
     Super::InitializeComponent();
@@ -200,6 +187,20 @@ void UPrimitiveComponent::InitializeComponent()
 void UPrimitiveComponent::TickComponent(float DeltaTime)
 {
     Super::TickComponent(DeltaTime);
+
+    if (RigidBodyType != ERigidBodyType::STATIC)
+    {
+        if (BodyInstance && BodyInstance->BIGameObject)
+        {
+            // UE Transform → PhysX Transform 변환
+            const FTransform& WorldXf = GetComponentTransform();
+            PxTransform P(PxVec3(WorldXf.GetTranslation().X, WorldXf.GetTranslation().Y, WorldXf.GetTranslation().Z), 
+                          PxQuat(WorldXf.GetRotation().X,WorldXf.GetRotation().Y, WorldXf.GetRotation().Z, WorldXf.GetRotation().W));
+    
+            // // Dynamic 또는 Kinematic 모두 Teleport 방식으로 갱신
+            BodyInstance->BIGameObject->UpdateToPhysics(GEngine->PhysicsManager->GetScene(GEngine->ActiveWorld), P, RigidBodyType);
+        }
+    }
 }
 
 void UPrimitiveComponent::EndPhysicsTickComponent(float DeltaTime)
@@ -226,7 +227,7 @@ void UPrimitiveComponent::EndPhysicsTickComponent(float DeltaTime)
         FRotator Rotator = MyQuat.Rotator();
         
         // ✅ Unreal Engine에 적용 (라디안 → 도 변환)
-        SetWorldLocation(FVector(pos.x, -pos.y, pos.z));
+        SetWorldLocation(FVector(pos.x, pos.y, pos.z));
         SetWorldRotation(Rotator);
     }
 }
@@ -605,7 +606,7 @@ void UPrimitiveComponent::CreatePhysXGameObject()
         case EGeomType::ECapsule:
         {
             PxShape* PxCapsule = GEngine->PhysicsManager->CreateCapsuleShape(Offset, GeomPQuat, Extent.x, Extent.z);
-            BodySetup->AggGeom.SphereElems.Add(PxCapsule);
+            BodySetup->AggGeom.CapsuleElems.Add(PxCapsule);
             break;
         }
         }
@@ -787,4 +788,12 @@ void UPrimitiveComponent::ClearComponentOverlaps(bool bDoNotifies, bool bSkipNot
             EndComponentOverlap(OtherOverlap, bDoNotifies, bSkipNotifySelf);
         }
     }
+}
+
+void UPrimitiveComponent::DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator)
+{
+    Super::DuplicateSubObjects(Source, InOuter, Duplicator);
+    const UPrimitiveComponent* SrcComp = static_cast<const UPrimitiveComponent*>(Source);
+
+    AABB = SrcComp->AABB;
 }

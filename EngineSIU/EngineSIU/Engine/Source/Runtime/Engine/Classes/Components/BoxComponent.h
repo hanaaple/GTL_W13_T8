@@ -8,8 +8,8 @@ class UBoxComponent : public UShapeComponent
 public:
     UBoxComponent();
 
-    virtual UObject* Duplicate(UObject* InOuter) override;
-
+    //virtual UObject* Duplicate(UObject* InOuter) override;
+    
     virtual void GetProperties(TMap<FString, FString>& OutProperties) const override;
     virtual void SetProperties(const TMap<FString, FString>& InProperties) override;
 
@@ -17,5 +17,8 @@ public:
     void SetBoxExtent(FVector InExtent) { BoxExtent = InExtent; }
 
 private:
-    FVector BoxExtent = FVector::OneVector;
+    UPROPERTY(
+        EditAnywhere, { .Category = "Box"},
+        FVector, BoxExtent, = FVector::OneVector;
+    )
 };

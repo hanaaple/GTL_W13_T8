@@ -7,14 +7,14 @@ USphereComponent::USphereComponent()
     ShapeType = EShapeType::Sphere;
 }
 
-UObject* USphereComponent::Duplicate(UObject* InOuter)
-{
-    ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
-
-    NewComponent->SphereRadius = SphereRadius;
-
-    return NewComponent;
-}
+// UObject* USphereComponent::Duplicate(UObject* InOuter)
+// {
+//     ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
+//
+//     NewComponent->SphereRadius = SphereRadius;
+//
+//     return NewComponent;
+// }
 
 void USphereComponent::SetProperties(const TMap<FString, FString>& InProperties)
 {

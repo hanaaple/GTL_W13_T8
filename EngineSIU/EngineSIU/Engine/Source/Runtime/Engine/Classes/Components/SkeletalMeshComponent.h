@@ -30,7 +30,7 @@ public:
 
     virtual void InitializeComponent() override;
 
-    virtual UObject* Duplicate(UObject* InOuter) override;
+    //virtual UObject* Duplicate(UObject* InOuter) override;
 
     virtual void SetProperties(const TMap<FString, FString>& InProperties) override;
     virtual void GetProperties(TMap<FString, FString>& OutProperties) const override;
@@ -134,16 +134,16 @@ public:
 protected:
     bool NeedToSpawnAnimScriptInstance() const;
 
-    EAnimationMode AnimationMode;
+    UPROPERTY(EditAnywhere, EAnimationMode, AnimationMode, = EAnimationMode::AnimationSingleNode)
     
 private:
     FPoseContext BonePoseContext;
-    
-    USkeletalMesh* SkeletalMeshAsset;
+
+    UPROPERTY(EditAnywhere | ShallowCopy, USkeletalMesh*, SkeletalMeshAsset, = nullptr)
 
     bool bPlayAnimation;
 
-    std::unique_ptr<FSkeletalMeshRenderData> CPURenderData;
+    std::unique_ptr<FSkeletalMeshRenderData> CPURenderData = nullptr;
 
     static bool bIsCPUSkinning;
 
@@ -157,9 +157,9 @@ private:
 
 public:
     TSubclassOf<UAnimInstance> AnimClass;
-    
-    UAnimInstance* AnimScriptInstance;
 
+    UPROPERTY(EditAnywhere, UAnimInstance*, AnimScriptInstance, = nullptr)
+    
     UAnimSingleNodeInstance* GetSingleNodeInstance() const;
 
     void SetAnimClass(UClass* NewClass);
@@ -167,4 +167,6 @@ public:
     UClass* GetAnimClass() const;
     
     void SetAnimInstanceClass(class UClass* NewClass);
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
+    virtual void PostDuplicate() override;
 };

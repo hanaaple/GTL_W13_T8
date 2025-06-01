@@ -67,3 +67,9 @@ void UParticleEmitter::SerializeAsset(FArchive& Ar)
 
     FArrayHelper::SerializePtrAsset(Ar, LODLevels, this);
 }
+
+void UParticleEmitter::DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator)
+{
+    UObject::DuplicateSubObjects(Source, InOuter, Duplicator);
+    
+}

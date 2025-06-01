@@ -616,7 +616,6 @@ FVector AEditorPlayer::ControlBoneScale(FTransform& BoneTransform, UGizmoBaseCom
     
     return BoneScale;
 }
-
 ASequencerPlayer::ASequencerPlayer()
 {
 }
@@ -641,14 +640,4 @@ void ASequencerPlayer::Tick(float DeltaTime)
         SetActorRotation(SocketTransform.GetRotation().Rotator());
         SetActorLocation(SocketTransform.GetTranslation());
     }
-}
-
-UObject* ASequencerPlayer::Duplicate(UObject* InOuter)
-{
-    ThisClass* NewActor = Cast<ThisClass>(Super::Duplicate(InOuter));
-
-    NewActor->Socket = Socket;
-    NewActor->SkeletalMeshComponent = nullptr;
-
-    return NewActor;
 }

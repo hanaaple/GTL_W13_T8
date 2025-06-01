@@ -15,22 +15,6 @@ UBillboardComponent::UBillboardComponent()
     SetTexture(L"Assets/Editor/Icon/S_Actor.PNG");
 }
 
-UObject* UBillboardComponent::Duplicate(UObject* InOuter)
-{
-    // GPU 버퍼는 공유하지 않고, 상태 값만 복사하여 새로 초기화하도록 함
-    UBillboardComponent* NewComponent = Cast<UBillboardComponent>(Super::Duplicate(InOuter));
-    if (NewComponent)
-    {
-        NewComponent->FinalIndexU = FinalIndexU;
-        NewComponent->FinalIndexV = FinalIndexV;
-        NewComponent->Texture = FEngineLoop::ResourceManager.GetTexture(TexturePath.ToWideString());
-        NewComponent->TexturePath = TexturePath;
-        NewComponent->UUIDParent = UUIDParent;
-        NewComponent->bIsEditorBillboard = bIsEditorBillboard;
-    }
-    return NewComponent;
-}
-
 void UBillboardComponent::GetProperties(TMap<FString, FString>& OutProperties) const
 {
     Super::GetProperties(OutProperties);
@@ -173,4 +157,12 @@ bool UBillboardComponent::CheckPickingOnNDC(const TArray<FVector>& QuadVertices,
         return true;
     }
     return false;
+}
+
+void UBillboardComponent::DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator)
+{
+    Super::DuplicateSubObjects(Source, InOuter, Duplicator);
+    const UBillboardComponent* SrcComp = static_cast<const UBillboardComponent*>(Source);
+
+    Texture = SrcComp->Texture;
 }

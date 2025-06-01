@@ -20,17 +20,6 @@ USpotLightComponent::USpotLightComponent()
     SpotLightInfo.Attenuation = 20.0f;
 }
 
-UObject* USpotLightComponent::Duplicate(UObject* InOuter)
-{
-    ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
-    if (NewComponent)
-    {
-        NewComponent->SpotLightInfo = SpotLightInfo;
-    }
-    
-    return NewComponent;
-}
-
 void USpotLightComponent::GetProperties(TMap<FString, FString>& OutProperties) const
 {
     Super::GetProperties(OutProperties);

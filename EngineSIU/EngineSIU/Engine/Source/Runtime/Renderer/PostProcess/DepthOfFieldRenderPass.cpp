@@ -93,6 +93,10 @@ void FDepthOfFieldRenderPass::CleanUpRender(const std::shared_ptr<FEditorViewpor
 {
     ID3D11ShaderResourceView* NullSRV[1] = { nullptr };
     Graphics->DeviceContext->PSSetShaderResources(static_cast<UINT>(EShaderSRVSlot::SRV_DepthOfField_LayerInfo), 1, NullSRV);
+    Graphics->DeviceContext->PSSetShaderResources(static_cast<UINT>(EShaderSRVSlot::SRV_DepthOfField_LayerNear), 1, NullSRV);
+    Graphics->DeviceContext->PSSetShaderResources(static_cast<UINT>(EShaderSRVSlot::SRV_DepthOfField_LayerFar), 1, NullSRV);
+    Graphics->DeviceContext->PSSetShaderResources(static_cast<UINT>(EShaderSRVSlot::SRV_DepthOfField_FilteredCoC), 1, NullSRV);
+    Graphics->DeviceContext->PSSetShaderResources(static_cast<UINT>(EShaderSRVSlot::SRV_DepthOfField_BlurredCoC), 1, NullSRV);
 }
 
 void FDepthOfFieldRenderPass::CreateResource()

@@ -111,39 +111,40 @@ public:
 
     virtual void SetBlendDuration(float InBlendDuration) override { BlendDuration = InBlendDuration; }
 private:
-    UAnimationAsset* IDLE;
-    UAnimationAsset* Dance;
-    UAnimationAsset* SlowRun;
-    UAnimationAsset* NarutoRun;
-    UAnimationAsset* FastRun;
+    UPROPERTY(EditAnywhere | ShallowCopy, UAnimationAsset*, IDLE, = nullptr )
+    UPROPERTY(EditAnywhere | ShallowCopy, UAnimationAsset*, Dance, = nullptr )
+    UPROPERTY(EditAnywhere | ShallowCopy, UAnimationAsset*, SlowRun, = nullptr )
+    UPROPERTY(EditAnywhere | ShallowCopy, UAnimationAsset*, NarutoRun, = nullptr )
+    UPROPERTY(EditAnywhere | ShallowCopy, UAnimationAsset*, FastRun, = nullptr )
 
-    float ElapsedTime;
-    
-    float PlayRate;
-    
-    bool bLooping;
-    
-    bool bPlaying;
-    
-    bool bReverse;
+    UPROPERTY(EditAnywhere, float, ElapsedTime, = 0.0f)
 
-    int32 LoopStartFrame;
+    UPROPERTY(EditAnywhere, float, PlayRate, = 1.0f)
 
-    int32 LoopEndFrame;
+    UPROPERTY(EditAnywhere, bool, bLooping, = true)
 
-    int CurrentKey;
+    UPROPERTY(EditAnywhere, bool, bPlaying, = true)
+
+    UPROPERTY(EditAnywhere, bool, bReverse, = false)
+    
+    UPROPERTY(EditAnywhere, int32, LoopStartFrame, = 0)
+    
+    UPROPERTY(EditAnywhere, int32, LoopEndFrame, = 0)
+    
+    UPROPERTY(EditAnywhere, int32, CurrentKey, = 0)
+
+    UPROPERTY(EditAnywhere, float, BlendAlpha, = 0.f)
+
+    UPROPERTY(EditAnywhere, float, BlendStartTime, = 0.f)
+
+    UPROPERTY(EditAnywhere, float, BlendDuration, = 0.2f)
+
+    UPROPERTY(EditAnywhere, bool, bIsBlending, = false)
+
+    UPROPERTY(EditAnywhere | ShallowCopy, UAnimStateMachine*, StateMachine, = nullptr)
     
     UAnimSequence* PrevAnim;
     
     UAnimSequence* CurrAnim;
-    
-    float BlendAlpha;
 
-    float BlendStartTime;
-    
-    float BlendDuration;
-
-    bool bIsBlending;
-    
-    UAnimStateMachine* StateMachine;
 };

@@ -37,6 +37,9 @@ void ULuaScriptComponent::BeginPlay()
     Super::BeginPlay();
 
     LoadScriptAndBind();
+    GetOwner()->OnActorBeginOverlap.AddUObject(this, &ULuaScriptComponent::OnBeginOverlap);
+    GetOwner()->OnActorEndOverlap.AddUObject(this, &ULuaScriptComponent::OnEndOverlap);
+
 
     DelegateHandles.Empty();
     
@@ -48,17 +51,6 @@ void ULuaScriptComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
     Super::EndPlay(EndPlayReason);
 
     CallLuaFunction("EndPlay");
-}
-
-UObject* ULuaScriptComponent::Duplicate(UObject* InOuter)
-{
-    ULuaScriptComponent* NewComponent = Cast<ULuaScriptComponent>(Super::Duplicate(InOuter));
-    if (NewComponent)
-    {
-        NewComponent->ScriptPath = ScriptPath;
-        NewComponent->DisplayName = DisplayName;
-    }
-    return NewComponent;
 }
 
 /* ActorComponent가 Actor와 World에 등록이 되었다는 전제하에 호출됩니다
@@ -87,6 +79,16 @@ void ULuaScriptComponent::SetScriptPath(const FString& InScriptPath)
 {
     ScriptPath = InScriptPath;
     bScriptValid = false;
+}
+
+void ULuaScriptComponent::OnBeginOverlap(AActor* OverlappedActor, AActor* OtherActor)
+{
+    CallLuaFunction("BeginOverlap", OtherActor);
+}
+
+void ULuaScriptComponent::OnEndOverlap(AActor* OverlappedActor, AActor* OtherActor)
+{
+    CallLuaFunction("EndOverlap", OtherActor);
 }
 
 void ULuaScriptComponent::LoadScriptAndBind()

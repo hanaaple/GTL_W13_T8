@@ -13,8 +13,7 @@ public:
     virtual ~ULightComponentBase() override = default;
     
     virtual void Initialize();
-    virtual UObject* Duplicate(UObject* InOuter) override;
-    
+
     virtual void GetProperties(TMap<FString, FString>& OutProperties) const override;
     virtual void SetProperties(const TMap<FString, FString>& InProperties) override;
 
@@ -39,9 +38,9 @@ public:
     
 protected:
     // PointLight: 6개의 ViewMatrix를 가집니다
-    TArray<FMatrix> ViewMatrices;
-    FMatrix ProjectionMatrix;
-    
+    UPROPERTY(TArray<FMatrix>, ViewMatrices, = {})
+    UPROPERTY(FMatrix, ProjectionMatrix, = FMatrix::Identity)
+
     FBoundingBox AABB;
 
 public:
@@ -53,6 +52,7 @@ public:
     void SetShadowMapSize(const uint32 InWidth, const uint32 InHeight);
     uint32 GetShadowMapWidth() const { return ShadowMapWidth; }
     uint32 GetShadowMapHeight() const { return ShadowMapHeight; }
+    virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
 
 protected:
     uint32 ShadowMapWidth = 4096;

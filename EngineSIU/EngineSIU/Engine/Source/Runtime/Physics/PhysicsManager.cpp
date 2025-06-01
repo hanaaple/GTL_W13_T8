@@ -666,7 +666,9 @@ PxShape* FPhysicsManager::CreateBoxShape(const PxVec3& Pos, const PxQuat& Quat, 
     
     // 위치와 회전을 모두 적용한 Transform 생성
     PxTransform LocalTransform(Pos, Quat);
+
     Result->setLocalPose(LocalTransform);
+    
     
     return Result;
 }

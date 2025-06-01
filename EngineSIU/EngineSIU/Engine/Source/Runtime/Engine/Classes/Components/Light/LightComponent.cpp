@@ -13,15 +13,6 @@ void ULightComponentBase::Initialize()
 {
 }
 
-UObject* ULightComponentBase::Duplicate(UObject* InOuter)
-{
-    ThisClass* NewComponent = Cast<ThisClass>(Super::Duplicate(InOuter));
-
-    NewComponent->AABB = AABB;
-
-    return NewComponent;
-}
-
 void ULightComponentBase::GetProperties(TMap<FString, FString>& OutProperties) const
 {
     Super::GetProperties(OutProperties);
@@ -91,4 +82,12 @@ void ULightComponentBase::SetShadowMapSize(const uint32 InWidth, const uint32 In
     ShadowMapWidth = InWidth;
     ShadowMapHeight = InHeight;
     bDirtyFlag = true;
+}
+
+void ULightComponentBase::DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator)
+{
+    Super::DuplicateSubObjects(Source, InOuter, Duplicator);
+    const ULightComponentBase* SrcComp = static_cast<const ULightComponentBase*>(Source);
+
+    AABB = SrcComp->AABB;
 }

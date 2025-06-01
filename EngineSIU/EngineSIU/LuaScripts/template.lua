@@ -40,8 +40,8 @@ function Tick(dt)
 
 end
 
-function BeginOverlap()
+function BeginOverlap(OtherActor)
 end
 
-function EndOverlap()
+function EndOverlap(OtherActor)
 end
