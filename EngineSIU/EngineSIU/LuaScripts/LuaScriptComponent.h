@@ -24,7 +24,6 @@ public:
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
     virtual void TickComponent(float DeltaTime) override;
     void InitEnvironment();
-    virtual UObject* Duplicate(UObject* InOuter) override;
 
     virtual void InitializeComponent() override;
     void LoadScriptAndBind();
