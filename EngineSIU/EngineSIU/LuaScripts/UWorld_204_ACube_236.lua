@@ -1,5 +1,7 @@
 turnSpeed = 80
 MoveSpeed = 10
+local VerticalSpeed = 0
+local Gravity = 45
 
 function BeginPlay()
     LogDisplay("[BeginPlay]")
@@ -8,8 +10,9 @@ function BeginPlay()
     inputComp:BindTargetedAction(FString("A"), obj, OnPressA)
     inputComp:BindTargetedAction(FString("S"), obj, OnPressS)
     inputComp:BindTargetedAction(FString("D"), obj, OnPressD)
+    inputComp:BindTargetedAction(FString("X"), obj, OnPressX)
     inputComp:SetPossess()
-    SpawnActor("ACube")
+    -- SpawnActor("ACube")
 end
 
 function EndPlay()
@@ -43,7 +46,21 @@ function OnPressD(dt)
     obj:SetActorRotation(rot)
 end
 
+function OnPressX(dt)
+    VerticalSpeed = 10
+end
+
 function Tick(dt)
+    local speed = FVector(0, 0, VerticalSpeed)
+    VerticalSpeed = VerticalSpeed - Gravity * dt
+    obj:AddActorLocation(speed * dt)
+
+    local pos = obj:GetActorLocation()
+    if (pos.z < 0) then
+        pos.z = 0
+        VerticalSpeed = 0
+    end
+    obj:SetActorLocation(pos)
 end
 
 function BeginOverlap()

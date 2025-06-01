@@ -105,7 +105,10 @@ void FLuaScriptManager::Reload()
     TArray<FString> FilePaths;
     for (const auto& entry: std::filesystem::recursive_directory_iterator(GetData(BasePath)))
     {
-        FilePaths.Add(entry.path().string());
+        if (entry.path().extension() == ".lua")
+        {
+            FilePaths.Add(entry.path().string());
+        }
     }
 
     for (const auto& path: FilePaths)
@@ -126,7 +129,10 @@ void FLuaScriptManager::ReloadForce()
     TArray<FString> FilePaths;
     for (const auto& entry: std::filesystem::recursive_directory_iterator(GetData(BasePath)))
     {
-        FilePaths.Add(entry.path().string());
+        if (entry.path().extension() == ".lua")
+        {
+            FilePaths.Add(entry.path().string());
+        }
     }
 
     for (const auto& path: FilePaths)

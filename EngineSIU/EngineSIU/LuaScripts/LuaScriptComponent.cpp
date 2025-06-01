@@ -140,6 +140,11 @@ void ULuaScriptComponent::LoadScriptAndBind()
         return;
     }
     bScriptValid = true;
+
+    for (const auto& [key, value]: CompEnvironment)
+    {
+        UE_LOG(ELogLevel::Display, "%s %s", FLuaScriptManager::ToString(key).c_str(), FLuaScriptManager::ToString(value).c_str());
+    }
 }
 
 void ULuaScriptComponent::TickComponent(float DeltaTime)
