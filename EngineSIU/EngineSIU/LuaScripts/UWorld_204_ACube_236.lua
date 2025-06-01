@@ -3,6 +3,13 @@ MoveSpeed = 10
 
 function BeginPlay()
     LogDisplay("[BeginPlay]")
+    inputComp = obj:GetUInputComponent()
+    inputComp:BindTargetedAction(FString("W"), obj, OnPressW)
+    inputComp:BindTargetedAction(FString("A"), obj, OnPressA)
+    inputComp:BindTargetedAction(FString("S"), obj, OnPressS)
+    inputComp:BindTargetedAction(FString("D"), obj, OnPressD)
+    inputComp:SetPossess()
+    SpawnActor("ACube")
 end
 
 function EndPlay()
@@ -37,7 +44,6 @@ function OnPressD(dt)
 end
 
 function Tick(dt)
-
 end
 
 function BeginOverlap()

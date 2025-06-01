@@ -43,4 +43,6 @@ private:
     bool IsFileOutdated(const FString& FileName);
 
     FString BasePath = FString(L"LuaScripts");
+
+    static void PanicHandler(sol::optional<std::string> MaybeMsg);
 };

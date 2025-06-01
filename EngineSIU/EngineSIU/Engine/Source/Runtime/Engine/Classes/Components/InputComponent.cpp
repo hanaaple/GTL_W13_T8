@@ -3,21 +3,16 @@
 
 void UInputComponent::ProcessInput(float DeltaTime)
 {
-    if (PressedKeys.Contains(EKeys::W))
+    uint8 keycode = static_cast<uint8>(EKeys::A);
+    for (; keycode <= static_cast<uint8>(EKeys::Z); ++keycode)
     {
-        KeyBindDelegate[FString("W")].Broadcast(DeltaTime);
-    }
-    if (PressedKeys.Contains(EKeys::A))
-    {
-        KeyBindDelegate[FString("A")].Broadcast(DeltaTime);
-    }
-    if (PressedKeys.Contains(EKeys::S))
-    {
-        KeyBindDelegate[FString("S")].Broadcast(DeltaTime);
-    }
-    if (PressedKeys.Contains(EKeys::D))
-    {
-        KeyBindDelegate[FString("D")].Broadcast(DeltaTime);
+        unsigned char c = 'A' + keycode - static_cast<char>(EKeys::A);
+        std::string s;
+        s += c;
+        if (PressedKeys.Contains(static_cast<EKeys::Type>(keycode)) && KeyBindDelegate.Contains(s))
+        {
+            KeyBindDelegate[s].Broadcast(DeltaTime);
+        }
     }
 }
 
@@ -69,92 +64,81 @@ void UInputComponent::ClearBindDelegate()
 
 void UInputComponent::InputKey(const FKeyEvent& InKeyEvent)
 {
-    // 일반적인 단일 키 이벤트
-    switch (InKeyEvent.GetCharacter())
+    const EKeys::Type key = static_cast<EKeys::Type>(EKeys::A + (InKeyEvent.GetCharacter() - 'A'));
+    if (InKeyEvent.GetInputEvent() == IE_Pressed)
     {
-    case 'W':
-        {
-            if (InKeyEvent.GetInputEvent() == IE_Pressed)
-            {
-                PressedKeys.Add(EKeys::W);
-            }
-            else if (InKeyEvent.GetInputEvent() == IE_Released)
-            {
-                PressedKeys.Remove(EKeys::W);
-            }
-            break;
-        }
-    case 'A':
-        {
-            if (InKeyEvent.GetInputEvent() == IE_Pressed)
-            {
-                PressedKeys.Add(EKeys::A);
-            }
-            else if (InKeyEvent.GetInputEvent() == IE_Released)
-            {
-                PressedKeys.Remove(EKeys::A);
-            }
-            break;
-        }
-    case 'S':
-        {
-            if (InKeyEvent.GetInputEvent() == IE_Pressed)
-            {
-                PressedKeys.Add(EKeys::S);
-            }
-            else if (InKeyEvent.GetInputEvent() == IE_Released)
-            {
-                PressedKeys.Remove(EKeys::S);
-            }
-            break;
-        }
-    case 'D':
-        {
-            if (InKeyEvent.GetInputEvent() == IE_Pressed)
-            {
-                PressedKeys.Add(EKeys::D);
-            }
-            else if (InKeyEvent.GetInputEvent() == IE_Released)
-            {
-                PressedKeys.Remove(EKeys::D);
-            }
-            break;
-        }
-    default:
-        break;
+        PressedKeys.Add(key);
+    }
+    else if (InKeyEvent.GetInputEvent() == IE_Released)
+    {
+        PressedKeys.Remove(key);
     }
 }
 
 
-void UInputComponent::BindAction(const FString& Key, const std::function<void(float)>& Callback)
+void UInputComponent::BeginPlay()
 {
-    if (Callback == nullptr)
-    {
-        return;
-    }
-    
-    KeyBindDelegate[Key].AddLambda([this, Callback](float DeltaTime)
-    {
-        Callback(DeltaTime);
-    });
+    UActorComponent::BeginPlay();
 }
 
-uint64 UInputComponent::BindLuaAction(const FString& Key, AActor* LuaObj, const TFunction<void(float)>& Callback)
+void UInputComponent::TickComponent(float DeltaTime)
+{
+    UActorComponent::TickComponent(DeltaTime);
+    ProcessInput(DeltaTime);
+}
+
+void UInputComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+    UActorComponent::EndPlay(EndPlayReason);
+    UnPossess();
+    UnBindAllAction();
+}
+
+uint64 UInputComponent::BindAction(const FString& Key, const std::function<void(float)>& Callback)
 {
     if (Callback == nullptr)
     {
         return UINT64_MAX;
     }
     
-    FDelegateHandle Handle = KeyBindDelegate[Key].AddWeakLambda(LuaObj, [this, Callback](float DeltaTime)
+    FDelegateHandle Handle = KeyBindDelegate[Key].AddLambda([this, Callback](float DeltaTime)
     {
         Callback(DeltaTime);
     });
-
+    BoundActionHandleIds.Add(Handle.GetHandleId());
     return Handle.GetHandleId();
 }
 
-void UInputComponent::UnBindLuaAction(const FString& Key, uint64 HandleId)
+uint64 UInputComponent::BindTargetedAction(const FString& Key, AActor* TargetObj, const std::function<void(float)>& Callback)
 {
+    if (Callback == nullptr)
+    {
+        return UINT64_MAX;
+    }
+
+    // TODO: lua script 함수를 람다로 넘겨줬다 에러나면 Panic나면서 터진다. 람다 말고 다른 대안 없을까...
+    FDelegateHandle Handle = KeyBindDelegate[Key].AddWeakLambda(TargetObj, [this, Callback](float DeltaTime)
+    {
+        Callback(DeltaTime);
+    });
+    BoundActionHandleIds.Add(Handle.GetHandleId());
+    return Handle.GetHandleId();
+}
+
+void UInputComponent::UnBindAction(const FString& Key, uint64 HandleId)
+{
+    BoundActionHandleIds.Remove(HandleId);
     KeyBindDelegate[Key].Remove(FDelegateHandle(HandleId));
+}
+
+void UInputComponent::UnBindAllAction()
+{
+    for (auto& [name, Delegate]: KeyBindDelegate)
+    {
+        for (const uint64 id: BoundActionHandleIds)
+        {
+            Delegate.Remove(FDelegateHandle(id));
+        }
+    }
+    BoundActionHandleIds.Empty();
 }

@@ -76,6 +76,7 @@ void ULuaScriptComponent::CallLuaFunction(const FString& FunctionName, Arguments
     sol::protected_function_result res = CompEnvironment[GetData(FunctionName)](args...);
     if (!res.valid())
     {
-        UE_LOG(ELogLevel::Error, "%s: Error while execute Function: %s", GetData(ScriptPath), GetData(FunctionName));
+        sol::error err = res;
+        UE_LOG(ELogLevel::Error, "%s: Error while execute Function: %s: %s", GetData(ScriptPath), GetData(FunctionName), err.what());
     }
 }

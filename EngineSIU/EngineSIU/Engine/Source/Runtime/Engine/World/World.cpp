@@ -70,8 +70,10 @@ void UWorld::Tick(float DeltaTime)
 
 void UWorld::BeginPlay()
 {
-    for (AActor* Actor : ActiveLevel->Actors)
+    // BeginPlay() 내부에서 SpawnActor되는 상황 위해 index로 순회.
+    for (int i = 0; i < ActiveLevel->Actors.Num(); ++i)
     {
+        AActor* Actor = ActiveLevel->Actors[i];
         if (Actor->GetWorld() == this)
         {
             Actor->BeginPlay();

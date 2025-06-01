@@ -20,6 +20,8 @@ void FLuaScriptManager::Initialize()
         sol::lib::table,
         sol::lib::string
     );
+    
+    lua_atpanic(LuaState, sol::c_call<decltype(&FLuaScriptManager::PanicHandler), &FLuaScriptManager::PanicHandler>);
 
     LuaState["SCRIPT_BASE_PATH"] = BasePath;
     SharedEnvironment = sol::environment(LuaState, sol::create, LuaState.globals());
@@ -294,6 +296,16 @@ bool FLuaScriptManager::IsFileOutdated(const FString& FileName)
         return true;
         
     return false;
+}
+
+void FLuaScriptManager::PanicHandler(sol::optional<std::string> MaybeMsg)
+{
+    UE_LOG(ELogLevel::Error, "sol2 Panic State");
+    if (MaybeMsg)
+    {
+        const std::string& msg = MaybeMsg.value();
+        UE_LOG(ELogLevel::Error, "%s", msg.c_str());
+    }
 }
 
 std::string FLuaScriptManager::ToString(const sol::object& obj, int depth, bool showHidden)
