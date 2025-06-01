@@ -23,6 +23,7 @@ namespace SolTypeBinding
         {
             auto funcPtr = static_cast<T* (A::*)() const>(&A::template GetComponentByClass<T>);
             A::GetLuaUserType(lua)["Get" + className] = funcPtr;
+            A::StaticClass()->Annotation.AddFunction(className, "Get" + className, "");
             UE_LOG(ELogLevel::Display, "Register AActor::Get%s", className.c_str());
         } 
     }

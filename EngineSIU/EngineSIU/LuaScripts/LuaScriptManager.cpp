@@ -85,7 +85,9 @@ void FLuaScriptManager::BindTypes()
             }
         }
         return nullptr;
-    }); 
+    });
+
+    UpdateStub();
 }
 
 void FLuaScriptManager::InitPIEScripts(TArray<AActor*>& Actors)
@@ -234,6 +236,158 @@ void FLuaScriptManager::BindStructs()
     }
 }
 
+void FLuaScriptManager::UpdateStub()
+{
+    std::filesystem::path basePath(GetData(StubBasePath));
+    if (!exists(basePath))
+    {
+        if (!std::filesystem::create_directory(basePath))
+        {
+            UE_LOG(ELogLevel::Error, "Failed to create Lua stub directory %s", basePath);
+            return;
+        };
+    }
+
+    if (!is_directory(basePath))
+    {
+        UE_LOG(ELogLevel::Error, "Can not open Lua stub directory %s", basePath);
+        return;
+    }
+    
+    {
+        std::filesystem::path filePath = basePath / "UObject.lua";
+        std::ofstream file(filePath.string());
+        if (!file.is_open())
+        {
+            UE_LOG(ELogLevel::Error, "Failed to open %s", filePath.c_str());
+            return;
+        }
+        // UObject
+        file << "---@class UObject\n";
+        file << "local UObject = {}\n";
+        file << "\n";
+        file << "---@return number\n";
+        file << "function UObject:GetUUID() end\n";
+        file << "\n";
+        file << "---@return string\n";
+        file << "function UObject:GetName() end\n";
+        file << "\n";
+        file << "---@return UClass\n";
+        file << "function UObject:GetClass() end\n";
+        file << "\n";
+        file << "---@param uclass UClass\n";
+        file << "---@return bool\n";
+        file << "function UObject:IsA(uclass) end\n";
+        file << "\n";
+    }
+    for (const auto& [name, type]: UClass::GetClassMap())
+    {
+        std::filesystem::path filePath = basePath / GetData(name.ToString() + ".lua");
+        std::ofstream file(filePath.string());
+        if (!file.is_open())
+        {
+            UE_LOG(ELogLevel::Error, "Failed to open %s", filePath.c_str());
+            continue;
+        }
+        file << type->Annotation.Annotation() << '\n';
+        file.close();
+    }
+    for (const auto& [name, type]: UScriptStruct::GetScriptStructMap())
+    {
+        std::filesystem::path filePath = basePath / GetData(name.ToString() + ".lua");
+        std::ofstream file(filePath.string());
+        if (!file.is_open())
+        {
+            UE_LOG(ELogLevel::Error, "Failed to open %s", filePath.c_str());
+            continue;
+        }
+        file << type->Annotation.Annotation() << '\n';
+        file.close();
+    }
+    {
+        std::filesystem::path filePath = basePath / "_common.lua";
+        std::ofstream file(filePath.string());
+        if (!file.is_open())
+        {
+            UE_LOG(ELogLevel::Error, "Failed to open %s", filePath.c_str());
+            return;
+        }
+
+        // obj
+        file << "---@type AActor\n";
+        file << "_G.obj = {}\n";
+        file << "\n";
+
+        // ToString
+        file << "---@param obj Object\n";
+        file << "function ToString(obj) end\n";
+        file << "\n";
+        
+        // PrintObj
+        file << "---@param obj Object\n";
+        file << "function PrintObj(obj) end\n";
+        file << "\n";
+        
+        // LogDisplay
+        file << "---@param str string\n";
+        file << "function LogDisplay(str) end\n";
+        file << "\n";
+        
+        // LogWarning
+        file << "---@param str string\n";
+        file << "function LogWarning(str) end\n";
+        file << "\n";
+        
+        // LogError
+        file << "---@param str string\n";
+        file << "function LogError(str) end\n";
+        file << "\n";
+        
+        // SpawnActor
+        file << "---@param ActorName string\n";
+        file << "function SpawnActor(ActorName) end\n";
+        file << "\n";
+
+
+        // FVector
+        file << "---@class FVector\n";
+        file << "---@field x number\n";
+        file << "---@field y number\n";
+        file << "---@field z number\n";
+        file << "local FVector = {}\n";
+        file << "\n";
+        file << "---@param other FVector\n";
+        file << "---@return FVector\n";
+        file << "function FVector:Dot(other) end\n";
+        file << "\n";
+        file << "---@param other FVector\n";
+        file << "---@return FVector\n";
+        file << "function FVector:Cross(other) end\n";
+        file << "\n";
+        file << "---@return number\n";
+        file << "function FVector:Length() end\n";
+        file << "---@return number\n";
+        file << "function FVector:SquaredLength() end\n";
+        file << "\n";
+        // TODO: ...
+
+        // FRotator
+        file << "---@class FRotator\n";
+        file << "---@field Pitch number\n";
+        file << "---@field Yaw number\n";
+        file << "---@field Roll number\n";
+        file << "local FRotator = {}\n";
+        file << "\n";
+
+        // FString
+        file << "---@class FString\n";
+        file << "local FString = {}\n";
+        file << "\n";
+
+        file.close();
+    }
+}
+
 bool FLuaScriptManager::LoadFile(const FString& FileName)
 {
     std::string FileNameStr = GetData(FileName);
@@ -273,11 +427,7 @@ bool FLuaScriptManager::LoadFile(const FString& FileName)
         lastWriteTime
     );
 
-    // LuaScripts.Emplace(FileName, FLuaScriptInfo(
-    //     FileNameStr,
-    //     source,
-    //     lastWriteTime
-    // ));
+    file.close();
 
     return true;
 }

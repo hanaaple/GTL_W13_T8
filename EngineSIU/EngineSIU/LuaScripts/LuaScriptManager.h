@@ -38,11 +38,13 @@ private:
     void BindPrimitiveTypes();
     void BindUObject();
     void BindStructs();
+    void UpdateStub();
     bool LoadFile(const FString& FileName);
 
     bool IsFileOutdated(const FString& FileName);
 
     FString BasePath = FString(L"LuaScripts");
+    FString StubBasePath = FString(L"LuaScriptsStubs");
 
     static void PanicHandler(sol::optional<std::string> MaybeMsg);
 };

@@ -214,6 +214,7 @@ public: \
             ); \
             constexpr bool LuaFlag = (Flags & LuaReadOnly) || (Flags & LuaReadWrite); \
             Bind<std::bool_constant<LuaFlag>>(); \
+            StructPtr->Annotation.AddProperty(#InType, #InVarName); \
         } \
     } InVarName##_PropRegistrar_PRIVATE{};
 
@@ -254,6 +255,8 @@ public: \
             BindFunctions().Add(#FuncName, [](sol::usertype<ThisClass> table) { \
                 table[#FuncName] = static_cast<Type (ThisClass::*)(__VA_ARGS__)>(&ThisClass::FuncName); \
             }); \
+            UStruct* StructPtr = GetStructHelper<ThisClass>(); \
+            StructPtr->Annotation.AddFunction(#Type, #FuncName, #__VA_ARGS__); \
         } \
     } CONCAT(FuncName##_PropRegister_Init_, Id) {}; \
 
@@ -280,6 +283,8 @@ public: \
             BindFunctions().Add(#FuncName, [](sol::usertype<ThisClass> table) { \
                 table[#FuncName] = static_cast<Type (ThisClass::*)(__VA_ARGS__) const>(&ThisClass::FuncName); \
             }); \
+            UStruct* StructPtr = GetStructHelper<ThisClass>(); \
+            StructPtr->Annotation.AddFunction(#Type, #FuncName, #__VA_ARGS__); \
         } \
     } CONCAT(FuncName##_PropRegister_Init_, Id) {}; \
 
