@@ -98,6 +98,10 @@ void FPhysicsManager::ReleaseScene(UWorld* World)
 {
     if (SceneMap.Contains(World))
     {
+        if (SceneMap[World] == CurrentScene)
+        {
+            CurrentScene = nullptr;
+        }
         SceneMap[World]->release();
         SceneMap.Remove(World);
     }
