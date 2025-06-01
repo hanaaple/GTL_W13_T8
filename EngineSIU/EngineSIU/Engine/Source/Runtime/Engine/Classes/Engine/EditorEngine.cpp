@@ -21,6 +21,8 @@
 #include "World/World.h"
 
 #include "tinyfiledialogs.h"
+#include "Widgets/GameHUD.h"
+#include "Widgets/GameStart.h"
 
 extern FEngineLoop GEngineLoop;
 
@@ -301,6 +303,13 @@ void UEditorEngine::StartPIE()
     PIEWorld = Cast<UWorld>(EditorWorld->Duplicate(this));
     PIEWorld->InitGameMode();
     PIEWorld->WorldType = EWorldType::PIE;
+
+    std::shared_ptr<FGameHUD> gameHUD = std::make_shared<FGameHUD>();
+    GEngineLoop.GetGameUIManager()->AddElement(gameHUD);
+    
+    const std::shared_ptr<FGameStart> gameStart = std::make_shared<FGameStart>();
+    gameStart->SetTitleImage(FEngineLoop::ResourceManager.GetTexture(L"Assets/Editor/Icon/AtmosphericFog_64.png"), 200.f, 100.f);
+    GEngineLoop.GetGameUIManager()->AddElement(gameStart);
 
     PIEWorldContext.SetCurrentWorld(PIEWorld);
     ActiveWorld = PIEWorld;
@@ -596,6 +605,7 @@ void UEditorEngine::EndPIE()
         PhysicsManager->CleanupScene();
     }
 
+    GEngineLoop.GetGameUIManager()->RemoveAll();
     FSlateAppMessageHandler* Handler = GEngineLoop.GetAppMessageHandler();
 
     Handler->OnPIEModeEnd();

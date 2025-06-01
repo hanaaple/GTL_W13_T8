@@ -1,4 +1,5 @@
 #pragma once
+#include "GameUIManager.h"
 #include "Core/HAL/PlatformType.h"
 #include "Engine/ResourceMgr.h"
 #include "LevelEditor/SlateAppMessageHandler.h"
@@ -50,10 +51,12 @@ public:
 
     FGPUTimingManager GPUTimingManager;
     FEngineProfiler EngineProfiler;
+    
 
 private:
     UImGuiManager* UIManager;
     //TODO: GWorld 제거, Editor들 EditorEngine으로 넣기
+    FGameUIManager* GameUIManager;
 
     std::unique_ptr<FSlateAppMessageHandler> AppMessageHandler;
     SLevelEditor* LevelEditor;
@@ -65,6 +68,7 @@ private:
     int32 TargetFPS = 60;
 
 public:
+    FGameUIManager* GetGameUIManager() const { return GameUIManager; }
     SLevelEditor* GetLevelEditor() const { return LevelEditor; }
     UnrealEd* GetUnrealEditor() const { return UnrealEditor; }
 

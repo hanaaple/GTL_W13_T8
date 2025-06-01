@@ -1,5 +1,7 @@
 #include "World.h"
 
+#include <memory>
+
 #include "CollisionManager.h"
 #include "PhysicsManager.h"
 #include "Actors/Player.h"

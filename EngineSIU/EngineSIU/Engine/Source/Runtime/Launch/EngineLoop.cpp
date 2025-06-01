@@ -50,6 +50,8 @@ int32 FEngineLoop::Init(HINSTANCE hInstance)
     UnrealEditor = new UnrealEd();
     BufferManager = new FDXDBufferManager();
     UIManager = new UImGuiManager;
+    GameUIManager = new FGameUIManager();
+    
     AppMessageHandler = std::make_unique<FSlateAppMessageHandler>();
     LevelEditor = new SLevelEditor();
 
@@ -171,13 +173,14 @@ void FEngineLoop::Tick()
 
         GEngine->Tick(DeltaTime);
         LevelEditor->Tick(DeltaTime);
+        GameUIManager->UpdateAll(DeltaTime);
         Render();
         UIManager->BeginFrame();
         UnrealEditor->Render();
 
         FConsole::GetInstance().Draw();
         EngineProfiler.Render(GraphicDevice.DeviceContext, GraphicDevice.ScreenWidth, GraphicDevice.ScreenHeight);
-
+        GameUIManager->RenderAll();
         UIManager->EndFrame();
 
         // Pending 처리된 오브젝트 제거
@@ -220,6 +223,7 @@ void FEngineLoop::Exit()
 
     delete UnrealEditor;
     delete BufferManager;
+    delete GameUIManager;
     delete UIManager;
     delete LevelEditor;
 }
