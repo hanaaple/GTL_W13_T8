@@ -297,6 +297,7 @@ void PhysicsAssetViewerPanel::ClearRefSkeletalMeshComponent()
     }
     if (CopiedRefSkeleton)
     {
+        delete CopiedRefSkeleton;
         CopiedRefSkeleton = nullptr;
     }
     //if (PrevAnimDataModel)

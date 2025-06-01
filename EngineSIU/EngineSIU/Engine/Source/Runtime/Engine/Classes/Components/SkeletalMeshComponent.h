@@ -40,6 +40,14 @@ public:
 
     virtual void TickPose(float DeltaTime) override;
 
+    virtual void CreatePhysXGameObject() override;
+    virtual void DestroyPhysXGameObject() override;
+
+protected:
+    virtual void UpdatePhysXGameObject() override;
+    
+public:
+
     void TickAnimation(float DeltaTime);
 
     void TickAnimInstances(float DeltaTime);
@@ -121,15 +129,6 @@ public:
     EAnimationMode GetAnimationMode() const { return AnimationMode; }
 
     virtual void InitAnim();
-
-    virtual void CreatePhysXGameObject() override;
-
-    TArray<FBodyInstance*>& GetBodies() { return Bodies; }
-    TArray<FConstraintInstance*>& GetConstraints() { return Constraints; }
-    void AddBodyInstance(FBodyInstance* BodyInstance);
-    void AddConstraintInstance(FConstraintInstance* ConstraintInstance);
-    void RemoveBodyInstance(FBodyInstance* BodyInstance);
-    void RemoveConstraintInstance(FConstraintInstance* ConstraintInstance);
 
 protected:
     bool NeedToSpawnAnimScriptInstance() const;

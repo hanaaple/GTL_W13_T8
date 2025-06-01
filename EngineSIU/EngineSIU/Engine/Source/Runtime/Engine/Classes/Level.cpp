@@ -6,13 +6,12 @@
 void ULevel::InitLevel(UWorld* InOwningWorld)
 {
     OwningWorld = InOwningWorld;
-
 }
 
 void ULevel::Release()
 {
     for (AActor* Actor : Actors)
-    {
+    {        
         Actor->EndPlay(EEndPlayReason::WorldTransition);
         TSet<UActorComponent*> Components = Actor->GetComponents();
         for (UActorComponent* Component : Components)

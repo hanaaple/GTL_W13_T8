@@ -26,6 +26,7 @@ class UPrimitiveComponent;
 struct GameObject {
     PxRigidDynamic* DynamicRigidBody = nullptr;
     PxRigidStatic* StaticRigidBody = nullptr;
+    PxMaterial* Material = nullptr;
     XMMATRIX WorldMatrix = XMMatrixIdentity();
 
     void UpdateFromPhysics(PxScene* Scene) {
@@ -65,32 +66,29 @@ public:
 
     void InitPhysX();
     
-    PxScene* CreateScene(UWorld* World);
+    void CreateAndSetScene(UWorld* World);
+    void ReleaseScene(UWorld* World);
     PxScene* GetScene(UWorld* World) { return SceneMap[World]; }
+    bool ContainsScene(UWorld* World) const { return SceneMap.Contains(World); }
+    
     bool ConnectPVD();
-    void RemoveScene(UWorld* World) { SceneMap.Remove(World); }
-    void SetCurrentScene(UWorld* World) { CurrentScene = SceneMap[World]; }
-    void SetCurrentScene(PxScene* Scene) { CurrentScene = Scene; }
     
-    void DestroyGameObject(GameObject* GameObject) const;
+    void DestroyGameObject(GameObject*& InOutGameObject) const;
     
-    GameObject CreateBox(const PxVec3& Pos, const PxVec3& HalfExtents) const;
-    GameObject* CreateGameObject(const PxVec3& Pos, const PxQuat& Rot, FBodyInstance* BodyInstance, UBodySetup* BodySetup, ERigidBodyType RigidBodyType =
+    GameObject* CreateGameObject(const PxVec3& Pos, const PxQuat& Rot, FBodyInstance* BodyInstance, UBodySetup* BodySetup, PxMaterial* Material, ERigidBodyType RigidBodyType =
                                      ERigidBodyType::DYNAMIC) const;
     void CreateJoint(const GameObject* Obj1, const GameObject* Obj2, FConstraintInstance* ConstraintInstance, const FConstraintSetup* ConstraintSetup) const;
 
-    PxShape* CreateBoxShape(const PxVec3& Pos, const PxQuat& Quat, const PxVec3& HalfExtents) const;
-    PxShape* CreateSphereShape(const PxVec3& Pos, const PxQuat& Quat, float Radius) const;
-    PxShape* CreateCapsuleShape(const PxVec3& Pos, const PxQuat& Quat, float Radius, float HalfHeight) const;
+    PxShape* CreateBoxShape(const PxVec3& Pos, const PxQuat& Quat, const PxVec3& HalfExtents, PxMaterial* Material) const;
+    PxShape* CreateSphereShape(const PxVec3& Pos, const PxQuat& Quat, float Radius, PxMaterial* Material) const;
+    PxShape* CreateCapsuleShape(const PxVec3& Pos, const PxQuat& Quat, float Radius, float HalfHeight, PxMaterial* Material) const;
     PxQuat EulerToQuat(const PxVec3& EulerAngles) const;
 
     PxPhysics* GetPhysics() const { return Physics; }
-    PxMaterial* GetMaterial() const { return Material; }
     
     void Simulate(float DeltaTime);
     void ShutdownPhysX();
     void CleanupPVD();
-    void CleanupScene();
 
 private:
     PxDefaultAllocator Allocator;
@@ -99,7 +97,6 @@ private:
     PxPhysics* Physics = nullptr;
     TMap<UWorld*, PxScene*> SceneMap;
     PxScene* CurrentScene = nullptr;
-    PxMaterial* Material = nullptr;
     PxDefaultCpuDispatcher* Dispatcher = nullptr;
     // 디버깅용
     PxPvd* Pvd;
