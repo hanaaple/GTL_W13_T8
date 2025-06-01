@@ -171,10 +171,7 @@ void UPrimitiveComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
     USceneComponent::EndPlay(EndPlayReason);
 
-    if (BodyInstance)
-    {
-        DestroyPhysXGameObject();
-    }
+    DestroyPhysXGameObject();
 }
 
 void UPrimitiveComponent::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
@@ -653,12 +650,15 @@ void UPrimitiveComponent::CreatePhysXGameObject()
 
 void UPrimitiveComponent::DestroyPhysXGameObject()
 {
-    if (BodyInstance == nullptr || BodyInstance->BIGameObject == nullptr)
+    if (BodyInstance == nullptr)
     {
         return;
     }
 
-    GEngine->PhysicsManager->DestroyGameObject(BodyInstance->BIGameObject);
+    if (BodyInstance->BIGameObject != nullptr)
+    {
+        GEngine->PhysicsManager->DestroyGameObject(BodyInstance->BIGameObject);
+    }
     
     delete BodyInstance;
     BodyInstance = nullptr;
