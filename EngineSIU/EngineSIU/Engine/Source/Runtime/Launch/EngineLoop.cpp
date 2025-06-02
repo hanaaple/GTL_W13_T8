@@ -26,6 +26,8 @@ UPrimitiveDrawBatch FEngineLoop::PrimitiveDrawBatch;
 FResourceManager FEngineLoop::ResourceManager;
 uint32 FEngineLoop::TotalAllocationBytes = 0;
 uint32 FEngineLoop::TotalAllocationCount = 0;
+bool FEngineLoop::PauseRequestedPtr = false;
+bool FEngineLoop::bIsDied = false;
 
 FEngineLoop::FEngineLoop()
     : AppWnd(nullptr)
@@ -51,6 +53,8 @@ int32 FEngineLoop::Init(HINSTANCE hInstance)
     UnrealEditor = new UnrealEd();
     BufferManager = new FDXDBufferManager();
     UIManager = new UImGuiManager;
+    GameUIManager = new FGameUIManager();
+    
     AppMessageHandler = std::make_unique<FSlateAppMessageHandler>();
     LevelEditor = new SLevelEditor();
 
@@ -86,6 +90,7 @@ int32 FEngineLoop::Init(HINSTANCE hInstance)
     Renderer.Initialize(&GraphicDevice, BufferManager, &GPUTimingManager);
     PrimitiveDrawBatch.Initialize(&GraphicDevice);
     UIManager->Initialize(AppWnd, GraphicDevice.Device, GraphicDevice.DeviceContext);
+    GameUIManager->Initialize();
     ResourceManager.Initialize(&Renderer, &GraphicDevice);
     
     uint32 ClientWidth = 0;
@@ -173,13 +178,14 @@ void FEngineLoop::Tick()
         ScriptSys.Reload();
         GEngine->Tick(DeltaTime);
         LevelEditor->Tick(DeltaTime);
+        GameUIManager->UpdateAll(DeltaTime);
         Render();
         UIManager->BeginFrame();
         UnrealEditor->Render();
 
         FConsole::GetInstance().Draw();
         EngineProfiler.Render(GraphicDevice.DeviceContext, GraphicDevice.ScreenWidth, GraphicDevice.ScreenHeight);
-
+        GameUIManager->RenderAll();
         UIManager->EndFrame();
 
         // Pending 처리된 오브젝트 제거
@@ -222,6 +228,7 @@ void FEngineLoop::Exit()
 
     delete UnrealEditor;
     delete BufferManager;
+    delete GameUIManager;
     delete UIManager;
     delete LevelEditor;
 }

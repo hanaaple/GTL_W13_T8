@@ -49,6 +49,8 @@ public:
     void OnPIEModeStart();
     void OnPIEModeEnd();
 
+    static bool IsAnyKeyPressed();
+
 protected:
     void OnKeyChar(const TCHAR Character, const bool IsRepeat);
     void OnKeyDown(uint32 KeyCode, const uint32 CharacterCode, const bool IsRepeat);

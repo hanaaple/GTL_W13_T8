@@ -711,6 +711,21 @@ void FSlateAppMessageHandler::OnPIEModeEnd()
     OnPIEModeEndDelegate.Broadcast();
 }
 
+bool FSlateAppMessageHandler::IsAnyKeyPressed()
+{
+    for (int vk = 0; vk < 256; ++vk)
+    {
+        SHORT state = ::GetAsyncKeyState(vk);
+        // 최상위 비트(0x8000)가 1이라면, 해당 키가 현재 눌린 상태
+        if (state & 0x8000)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void FSlateAppMessageHandler::UpdateCursorPosition(const FVector2D& NewPos)
 {
     PreviousPosition = CurrentPosition;
