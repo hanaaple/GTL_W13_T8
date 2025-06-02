@@ -22,6 +22,7 @@
 
 #include "tinyfiledialogs.h"
 #include "Widgets/GameHUD.h"
+#include "Widgets/GameMenu.h"
 #include "Widgets/GameStart.h"
 
 extern FEngineLoop GEngineLoop;
@@ -306,8 +307,11 @@ void UEditorEngine::StartPIE()
 
     std::shared_ptr<FGameHUD> gameHUD = std::make_shared<FGameHUD>();
     GEngineLoop.GetGameUIManager()->AddElement(gameHUD);
+
+    std::shared_ptr<FGameMenu> gameMenu = std::make_shared<FGameMenu>();
+    GEngineLoop.GetGameUIManager()->AddElement(gameMenu);
     
-    const std::shared_ptr<FGameStart> gameStart = std::make_shared<FGameStart>();
+    std::shared_ptr<FGameStart> gameStart = std::make_shared<FGameStart>();
     gameStart->SetTitleImage(FEngineLoop::ResourceManager.GetTexture(L"Assets/Editor/Icon/AtmosphericFog_64.png"), 200.f, 100.f);
     GEngineLoop.GetGameUIManager()->AddElement(gameStart);
 

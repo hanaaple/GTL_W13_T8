@@ -25,6 +25,7 @@ UPrimitiveDrawBatch FEngineLoop::PrimitiveDrawBatch;
 FResourceManager FEngineLoop::ResourceManager;
 uint32 FEngineLoop::TotalAllocationBytes = 0;
 uint32 FEngineLoop::TotalAllocationCount = 0;
+bool FEngineLoop::PauseRequestedPtr = false;
 
 FEngineLoop::FEngineLoop()
     : AppWnd(nullptr)

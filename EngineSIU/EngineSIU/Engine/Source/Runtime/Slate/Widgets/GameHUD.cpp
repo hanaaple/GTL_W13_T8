@@ -1,5 +1,6 @@
 #include "GameHUD.h"
 
+#include "EngineLoop.h"
 #include "ImGui/imgui.h"
 
 FGameHUD::FGameHUD()
@@ -33,7 +34,7 @@ void FGameHUD::Render()
         ImGui::SetNextWindowPos(ImVec2(margin, margin), ImGuiCond_Always);
         ImGui::Begin("##DistanceOverlay", nullptr, flags);
 
-        float distanceValue = (DistancePtr ? *DistancePtr : 0.0f);
+        float distanceValue = 0.0f;
         ImGui::Text("Distance: %.1f", distanceValue);
 
         ImGui::End();
@@ -57,10 +58,9 @@ void FGameHUD::Render()
         ImGui::Begin("##PauseButtonOverlay", nullptr, flags);
 
         // 일시정지 버튼
-        if (ImGui::Button("Pause", btnSize)) {
-            if (PauseRequestedPtr) {
-                *PauseRequestedPtr = true;
-            }
+        if (ImGui::Button("Pause", btnSize))
+        {
+            FEngineLoop::PauseRequestedPtr = true;
         }
 
         ImGui::End();

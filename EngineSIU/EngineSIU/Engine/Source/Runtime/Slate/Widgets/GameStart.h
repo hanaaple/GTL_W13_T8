@@ -32,6 +32,7 @@ public:
     // Render 단계에서 Start Screen 그리기
     virtual void Render() override;
 
+
 private:
     bool  bIsActive;    // Start Screen 활성/비활성 플래그
     float BlinkTimer;   // 깜빡임 타이머 (초 단위)
