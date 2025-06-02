@@ -7,6 +7,7 @@ ARotatePatrolPlatform::ARotatePatrolPlatform()
 {
     for (UPrimitiveComponent* PrimitiveComponent : GetComponentsByClass<UPrimitiveComponent>())
     {
+        PrimitiveComponent->RigidBodyType = ERigidBodyType::KINEMATIC;
         PrimitiveComponent->bApplyGravity = false;
         PrimitiveComponent->SetSimulate(true);
     }
