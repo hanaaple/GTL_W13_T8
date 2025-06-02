@@ -109,13 +109,47 @@ void FGameStart::Render()
     if (bShowPrompt)
     {
         const char* prompt = "Press Any Key To Start";
-        ImVec2 promptSize = ImGui::CalcTextSize(prompt);
-        ImVec2 promptPos(
-            io.DisplaySize.x * 0.5f - promptSize.x * 0.5f,
-            io.DisplaySize.y * 0.6f - promptSize.y * 0.5f
-        );
-        ImGui::SetCursorPos(promptPos);
-        ImGui::TextUnformatted(prompt);
+
+        // 현재 윈도우(풀스크린)의 가로·세로 픽셀 크기
+        float screenW = io.DisplaySize.x;
+        float screenH = io.DisplaySize.y;
+
+        // 화면 중앙(가로: 50%, 세로: 60%) 위치 계산
+        float centerX = screenW * 0.5f;
+        float centerY = screenH * 0.6f;
+        
+        ImFont* InGameFont = GEngineLoop.GetGameUIManager()->GetInGameFont();
+        if (InGameFont && InGameFont->IsLoaded())
+        {
+            // 1) InGameFont를 활성화
+            ImGui::PushFont(InGameFont);
+            // 2) 이제 CalcTextSize가 InGameFont 기준으로 계산해 준다
+            ImVec2 promptSize = ImGui::CalcTextSize(prompt);
+            // 3) promptSize.x, promptSize.y는 InGameFont 크기로 올바르게 계산됨
+
+            // 예를 들어, (가로 중앙에서 텍스트 너비 반만큼 빼기)
+            ImVec2 promptPos(
+                centerX - promptSize.x * 0.5f,
+                centerY - promptSize.y * 0.5f
+            );
+            ImGui::SetCursorPos(promptPos);
+
+            // 4) 글자 출력
+            ImGui::TextUnformatted(prompt);
+            // 5) 원래 폰트로 되돌리기
+            ImGui::PopFont();
+        }
+        else
+        {
+            // InGameFont가 없으면 기본 폰트 기준으로 계산
+            ImVec2 promptSize = ImGui::CalcTextSize(prompt);
+            ImVec2 promptPos(
+                centerX - promptSize.x * 0.5f,
+                centerY - promptSize.y * 0.5f
+            );
+            ImGui::SetCursorPos(promptPos);
+            ImGui::TextUnformatted(prompt);
+        }
     }
 
     ImGui::End();

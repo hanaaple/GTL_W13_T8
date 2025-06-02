@@ -88,6 +88,7 @@ int32 FEngineLoop::Init(HINSTANCE hInstance)
     Renderer.Initialize(&GraphicDevice, BufferManager, &GPUTimingManager);
     PrimitiveDrawBatch.Initialize(&GraphicDevice);
     UIManager->Initialize(AppWnd, GraphicDevice.Device, GraphicDevice.DeviceContext);
+    GameUIManager->Initialize();
     ResourceManager.Initialize(&Renderer, &GraphicDevice);
     
     uint32 ClientWidth = 0;

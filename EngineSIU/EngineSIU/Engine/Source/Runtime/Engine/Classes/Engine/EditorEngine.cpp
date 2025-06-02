@@ -312,7 +312,7 @@ void UEditorEngine::StartPIE()
     GEngineLoop.GetGameUIManager()->AddElement(gameMenu);
     
     std::shared_ptr<FGameStart> gameStart = std::make_shared<FGameStart>();
-    gameStart->SetTitleImage(FEngineLoop::ResourceManager.GetTexture(L"Assets/Editor/Icon/AtmosphericFog_64.png"), 200.f, 100.f);
+    gameStart->SetTitleImage(FEngineLoop::ResourceManager.GetTexture(L"Assets/Texture/GameTitle.png"), 200.f, 100.f);
     GEngineLoop.GetGameUIManager()->AddElement(gameStart);
 
     PIEWorldContext.SetCurrentWorld(PIEWorld);

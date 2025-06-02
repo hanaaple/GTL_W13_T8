@@ -1,12 +1,17 @@
 #pragma once
 #include "Container/Array.h"
+
 #include "Widgets/UIElement.h"
+
+struct ImFont;
 
 class FGameUIManager
 {
 public:
-    FGameUIManager() = default;
+    FGameUIManager();
     ~FGameUIManager() = default;
+
+    void Initialize();
     
     void AddElement(const std::shared_ptr<FUIElement>& element)
     {
@@ -37,6 +42,10 @@ public:
         }
     }
 
+    ImFont* GetInGameFont() const { return GameFont; }
+
 private:
     TArray<std::shared_ptr<FUIElement>> UIElements;
+
+    ImFont* GameFont = nullptr;
 };
