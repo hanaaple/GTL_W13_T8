@@ -1,17 +1,12 @@
 #include "PrimitiveComponent.h"
 
-#include "BoxComponent.h"
-#include "CapsuleComponent.h"
 #include "PhysicsManager.h"
-#include "SphereComp.h"
-#include "SphereComponent.h"
 #include "Engine/Engine.h"
 #include "UObject/Casts.h"
 #include "Engine/OverlapInfo.h"
 #include "Engine/OverlapResult.h"
 #include "GameFramework/Actor.h"
 #include "Math/JungleMath.h"
-#include "Misc/Parse.h"
 #include "World/World.h"
 #include "PhysicsEngine/PhysicsAsset.h"
 
@@ -165,6 +160,30 @@ UPrimitiveComponent::UPrimitiveComponent()
     BodySetup = FObjectFactory::ConstructObject<UBodySetup>(this);
 }
 
+void UPrimitiveComponent::BeginPlay()
+{
+    USceneComponent::BeginPlay();
+
+    UpdatePhysXGameObject();
+}
+
+void UPrimitiveComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+    USceneComponent::EndPlay(EndPlayReason);
+
+    DestroyPhysXGameObject();
+}
+
+void UPrimitiveComponent::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+    USceneComponent::PostEditChangeProperty(PropertyChangedEvent);
+    bool* ValuePtr = PropertyChangedEvent.Property->GetPropertyData<bool>(PropertyChangedEvent.ObjectThatChanged);
+    if (&bSimulate == ValuePtr)
+    {
+        UpdatePhysXGameObject();
+    }
+}
+
 void UPrimitiveComponent::InitializeComponent()
 {
     Super::InitializeComponent();
@@ -281,10 +300,10 @@ void UPrimitiveComponent::GetProperties(TMap<FString, FString>& OutProperties) c
     OutProperties.Add(TEXT("bApplyGravity"), bApplyGravity ? TEXT("true") : TEXT("false"));
     OutProperties.Add(TEXT("RigidBodyType"), FString::FromInt(static_cast<uint8>(RigidBodyType)));
 
-    OutProperties.Add(TEXT("GeomAttributeNum"), FString::FromInt(GeomAttributes.Num()));
-    for (int32 i = 0; i < GeomAttributes.Num(); i++)
+    OutProperties.Add(TEXT("GeomAttributeNum"), FString::FromInt(GetBodySetup()->GeomAttributes.Num()));
+    for (int32 i = 0; i < GetBodySetup()->GeomAttributes.Num(); i++)
     {
-        const AggregateGeomAttributes& GeomAttribute = GeomAttributes[i];
+        const AggregateGeomAttributes& GeomAttribute = GetBodySetup()->GeomAttributes[i];
         FString keyBase = FString("GeomAttribute " + FString::FromInt(i));
                 
         OutProperties.Add(keyBase + "Type", FString::FromInt(static_cast<uint8>(GeomAttribute.GeomType)));
@@ -339,12 +358,12 @@ void UPrimitiveComponent::SetProperties(const TMap<FString, FString>& InProperti
 
     if (InProperties.Contains(TEXT("GeomAttributeNum")))
     {
-        GeomAttributes.SetNum(FString::ToInt(InProperties[TEXT("GeomAttributeNum")]));
+        GetBodySetup()->GeomAttributes.SetNum(FString::ToInt(InProperties[TEXT("GeomAttributeNum")]));
 
-        for (int32 i = 0; i < GeomAttributes.Num(); i++)
+        for (int32 i = 0; i < GetBodySetup()->GeomAttributes.Num(); i++)
         {
             FString keyBase = FString("GeomAttribute " + FString::FromInt(i));
-            AggregateGeomAttributes& GeomAttribute = GeomAttributes[i];
+            AggregateGeomAttributes& GeomAttribute = GetBodySetup()->GeomAttributes[i];
             
             GeomAttribute.GeomType = static_cast<EGeomType>(FString::ToInt(InProperties[keyBase + "Type"]));
             GeomAttribute.Offset.InitFromString(InProperties[keyBase + "Offset"]);
@@ -553,11 +572,28 @@ const TArray<FOverlapInfo>& UPrimitiveComponent::GetOverlapInfos() const
     return OverlappingComponents;
 }
 
+UBodySetup* UPrimitiveComponent::GetBodySetup() const
+{
+    return BodySetup;
+}
+
+void UPrimitiveComponent::SetSimulate(bool bInSimulate)
+{
+    bSimulate = bInSimulate;
+
+    UpdatePhysXGameObject();
+}
+
 void UPrimitiveComponent::CreatePhysXGameObject()
 {
-    if (!bSimulate)
+    if (bSimulate == false || BodyInstance != nullptr)
     {
         return;
+    }
+
+    if (GetWorld()->WorldType != EWorldType::PIE)
+    {
+        UE_LOG(ELogLevel::Warning, TEXT("This World is not PIE Mode."));
     }
     
     BodyInstance = new FBodyInstance(this);
@@ -573,16 +609,18 @@ void UPrimitiveComponent::CreatePhysXGameObject()
     FQuat Quat = GetComponentRotation().Quaternion();
     PxQuat PQuat = PxQuat(Quat.X, Quat.Y, Quat.Z, Quat.W);
 
-    if (GeomAttributes.Num() == 0)
+    if (GetBodySetup()->GeomAttributes.Num() == 0)
     {
         AggregateGeomAttributes DefaultAttribute;
         DefaultAttribute.GeomType = EGeomType::EBox;
         DefaultAttribute.Offset = FVector(AABB.MaxLocation + AABB.MinLocation) / 2;
         DefaultAttribute.Extent = FVector(AABB.MaxLocation - AABB.MinLocation) / 2 * GetComponentScale3D();
-        GeomAttributes.Add(DefaultAttribute);
+        GetBodySetup()->GeomAttributes.Add(DefaultAttribute);
     }
 
-    for (const auto& GeomAttribute : GeomAttributes)
+    PxMaterial* Material = GEngine->PhysicsManager->GetPhysics()->createMaterial(BodySetup->StaticFriction, BodySetup->DynamicFriction, BodySetup->Restitution);
+        
+    for (const auto& GeomAttribute : GetBodySetup()->GeomAttributes)
     {
         PxVec3 Offset = PxVec3(GeomAttribute.Offset.X, GeomAttribute.Offset.Y, GeomAttribute.Offset.Z);
         FQuat GeomQuat = GeomAttribute.Rotation.Quaternion();
@@ -593,31 +631,57 @@ void UPrimitiveComponent::CreatePhysXGameObject()
         {
         case EGeomType::ESphere:
         {
-            PxShape* PxSphere = GEngine->PhysicsManager->CreateSphereShape(Offset, GeomPQuat, Extent.x);
+            PxShape* PxSphere = GEngine->PhysicsManager->CreateSphereShape(Offset, GeomPQuat, Extent.x, Material);
             BodySetup->AggGeom.SphereElems.Add(PxSphere);
             break;
         }
         case EGeomType::EBox:
         {
-            PxShape* PxBox = GEngine->PhysicsManager->CreateBoxShape(Offset, GeomPQuat, Extent);
+            PxShape* PxBox = GEngine->PhysicsManager->CreateBoxShape(Offset, GeomPQuat, Extent, Material);
             BodySetup->AggGeom.BoxElems.Add(PxBox);
             break;
         }
         case EGeomType::ECapsule:
         {
-            PxShape* PxCapsule = GEngine->PhysicsManager->CreateCapsuleShape(Offset, GeomPQuat, Extent.x, Extent.z);
+            PxShape* PxCapsule = GEngine->PhysicsManager->CreateCapsuleShape(Offset, GeomPQuat, Extent.x, Extent.z, Material);
             BodySetup->AggGeom.CapsuleElems.Add(PxCapsule);
             break;
         }
         }
     }
     
-    GameObject* Obj = GEngine->PhysicsManager->CreateGameObject(PPos, PQuat, BodyInstance,  BodySetup, RigidBodyType);
+    GameObject* Obj = GEngine->PhysicsManager->CreateGameObject(PPos, PQuat, BodyInstance, BodySetup, Material, RigidBodyType);
 }
 
-void UPrimitiveComponent::BeginPlay()
+void UPrimitiveComponent::DestroyPhysXGameObject()
 {
-    USceneComponent::BeginPlay();
+    if (BodyInstance == nullptr)
+    {
+        return;
+    }
+
+    if (BodyInstance->BIGameObject != nullptr)
+    {
+        GEngine->PhysicsManager->DestroyGameObject(BodyInstance->BIGameObject);
+    }
+    
+    delete BodyInstance;
+    BodyInstance = nullptr;
+}
+
+void UPrimitiveComponent::UpdatePhysXGameObject()
+{
+    if (bSimulate == true && BodyInstance == nullptr)
+    {
+        if (GetWorld()->WorldType == EWorldType::PIE)
+        {
+            CreatePhysXGameObject();
+        }
+    }
+    else if (bSimulate == false && BodyInstance != nullptr)
+    {
+        DestroyPhysXGameObject();
+    }
 }
 
 void UPrimitiveComponent::UpdateOverlapsImpl(const TArray<FOverlapInfo>* NewPendingOverlaps, bool bDoNotifies, const TArray<const FOverlapInfo>* OverlapsAtEndLocation)

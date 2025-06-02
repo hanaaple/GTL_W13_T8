@@ -6,7 +6,6 @@
 void ULevel::InitLevel(UWorld* InOwningWorld)
 {
     OwningWorld = InOwningWorld;
-
 }
 
 void ULevel::Release()

@@ -2,6 +2,8 @@
 
 #include "PhysicsManager.h"
 #include "ReferenceSkeleton.h"
+#include "StaticMeshComponent.h"
+#include "Actors/Cube.h"
 #include "Animation/AnimSequence.h"
 #include "Animation/AnimInstance.h"
 #include "Animation/Skeleton.h"
@@ -16,6 +18,7 @@
 #include "UObject/Casts.h"
 #include "UObject/ObjectFactory.h"
 #include "PhysicsEngine/ConstraintInstance.h"
+#include "World/World.h"
 
 bool USkeletalMeshComponent::bIsCPUSkinning = false;
 
@@ -158,6 +161,27 @@ void USkeletalMeshComponent::GetProperties(TMap<FString, FString>& OutProperties
 
 void USkeletalMeshComponent::TickComponent(float DeltaTime)
 {
+    // const static float timer = 1;
+    // static float t = 0;
+    // t += DeltaTime;
+    // if (timer < t)
+    // {
+    //     if (GetWorld()->WorldType == EWorldType::PIE)
+    //     {
+    //         ACube* actor = GetWorld()->SpawnActor<ACube>();
+    //         actor->SetActorLabel(TEXT("OBJ_CUBE"));
+    //         actor->SetActorLocation(FVector(0, 0, 500));
+    //         actor->SetActorScale(FVector(10, 10, 10));
+    //
+    //         actor->GetStaticMeshComponent()->bApplyGravity = true;
+    //         AggregateGeomAttributes aa = AggregateGeomAttributes();
+    //         aa.GeomType = EGeomType::EBox;
+    //         aa.Extent = FVector(30, 30, 30);
+    //         actor->GetStaticMeshComponent()->GeomAttributes.Add(aa);
+    //         actor->GetStaticMeshComponent()->SetSimulate(true);
+    //     }
+    //     t = 0;
+    // }
     Super::TickComponent(DeltaTime);
 
     if(!bSimulate)
@@ -556,6 +580,11 @@ void USkeletalMeshComponent::InitAnim()
 
 void USkeletalMeshComponent::CreatePhysXGameObject()
 {
+    if (bSimulate == false || Bodies.Num() > 0)
+    {
+        return;
+    }
+    
     if (RigidBodyType == ERigidBodyType::STATIC)
     {
         RigidBodyType = ERigidBodyType::KINEMATIC;
@@ -563,12 +592,13 @@ void USkeletalMeshComponent::CreatePhysXGameObject()
 
     // BodyInstance 생성
     const auto& Skeleton = SkeletalMeshAsset->GetSkeleton()->GetReferenceSkeleton();
-    TArray<UBodySetup*> BodySetups = SkeletalMeshAsset->GetPhysicsAsset()->BodySetups;
-    for (int i = 0; i < BodySetups.Num(); i++)
+    for (UBodySetup* BoneBodySetup : SkeletalMeshAsset->GetPhysicsAsset()->BodySetups)
     {
         FBodyInstance* NewBody = new FBodyInstance(this);
 
-        for (const auto& GeomAttribute : BodySetups[i]->GeomAttributes)
+        PxMaterial* Material = GEngine->PhysicsManager->GetPhysics()->createMaterial(BoneBodySetup->StaticFriction, BoneBodySetup->DynamicFriction, BoneBodySetup->Restitution);
+
+        for (const auto& GeomAttribute : BoneBodySetup->GeomAttributes)
         {
             PxVec3 Offset = PxVec3(GeomAttribute.Offset.X, GeomAttribute.Offset.Y, GeomAttribute.Offset.Z);
             FQuat GeomQuat = GeomAttribute.Rotation.Quaternion();
@@ -579,26 +609,26 @@ void USkeletalMeshComponent::CreatePhysXGameObject()
             {
             case EGeomType::ESphere:
             {
-                PxShape* PxSphere = GEngine->PhysicsManager->CreateSphereShape(Offset, GeomPQuat, Extent.x);
-                BodySetups[i]->AggGeom.SphereElems.Add(PxSphere);
+                PxShape* PxSphere = GEngine->PhysicsManager->CreateSphereShape(Offset, GeomPQuat, Extent.x, Material);
+                BoneBodySetup->AggGeom.SphereElems.Add(PxSphere);
                 break;
             }
             case EGeomType::EBox:
             {
-                PxShape* PxBox = GEngine->PhysicsManager->CreateBoxShape(Offset, GeomPQuat, Extent);
-                BodySetups[i]->AggGeom.BoxElems.Add(PxBox);
+                PxShape* PxBox = GEngine->PhysicsManager->CreateBoxShape(Offset, GeomPQuat, Extent, Material);
+                BoneBodySetup->AggGeom.BoxElems.Add(PxBox);
                 break;
             }
             case EGeomType::ECapsule:
             {
-                PxShape* PxCapsule = GEngine->PhysicsManager->CreateCapsuleShape(Offset, GeomPQuat, Extent.x, Extent.z);
-                BodySetups[i]->AggGeom.CapsuleElems.Add(PxCapsule);
+                PxShape* PxCapsule = GEngine->PhysicsManager->CreateCapsuleShape(Offset, GeomPQuat, Extent.x, Extent.z, Material);
+                BoneBodySetup->AggGeom.CapsuleElems.Add(PxCapsule);
                 break;
             }
             }
         }
 
-        int BoneIndex = Skeleton.FindBoneIndex(BodySetups[i]->BoneName);
+        int BoneIndex = Skeleton.FindBoneIndex(BoneBodySetup->BoneName);
         TArray<FMatrix> CurrentGlobalBoneMatrices;
         GetCurrentGlobalBoneMatrices(CurrentGlobalBoneMatrices);
         FMatrix CompToWorld = GetComponentTransform().ToMatrixWithScale();
@@ -614,7 +644,7 @@ void USkeletalMeshComponent::CreatePhysXGameObject()
         //FVector Location = GetComponentLocation();
         PxVec3 Pos = PxVec3(Location.X, Location.Y, Location.Z);
         PxQuat Quat = PxQuat(Rotation.X, Rotation.Y, Rotation.Z, Rotation.W);
-        GameObject* Obj = GEngine->PhysicsManager->CreateGameObject(Pos, Quat, NewBody, BodySetups[i], RigidBodyType);
+        GameObject* Obj = GEngine->PhysicsManager->CreateGameObject(Pos, Quat, NewBody, BoneBodySetup, Material, RigidBodyType);
 
         if (RigidBodyType != ERigidBodyType::STATIC)
         {
@@ -623,15 +653,14 @@ void USkeletalMeshComponent::CreatePhysXGameObject()
         }
 
         NewBody->SetGameObject(Obj);
-        NewBody->BodyInstanceName = BodySetups[i]->BoneName;
+        NewBody->BodyInstanceName = BoneBodySetup->BoneName;
         NewBody->BoneIndex = BoneIndex;
 
         Bodies.Add(NewBody);
     }
 
     // Constraint Instance 생성
-    TArray<FConstraintSetup*> ConstraintSetups = SkeletalMeshAsset->GetPhysicsAsset()->ConstraintSetups;
-    for (int i = 0; i < ConstraintSetups.Num(); i++)
+    for (FConstraintSetup* ConstraintSetup : SkeletalMeshAsset->GetPhysicsAsset()->ConstraintSetups)
     {
         FConstraintInstance* NewConstraintInstance = new FConstraintInstance;
         FBodyInstance* BodyInstance1 = nullptr;
@@ -639,11 +668,11 @@ void USkeletalMeshComponent::CreatePhysXGameObject()
 
         for (int j = 0; j < Bodies.Num(); j++)
         {
-            if (ConstraintSetups[i]->ConstraintBone1 == Bodies[j]->BodyInstanceName.ToString())
+            if (ConstraintSetup->ConstraintBone1 == Bodies[j]->BodyInstanceName.ToString())
             {
                 BodyInstance1 = Bodies[j];
             }
-            if (ConstraintSetups[i]->ConstraintBone2 == Bodies[j]->BodyInstanceName.ToString())
+            if (ConstraintSetup->ConstraintBone2 == Bodies[j]->BodyInstanceName.ToString())
             {
                 BodyInstance2 = Bodies[j];
             }
@@ -651,36 +680,51 @@ void USkeletalMeshComponent::CreatePhysXGameObject()
 
         if (BodyInstance1 && BodyInstance2)
         {
-            GEngine->PhysicsManager->CreateJoint(BodyInstance1->BIGameObject, BodyInstance2->BIGameObject, NewConstraintInstance, ConstraintSetups[i]);
+            GEngine->PhysicsManager->CreateJoint(BodyInstance1->BIGameObject, BodyInstance2->BIGameObject, NewConstraintInstance, ConstraintSetup);
         }
 
         Constraints.Add(NewConstraintInstance);
     }
 }
 
-void USkeletalMeshComponent::AddBodyInstance(FBodyInstance* BodyInstance)
+void USkeletalMeshComponent::DestroyPhysXGameObject()
 {
-    Bodies.Add(BodyInstance);
-}
-
-void USkeletalMeshComponent::AddConstraintInstance(FConstraintInstance* ConstraintInstance)
-{
-    Constraints.Add(ConstraintInstance);
-}
-
-void USkeletalMeshComponent::RemoveBodyInstance(FBodyInstance* BodyInstance)
-{
-    if (BodyInstance)
+    Super::DestroyPhysXGameObject();
+    
+    for (FConstraintInstance* Constraint : Constraints)
     {
-        Bodies.Remove(BodyInstance);
+        if (Constraint->ConstraintData != nullptr)
+        {
+            Constraint->ConstraintData->release();
+        }
+        delete Constraint;
     }
+
+    for (FBodyInstance* Body : Bodies)
+    {
+        if (Body->BIGameObject != nullptr)
+        {
+            GEngine->PhysicsManager->DestroyGameObject(Body->BIGameObject);
+        }
+        delete Body;
+    }
+
+    Bodies.Empty();
+    Constraints.Empty();
 }
 
-void USkeletalMeshComponent::RemoveConstraintInstance(FConstraintInstance* ConstraintInstance)
+void USkeletalMeshComponent::UpdatePhysXGameObject()
 {
-    if (ConstraintInstance)
+    if (bSimulate == true && Bodies.Num() == 0)
     {
-        Constraints.Remove(ConstraintInstance);
+        if (GetWorld()->WorldType == EWorldType::PIE)
+        {
+            CreatePhysXGameObject();
+        }
+    }
+    else if (bSimulate == false && Bodies.Num() > 0)
+    {
+        DestroyPhysXGameObject();
     }
 }
 

@@ -708,7 +708,7 @@ void FEditorRenderPass::RenderBoxInstanced(uint64 ShowFlag)
 
     for (const UStaticMeshComponent* StaticComp : Resources.Components.StaticMeshComponent)
     {
-        for (const auto& GeomAttribute : StaticComp->GeomAttributes)
+        for (const auto& GeomAttribute : StaticComp->GetBodySetup()->GeomAttributes)
         {
             if (GeomAttribute.GeomType == EGeomType::EBox)
             {
@@ -809,7 +809,7 @@ void FEditorRenderPass::RenderSphereInstanced(uint64 ShowFlag)
 
     for (const UStaticMeshComponent* StaticComp : Resources.Components.StaticMeshComponent)
     {
-        for (const auto& GeomAttribute : StaticComp->GeomAttributes)
+        for (const auto& GeomAttribute : StaticComp->GetBodySetup()->GeomAttributes)
         {
             if (GeomAttribute.GeomType == EGeomType::ESphere)
             {
@@ -914,7 +914,7 @@ void FEditorRenderPass::RenderCapsuleInstanced(uint64 ShowFlag)
 
     for (const UStaticMeshComponent* StaticComp : Resources.Components.StaticMeshComponent)
     {
-        for (const auto& GeomAttribute : StaticComp->GeomAttributes)
+        for (const auto& GeomAttribute : StaticComp->GetBodySetup()->GeomAttributes)
         {
             if (GeomAttribute.GeomType == EGeomType::ECapsule)
             {

@@ -21,10 +21,14 @@ class UPrimitiveComponent : public USceneComponent
 public:
     UPrimitiveComponent();
 
+    virtual void BeginPlay() override;
+    virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
     virtual void InitializeComponent() override;
     virtual void TickComponent(float DeltaTime) override;
     virtual void EndPhysicsTickComponent(float DeltaTime) override;
     
+    virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
+        
     bool IntersectRayTriangle(
         const FVector& RayOrigin, const FVector& RayDirection,
         const FVector& v0, const FVector& v1, const FVector& v2, float& OutHitDistance
@@ -48,11 +52,10 @@ public:
 
     FComponentEndOverlapSignature OnComponentEndOverlap;
 
+    // Do not Set Directly, Use SetSimulate()
     UPROPERTY_WITH_FLAGS(EditAnywhere, bool, bSimulate, = false)
     UPROPERTY_WITH_FLAGS(EditAnywhere, bool, bApplyGravity, = false)
     UPROPERTY_WITH_FLAGS(EditAnywhere, ERigidBodyType, RigidBodyType, = ERigidBodyType::DYNAMIC)
-
-    UPROPERTY_WITH_FLAGS(EditAnywhere, TArray<AggregateGeomAttributes>, GeomAttributes)
 
     /** 
      * Begin tracking an overlap interaction with the component specified.
@@ -111,14 +114,20 @@ public:
     /** Returns list of components this component is overlapping. */
     const TArray<FOverlapInfo>& GetOverlapInfos() const;
 
+    UBodySetup* GetBodySetup() const;
+    
+    void SetSimulate(bool bInSimulate);
+    
     virtual void CreatePhysXGameObject();
+    virtual void DestroyPhysXGameObject();
 
-    virtual void BeginPlay() override;
+protected:
+    virtual void UpdatePhysXGameObject();
     
 protected:
     TArray<FOverlapInfo> OverlappingComponents;
 
-    UPROPERTY(EditAnywhere, UBodySetup*, BodySetup, = nullptr)
+    UPROPERTY(EditAnywhere | EditInline, UBodySetup*, BodySetup, = nullptr)
 
     virtual void UpdateOverlapsImpl(const TArray<FOverlapInfo>* PendingOverlaps = nullptr, bool bDoNotifies = true, const TArray<const FOverlapInfo>* OverlapsAtEndLocation = nullptr) override;
 

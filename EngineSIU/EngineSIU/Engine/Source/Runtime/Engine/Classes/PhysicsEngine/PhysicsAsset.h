@@ -72,6 +72,19 @@ public:
 
     UPROPERTY(EditAnywhere, TArray<AggregateGeomAttributes>, GeomAttributes, = {})
 
+    UPROPERTY(
+        EditAnywhere, ({ .ClampMin = 0.0f, .ClampMax = 1.0f }),
+        float, StaticFriction, = 0.5
+    )
+    UPROPERTY(
+        EditAnywhere, ({ .ClampMin = 0.0f, .ClampMax = 1.0f }),
+        float, DynamicFriction, = 0.5
+    )
+    UPROPERTY(
+        EditAnywhere, ({ .ClampMin = 0.0f, .ClampMax = 1.0f }),
+        float, Restitution, = 0.5
+    )
+    
     virtual void SerializeAsset(FArchive& Ar) override;
     virtual void DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator) override;
 };

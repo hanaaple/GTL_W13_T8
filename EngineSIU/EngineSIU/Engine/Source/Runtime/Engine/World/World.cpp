@@ -13,14 +13,6 @@
 
 class UEditorEngine;
 
-UWorld::~UWorld()
-{
-    if (GEngine->PhysicsManager->GetScene(this))
-    {
-        GEngine->PhysicsManager->RemoveScene(this);
-    }
-}
-
 UWorld* UWorld::CreateWorld(UObject* InOuter, const EWorldType InWorldType, const FString& InWorldName)
 {
     UWorld* NewWorld = FObjectFactory::ConstructObject<UWorld>(InOuter);
@@ -88,6 +80,11 @@ void UWorld::Release()
         ActiveLevel->Release();
         GUObjectArray.MarkRemoveObject(ActiveLevel);
         ActiveLevel = nullptr;
+    }
+    
+    if (GEngine->PhysicsManager->ContainsScene(this))
+    {
+        GEngine->PhysicsManager->ReleaseScene(this);
     }
 
     if (CollisionManager)

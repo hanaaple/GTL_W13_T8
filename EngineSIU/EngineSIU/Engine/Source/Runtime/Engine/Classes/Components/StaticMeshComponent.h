@@ -17,8 +17,8 @@ public:
     virtual void SetProperties(const TMap<FString, FString>& InProperties) override;
 
     void SetselectedSubMeshIndex(const int& Value) { SelectedSubMeshIndex = Value; }
-    int GetselectedSubMeshIndex() const { return SelectedSubMeshIndex; };
-
+    int GetselectedSubMeshIndex() const { return SelectedSubMeshIndex; }
+    
     virtual uint32 GetNumMaterials() const override;
     virtual UMaterial* GetMaterial(uint32 ElementIndex) const override;
     virtual uint32 GetMaterialIndex(FName MaterialSlotName) const override;
