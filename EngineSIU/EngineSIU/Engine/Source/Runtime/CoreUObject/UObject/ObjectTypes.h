@@ -22,6 +22,12 @@ enum class ESpawnObjectTypes : uint8
 
     SkeletalMeshActor,
     PlayerStart,
+
+    TranslatePatrolPlatform,
+    RotatePatrolPlatform,
+    
+    TranslataeSpringTrap,
+    RotateSpringTrap,
 };
 
 enum ARROW_DIR : uint8

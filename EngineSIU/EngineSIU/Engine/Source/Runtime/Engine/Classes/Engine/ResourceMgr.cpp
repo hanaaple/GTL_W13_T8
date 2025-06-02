@@ -66,10 +66,45 @@ struct TupleHash
     }
 };
 
-std::shared_ptr<FTexture> FResourceManager::GetTexture(const FWString& Name) const
+std::shared_ptr<FTexture> FResourceManager::GetTexture(const FWString& Name)
 {
     auto* TempValue = TextureMap.Find(Name);
-    return TempValue ? *TempValue : nullptr;
+    if (TempValue != nullptr)
+    {
+        return *TempValue;
+    }
+
+    // Path에서 확장자 추출
+    // FWString이 std::wstring 기반이라 가정하고 작성
+    size_t DotPos = Name.find_last_of(L'.');
+    FWString Ext;
+    if (DotPos != FWString::npos)
+    {
+        Ext = Name.substr(DotPos);  // DotPos부터 끝까지 추출 (예: L".dds")
+    }
+    else
+    {
+        Ext.clear();  // 확장자가 없는 경우 빈 문자열
+    }
+
+    // .dds 확장자인지 확인
+    if (Ext == L".dds")
+    {
+         LoadTextureFromDDS(FEngineLoop::GraphicDevice.Device, FEngineLoop::GraphicDevice.DeviceContext, Name.c_str());
+    }
+    else
+    {
+        LoadTextureFromFile(FEngineLoop::GraphicDevice.Device, Name.c_str());
+    }
+
+    // 실제 로드 후 TextureMap에 저장하고 반환해야 함
+    auto* Texture = TextureMap.Find(Name);
+    if (Texture != nullptr)
+    {
+        return *Texture;
+    }
+
+    return nullptr;
 }
 
 HRESULT FResourceManager::LoadTextureFromFile(ID3D11Device* Device, const wchar_t* Filename, bool bIsSRGB)

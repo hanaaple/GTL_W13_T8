@@ -4,15 +4,15 @@
 #include "Components/Light/PointLightComponent.h"
 
 #include "Components/ProjectileMovementComponent.h"
+#include "Components/StaticMeshComponent.h"
 
-#include "Components/SphereComp.h"
 
 AFireballActor::AFireballActor()
 {
     FObjManager::CreateStaticMesh("Contents/Sphere.obj");
 
 
-    SphereComp = AddComponent<USphereComp>("USphereComp_0");
+    SphereComp = AddComponent<UStaticMeshComponent>("USphereComp_0");
     
     SphereComp->SetStaticMesh(FObjManager::GetStaticMesh(L"Contents/Sphere.obj"));
   

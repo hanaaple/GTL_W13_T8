@@ -1,7 +1,9 @@
 #include "World.h"
 
+
 #include "CollisionManager.h"
 #include "PhysicsManager.h"
+#include "Actors/Cube.h"
 #include "Actors/Player.h"
 #include "BaseGizmos/TransformGizmo.h"
 #include "Classes/Components/StaticMeshComponent.h"
@@ -57,6 +59,28 @@ void UWorld::Tick(float DeltaTime)
             Actor->BeginPlay();
         }
         PendingBeginPlayActors.Empty();
+    }
+
+    if (WorldType == EWorldType::PIE)
+    {
+        static constexpr float TimeInterval = 1;
+
+        static float timer = 0;
+        timer += DeltaTime;
+        if (timer > TimeInterval)
+        {
+            timer = 0;
+            // ACube* CubeActor = SpawnActor<ACube>();
+            // CubeActor->SetActorLabel(TEXT("OBJ_CUBE"));
+            // AggregateGeomAttributes AggregateGeomAttribute = AggregateGeomAttributes();
+            // AggregateGeomAttribute.Offset = FVector(0, 0, 1);
+            // AggregateGeomAttribute.Rotation = FRotator(0, 0, 0);
+            // AggregateGeomAttribute.Extent = FVector(1, 1, 1);
+            // AggregateGeomAttribute.GeomType = EGeomType::EBox;
+            // CubeActor->GetStaticMeshComponent()->GetBodySetup()->GeomAttributes.Add(AggregateGeomAttribute);
+            // // CubeActor->GetStaticMeshComponent()->bApplyGravity = true;
+            // CubeActor->GetStaticMeshComponent()->SetSimulate(true);
+        }
     }
 }
 

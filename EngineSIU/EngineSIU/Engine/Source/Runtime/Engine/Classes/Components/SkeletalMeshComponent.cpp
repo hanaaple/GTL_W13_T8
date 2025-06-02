@@ -161,27 +161,6 @@ void USkeletalMeshComponent::GetProperties(TMap<FString, FString>& OutProperties
 
 void USkeletalMeshComponent::TickComponent(float DeltaTime)
 {
-    // const static float timer = 1;
-    // static float t = 0;
-    // t += DeltaTime;
-    // if (timer < t)
-    // {
-    //     if (GetWorld()->WorldType == EWorldType::PIE)
-    //     {
-    //         ACube* actor = GetWorld()->SpawnActor<ACube>();
-    //         actor->SetActorLabel(TEXT("OBJ_CUBE"));
-    //         actor->SetActorLocation(FVector(0, 0, 500));
-    //         actor->SetActorScale(FVector(10, 10, 10));
-    //
-    //         actor->GetStaticMeshComponent()->bApplyGravity = true;
-    //         AggregateGeomAttributes aa = AggregateGeomAttributes();
-    //         aa.GeomType = EGeomType::EBox;
-    //         aa.Extent = FVector(30, 30, 30);
-    //         actor->GetStaticMeshComponent()->GeomAttributes.Add(aa);
-    //         actor->GetStaticMeshComponent()->SetSimulate(true);
-    //     }
-    //     t = 0;
-    // }
     Super::TickComponent(DeltaTime);
 
     if(!bSimulate)
@@ -621,7 +600,7 @@ void USkeletalMeshComponent::CreatePhysXGameObject()
             }
             case EGeomType::ECapsule:
             {
-                PxShape* PxCapsule = GEngine->PhysicsManager->CreateCapsuleShape(Offset, GeomPQuat, Extent.x, Extent.z, Material);
+                PxShape* PxCapsule = GEngine->PhysicsManager->CreateCapsuleShape(Offset, GeomPQuat, Extent.x, Extent.z / 2, Material);
                 BoneBodySetup->AggGeom.CapsuleElems.Add(PxCapsule);
                 break;
             }

@@ -118,6 +118,9 @@ public:
     UFUNCTION(bool, AddActorRotation, const FRotator& DeltaRotation);
     UFUNCTION(bool, AddActorRotation, const FQuat& DeltaRotation);
     UFUNCTION(bool, AddActorScale, const FVector& DeltaScale);
+    
+    virtual void GetProperties(TMap<FString, FString>& OutProperties) const {};
+    virtual void SetProperties(const TMap<FString, FString>& InProperties) {};
 
 protected:
     UPROPERTY
