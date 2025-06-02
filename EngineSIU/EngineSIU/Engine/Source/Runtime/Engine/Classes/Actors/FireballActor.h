@@ -1,4 +1,5 @@
 #pragma once
+#include "Components/StaticMeshComponent.h"
 #include"GameFramework/Actor.h"
 
 class UProjectileMovementComponent;
@@ -22,6 +23,6 @@ protected:
     (UPointLightComponent*, PointLightComponent, = nullptr);
    
     UPROPERTY
-    (USphereComp*, SphereComp, = nullptr);
+    (UStaticMeshComponent*, SphereComp, = nullptr);
 
 };

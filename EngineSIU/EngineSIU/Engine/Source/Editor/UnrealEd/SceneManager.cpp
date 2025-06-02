@@ -87,7 +87,9 @@ struct FActorSaveData
     FString RootComponentID;               // 이 액터의 루트 컴포넌트 ID (아래 Components 리스트 내 ID 참조)
     TArray<FComponentSaveData> Components; // 이 액터가 소유한 컴포넌트 목록
 
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(FActorSaveData, ActorID, ActorClass, ActorLabel, ActorTickInEditor, RootComponentID, Components)
+    TMap<FString, FString> Properties;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(FActorSaveData, ActorID, ActorClass, ActorLabel, ActorTickInEditor, RootComponentID, Components, Properties)
 };
 
 struct FSceneData
@@ -215,6 +217,9 @@ FSceneData SceneManager::WorldToSceneData(const UWorld& InWorld)
         actorData.ActorLabel = Actor->GetActorLabel();
         actorData.ActorTickInEditor = Actor->IsActorTickInEditor() ? "true" : "false";
 
+        Actor->GetProperties(actorData.Properties);
+
+        
         USceneComponent* RootComp = Actor->GetRootComponent();
         actorData.RootComponentID = (RootComp != nullptr) ? RootComp->GetName() : TEXT(""); // 루트 없으면 빈 문자열
         
@@ -299,6 +304,8 @@ bool SceneManager::LoadWorldFromData(const FSceneData& sceneData, UWorld* target
 
         SpawnedActor->SetActorLabel(actorData.ActorLabel, false); // 액터 레이블 설정
         SpawnedActor->SetActorTickInEditor(actorData.ActorTickInEditor == "true");
+        SpawnedActor->SetProperties(actorData.Properties);
+        
         SpawnedActorsMap.Add(actorData.ActorID, SpawnedActor); // 맵에 추가
 
         // 액터별 로컬 컴포넌트 맵: ComponentID -> 생성/재사용된 컴포넌트 포인터
