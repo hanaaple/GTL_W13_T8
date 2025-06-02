@@ -10,6 +10,8 @@ public:
     AFFaxkController() = default;
     virtual ~AFFaxkController() override = default;
 
+    virtual void BeginPlay() override;
+
 protected:
     void RequestRespawn();
 };

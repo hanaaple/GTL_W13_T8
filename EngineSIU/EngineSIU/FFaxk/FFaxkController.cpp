@@ -3,6 +3,12 @@
 #include "World/World.h"
 
 
+void AFFaxkController::BeginPlay()
+{
+    Super::BeginPlay();
+
+}
+
 void AFFaxkController::RequestRespawn()
 {
     AFFaxkGameMode* GameMode = GetWorld()->GetGameMode<AFFaxkGameMode>();
