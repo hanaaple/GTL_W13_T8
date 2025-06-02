@@ -54,9 +54,30 @@ FVector FBodyInstance::GetBodyLocation()
 
 void FBodyInstance::SetBodyLocation(FVector& Location)
 {
-    BIGameObject->DynamicRigidBody->setGlobalPose(
-        physx::PxTransform(Location.X, Location.Y, Location.Z)
-    );
+    physx::PxTransform tf = BIGameObject->DynamicRigidBody->getGlobalPose();
+    tf.p.x = Location.X;
+    tf.p.y = Location.Y;
+    tf.p.z = Location.Z;
+    BIGameObject->DynamicRigidBody->setGlobalPose(tf);
+}
+
+FRotator FBodyInstance::GetBodyRotation() 
+{
+    physx::PxTransform tf = BIGameObject->DynamicRigidBody->getGlobalPose();
+    FQuat q(tf.q.x, tf.q.y, tf.q.z, tf.q.w);
+    return FRotator(q);
+}
+
+void FBodyInstance::SetBodyRotation(FRotator& Rotation ) 
+{
+    FQuat q(Rotation);
+    physx::PxTransform tf = BIGameObject->DynamicRigidBody->getGlobalPose();
+    tf.q.x = q.X;
+    tf.q.y = q.Y;
+    tf.q.z = q.Z;
+    tf.q.w = q.W;
+    
+    BIGameObject->DynamicRigidBody->setGlobalPose(tf);
 }
 
 FVector FBodyInstance::GetBodyVelocity()
@@ -69,6 +90,19 @@ void FBodyInstance::SetBodyVelocity(FVector& Velocity)
 {
     BIGameObject->DynamicRigidBody->setLinearVelocity(
         physx::PxVec3(Velocity.X, Velocity.Y, Velocity.Z)
+    );
+}
+
+FRotator FBodyInstance::GetBodyAngularVelocity()
+{
+    physx::PxVec3 r = BIGameObject->DynamicRigidBody->getAngularVelocity();
+    return FRotator(r.x, r.y, r.z);
+}
+
+void FBodyInstance::SetBodyAngularVelocity(FRotator& Rotation)
+{
+    BIGameObject->DynamicRigidBody->setAngularVelocity(
+        physx::PxVec3(Rotation.Pitch, Rotation.Yaw, Rotation.Roll)
     );
 }
 

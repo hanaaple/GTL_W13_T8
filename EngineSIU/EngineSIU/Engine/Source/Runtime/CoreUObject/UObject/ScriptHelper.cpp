@@ -1,4 +1,4 @@
-﻿#include "ScriptHelper.h"
+#include "ScriptHelper.h"
 #include <sstream>
 
 namespace
@@ -161,15 +161,15 @@ namespace
         // 네임스페이스 제거 (bIsNameOnly == true 인 경우에만 적용)
         // 이 로직은 다른 모든 정제 작업 (cv, ptr/ref, class/struct 키워드) 이후에 적용됩니다.
         std::string_view FinalTypeNameString = TrimWhitespace(ProcessedTypeNameString);
-        // auto LastColonColonPos = FinalTypeNameString.rfind("::");
-        // if (LastColonColonPos != std::string_view::npos)
-        // {
-        //     // "::" 뒤에 실제 이름이 있는지 확인 (예: "MyNamespace::"와 같은 경우 방지)
-        //     if (LastColonColonPos + 2 < FinalTypeNameString.length())
-        //     {
-        //         FinalTypeNameString = FinalTypeNameString.substr(LastColonColonPos + 2);
-        //     }
-        // }
+        auto LastColonColonPos = FinalTypeNameString.rfind("::");
+        if (LastColonColonPos != std::string_view::npos)
+        {
+            // "::" 뒤에 실제 이름이 있는지 확인 (예: "MyNamespace::"와 같은 경우 방지)
+            if (LastColonColonPos + 2 < FinalTypeNameString.length())
+            {
+                FinalTypeNameString = FinalTypeNameString.substr(LastColonColonPos + 2);
+            }
+        }
 
         return std::string(FinalTypeNameString); 
     }
@@ -196,7 +196,50 @@ FFunctionString::FFunctionString(const std::string& Type, const std::string& Sig
     std::string argument;
     while (!str.empty())
     {
-        uint64 pos = str.find_first_of(',');
+
+        uint64 pos = str.find_first_of(",(<");
+
+        // <type, type> 이나 function(type, type) 같은 경우 처리
+        if (pos < str.size() && str[pos] != ',') 
+        {
+            std::vector<char> stack;
+            stack.push_back(str[pos]);
+            for (int i = pos + 1; i < str.size(); ++i) 
+            {
+                if (str[i] == '(' || str[i] == '<') 
+                {
+                    stack.push_back(str[i]);
+                } 
+                else if (str[i] == ')')
+                {
+                    if (stack.back() != '(')  
+                    {
+                        assert(0);
+                        return;
+                    }
+                    stack.pop_back();
+                }
+                else if ( str[i] == '>' ) {
+                    if ( stack.back() != '<' ) {
+                        assert(0);
+                        return;
+                    }
+                    stack.pop_back();
+                }
+
+                if (stack.empty()) 
+                {
+                    pos = str.find_first_of(',', i);
+                    break;
+                }
+            }
+
+            if (!stack.empty()) 
+            {
+                assert(0);
+                return;
+            }
+        }
         argument = str.substr(0, pos);
 
         const char* WhitespaceChars = " \t\n\r\f\v";

@@ -128,9 +128,17 @@ struct FBodyInstance
 
     UFUNCTION(void, SetBodyLocation, FVector& Location)
 
+    UFUNCTION(FRotator, GetBodyRotation)
+
+    UFUNCTION(void, SetBodyRotation, FRotator& Rotation)
+
     UFUNCTION(FVector, GetBodyVelocity)
 
     UFUNCTION(void, SetBodyVelocity, FVector& Velocity)
+
+    UFUNCTION(FRotator, GetBodyAngularVelocity)
+
+    UFUNCTION(void, SetBodyAngularVelocity, FRotator& Rotation)
 
     UFUNCTION(void, AddBodyVelocity, FVector& Velocity)
 

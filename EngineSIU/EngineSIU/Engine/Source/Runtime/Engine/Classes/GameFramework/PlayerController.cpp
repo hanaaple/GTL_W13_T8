@@ -38,7 +38,7 @@ void APlayerController::ProcessInput(float DeltaTime) const
 {
     if (InputComponent)
     {
-        InputComponent->ProcessInput(DeltaTime);
+        InputComponent->ProcessKeyInput(DeltaTime);
     }
 }
 
@@ -105,7 +105,7 @@ void APlayerController::BindAction(const FString& Key, const std::function<void(
 {
     if (InputComponent)
     {
-        InputComponent->BindAction(Key, Callback);
+        InputComponent->BindKeyAction(Key, Callback);
     }
 }
 
@@ -113,7 +113,7 @@ uint64 APlayerController::BindLuaAction(const FString& Key, AActor* LuaObj, cons
 {
     if (InputComponent)
     {
-        return InputComponent->BindTargetedAction(Key, LuaObj, Callback);
+        return InputComponent->BindTargetedKeyAction(Key, LuaObj, Callback);
     }
 }
 
@@ -121,7 +121,7 @@ void APlayerController::UnBindLuaAction(const FString& Key, uint64 HandleId)
 {
     if (InputComponent)
     {
-        return InputComponent->UnBindAction(Key, HandleId);
+        return InputComponent->UnBindKeyAction(Key, HandleId);
     }
 }
 

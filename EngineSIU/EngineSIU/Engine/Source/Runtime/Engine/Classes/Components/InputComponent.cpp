@@ -1,7 +1,7 @@
 #include "InputComponent.h"
 #include "GameFramework/Actor.h"
 
-void UInputComponent::ProcessInput(float DeltaTime)
+void UInputComponent::ProcessKeyInput(float DeltaTime)
 {
     uint8 keycode = static_cast<uint8>(EKeys::A);
     for (; keycode <= static_cast<uint8>(EKeys::Z); ++keycode)
@@ -16,10 +16,17 @@ void UInputComponent::ProcessInput(float DeltaTime)
     }
 }
 
+void UInputComponent::ProcessMouseMoveInput(int dx, int dy)
+{
+}
+
 void UInputComponent::SetPossess()
 {
+    if ( bIsPossess )
+        return;
+
     BindInputDelegate();
-    
+    bIsPossess = true;
     //TODO: Possess일때 기존에 있던거 다시 넣어줘야할수도
 }
 
@@ -36,12 +43,21 @@ void UInputComponent::BindInputDelegate()
     {
         InputKey(InKeyEvent);
     }));
-    
+
+    BindMouseMoveDelegateHandleId = Handler->OnMouseMoveDelegate.AddLambda([this](const FPointerEvent& InMouseEvent)
+    {
+        FVector2D delta = InMouseEvent.GetCursorDelta();
+        MouseMoveDelegate.Broadcast(delta.X, delta.Y);
+    }).GetHandleId();
 }
 
 void UInputComponent::UnPossess()
 { 
+    if ( !bIsPossess )
+        return;
+
     ClearBindDelegate();
+    bIsPossess = false;
 }
 
 void UInputComponent::ClearBindDelegate()
@@ -57,6 +73,8 @@ void UInputComponent::ClearBindDelegate()
     {
         Handler->OnKeyUpDelegate.Remove(DelegateHandle);
     }
+
+    Handler->OnMouseMoveDelegate.Remove(FDelegateHandle(BindMouseMoveDelegateHandleId));
     
     BindKeyDownDelegateHandles.Empty();
     BindKeyUpDelegateHandles.Empty();
@@ -84,7 +102,7 @@ void UInputComponent::BeginPlay()
 void UInputComponent::TickComponent(float DeltaTime)
 {
     UActorComponent::TickComponent(DeltaTime);
-    ProcessInput(DeltaTime);
+    ProcessKeyInput(DeltaTime);
 }
 
 void UInputComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -94,7 +112,7 @@ void UInputComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
     UnBindAllAction();
 }
 
-uint64 UInputComponent::BindAction(const FString& Key, const std::function<void(float)>& Callback)
+uint64 UInputComponent::BindKeyAction(const FString& Key, const std::function<void(float)>& Callback)
 {
     if (Callback == nullptr)
     {
@@ -109,7 +127,7 @@ uint64 UInputComponent::BindAction(const FString& Key, const std::function<void(
     return Handle.GetHandleId();
 }
 
-uint64 UInputComponent::BindTargetedAction(const FString& Key, AActor* TargetObj, const std::function<void(float)>& Callback)
+uint64 UInputComponent::BindTargetedKeyAction(const FString& Key, AActor* TargetObj, const std::function<void(float)>& Callback)
 {
     if (Callback == nullptr)
     {
@@ -125,10 +143,47 @@ uint64 UInputComponent::BindTargetedAction(const FString& Key, AActor* TargetObj
     return Handle.GetHandleId();
 }
 
-void UInputComponent::UnBindAction(const FString& Key, uint64 HandleId)
+void UInputComponent::UnBindKeyAction(const FString& Key, uint64 HandleId)
 {
     BoundActionHandleIds.Remove(HandleId);
     KeyBindDelegate[Key].Remove(FDelegateHandle(HandleId));
+}
+
+uint64 UInputComponent::BindMouseMoveAction(const std::function<void(int dx, int dy)>& Callback)
+{
+    if (Callback == nullptr)
+    {
+        return UINT64_MAX;
+    }
+    
+    FDelegateHandle Handle = MouseMoveDelegate.AddLambda([Callback](int dx, int dy)
+    {
+        Callback(dx, dy);
+    });
+    BoundActionHandleIds.Add(Handle.GetHandleId());
+    return Handle.GetHandleId();
+}
+
+uint64 UInputComponent::BindTargetedMouseMoveAction(AActor* TargetObj, const std::function<void(int dx, int dy)>& Callback)
+{
+    if (Callback == nullptr)
+    {
+        return UINT64_MAX;
+    }
+
+    // TODO: lua script 함수를 람다로 넘겨줬다 에러나면 Panic나면서 터진다. 람다 말고 다른 대안 없을까...
+    FDelegateHandle Handle = MouseMoveDelegate.AddWeakLambda(TargetObj, [Callback](int dx, int dy)
+    {
+        Callback(dx, dy);
+    });
+    BoundActionHandleIds.Add(Handle.GetHandleId());
+    return Handle.GetHandleId();
+}
+
+void UInputComponent::UnBindMouseMoveAction(uint64 HandleId)
+{
+    BoundActionHandleIds.Remove(HandleId);
+    MouseMoveDelegate.Remove(FDelegateHandle(HandleId));
 }
 
 void UInputComponent::UnBindAllAction()
@@ -140,5 +195,11 @@ void UInputComponent::UnBindAllAction()
             Delegate.Remove(FDelegateHandle(id));
         }
     }
+
+    for (const uint64 id: BoundActionHandleIds)
+    {
+        MouseMoveDelegate.Remove(FDelegateHandle(id));
+    }
+    
     BoundActionHandleIds.Empty();
 }
