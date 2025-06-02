@@ -86,7 +86,7 @@ void FGameMenu::Render()
     posY = startY + ResumeSize.y + spacing;
     DrawImageButton(DrawList, RestartTexID, RestartSize, posX, posY, "##RestartBtn", [&]()
     {
-        // TODO : ResumeButton 클릭 로직
+        // TODO : RestartButton 클릭 로직
         FEngineLoop::PauseRequestedPtr = false;
         FEngineLoop::bIsDied = true;
     });
