@@ -35,9 +35,6 @@ void FGameEnd::Render()
     if (InGameFont && InGameFont->IsLoaded())
     {
         DrawCenteredText(DrawList, InGameFont, 128.0f, ScreenSize, "You Die !", IM_COL32(255, 0, 0, 255), 0.4f);
-    }
-    if (InGameFont && InGameFont->IsLoaded())
-    {
         DrawCenteredText(DrawList, InGameFont, 64.0f, ScreenSize, "Press Any Key To Restart", IM_COL32(255, 255, 255, 255), 0.6f);
     }
 }
