@@ -1,8 +1,10 @@
 #include "GameMenu.h"
 
 #include "EngineLoop.h"
+#include "GameEnd.h"
 #include "DirectXTK/PostProcess.h"
 #include "ImGui/imgui.h"
+#include "UObject/Object.h"
 
 void FGameMenu::Update(float deltaTime)
 {
@@ -119,6 +121,8 @@ void FGameMenu::Render()
         if (ImGui::IsMouseClicked(0))
         {
             // TODO : 클릭 처리
+            FEngineLoop::PauseRequestedPtr = false;
+            FEngineLoop::bIsDied = true;
         }
 
         ImVec2 a = ImGui::GetItemRectMin();

@@ -26,6 +26,7 @@ FResourceManager FEngineLoop::ResourceManager;
 uint32 FEngineLoop::TotalAllocationBytes = 0;
 uint32 FEngineLoop::TotalAllocationCount = 0;
 bool FEngineLoop::PauseRequestedPtr = false;
+bool FEngineLoop::bIsDied = false;
 
 FEngineLoop::FEngineLoop()
     : AppWnd(nullptr)

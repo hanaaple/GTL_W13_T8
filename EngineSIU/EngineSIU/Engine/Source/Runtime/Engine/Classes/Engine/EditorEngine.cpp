@@ -21,6 +21,7 @@
 #include "World/World.h"
 
 #include "tinyfiledialogs.h"
+#include "Widgets/GameEnd.h"
 #include "Widgets/GameHUD.h"
 #include "Widgets/GameMenu.h"
 #include "Widgets/GameStart.h"
@@ -304,7 +305,7 @@ void UEditorEngine::StartPIE()
     PIEWorld = Cast<UWorld>(EditorWorld->Duplicate(this));
     PIEWorld->InitGameMode();
     PIEWorld->WorldType = EWorldType::PIE;
-
+    
     std::shared_ptr<FGameHUD> gameHUD = std::make_shared<FGameHUD>();
     GEngineLoop.GetGameUIManager()->AddElement(gameHUD);
 
@@ -312,6 +313,12 @@ void UEditorEngine::StartPIE()
     GEngineLoop.GetGameUIManager()->AddElement(gameMenu);
     
     std::shared_ptr<FGameStart> gameStart = std::make_shared<FGameStart>();
+
+    std::shared_ptr<FGameEnd> GameEnd = std::make_shared<FGameEnd>();
+    GEngineLoop.GetGameUIManager()->AddElement(GameEnd);
+    // TODO : 나중에 GameMode에서 관리해야함
+    FEngineLoop::bIsDied = false;
+    
     gameStart->SetTitleImage(FEngineLoop::ResourceManager.GetTexture(L"Assets/Texture/GameTitle.png"), 200.f, 100.f);
     GEngineLoop.GetGameUIManager()->AddElement(gameStart);
 
@@ -615,6 +622,8 @@ void UEditorEngine::EndPIE()
     Handler->OnPIEModeEnd();
     // 다시 EditorWorld로 돌아옴.
     ActiveWorld = EditorWorld;
+    // TODO : 나중에 GameMode에서 관리해야함
+    FEngineLoop::bIsDied = false;
 }
 
 void UEditorEngine::EndSkeletalMeshViewer()

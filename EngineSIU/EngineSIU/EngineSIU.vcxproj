@@ -411,6 +411,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\FBX\lib\x64\$
     <ClCompile Include="Engine\Source\Runtime\SlateCore\Input\Events.cpp" />
     <ClCompile Include="Engine\Source\Runtime\SlateCore\Widgets\SWindow.cpp" />
     <ClCompile Include="Engine\Source\Runtime\Slate\GameUIManager.cpp" />
+    <ClCompile Include="Engine\Source\Runtime\Slate\Widgets\GameEnd.cpp" />
     <ClCompile Include="Engine\Source\Runtime\Slate\Widgets\GameHUD.cpp" />
     <ClCompile Include="Engine\Source\Runtime\Slate\Widgets\GameMenu.cpp" />
     <ClCompile Include="Engine\Source\Runtime\Slate\Widgets\GameStart.cpp" />
@@ -785,6 +786,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\FBX\lib\x64\$
     <ClInclude Include="Engine\Source\Runtime\SlateCore\Input\Events.h" />
     <ClInclude Include="Engine\Source\Runtime\SlateCore\Widgets\SWindow.h" />
     <ClInclude Include="Engine\Source\Runtime\Slate\GameUIManager.h" />
+    <ClInclude Include="Engine\Source\Runtime\Slate\Widgets\GameEnd.h" />
     <ClInclude Include="Engine\Source\Runtime\Slate\Widgets\GameHUD.h" />
     <ClInclude Include="Engine\Source\Runtime\Slate\Widgets\GameMenu.h" />
     <ClInclude Include="Engine\Source\Runtime\Slate\Widgets\GameStart.h" />

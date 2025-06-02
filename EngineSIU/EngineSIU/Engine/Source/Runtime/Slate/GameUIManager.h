@@ -42,10 +42,14 @@ public:
         }
     }
 
-    ImFont* GetInGameFont() const { return GameFont; }
+    ImFont* GetInGameFont48() const { return GameFont48; }
+
+    ImFont* GetInGameFont64() const { return GameFont64; }
 
 private:
     TArray<std::shared_ptr<FUIElement>> UIElements;
 
-    ImFont* GameFont = nullptr;
+    ImFont* GameFont48 = nullptr;
+
+    ImFont* GameFont64 = nullptr;
 };

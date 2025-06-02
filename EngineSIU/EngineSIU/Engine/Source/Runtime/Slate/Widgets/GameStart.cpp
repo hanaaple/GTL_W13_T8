@@ -10,27 +10,18 @@ void FGameStart::Update(float deltaTime)
 
     // 1. 깜빡임 타이머 업데이트 (0.5초마다 상태 토글)
     BlinkTimer += deltaTime;
-    if (BlinkTimer >= 0.5f)
+    if (BlinkTimer >= 1.0f)
     {
         BlinkTimer = 0.0f;
         bShowPrompt = !bShowPrompt;
     }
-
-    // 2. ImGuiIO를 통해 키 입력이 있었는지 검사
-    ImGuiIO& io = ImGui::GetIO();
     
     // 2. Win32 API: GetAsyncKeyState를 이용해 “아무 키나 눌렸는지” 검사
     //    0부터 255까지의 가상 키(Virtual-Key) 코드를 순회하며,
     //    해당 키가 눌려 있는 상태(VK 상태의 최상위 비트가 1)를 감지
-    for (int vk = 0; vk < 256; ++vk)
+    if (FSlateAppMessageHandler::IsAnyKeyPressed())
     {
-        SHORT state = ::GetAsyncKeyState(vk);
-        // 최상위 비트(0x8000)가 1이라면, 해당 키가 현재 눌린 상태
-        if (state & 0x8000)
-        {
-            bIsActive = false;
-            break;
-        }
+        bIsActive = false;
     }
 }
 
@@ -85,12 +76,7 @@ void FGameStart::Render()
         ImVec2   imgMax(posX + texW, posY + texH);
 
         // DirectX11 SRV를 ImTextureID로 캐스팅
-        drawList->AddImage(
-            reinterpret_cast<ImTextureID>(TitleTexture->TextureSRV),
-            imgMin,
-            imgMax,
-            uv0,
-            uv1);
+        drawList->AddImage(reinterpret_cast<ImTextureID>(TitleTexture->TextureSRV), imgMin, imgMax, uv0, uv1);
     }
     else
     {
@@ -98,10 +84,7 @@ void FGameStart::Render()
         const char* fallback = "ALTF 4";
         ImVec2 textSize = ImGui::CalcTextSize(fallback);
         ImVec2 centerPos(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.4f);
-        ImGui::SetCursorPos(ImVec2(
-            centerPos.x - textSize.x * 0.5f,
-            centerPos.y - textSize.y * 0.5f
-        ));
+        ImGui::SetCursorPos(ImVec2(centerPos.x - textSize.x * 0.5f, centerPos.y - textSize.y * 0.5f));
         ImGui::TextUnformatted(fallback);
     }
 
@@ -118,7 +101,7 @@ void FGameStart::Render()
         float centerX = screenW * 0.5f;
         float centerY = screenH * 0.6f;
         
-        ImFont* InGameFont = GEngineLoop.GetGameUIManager()->GetInGameFont();
+        ImFont* InGameFont = GEngineLoop.GetGameUIManager()->GetInGameFont64();
         if (InGameFont && InGameFont->IsLoaded())
         {
             // 1) InGameFont를 활성화
@@ -128,10 +111,7 @@ void FGameStart::Render()
             // 3) promptSize.x, promptSize.y는 InGameFont 크기로 올바르게 계산됨
 
             // 예를 들어, (가로 중앙에서 텍스트 너비 반만큼 빼기)
-            ImVec2 promptPos(
-                centerX - promptSize.x * 0.5f,
-                centerY - promptSize.y * 0.5f
-            );
+            ImVec2 promptPos(centerX - promptSize.x * 0.5f, centerY - promptSize.y * 0.5f);
             ImGui::SetCursorPos(promptPos);
 
             // 4) 글자 출력
@@ -143,10 +123,7 @@ void FGameStart::Render()
         {
             // InGameFont가 없으면 기본 폰트 기준으로 계산
             ImVec2 promptSize = ImGui::CalcTextSize(prompt);
-            ImVec2 promptPos(
-                centerX - promptSize.x * 0.5f,
-                centerY - promptSize.y * 0.5f
-            );
+            ImVec2 promptPos(centerX - promptSize.x * 0.5f, centerY - promptSize.y * 0.5f);
             ImGui::SetCursorPos(promptPos);
             ImGui::TextUnformatted(prompt);
         }
