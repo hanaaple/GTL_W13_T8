@@ -42,3 +42,36 @@ void ATranslatePatrolPlatform::Tick(float DeltaTime)
         AddActorLocation(TranslateVector);
     }
 }
+
+void ATranslatePatrolPlatform::GetProperties(TMap<FString, FString>& OutProperties) const
+{
+    Super::GetProperties(OutProperties);
+
+    OutProperties.Add("PlatformSpeed", FString::SanitizeFloat(Speed));
+    OutProperties.Add("PlatformTargetA", TargetA.ToString());
+    OutProperties.Add("PlatformTargetB", TargetB.ToString());
+}
+
+void ATranslatePatrolPlatform::SetProperties(const TMap<FString, FString>& InProperties)
+{
+    Super::SetProperties(InProperties);
+
+    const FString* TempStr = nullptr;
+    TempStr = InProperties.Find(TEXT("PlatformSpeed"));
+    if (TempStr)
+    {
+        Speed = FCString::Atof(**TempStr);
+    }
+
+    TempStr = InProperties.Find(TEXT("PlatformTargetA"));
+    if (TempStr)
+    {
+        TargetA.InitFromString(*TempStr);
+    }
+
+    TempStr = InProperties.Find(TEXT("PlatformTargetB"));
+    if (TempStr)
+    {
+        TargetB.InitFromString(*TempStr);
+    }
+}

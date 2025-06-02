@@ -105,6 +105,9 @@ public:
     bool AddActorRotation(const FRotator& DeltaRotation);
     bool AddActorRotation(const FQuat& DeltaRotation);
     bool AddActorScale(const FVector& DeltaScale);
+    
+    virtual void GetProperties(TMap<FString, FString>& OutProperties) const {};
+    virtual void SetProperties(const TMap<FString, FString>& InProperties) {};
 
 protected:
     UPROPERTY

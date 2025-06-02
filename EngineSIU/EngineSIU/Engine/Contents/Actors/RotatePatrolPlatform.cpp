@@ -61,3 +61,36 @@ void ARotatePatrolPlatform::Tick(float DeltaTime)
         AddActorRotation(StepQuat);
     }
 }
+
+void ARotatePatrolPlatform::GetProperties(TMap<FString, FString>& OutProperties) const
+{
+    Super::GetProperties(OutProperties);
+
+    OutProperties.Add("PlatformAngularSpeed", FString::SanitizeFloat(AngularSpeed));
+    OutProperties.Add("PlatformTargetA", TargetA.ToString());
+    OutProperties.Add("PlatformTargetB", TargetB.ToString());
+}
+
+void ARotatePatrolPlatform::SetProperties(const TMap<FString, FString>& InProperties)
+{
+    Super::SetProperties(InProperties);
+
+    const FString* TempStr = nullptr;
+    TempStr = InProperties.Find(TEXT("PlatformAngularSpeed"));
+    if (TempStr)
+    {
+        AngularSpeed = FCString::Atof(**TempStr);
+    }
+
+    TempStr = InProperties.Find(TEXT("PlatformTargetA"));
+    if (TempStr)
+    {
+        TargetA.InitFromString(*TempStr);
+    }
+
+    TempStr = InProperties.Find(TEXT("PlatformTargetB"));
+    if (TempStr)
+    {
+        TargetB.InitFromString(*TempStr);
+    }
+}

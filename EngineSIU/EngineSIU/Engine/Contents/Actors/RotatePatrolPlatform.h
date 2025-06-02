@@ -13,6 +13,8 @@ public:
     virtual ~ARotatePatrolPlatform() override = default;
     
     virtual void Tick(float DeltaTime) override;
+    virtual void GetProperties(TMap<FString, FString>& OutProperties) const override;
+    virtual void SetProperties(const TMap<FString, FString>& InProperties) override;
     
     UPROPERTY(EditAnywhere, float, AngularSpeed, = 1.f)
 

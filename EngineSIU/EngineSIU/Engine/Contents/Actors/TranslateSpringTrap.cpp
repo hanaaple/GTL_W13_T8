@@ -1,8 +1,28 @@
 ﻿#include "TranslateSpringTrap.h"
 
-ATranslateSpringTrap::ATranslateSpringTrap() : Super()
+void ATranslateSpringTrap::BeginPlay()
 {
+    Super::BeginPlay();
     Origin = GetActorLocation();
+}
+
+void ATranslateSpringTrap::GetProperties(TMap<FString, FString>& OutProperties) const
+{
+    Super::GetProperties(OutProperties);
+
+    OutProperties.Add("SpringTrapTarget", Target.ToString());
+}
+
+void ATranslateSpringTrap::SetProperties(const TMap<FString, FString>& InProperties)
+{
+    Super::SetProperties(InProperties);
+    
+    const FString* TempStr = nullptr;
+    TempStr = InProperties.Find(TEXT("SpringTrapTarget"));
+    if (TempStr)
+    {
+        Target.InitFromString(*TempStr);
+    }
 }
 
 void ATranslateSpringTrap::UpdateState(float DeltaTime)

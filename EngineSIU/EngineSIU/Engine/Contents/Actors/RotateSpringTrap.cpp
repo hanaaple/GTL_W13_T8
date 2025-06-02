@@ -1,8 +1,28 @@
 ﻿#include "RotateSpringTrap.h"
 
-ARotateSpringTrap::ARotateSpringTrap() : Super()
+void ARotateSpringTrap::BeginPlay()
 {
+    Super::BeginPlay();
     Origin = GetActorRotation();
+}
+
+void ARotateSpringTrap::GetProperties(TMap<FString, FString>& OutProperties) const
+{
+    Super::GetProperties(OutProperties);
+
+    OutProperties.Add("SpringTrapTarget", Target.ToString());
+}
+
+void ARotateSpringTrap::SetProperties(const TMap<FString, FString>& InProperties)
+{
+    Super::SetProperties(InProperties);
+    
+    const FString* TempStr = nullptr;
+    TempStr = InProperties.Find(TEXT("SpringTrapTarget"));
+    if (TempStr)
+    {
+        Target.InitFromString(*TempStr);
+    }
 }
 
 void ARotateSpringTrap::UpdateState(float DeltaTime)

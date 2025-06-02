@@ -20,6 +20,10 @@ public:
     virtual ~ASpringTrap() override = default;
 
     virtual void Tick(float DeltaTime) override;
+
+    virtual void GetProperties(TMap<FString, FString>& OutProperties) const override;
+    virtual void SetProperties(const TMap<FString, FString>& InProperties) override;
+    
     virtual void UpdateState(float DeltaTime) {}
     void TriggerTrap();
 
