@@ -172,15 +172,6 @@ UWorld* UWorld::GetWorld() const
     return const_cast<UWorld*>(this);
 }
 
-APawn* UWorld::GetMainPlayer() const
-{
-    if (MainPlayer)
-    {
-        return MainPlayer;
-    }
-    return nullptr;
-}
-
 APlayerController* UWorld::GetPlayerController() const
 {
     if (PlayerController)
