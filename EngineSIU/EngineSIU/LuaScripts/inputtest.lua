@@ -5,13 +5,17 @@ local Gravity = 45
 
 function BeginPlay()
     LogDisplay("[BeginPlay]")
-    inputComp = obj:GetUInputComponent()
+    PrintObj(obj:GetWorld():GetPlayerController())
+    inputComp = obj:GetWorld():GetPlayerController():GetInputComponent()
     inputComp:BindTargetedAction(FString("W"), obj, OnPressW)
     inputComp:BindTargetedAction(FString("A"), obj, OnPressA)
     inputComp:BindTargetedAction(FString("S"), obj, OnPressS)
     inputComp:BindTargetedAction(FString("D"), obj, OnPressD)
     inputComp:BindTargetedAction(FString("X"), obj, OnPressX)
     inputComp:SetPossess()
+
+
+
     -- SpawnActor("ACube")
 end
 
@@ -64,6 +68,9 @@ function Tick(dt)
         VerticalSpeed = 0
     end
     obj:SetActorLocation(pos)
+
+    ACamera = obj:GetWorld():GetPlayerController():GetCameraManager()
+    ACamera:SetViewTarget(obj)
 end
 
 function BeginOverlap()

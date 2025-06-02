@@ -302,15 +302,21 @@ void APlayerCameraManager::SetViewTarget(class AActor* NewTarget, struct FViewTa
     
 	if (TransitionParams.BlendTime > 0)
 	{
-
 		BlendTimeToGo = TransitionParams.BlendTime;
 
         AssignViewTarget(PCOwner->GetPawn(), ViewTarget);
 		AssignViewTarget(NewTarget, PendingViewTarget, TransitionParams);
 
-	}
+	} else 
+    {
+        AssignViewTarget(NewTarget, ViewTarget);
+    }
 
 	BlendParams = TransitionParams;
+}
+
+void APlayerCameraManager::SetViewTarget(AActor* NewTarget) {
+    SetViewTarget(NewTarget, FViewTargetTransitionParams());
 }
 
 void APlayerCameraManager::UpdateViewTarget(FTViewTarget& OutVT, float DeltaTime)

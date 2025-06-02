@@ -157,3 +157,8 @@ void APlayerController::ClientStopCameraShake(UClass* Shake, bool bImmediately)
         PlayerCameraManager->StopAllInstancesOfCameraShake(Shake, bImmediately);
     }
 }
+
+APlayerCameraManager* APlayerController::GetCameraManager() const 
+{
+    return PlayerCameraManager;
+}

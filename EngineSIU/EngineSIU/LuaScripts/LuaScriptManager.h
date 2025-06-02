@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <filesystem>
 
 #include "Container/Array.h"
@@ -27,6 +27,8 @@ public:
     
     void Reload();
     void ReloadForce();
+
+    FString GetBasePath() { return BasePath; }
 
     TMap<FString, FLuaScriptInfo> LuaScripts;
     

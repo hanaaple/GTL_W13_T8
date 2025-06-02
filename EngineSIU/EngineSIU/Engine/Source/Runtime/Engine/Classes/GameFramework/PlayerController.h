@@ -60,6 +60,8 @@ public:
     void ClientStopCameraShake(UClass* Shake, bool bImmediately = true);
 
     APlayerCameraManager* PlayerCameraManager = nullptr;
+
+    UFUNCTION_CONST(APlayerCameraManager*, GetCameraManager);
     
 protected:
     UPROPERTY(UInputComponent*, InputComponent, = nullptr)

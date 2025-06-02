@@ -1,4 +1,4 @@
-﻿#include "LuaScriptManager.h"
+#include "LuaScriptManager.h"
 
 #include <fstream>
 
@@ -110,7 +110,8 @@ void FLuaScriptManager::Reload()
     {
         if (entry.path().extension() == ".lua")
         {
-            FilePaths.Add(entry.path().string());
+            std::filesystem::path absolutePath = std::filesystem::absolute(entry.path());
+            FilePaths.Add(absolutePath.generic_string());
         }
     }
 
@@ -227,8 +228,8 @@ void FLuaScriptManager::BindUObject()
     UObjectTypeTable["IsA"] = static_cast<bool (UObject::*)(const UClass*) const>(&UObject::IsA); // 오버라이드 함수 명시화.
 
     sol::usertype<UClass> UClassTypeTable = LuaState.new_usertype<UClass>("UClass");
-    UObjectTypeTable["IsChildOf"] = static_cast<bool (UClass::*)(const UClass*) const>(&UClass::IsChildOf);
-    UObjectTypeTable["GetSuperClass"] = &UClass::GetSuperClass;
+    UClassTypeTable["IsChildOf"] = static_cast<bool (UClass::*)(const UClass*) const>(&UClass::IsChildOf);
+    UClassTypeTable["GetSuperClass"] = &UClass::GetSuperClass;
 
     for (const auto& [name, type]: UClass::GetClassMap())
     {
@@ -294,6 +295,27 @@ void FLuaScriptManager::UpdateStub()
         file << "---@param uclass UClass\n";
         file << "---@return bool\n";
         file << "function UObject:IsA(uclass) end\n";
+        file << "\n";
+        file << "---@return UWorld\n";
+        file << "function UObject:GetWorld() end\n";
+        file << "\n";
+    }
+    {
+        std::filesystem::path filePath = basePath / "UClass.lua";
+        std::ofstream file(filePath.string());
+        if ( !file.is_open() ) {
+            UE_LOG(ELogLevel::Error, "Failed to open %s", filePath.c_str());
+            return;
+        }
+        // UClass
+        file << "---@class UClass\n";
+        file << "local UClass = {}\n";
+        file << "\n";
+        file << "---@return bool\n";
+        file << "function UClass:IsChildOf() end\n";
+        file << "\n";
+        file << "---@return UClass\n";
+        file << "function UClass:GetSUperClass() end\n";
         file << "\n";
     }
     for (const auto& [name, type]: UClass::GetClassMap())
