@@ -22,42 +22,24 @@ void FGameEnd::Render()
     {
         return;
     }
+    
+    ImGuiIO&    IO         = ImGui::GetIO();
+    ImVec2      ScreenSize = IO.DisplaySize;
+    ImDrawList* DrawList    = ImGui::GetForegroundDrawList();
 
-    ImGuiIO& io = ImGui::GetIO();
-    ImVec2 screenSize = io.DisplaySize;
-    ImDrawList* drawList = ImGui::GetForegroundDrawList();
+    // 1) 전체를 검은색으로 채우기
+    DrawFullScreenColor(DrawList, ScreenSize, IM_COL32(0, 0, 0, 255));
 
-    // 1) 검은 배경
-    drawList->AddRectFilled(ImVec2(0, 0), ImVec2(screenSize.x, screenSize.y), IM_COL32(0, 0, 0, 255));
-
-    ImFont* font = GEngineLoop.GetGameUIManager()->GetInGameFont64();
-    if (font && font->IsLoaded())
+    // 2) "You Die !" 텍스트 (빨간색, 128px) 화면 세로 40% 지점
+    ImFont* InGameFont = GEngineLoop.GetGameUIManager()->GetInGameFont64();
+    if (InGameFont && InGameFont->IsLoaded())
     {
-        float fontSize = 128;
-        float fontScale = fontSize / font->FontSize;
-        // 2) PushFont 으로 폰트 변경
-        ImGui::PushFont(font);
-        const char* msg = "You Die !";
-        ImVec2 textSize = ImGui::CalcTextSize(msg);
-        ImVec2 textPos((screenSize.x - textSize.x * fontScale) * 0.5f, (screenSize.y - textSize.y * fontScale) * 0.5f);
-    
-        // 5) AddText로 직접 그리기 (빨간색)
-        drawList->AddText(font, fontSize, textPos, IM_COL32(255, 0, 0, 255), msg);
-
-        // 3) "Press To Restart"를 그리기 (작게, 예: 64px)
-        fontSize   = 64.0f;
-        fontScale = fontSize / font->FontSize;
-        // 작은 글자는 화면 중앙 하단 근처에 배치
-        const char* sub = "Press Any Key To Restart";
-        ImVec2 subSize = font->CalcTextSizeA(fontSize, FLT_MAX, 0.0f, sub);
-        ImVec2 subPos((screenSize.x - subSize.x) * 0.5f, textPos.y + textSize.y + 70.0f // "You Die !" 아래로 20px 아래에 배치
-        );
-        drawList->AddText(font, fontSize, subPos, IM_COL32(255, 255, 255, 255), sub);
-    
-        ImGui::PopFont();
+        DrawCenteredText(DrawList, InGameFont, 128.0f, ScreenSize, "You Die !", IM_COL32(255, 0, 0, 255), 0.4f);
     }
-
-
+    if (InGameFont && InGameFont->IsLoaded())
+    {
+        DrawCenteredText(DrawList, InGameFont, 64.0f, ScreenSize, "Press Any Key To Restart", IM_COL32(255, 255, 255, 255), 0.6f);
+    }
 }
 
 FGameEnd::~FGameEnd()

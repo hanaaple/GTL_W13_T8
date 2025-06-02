@@ -2,7 +2,6 @@
 #include <memory>
 
 #include "UIElement.h"
-#include "ImGui/imgui.h"
 
 struct FTexture;
 
@@ -20,11 +19,7 @@ public:
     void SetActive(bool bOn) { bIsActive = bOn; }
 
     // '타이틀 이미지'와 크기를 외부에서 설정할 수 있도록 Setter 추가
-    void SetTitleImage(const std::shared_ptr<FTexture>& InTitleTexture, float InWidth, float InHeight)
-    {
-        TitleTexture  = InTitleTexture;
-        TitleSize = ImVec2(InWidth, InHeight);
-    }
+    void SetTitleImage(const std::shared_ptr<FTexture>& InTitleTexture, float InWidth, float InHeight);
 
     // Update 단계에서 타이머 갱신 및 키 입력 감지
     virtual void Update(float deltaTime) override;
