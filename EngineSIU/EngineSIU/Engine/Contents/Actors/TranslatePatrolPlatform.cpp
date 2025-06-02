@@ -36,7 +36,7 @@ void ATranslatePatrolPlatform::Tick(float DeltaTime)
 
         if ((*TargetPos - ActorLocation).Length() < TranslateVector.Length())
         {
-            TranslateVector = TranslateVector.GetSafeNormal() * (*TargetPos - ActorLocation).Length();
+            TranslateVector = *TargetPos - ActorLocation;
         }
                 
         AddActorLocation(TranslateVector);

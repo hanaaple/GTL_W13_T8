@@ -204,8 +204,11 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\FBX\lib\x64\$
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Contents\Actors\RotateSpringTrap.cpp" />
+    <ClCompile Include="Engine\Contents\Actors\SpringTrap.cpp" />
     <ClCompile Include="Engine\Contents\Actors\TranslatePatrolPlatform.cpp" />
     <ClCompile Include="Engine\Contents\Actors\RotatePatrolPlatform.cpp" />
+    <ClCompile Include="Engine\Contents\Actors\TranslateSpringTrap.cpp" />
     <ClCompile Include="Engine\Contents\AnimInstance\MyAnimInstance.cpp" />
     <ClCompile Include="Engine\Contents\Objects\DamageCameraShake.cpp" />
     <ClCompile Include="Engine\Source\Developer\AnimDataController\AnimDataController.cpp" />
@@ -518,8 +521,11 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\FBX\lib\x64\$
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Contents\Actors\RotateSpringTrap.h" />
+    <ClInclude Include="Engine\Contents\Actors\SpringTrap.h" />
     <ClInclude Include="Engine\Contents\Actors\TranslatePatrolPlatform.h" />
     <ClInclude Include="Engine\Contents\Actors\RotatePatrolPlatform.h" />
+    <ClInclude Include="Engine\Contents\Actors\TranslateSpringTrap.h" />
     <ClInclude Include="Engine\Contents\AnimInstance\MyAnimInstance.h" />
     <ClInclude Include="Engine\Contents\Objects\DamageCameraShake.h" />
     <ClInclude Include="Engine\Source\Editor\PropertyEditor\PhysicsAssetViewerPanel.h" />

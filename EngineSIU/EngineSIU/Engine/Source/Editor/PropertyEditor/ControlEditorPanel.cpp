@@ -41,7 +41,9 @@
 #include "Actors/Sphere.h"
 #include "Engine/Classes/Engine/AssetManager.h"
 #include "Engine/Contents/Actors/RotatePatrolPlatform.h"
+#include "Engine/Contents/Actors/RotateSpringTrap.h"
 #include "Engine/Contents/Actors/TranslatePatrolPlatform.h"
+#include "Engine/Contents/Actors/TranslateSpringTrap.h"
 #include "GameFramework/PlayerStart.h"
 #include "Particles/ParticleSystemComponent.h"
 
@@ -490,6 +492,19 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                     CubeActor->SetActorLabel(TEXT("OBJ_Rotate_Patrol_Platform"));
                     SpawnedActor = CubeActor;
                     break;
+                }
+                case ESpawnObjectTypes::TranslataeSpringTrap:
+                {
+                    ATranslateSpringTrap* CubeActor = World->SpawnActor<ATranslateSpringTrap>();
+                    CubeActor->SetActorLabel(TEXT("OBJ_Translate_SpringTrap"));
+                    SpawnedActor = CubeActor;
+                    break;
+                }
+                case ESpawnObjectTypes::RotateSpringTrap:
+                {
+                    ARotateSpringTrap* CubeActor = World->SpawnActor<ARotateSpringTrap>();
+                    CubeActor->SetActorLabel(TEXT("OBJ_Rotate_SpringTrap"));
+                    SpawnedActor = CubeActor;
                 }
                 }
 

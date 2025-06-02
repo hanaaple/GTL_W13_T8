@@ -25,6 +25,9 @@ enum class ESpawnObjectTypes : uint8
 
     TranslatePatrolPlatform,
     RotatePatrolPlatform,
+    
+    TranslataeSpringTrap,
+    RotateSpringTrap,
 };
 
 enum ARROW_DIR : uint8
