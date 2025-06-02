@@ -11,13 +11,13 @@ enum class EGameState : uint8
 };
 
 
-class AFFuaxkGameMode : public AGameModeBase
+class AFFaxkGameMode : public AGameModeBase
 {
-    DECLARE_CLASS(AFFuaxkGameMode, AGameModeBase)
+    DECLARE_CLASS(AFFaxkGameMode, AGameModeBase)
 
 public:
-    AFFuaxkGameMode();
-    virtual ~AFFuaxkGameMode() override = default;
+    AFFaxkGameMode();
+    virtual ~AFFaxkGameMode() override = default;
 
     virtual void InitGame() override;
 
@@ -25,14 +25,15 @@ public:
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:
+    void RequestPlayerRespawn(APlayerController* PlayerController);
+
     [[nodiscard]] EGameState GetGameState() const { return GameState; }
     void SetGameState(EGameState InGameState) { GameState = InGameState; }
+
+protected:
+    void RespawnPlayer(APlayerController* PlayerControllerToRespawn);
 
 private:
     // 현재 게임 상태
     EGameState GameState = EGameState::None;
-
-private:
-    // 리스폰시 사용될 마지막 플레이어 위치
-    FVector LastPlayerLocation;
 };
