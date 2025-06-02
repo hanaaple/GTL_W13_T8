@@ -95,7 +95,6 @@ void FSlateRenderPass::Render(const std::shared_ptr<FEditorViewportClient>& View
     FRenderTargetRHI* Resource = ViewportResource->GetRenderTarget(EResourceType::ERT_Compositing);
 
     Graphics->DeviceContext->PSSetShaderResources(static_cast<UINT>(EShaderSRVSlot::SRV_Viewport), 1, &Resource->SRV);
-    Graphics->DeviceContext->PSSetSamplers(0, 1, &Sampler);
 
     ID3D11VertexShader* VertexShader = ShaderManager->GetVertexShaderByKey(L"SlateShader");
     ID3D11PixelShader* PixelShader = ShaderManager->GetPixelShaderByKey(L"SlateShader");
@@ -130,7 +129,6 @@ void FSlateRenderPass::CreateResource()
     }
     
     CreateBuffer();
-    CreateSampler();
 }
 
 void FSlateRenderPass::CreateBuffer()
@@ -143,20 +141,6 @@ void FSlateRenderPass::CreateBuffer()
     {
         return;
     }
-}
-
-void FSlateRenderPass::CreateSampler()
-{
-    D3D11_SAMPLER_DESC SamplerDesc = {};
-    SamplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-    SamplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-    SamplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-    SamplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
-    SamplerDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-    SamplerDesc.MinLOD = 0;
-    SamplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
-    
-    Graphics->Device->CreateSamplerState(&SamplerDesc, &Sampler);
 }
 
 void FSlateRenderPass::PrepareRender(const std::shared_ptr<FEditorViewportClient>& Viewport)
