@@ -283,9 +283,8 @@ void PropertyEditorPanel::Render()
     if (SelectedActor)
     {
         ImGui::Separator();
-        const UClass* Class = SelectedActor->GetClass();
 
-        for (; Class; Class = Class->GetSuperClass())
+        for (const UClass* Class = SelectedActor->GetClass(); Class; Class = Class->GetSuperClass())
         {
             const TArray<FProperty*>& Properties = Class->GetProperties();
             if (!Properties.IsEmpty())
@@ -304,14 +303,12 @@ void PropertyEditorPanel::Render()
             if (!ActorComponent->IsA<USceneComponent>())
             {
                 ImGui::Separator();
-                const UClass* TempClass = ActorComponent->GetClass();
-
-                for (; TempClass; TempClass = TempClass->GetSuperClass())
+                for (const UClass* CompClass = ActorComponent->GetClass(); CompClass; CompClass = CompClass->GetSuperClass())
                 {
-                    const TArray<FProperty*>& Properties = TempClass->GetProperties();
+                    const TArray<FProperty*>& Properties = CompClass->GetProperties();
                     if (!Properties.IsEmpty())
                     {
-                        ImGui::SeparatorText(*Class->GetName());
+                        ImGui::SeparatorText(*CompClass->GetName());
                     }
 
                     for (const FProperty* Prop : Properties)
