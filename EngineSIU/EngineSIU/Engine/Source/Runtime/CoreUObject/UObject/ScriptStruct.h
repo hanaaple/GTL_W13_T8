@@ -12,7 +12,8 @@ public:
         const char* InName,
         uint32 InStructSize,
         uint32 InAlignment,
-        UScriptStruct* InSuperScriptStruct // C++ 구조체도 상속 가능 (선택적, 보통은 nullptr)
+        UScriptStruct* InSuperScriptStruct, // C++ 구조체도 상속 가능 (선택적, 보통은 nullptr)
+        std::function<void(sol::state&)> InBindScript = nullptr
     );
 
     virtual ~UScriptStruct() override = default;
@@ -31,4 +32,9 @@ public:
 
     // 이름으로 ScriptStruct 찾기
     static UScriptStruct* FindScriptStruct(const FName& StructName);
+    
+    /** Lua에 UPROPERTY를 Bind하는 함수.
+     *  DECLARE_STRUCT에서 초기화됨
+     */
+    const std::function<void(sol::state&)> BindPropertiesToLua;
 };

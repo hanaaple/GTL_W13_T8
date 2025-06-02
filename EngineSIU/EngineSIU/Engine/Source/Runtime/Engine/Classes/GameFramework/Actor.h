@@ -89,22 +89,35 @@ public:
     void SetOwner(AActor* NewOwner) { Owner = NewOwner; }
 
 public:
-    FVector GetActorLocation() const;
-    FRotator GetActorRotation() const;
-    FVector GetActorScale() const;
+    // FVector GetActorLocation() const;
+    // FRotator GetActorRotation() const;
+    // FVector GetActorScale() const;
+    UFUNCTION_CONST(FVector, GetActorLocation);
+    UFUNCTION_CONST(FRotator, GetActorRotation);
+    UFUNCTION_CONST(FVector, GetActorScale);
 
-    FVector GetActorForwardVector() const { return RootComponent ? RootComponent->GetForwardVector() : FVector::ForwardVector; }
-    FVector GetActorRightVector() const { return RootComponent ? RootComponent->GetRightVector() : FVector::RightVector; }
-    FVector GetActorUpVector() const { return RootComponent ? RootComponent->GetUpVector() : FVector::UpVector; }
+    // FVector GetActorForwardVector() const;
+    // FVector GetActorRightVector() const;
+    // FVector GetActorUpVector() const;
+    UFUNCTION_CONST(FVector, GetActorForwardVector);
+    UFUNCTION_CONST(FVector, GetActorRightVector);
+    UFUNCTION_CONST(FVector, GetActorUpVector);
 
-    bool SetActorLocation(const FVector& NewLocation);
-    bool SetActorRotation(const FRotator& NewRotation);
-    bool SetActorScale(const FVector& NewScale);
+    // bool SetActorLocation(const FVector& NewLocation);
+    // bool SetActorRotation(const FRotator& NewRotation);
+    // bool SetActorScale(const FVector& NewScale);
+    UFUNCTION(bool, SetActorLocation, const FVector& NewLocation);
+    UFUNCTION(bool, SetActorRotation, const FRotator& NewRotation);
+    UFUNCTION(bool, SetActorScale, const FVector& NewScale);
 
-    bool AddActorLocation(const FVector& DeltaLocation);
-    bool AddActorRotation(const FRotator& DeltaRotation);
-    bool AddActorRotation(const FQuat& DeltaRotation);
-    bool AddActorScale(const FVector& DeltaScale);
+    // bool AddActorLocation(const FVector& DeltaLocation);
+    // bool AddActorRotation(const FRotator& DeltaRotation);
+    // bool AddActorRotation(const FQuat& DeltaRotation);
+    // bool AddActorScale(const FVector& DeltaScale);
+    UFUNCTION(bool, AddActorLocation, const FVector& DeltaLocation);
+    UFUNCTION(bool, AddActorRotation, const FRotator& DeltaRotation);
+    UFUNCTION(bool, AddActorRotation, const FQuat& DeltaRotation);
+    UFUNCTION(bool, AddActorScale, const FVector& DeltaScale);
     
     virtual void GetProperties(TMap<FString, FString>& OutProperties) const {};
     virtual void SetProperties(const TMap<FString, FString>& InProperties) {};

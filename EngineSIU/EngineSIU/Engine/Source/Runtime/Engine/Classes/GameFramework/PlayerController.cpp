@@ -52,6 +52,11 @@ void APlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
     UnPossess();
 }
 
+UInputComponent* APlayerController::GetInputComponent() const
+{
+    return InputComponent;
+}
+
 void APlayerController::SetViewTarget(class AActor* NewViewTarget, struct FViewTargetTransitionParams TransitionParams)
 {
     if (PlayerCameraManager)
@@ -104,11 +109,11 @@ void APlayerController::BindAction(const FString& Key, const std::function<void(
     }
 }
 
-uint64 APlayerController::BindLuaAction(const FString& Key, AActor* LuaObj, const TFunction<void(float)>& Callback)
+uint64 APlayerController::BindLuaAction(const FString& Key, AActor* LuaObj, const std::function<void(float)>& Callback)
 {
     if (InputComponent)
     {
-        return InputComponent->BindLuaAction(Key, LuaObj, Callback);
+        return InputComponent->BindTargetedAction(Key, LuaObj, Callback);
     }
 }
 
@@ -116,7 +121,7 @@ void APlayerController::UnBindLuaAction(const FString& Key, uint64 HandleId)
 {
     if (InputComponent)
     {
-        return InputComponent->UnBindLuaAction(Key, HandleId);
+        return InputComponent->UnBindAction(Key, HandleId);
     }
 }
 
@@ -151,4 +156,9 @@ void APlayerController::ClientStopCameraShake(UClass* Shake, bool bImmediately)
     {
         PlayerCameraManager->StopAllInstancesOfCameraShake(Shake, bImmediately);
     }
+}
+
+APlayerCameraManager* APlayerController::GetCameraManager() const 
+{
+    return PlayerCameraManager;
 }
