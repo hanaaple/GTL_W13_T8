@@ -11,10 +11,12 @@ UClass::UClass(
     uint32 InClassSize,
     uint32 InAlignment,
     UClass* InSuperClass,
-    ClassConstructorType InCTOR
+    ClassConstructorType InCTOR,
+    std::function<void(sol::state&)> InBindScript
 )
     : UStruct(InClassName, InClassSize, InAlignment, InSuperClass)
     , ClassCTOR(InCTOR)
+    , BindPropertiesToLua(InBindScript)
 {
 }
 

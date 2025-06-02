@@ -300,10 +300,10 @@ void UPrimitiveComponent::GetProperties(TMap<FString, FString>& OutProperties) c
     OutProperties.Add(TEXT("bApplyGravity"), bApplyGravity ? TEXT("true") : TEXT("false"));
     OutProperties.Add(TEXT("RigidBodyType"), FString::FromInt(static_cast<uint8>(RigidBodyType)));
 
-    OutProperties.Add(TEXT("GeomAttributeNum"), FString::FromInt(GeomAttributes.Num()));
-    for (int32 i = 0; i < GeomAttributes.Num(); i++)
+    OutProperties.Add(TEXT("GeomAttributeNum"), FString::FromInt(GetBodySetup()->GeomAttributes.Num()));
+    for (int32 i = 0; i < GetBodySetup()->GeomAttributes.Num(); i++)
     {
-        const AggregateGeomAttributes& GeomAttribute = GeomAttributes[i];
+        const AggregateGeomAttributes& GeomAttribute = GetBodySetup()->GeomAttributes[i];
         FString keyBase = FString("GeomAttribute " + FString::FromInt(i));
                 
         OutProperties.Add(keyBase + "Type", FString::FromInt(static_cast<uint8>(GeomAttribute.GeomType)));
@@ -358,12 +358,12 @@ void UPrimitiveComponent::SetProperties(const TMap<FString, FString>& InProperti
 
     if (InProperties.Contains(TEXT("GeomAttributeNum")))
     {
-        GeomAttributes.SetNum(FString::ToInt(InProperties[TEXT("GeomAttributeNum")]));
+        GetBodySetup()->GeomAttributes.SetNum(FString::ToInt(InProperties[TEXT("GeomAttributeNum")]));
 
-        for (int32 i = 0; i < GeomAttributes.Num(); i++)
+        for (int32 i = 0; i < GetBodySetup()->GeomAttributes.Num(); i++)
         {
             FString keyBase = FString("GeomAttribute " + FString::FromInt(i));
-            AggregateGeomAttributes& GeomAttribute = GeomAttributes[i];
+            AggregateGeomAttributes& GeomAttribute = GetBodySetup()->GeomAttributes[i];
             
             GeomAttribute.GeomType = static_cast<EGeomType>(FString::ToInt(InProperties[keyBase + "Type"]));
             GeomAttribute.Offset.InitFromString(InProperties[keyBase + "Offset"]);
@@ -572,6 +572,11 @@ const TArray<FOverlapInfo>& UPrimitiveComponent::GetOverlapInfos() const
     return OverlappingComponents;
 }
 
+UBodySetup* UPrimitiveComponent::GetBodySetup() const
+{
+    return BodySetup;
+}
+
 void UPrimitiveComponent::SetSimulate(bool bInSimulate)
 {
     bSimulate = bInSimulate;
@@ -604,18 +609,18 @@ void UPrimitiveComponent::CreatePhysXGameObject()
     FQuat Quat = GetComponentRotation().Quaternion();
     PxQuat PQuat = PxQuat(Quat.X, Quat.Y, Quat.Z, Quat.W);
 
-    if (GeomAttributes.Num() == 0)
+    if (GetBodySetup()->GeomAttributes.Num() == 0)
     {
         AggregateGeomAttributes DefaultAttribute;
         DefaultAttribute.GeomType = EGeomType::EBox;
         DefaultAttribute.Offset = FVector(AABB.MaxLocation + AABB.MinLocation) / 2;
         DefaultAttribute.Extent = FVector(AABB.MaxLocation - AABB.MinLocation) / 2 * GetComponentScale3D();
-        GeomAttributes.Add(DefaultAttribute);
+        GetBodySetup()->GeomAttributes.Add(DefaultAttribute);
     }
 
     PxMaterial* Material = GEngine->PhysicsManager->GetPhysics()->createMaterial(BodySetup->StaticFriction, BodySetup->DynamicFriction, BodySetup->Restitution);
         
-    for (const auto& GeomAttribute : GeomAttributes)
+    for (const auto& GeomAttribute : GetBodySetup()->GeomAttributes)
     {
         PxVec3 Offset = PxVec3(GeomAttribute.Offset.X, GeomAttribute.Offset.Y, GeomAttribute.Offset.Z);
         FQuat GeomQuat = GeomAttribute.Rotation.Quaternion();

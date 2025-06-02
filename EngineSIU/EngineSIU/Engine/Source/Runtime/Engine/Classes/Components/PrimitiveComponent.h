@@ -57,8 +57,6 @@ public:
     UPROPERTY_WITH_FLAGS(EditAnywhere, bool, bApplyGravity, = false)
     UPROPERTY_WITH_FLAGS(EditAnywhere, ERigidBodyType, RigidBodyType, = ERigidBodyType::DYNAMIC)
 
-    UPROPERTY_WITH_FLAGS(EditAnywhere, TArray<AggregateGeomAttributes>, GeomAttributes)
-
     /** 
      * Begin tracking an overlap interaction with the component specified.
      * @param OtherComp - The component of the other actor that this component is now overlapping
@@ -116,6 +114,8 @@ public:
     /** Returns list of components this component is overlapping. */
     const TArray<FOverlapInfo>& GetOverlapInfos() const;
 
+    UBodySetup* GetBodySetup() const;
+    
     void SetSimulate(bool bInSimulate);
     
     virtual void CreatePhysXGameObject();

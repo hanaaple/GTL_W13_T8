@@ -18,7 +18,8 @@ UClass* UObject::StaticClass()
             void* RawMemory = FPlatformMemory::Malloc<EAT_Object>(sizeof(UObject));
             ::new (RawMemory) UObject;
             return static_cast<UObject*>(RawMemory);
-        }
+        },
+        [](sol::state&) {}
     };
     return &ClassInfo;
 }

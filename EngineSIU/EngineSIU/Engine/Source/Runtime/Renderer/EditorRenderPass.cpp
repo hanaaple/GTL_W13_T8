@@ -615,9 +615,6 @@ void FEditorRenderPass::RenderIcons(const UWorld* World, std::shared_ptr<FEditor
 void FEditorRenderPass::UpdateTextureIcon(EIconType Type)
 {
     Graphics->DeviceContext->PSSetShaderResources(0, 1, &Resources.IconTextures[Type]->TextureSRV);
-    
-    ID3D11SamplerState* SamplerState = Graphics->GetSamplerState(Resources.IconTextures[Type]->SamplerType);
-    Graphics->DeviceContext->PSSetSamplers(0, 1, &SamplerState);
 }
 
 void FEditorRenderPass::RenderArrowInstanced()
@@ -708,7 +705,7 @@ void FEditorRenderPass::RenderBoxInstanced(uint64 ShowFlag)
 
     for (const UStaticMeshComponent* StaticComp : Resources.Components.StaticMeshComponent)
     {
-        for (const auto& GeomAttribute : StaticComp->GeomAttributes)
+        for (const auto& GeomAttribute : StaticComp->GetBodySetup()->GeomAttributes)
         {
             if (GeomAttribute.GeomType == EGeomType::EBox)
             {
@@ -809,7 +806,7 @@ void FEditorRenderPass::RenderSphereInstanced(uint64 ShowFlag)
 
     for (const UStaticMeshComponent* StaticComp : Resources.Components.StaticMeshComponent)
     {
-        for (const auto& GeomAttribute : StaticComp->GeomAttributes)
+        for (const auto& GeomAttribute : StaticComp->GetBodySetup()->GeomAttributes)
         {
             if (GeomAttribute.GeomType == EGeomType::ESphere)
             {
@@ -914,7 +911,7 @@ void FEditorRenderPass::RenderCapsuleInstanced(uint64 ShowFlag)
 
     for (const UStaticMeshComponent* StaticComp : Resources.Components.StaticMeshComponent)
     {
-        for (const auto& GeomAttribute : StaticComp->GeomAttributes)
+        for (const auto& GeomAttribute : StaticComp->GetBodySetup()->GeomAttributes)
         {
             if (GeomAttribute.GeomType == EGeomType::ECapsule)
             {

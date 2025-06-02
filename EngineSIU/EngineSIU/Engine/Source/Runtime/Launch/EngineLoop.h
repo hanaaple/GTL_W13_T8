@@ -2,6 +2,7 @@
 #include "Core/HAL/PlatformType.h"
 #include "Engine/ResourceMgr.h"
 #include "LevelEditor/SlateAppMessageHandler.h"
+#include "LuaScripts/LuaScriptManager.h"
 #include "Renderer/Renderer.h"
 #include "UnrealEd/PrimitiveDrawBatch.h"
 #include "Stats/ProfilerStatsManager.h"
@@ -41,6 +42,7 @@ private:
 public:
     static FGraphicsDevice GraphicDevice;
     static FRenderer Renderer;
+    static FLuaScriptManager ScriptSys;
     static UPrimitiveDrawBatch PrimitiveDrawBatch;
     static FResourceManager ResourceManager;
     static uint32 TotalAllocationBytes;

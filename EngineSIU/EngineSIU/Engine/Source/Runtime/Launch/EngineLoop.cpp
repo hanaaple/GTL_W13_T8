@@ -21,6 +21,7 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT Msg, WPARAM wParam
 
 FGraphicsDevice FEngineLoop::GraphicDevice;
 FRenderer FEngineLoop::Renderer;
+FLuaScriptManager FEngineLoop::ScriptSys;
 UPrimitiveDrawBatch FEngineLoop::PrimitiveDrawBatch;
 FResourceManager FEngineLoop::ResourceManager;
 uint32 FEngineLoop::TotalAllocationBytes = 0;
@@ -95,6 +96,7 @@ int32 FEngineLoop::Init(HINSTANCE hInstance)
     GEngine = FObjectFactory::ConstructObject<UEditorEngine>(nullptr);
     GEngine->Init();
 
+    ScriptSys.Initialize();
 
     FSoundManager::GetInstance().Initialize();
     FSoundManager::GetInstance().LoadSound("fishdream", "Contents/Sounds/fishdream.mp3");
@@ -168,7 +170,7 @@ void FEngineLoop::Tick()
         }
 
         const float DeltaTime = static_cast<float>(ElapsedTime / 1000.f);
-
+        ScriptSys.Reload();
         GEngine->Tick(DeltaTime);
         LevelEditor->Tick(DeltaTime);
         Render();

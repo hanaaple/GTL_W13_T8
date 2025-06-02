@@ -27,7 +27,7 @@ public:
 
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
-    UInputComponent* GetInputComponent() const { return InputComponent; }
+    UFUNCTION_CONST(UInputComponent*, GetInputComponent)
 
     void SetViewTarget(class AActor* NewViewTarget, struct FViewTargetTransitionParams TransitionParams);
 
@@ -46,7 +46,7 @@ public:
         return Cast<T>(Pawn);
     }
 
-    virtual uint64 BindLuaAction(const FString& Key, AActor* LuaObj, const TFunction<void(float)>& Callback);
+    virtual uint64 BindLuaAction(const FString& Key, AActor* LuaObj, const std::function<void(float)>& Callback);
 
     virtual void UnBindLuaAction(const FString& Key, uint64 HandleId);
 
@@ -60,6 +60,8 @@ public:
     void ClientStopCameraShake(UClass* Shake, bool bImmediately = true);
 
     APlayerCameraManager* PlayerCameraManager = nullptr;
+
+    UFUNCTION_CONST(APlayerCameraManager*, GetCameraManager);
     
 protected:
     UPROPERTY(UInputComponent*, InputComponent, = nullptr)

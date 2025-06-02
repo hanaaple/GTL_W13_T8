@@ -193,15 +193,21 @@ void PhysicsAssetViewerPanel::Render()
                 {
                     if (BodySetup->BoneName == CopiedRefSkeleton->RawRefBoneInfo[SelectedBodyIndex].Name)
                     {
-                        ImGui::Text("Body Name: %s", *GetCleanBoneName(BodySetup->BoneName.ToString()));
-                        for(auto& Geom : BodySetup->GeomAttributes)
+                        ImGui::Separator();
+                        const UClass* Class = BodySetup->GetClass();
+
+                        for (; Class; Class = Class->GetSuperClass())
                         {
-                            FImGuiWidget::DrawVec3Control("Location", Geom.Offset, 0, 85);
-                            ImGui::Spacing();
-                            FImGuiWidget::DrawRot3Control("Rotation", Geom.Rotation, 0, 85);
-                            ImGui::Spacing();
-                            FImGuiWidget::DrawVec3Control("Scale", Geom.Extent, 1, 85);
-                            ImGui::Spacing();
+                            const TArray<FProperty*>& Properties = Class->GetProperties();
+                            if (!Properties.IsEmpty())
+                            {
+                                ImGui::SeparatorText(*Class->GetName());
+                            }
+
+                            for (const FProperty* Prop : Properties)
+                            {
+                                Prop->DisplayInImGui(BodySetup);
+                            }
                         }
                         break;
                     }
