@@ -62,10 +62,10 @@ void UWorld::Tick(float DeltaTime)
 
 void UWorld::BeginPlay()
 {
-    // BeginPlay() 내부에서 SpawnActor되는 상황 위해 index로 순회.
-    for (int i = 0; i < ActiveLevel->Actors.Num(); ++i)
+    // BeginPlay() 내부에서 SpawnActor되는 상황 위해 Copy해서 사용.
+    TArray<AActor*> Actors = ActiveLevel->Actors;
+    for (AActor* Actor: Actors)
     {
-        AActor* Actor = ActiveLevel->Actors[i];
         if (Actor->GetWorld() == this)
         {
             Actor->BeginPlay();
@@ -174,6 +174,16 @@ UWorld* UWorld::GetWorld() const
     return const_cast<UWorld*>(this);
 }
 
+ULevel* UWorld::GetActiveLevel() const
+{
+    return ActiveLevel;
+}
+
+void UWorld::SetMainPlayer(APawn* InPlayer)
+{
+    MainPlayer = InPlayer;
+}
+
 APawn* UWorld::GetMainPlayer() const
 {
     if (MainPlayer)
@@ -181,6 +191,11 @@ APawn* UWorld::GetMainPlayer() const
         return MainPlayer;
     }
     return nullptr;
+}
+
+void UWorld::SetPlayerController(APlayerController* InPlayerController)
+{
+    PlayerController = InPlayerController;
 }
 
 APlayerController* UWorld::GetPlayerController() const
@@ -232,7 +247,9 @@ void UWorld::InitGameMode()
     UClass* SubClass = GameModeClass.Get();
     if (!SubClass)
     {
-        SubClass = AGameModeBase::StaticClass();
+        // SubClass = AGameModeBase::StaticClass();
+        UE_LOG(ELogLevel::Warning, TEXT("GameMode is not set. APlayerController will be null."));
+        return;
     }
 
     AGameModeBase* SpawnGameMode = Cast<AGameModeBase>(SpawnActor(SubClass, "__World_GameMode__"));

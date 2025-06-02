@@ -27,7 +27,7 @@ public:
 
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
-    UInputComponent* GetInputComponent() const { return InputComponent; }
+    UFUNCTION_CONST(UInputComponent*, GetInputComponent)
 
     void SetViewTarget(class AActor* NewViewTarget, struct FViewTargetTransitionParams TransitionParams);
 

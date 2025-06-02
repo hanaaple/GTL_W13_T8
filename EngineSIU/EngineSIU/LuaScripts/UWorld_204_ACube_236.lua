@@ -47,7 +47,10 @@ function OnPressD(dt)
 end
 
 function OnPressX(dt)
-    VerticalSpeed = 10
+    local pos = obj:GetActorLocation()
+    if (pos.z < KINDA_SMALL_NUMBER) then
+        VerticalSpeed = 10
+    end
 end
 
 function Tick(dt)

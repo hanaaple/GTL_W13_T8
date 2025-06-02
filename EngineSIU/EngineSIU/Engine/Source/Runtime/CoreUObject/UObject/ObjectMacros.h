@@ -197,6 +197,8 @@ public: \
                 BindFunctions().Add(#InVarName, [](sol::usertype<ThisClass> table) { \
                     table[#InVarName] = &ThisClass::InVarName; \
                 }); \
+                UStruct* StructPtr = GetStructHelper<ThisClass>(); \
+                StructPtr->Annotation.AddProperty(#InType, #InVarName); \
             } \
         } \
         InVarName##_PropRegistrar_PRIVATE() \
@@ -214,7 +216,6 @@ public: \
             ); \
             constexpr bool LuaFlag = (Flags & LuaReadOnly) || (Flags & LuaReadWrite); \
             Bind<std::bool_constant<LuaFlag>>(); \
-            StructPtr->Annotation.AddProperty(#InType, #InVarName); \
         } \
     } InVarName##_PropRegistrar_PRIVATE{};
 

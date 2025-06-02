@@ -52,6 +52,11 @@ void APlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
     UnPossess();
 }
 
+UInputComponent* APlayerController::GetInputComponent() const
+{
+    return InputComponent;
+}
+
 void APlayerController::SetViewTarget(class AActor* NewViewTarget, struct FViewTargetTransitionParams TransitionParams)
 {
     if (PlayerCameraManager)

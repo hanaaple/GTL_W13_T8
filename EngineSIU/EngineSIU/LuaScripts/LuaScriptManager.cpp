@@ -87,6 +87,9 @@ void FLuaScriptManager::BindTypes()
         return nullptr;
     });
 
+    LuaState["KINDA_SMALL_NUMBER"] = KINDA_SMALL_NUMBER;
+    LuaState["SMALL_NUMBER"] = SMALL_NUMBER;
+
     UpdateStub();
 }
 
@@ -209,6 +212,8 @@ void FLuaScriptManager::BindPrimitiveTypes()
     stringTypeTable[mFunc::addition] = [](const FString& a, const FString& b) { return a + b; };
     stringTypeTable[mFunc::equal_to] = [](const FString& a, const FString& b) { return a == b; };
 
+    // TArray
+    
     
 }
 
@@ -218,7 +223,12 @@ void FLuaScriptManager::BindUObject()
     UObjectTypeTable["GetUUID"] = &UObject::GetUUID;
     UObjectTypeTable["GetName"] = &UObject::GetName;
     UObjectTypeTable["GetClass"] = &UObject::GetClass;
+    UObjectTypeTable["GetWorld"] = &UObject::GetWorld;
     UObjectTypeTable["IsA"] = static_cast<bool (UObject::*)(const UClass*) const>(&UObject::IsA); // 오버라이드 함수 명시화.
+
+    sol::usertype<UClass> UClassTypeTable = LuaState.new_usertype<UClass>("UClass");
+    UObjectTypeTable["IsChildOf"] = static_cast<bool (UClass::*)(const UClass*) const>(&UClass::IsChildOf);
+    UObjectTypeTable["GetSuperClass"] = &UClass::GetSuperClass;
 
     for (const auto& [name, type]: UClass::GetClassMap())
     {
@@ -324,6 +334,16 @@ void FLuaScriptManager::UpdateStub()
         file << "_G.obj = {}\n";
         file << "\n";
 
+        // SMALL_NUMBER
+        file << "---@type number\n";
+        file << "KINDA_SMALL_NUMBER = ";
+        file << KINDA_SMALL_NUMBER;
+        file << "\n\n";
+        file << "---@type number\n";
+        file << "SMALL_NUMBER = ";
+        file << SMALL_NUMBER;
+        file << "\n\n";
+        
         // ToString
         file << "---@param obj Object\n";
         file << "function ToString(obj) end\n";
@@ -434,6 +454,7 @@ bool FLuaScriptManager::LoadFile(const FString& FileName)
     );
 
     file.close();
+    UE_LOG(ELogLevel::Display, "Loaded LuaScript %s", GetData(FileName));
 
     return true;
 }
