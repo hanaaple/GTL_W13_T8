@@ -19,7 +19,8 @@ public:
         uint32 InClassSize,
         uint32 InAlignment,
         UClass* InSuperClass,
-        ClassConstructorType InCTOR
+        ClassConstructorType InCTOR,
+        std::function<void(sol::state&)> InBindScript
     );
 
     virtual ~UClass() override;
@@ -61,7 +62,12 @@ public:
     template <typename T>
         requires std::derived_from<T, UObject>
     T* GetDefaultObject() const;
-
+    
+    /** Lua에 UPROPERTY를 Bind하는 함수.
+     *  DECLARE_CLASS에서 초기화됨
+     */
+    const std::function<void(sol::state&)> BindPropertiesToLua;
+    
 protected:
     virtual UObject* CreateDefaultObject();
 

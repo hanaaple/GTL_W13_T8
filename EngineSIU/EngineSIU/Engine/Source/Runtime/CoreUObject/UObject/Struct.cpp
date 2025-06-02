@@ -37,6 +37,7 @@ UStruct::UStruct(
     , PropertiesSize(0)
     , MinAlignment(InAlignment)
     , SuperStruct(InSuperStruct)
+    , Annotation(InName, (InSuperStruct ? GetData(InSuperStruct->GetName()) : ""))
 {
     NamePrivate = InName;
 }

@@ -1,0 +1,27 @@
+// Lua 자동완성 서버를 구성하기 위한 환경 설정 파일입니다.
+{
+  "Lua": {
+    "runtime": {
+      "version": "Lua 5.4",             // 사용 중인 Lua 버전
+      "path": [                        // require 시 탐색할 경로 (Windows 기준 '\' 대신 '/')
+        "LuaScript/?.lua",
+        "LuaScript/?/init.lua"
+      ]
+    },
+    "workspace": {
+      "library": [
+        "LuaScript",        // 내 소스 폴더 경로
+        "LuaScriptsStubs"       // stub 폴더도 등록
+      ],
+      "maxPreload": 200,     // 인덱싱할 파일 최대 개수
+      "preloadFileSize": 500  // KB, preload할 파일 크기 제한
+    },
+    "diagnostics": {
+      "enable": true,        // 진단(오류/경고) 활성화
+      "disable": ["lowercase-global"]  // 꺼둘 진단 옵션 예시
+    },
+    "completion": {
+      "callSnippet": "Both"  // 매개변수 자동 완성 시 선택 (All, Function, None 등)
+    }
+  }
+}

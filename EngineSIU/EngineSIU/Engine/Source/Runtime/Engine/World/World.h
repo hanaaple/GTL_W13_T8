@@ -66,7 +66,7 @@ public:
     bool DestroyActor(AActor* ThisActor);
 
     virtual UWorld* GetWorld() const override;
-    ULevel* GetActiveLevel() const { return ActiveLevel; }
+    UFUNCTION_CONST(ULevel*, GetActiveLevel);
 
     template <typename T>
         requires std::derived_from<T, AActor>
@@ -76,11 +76,11 @@ public:
     
     FEventManager EventManager;
 
-    void SetMainPlayer(APawn* InPlayer) { MainPlayer = InPlayer; }
-    APawn* GetMainPlayer() const;
+    UFUNCTION(void, SetMainPlayer, APawn* InPlayer);
+    UFUNCTION_CONST(APawn*, GetMainPlayer);
 
-    void SetPlayerController(APlayerController* InPlayerController){ PlayerController = InPlayerController; }
-    APlayerController* GetPlayerController() const;
+    UFUNCTION(void, SetPlayerController, APlayerController* InPlayerController)
+    UFUNCTION_CONST(APlayerController*, GetPlayerController);
 
     //~ GameMode 관련
     AGameModeBase* GetGameMode() const { return GameModeInstance; }

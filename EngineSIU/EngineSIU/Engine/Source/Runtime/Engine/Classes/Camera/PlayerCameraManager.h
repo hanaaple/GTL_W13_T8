@@ -122,6 +122,8 @@ public:
 
     void SetViewTarget(class AActor* NewTarget, struct FViewTargetTransitionParams TransitionParams);
 
+    UFUNCTION(void, SetViewTarget, AActor* NewTarget);
+
     virtual UCameraShakeBase* StartCameraShake(UClass* ShakeClass);
 
     virtual void StopCameraShake(UCameraShakeBase* ShakeInstance, bool bImmediately = true);

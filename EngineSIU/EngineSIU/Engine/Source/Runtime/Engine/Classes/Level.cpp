@@ -10,8 +10,10 @@ void ULevel::InitLevel(UWorld* InOwningWorld)
 
 void ULevel::Release()
 {
-    for (AActor* Actor : Actors)
-    {        
+    // EndPlay() 내부에서 Spawn/Destroy되는 상황 위해 index로 순회.
+    for (int i = 0; i < Actors.Num(); ++i)
+    {
+        AActor* Actor = Actors[i];
         Actor->EndPlay(EEndPlayReason::WorldTransition);
         TSet<UActorComponent*> Components = Actor->GetComponents();
         for (UActorComponent* Component : Components)

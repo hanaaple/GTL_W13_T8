@@ -46,6 +46,7 @@
 #include "Particles/ParticleEmitter.h"
 #include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "tinyfiledialogs.h"
 
 namespace
 {
@@ -283,64 +284,89 @@ void PropertyEditorPanel::Render()
     if (SelectedActor)
     {
         ImGui::Separator();
-        const UClass* Class = SelectedActor->GetClass();
-
-        for (; Class; Class = Class->GetSuperClass())
+        
+        ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
+        const FString SelectedActorLabel = FString("Selected Actor: ") + SelectedActor->GetName();
+        if (ImGui::TreeNodeEx(GetData(SelectedActorLabel), ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
         {
-            const TArray<FProperty*>& Properties = Class->GetProperties();
-            if (!Properties.IsEmpty())
-            {
-                ImGui::SeparatorText(*Class->GetName());
-            }
+            const UClass* Class = SelectedActor->GetClass();
 
-            for (const FProperty* Prop : Properties)
+            for (; Class; Class = Class->GetSuperClass())
             {
-                Prop->DisplayInImGui(SelectedActor);
-            }
-        }
-
-        for (UActorComponent* ActorComponent : SelectedActor->GetComponents())
-        {
-            if (!ActorComponent->IsA<USceneComponent>())
-            {
-                ImGui::Separator();
-                const UClass* TempClass = ActorComponent->GetClass();
-
-                for (; TempClass; TempClass = TempClass->GetSuperClass())
+                const TArray<FProperty*>& Properties = Class->GetProperties();
+                if (Properties.IsEmpty())
                 {
-                    const TArray<FProperty*>& Properties = TempClass->GetProperties();
-                    if (!Properties.IsEmpty())
-                    {
-                        ImGui::SeparatorText(*Class->GetName());
-                    }
-
-                    for (const FProperty* Prop : Properties)
-                    {
-                        Prop->DisplayInImGui(ActorComponent);
-                    }
+                    continue;
+                }
+                
+                const FString InheritedLabel = (Class == SelectedActor->GetClass() ? FString("") : FString("Inherited ")) + Class->GetName();
+                ImGui::SeparatorText(GetData(InheritedLabel));
+                
+                for (const FProperty* Prop : Properties)
+                {
+                    Prop->DisplayInImGui(SelectedActor);
                 }
             }
-        } 
+
+            ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.f, 0.f, 0.f, 0.f));
+            for (UActorComponent* ActorComponent : SelectedActor->GetComponents())
+            {
+                // ImGui::Separator();
+                const UClass* TempClass = ActorComponent->GetClass();
+                const FString Label = TempClass->GetName() + FString("##") + std::to_string(ActorComponent->GetUUID());
+                if (ImGui::TreeNodeEx(GetData(Label), ImGuiTreeNodeFlags_Framed))
+                {
+                    for (; TempClass; TempClass = TempClass->GetSuperClass())
+                    {
+                        const TArray<FProperty*>& Properties = TempClass->GetProperties();
+                        if (Properties.IsEmpty())
+                        {
+                            continue;
+                        }
+                        const FString InheritedLabel = (TempClass == ActorComponent->GetClass() ? FString("") : FString("Inherited ")) + TempClass->GetName();
+                        ImGui::SeparatorText(GetData(InheritedLabel));
+                        for (const FProperty* Prop : Properties)
+                        {
+                            Prop->DisplayInImGui(ActorComponent);
+                        }
+                    }
+                    ImGui::TreePop();
+                }
+            }
+            ImGui::PopStyleColor();
+            ImGui::TreePop();
+        }
+        ImGui::PopStyleColor();
     }
 
     if (USceneComponent* TempTargetComponent = GetTargetComponent<USceneComponent>(SelectedActor, SelectedComponent))
     {
         ImGui::Separator();
-        const UClass* Class = TempTargetComponent->GetClass();
-
-        for (; Class; Class = Class->GetSuperClass())
+        ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
+        const FString SelectedCompLabel = FString("Selected Component: ") + TempTargetComponent->GetName();
+        if (ImGui::TreeNodeEx(GetData(SelectedCompLabel), ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
         {
-            const TArray<FProperty*>& Properties = Class->GetProperties();
-            if (!Properties.IsEmpty())
-            {
-                ImGui::SeparatorText(*Class->GetName());
-            }
+            const UClass* Class = TempTargetComponent->GetClass();
 
-            for (const FProperty* Prop : Properties)
+            for (; Class; Class = Class->GetSuperClass())
             {
-                Prop->DisplayInImGui(TempTargetComponent);
+                const TArray<FProperty*>& Properties = Class->GetProperties();
+                if (Properties.IsEmpty())
+                {
+                    continue;
+                }
+                
+                const FString InheritedLabel = (Class == TempTargetComponent->GetClass() ? FString("") : FString("Inherited ")) + Class->GetName();
+                ImGui::SeparatorText(GetData(InheritedLabel));
+
+                for (const FProperty* Prop : Properties)
+                {
+                    Prop->DisplayInImGui(TempTargetComponent);
+                }
             }
+            ImGui::TreePop();
         }
+        ImGui::PopStyleColor();
     }
 
     ImGui::End();
@@ -461,21 +487,65 @@ void PropertyEditorPanel::RenderForActor(AActor* SelectedActor, USceneComponent*
         Engine->DeselectComponent(Engine->GetSelectedComponent());
     }
     
-    FString BasePath = FString(L"LuaScripts\\");
-    FString LuaDisplayPath;
+    FString BasePath = GEngineLoop.ScriptSys.GetBasePath();
     
-    if (SelectedActor->GetComponentByClass<ULuaScriptComponent>())
+    if (ULuaScriptComponent* LuaComponent = SelectedActor->GetComponentByClass<ULuaScriptComponent>())
     {
-        LuaDisplayPath = SelectedActor->GetComponentByClass<ULuaScriptComponent>()->GetDisplayName();
         if (ImGui::Button("Edit Script"))
         {
             // 예: PickedActor에서 스크립트 경로를 받아옴
-            if (auto* ScriptComp = SelectedActor->GetComponentByClass<ULuaScriptComponent>())
+
+            //std::wstring ws = (BasePath + LuaComponent->GetDisplayName()).ToWideString();
+            std::wstring ws = LuaComponent->GetScriptPath().ToWideString();
+            LuaScriptFileUtils::OpenLuaScriptFile(ws.c_str());
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Select Script")) 
+        {
+            // tinyfd를 사용하여 Lua 스크립트 파일 열기 대화상자 표시
+            char const* lFilterPatterns[1] = { "*.lua" };
+            const char* SelectedFilePath = tinyfd_openFileDialog(
+                "Select Lua Script",                      // 대화상자 제목
+                GetData(BasePath), // 기본 경로 (스크립트 폴더)
+                1,                                       // 필터 개수
+                lFilterPatterns,                         // 필터 패턴 (".lua")
+                "Lua Script (*.lua)",                    // 필터 설명
+                0                                        // 다중 선택 비활성화
+            );
+
+            if ( SelectedFilePath != nullptr ) // 사용자가 파일을 선택했다면
             {
-                std::wstring ws = (BasePath + ScriptComp->GetDisplayName()).ToWideString();
-                LuaScriptFileUtils::OpenLuaScriptFile(ws.c_str());
+                // 선택된 전체 경로
+                std::string SelectedFullPath = SelectedFilePath;
+                // (선택 사항) 스크립트 기본 경로 기준 상대 경로로 변환
+                std::string RelativePathStr = SelectedFullPath; // 기본값은 전체 경로
+                
+                std::filesystem::path FullPath(SelectedFullPath);
+                std::filesystem::path AbsoluteBasePath = std::filesystem::absolute(GetData(BasePath));
+                std::filesystem::path RelativePath = std::filesystem::relative(FullPath, AbsoluteBasePath);
+
+                if ( !RelativePath.empty() && RelativePath.native().find(L"..") != 0 ) {
+                    RelativePathStr = RelativePath.generic_string();
+                } else {
+                    RelativePathStr = FullPath.generic_string();
+                }
+
+                LuaComponent->SetDisplayName(RelativePath.generic_string());
+                LuaComponent->SetScriptPath(FullPath.generic_string()); // 선택된 경로(상대 또는 전체)로 업데이트
+
+                // 중요: 스크립트 경로가 변경되었으므로 컴포넌트를 다시 초기화하거나
+                // 스크립트를 다시 로드하는 로직 호출 필요
+                // 예: LuaComp->ReloadScript(); 또는 LuaComp->InitializeComponent();
+                GEngineLoop.ScriptSys.Reload();
+                //std::cout << "LuaComponent: Script path changed. Need to reload script: " << GetData(LuaComponent->GetScriptPath()) << '\n'; // 임시 로그
             }
         }
+        FString LuaDisplayPath = LuaComponent->GetDisplayName();
+
+        std::string temp = LuaDisplayPath.ToAnsiString();
+        temp += '\0';
+        ImGui::InputText("Script File", temp.data(), temp.length(),
+            ImGuiInputTextFlags_ReadOnly);
     }
     else
     {
@@ -483,20 +553,22 @@ void PropertyEditorPanel::RenderForActor(AActor* SelectedActor, USceneComponent*
         if (ImGui::Button("Create Script"))
         {
             // Lua Script Component 생성 및 추가
-            ULuaScriptComponent* NewScript = SelectedActor->AddComponent<ULuaScriptComponent>();
-            FString LuaFilePath = NewScript->GetScriptPath();
-            std::filesystem::path FilePath = std::filesystem::path(GetData(LuaFilePath));
-            
+            ULuaScriptComponent* NewScriptComp = SelectedActor->AddComponent<ULuaScriptComponent>();
+
             try
             {
-                std::filesystem::path Dir = FilePath.parent_path();
+                std::filesystem::path Dir = GetData(BasePath);
                 if (!std::filesystem::exists(Dir))
                 {
                     std::filesystem::create_directories(Dir);
                 }
 
+                std::filesystem::path filename = GetData(
+                    NewScriptComp->GetWorld()->GetName() + "_" + NewScriptComp->GetOwner()->GetName() + ".lua"
+                );
                 std::ifstream luaTemplateFile(TemplateFilePath.ToWideString());
 
+                std::filesystem::path FilePath = Dir / filename;
                 std::ofstream file(FilePath);
                 if (file.is_open())
                 {
@@ -511,19 +583,21 @@ void PropertyEditorPanel::RenderForActor(AActor* SelectedActor, USceneComponent*
                 {
                     MessageBoxA(nullptr, "Failed to Create Script File for writing: ", "Error", MB_OK | MB_ICONERROR);
                 }
+
+                std::filesystem::path FullPath = std::filesystem::absolute(FilePath);
+                std::filesystem::path AbsoluteBasePath = std::filesystem::absolute(GetData(BasePath));
+                std::filesystem::path RelativePath = std::filesystem::relative(FullPath, AbsoluteBasePath);
+
+                NewScriptComp->SetDisplayName(RelativePath.generic_string());
+                NewScriptComp->SetScriptPath(FullPath.generic_string()); // 선택된 경로(상대 또는 전체)로 업데이트
             }
             catch (const std::filesystem::filesystem_error& e)
             {
                 MessageBoxA(nullptr, "Failed to Create Script File for writing: ", "Error", MB_OK | MB_ICONERROR);
             }
-            LuaDisplayPath = NewScript->GetDisplayName();
         }
     }
 
-    std::string temp = LuaDisplayPath.ToAnsiString();
-    temp += '\0';
-    ImGui::InputText("Script File", temp.data(), temp.length(),
-        ImGuiInputTextFlags_ReadOnly);
 
     if (ImGui::TreeNodeEx("Component", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen)) // 트리 노드 생성
     {
@@ -531,7 +605,7 @@ void PropertyEditorPanel::RenderForActor(AActor* SelectedActor, USceneComponent*
         ImGui::SameLine();
 
         TArray<UClass*> CompClasses;
-        GetChildOfClass(USceneComponent::StaticClass(), CompClasses);
+        GetChildOfClass(UActorComponent::StaticClass(), CompClasses);
 
         if (ImGui::BeginCombo("##AddComponent", "Components", ImGuiComboFlags_None))
         {
@@ -539,6 +613,7 @@ void PropertyEditorPanel::RenderForActor(AActor* SelectedActor, USceneComponent*
             {
                 if (ImGui::Selectable(GetData(Class->GetName()), false))
                 {
+                    // 생성한 UActorComp가 USceneComp면 Attach 수행.
                     USceneComponent* NewComp = Cast<USceneComponent>(SelectedActor->AddComponent(Class));
                     if (NewComp != nullptr && TargetComponent != nullptr)
                     {

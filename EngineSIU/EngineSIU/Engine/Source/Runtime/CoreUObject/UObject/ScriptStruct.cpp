@@ -5,9 +5,11 @@ UScriptStruct::UScriptStruct(
     const char* InName,
     uint32 InStructSize,
     uint32 InAlignment,
-    UScriptStruct* InSuperScriptStruct
+    UScriptStruct* InSuperScriptStruct,
+    std::function<void(sol::state&)> InBindScript
 )
     : UStruct(InName, InStructSize, InAlignment, InSuperScriptStruct)
+    , BindPropertiesToLua(InBindScript)
 {
 }
 

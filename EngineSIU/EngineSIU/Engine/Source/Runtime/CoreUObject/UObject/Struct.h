@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "ScriptHelper.h"
 #include "UObject/Object.h"
 
 struct FProperty;
@@ -73,6 +74,11 @@ public:
     /** 컴파일 타임에 알 수 없는 프로퍼티 타입을 런타임에 검사합니다.*/
     static void ResolvePendingProperties();
 
+
+    /**
+     *  Lua 자동완성을 위한 Annotation 생성용
+     */
+    FClassString Annotation;
 private:
     /** 컴파일 타임에 알 수 없는 프로퍼티 목록들*/
     static TArray<FProperty*>& GetUnresolvedProperties();

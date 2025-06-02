@@ -17,7 +17,8 @@ public:
     using SizeType = typename AllocatorType::SizeType;
     using ElementType = T;
     using ArrayType = std::vector<ElementType, AllocatorType>;
-
+    using value_type = T;   // for compatibility with lua sol2
+    
 private:
     ArrayType ContainerPrivate;
 
