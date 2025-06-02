@@ -19,12 +19,12 @@ public:
 
 private:
     UPROPERTY(
-        VisibleAnywhere | LuaReadWrite, { .Category = "Camera" },
+        VisibleAnywhere, { .Category = "Camera" },
         USpringArmComponent*, SpringArm, ;
     )
 
     UPROPERTY(
-        VisibleAnywhere | LuaReadWrite, { .Category = "Camera" },
+        VisibleAnywhere, { .Category = "Camera" },
         UCameraComponent*, CameraComponent, ;
     )
 
