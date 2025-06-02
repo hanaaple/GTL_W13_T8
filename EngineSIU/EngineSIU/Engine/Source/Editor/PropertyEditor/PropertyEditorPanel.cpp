@@ -453,14 +453,36 @@ void PropertyEditorPanel::RenderForCameraComponent(UCameraComponent* InCameraCom
 
 void PropertyEditorPanel::RenderForActor(AActor* SelectedActor, USceneComponent* TargetComponent) const
 {
-    if (ImGui::Button("Duplicate"))
+    if (ImGui::TreeNodeEx("Editor Control Panel", ImGuiTreeNodeFlags_DefaultOpen))
     {
         UEditorEngine* Engine = Cast<UEditorEngine>(GEngine);
-        AActor* NewActor = static_cast<AActor*>(Engine->ActiveWorld->DuplicateActor(Engine->GetSelectedActor()));
-        Engine->SelectActor(NewActor);
-        Engine->DeselectComponent(Engine->GetSelectedComponent());
+        if (ImGui::TreeNodeEx("Actor Snap", ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            if (ImGui::Button("Move to Camera"))
+            {
+                if (const FViewportCamera* Camera = GEngineLoop.GetLevelEditor()->GetActiveViewportClient()->GetPerspectiveCamera())
+                {
+                    SelectedActor->SetActorLocation(Camera->GetLocation());
+                    const FVector& CameraRotation = Camera->GetRotation();
+                    SelectedActor->SetActorRotation(FRotator(-CameraRotation.Y, CameraRotation.Z, 0.0f));
+                }
+            }
+            ImGui::TreePop();
+        }
+
+        if (ImGui::TreeNodeEx("Actor Control", ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            if (ImGui::Button("Duplicate"))
+            {
+                AActor* NewActor = Engine->ActiveWorld->DuplicateActor(Engine->GetSelectedActor());
+                Engine->SelectActor(NewActor);
+                Engine->DeselectComponent(Engine->GetSelectedComponent());
+            }
+            ImGui::TreePop();
+        }
+        ImGui::TreePop();
     }
-    
+
     FString BasePath = FString(L"LuaScripts\\");
     FString LuaDisplayPath;
     
