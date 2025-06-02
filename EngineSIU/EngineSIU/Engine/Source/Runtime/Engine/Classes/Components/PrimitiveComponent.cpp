@@ -434,7 +434,7 @@ void UPrimitiveComponent::BeginComponentOverlap(const FOverlapInfo& OtherOverlap
 void UPrimitiveComponent::EndComponentOverlap(const FOverlapInfo& OtherOverlap, bool bDoNotifies, bool bSkipNotifySelf)
 {
     UPrimitiveComponent* OtherComp = OtherOverlap.OverlapInfo.Component;
-    if (OtherComp == nullptr)
+    if (!IsValid(OtherComp))
     {
         return;
     }

@@ -54,7 +54,10 @@ void UWorld::Tick(float DeltaTime)
     {
         for (AActor* Actor : PendingBeginPlayActors)
         {
-            Actor->BeginPlay();
+            if (IsValid(Actor))
+            {
+                Actor->BeginPlay();
+            }
         }
         PendingBeginPlayActors.Empty();
     }

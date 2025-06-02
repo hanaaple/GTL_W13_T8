@@ -124,15 +124,21 @@ void PropertyEditorPanel::Render()
 
     AActor* SelectedActor = Engine->GetSelectedActor();
     USceneComponent* SelectedComponent = Engine->GetSelectedComponent();
-    USceneComponent* TargetComponent = nullptr;
+    USceneComponent* TargetComponent;
 
-    if (SelectedComponent != nullptr)
+    if (IsValid(SelectedComponent))
     {
         TargetComponent = SelectedComponent;
     }
-    else if (SelectedActor != nullptr)
+    else if (IsValid(SelectedActor) && IsValid(SelectedActor->GetRootComponent()))
     {        
         TargetComponent = SelectedActor->GetRootComponent();
+    }
+    else
+    {
+        SelectedActor = nullptr;
+        TargetComponent = nullptr;
+        SelectedComponent = nullptr;
     }
 
     if (SelectedActor)
