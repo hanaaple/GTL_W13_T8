@@ -42,17 +42,22 @@ void ARotatePatrolPlatform::Tick(float DeltaTime)
             TargetRot = &TargetA;
         }
 
-        FRotator DeltaRotation = (*TargetRot - ActorRotation);
+        FQuat CurrentQuat = ActorRotation.Quaternion();
+        FQuat TargetQuat = TargetRot->Quaternion();
 
-        DeltaRotation *= FMath::InvSqrt(DeltaRotation.Pitch * DeltaRotation.Pitch + DeltaRotation.Yaw * DeltaRotation.Yaw + DeltaRotation.Roll * DeltaRotation.Roll);
+        FQuat DeltaQuat = TargetQuat * CurrentQuat.Inverse();
 
-        DeltaRotation = DeltaRotation * AngularSpeed * DeltaTime;
+        FVector RotationAxis;
+        float AngleDifferenceRadians;
+        DeltaQuat.ToAxisAndAngle(RotationAxis, AngleDifferenceRadians);
 
-        if ((*TargetRot - ActorRotation).Quaternion().GetAngle() < DeltaRotation.Quaternion().GetAngle())
-        {
-            DeltaRotation = (*TargetRot - ActorRotation);
-        }
-        
-        AddActorRotation(DeltaRotation);
+        float DeltaAngleDegreesThisTick = AngularSpeed * DeltaTime;
+        float DeltaAngleRadiansThisTick = FMath::DegreesToRadians(DeltaAngleDegreesThisTick);
+
+        float StepAngleRadians = FMath::Min(DeltaAngleRadiansThisTick , AngleDifferenceRadians);
+
+        FQuat StepQuat(RotationAxis, StepAngleRadians);
+    
+        AddActorRotation(StepQuat);
     }
 }

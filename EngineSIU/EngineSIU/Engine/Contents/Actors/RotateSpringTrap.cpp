@@ -22,11 +22,37 @@ void ARotateSpringTrap::UpdateState(float DeltaTime)
             SetTrapState(ETrapState::Ready);
         }
     }
+    else if (TrapState == ETrapState::Ready)
+    {
+        // Test Code
+        SetTrapState(ETrapState::Shoot);
+    }
     else if (TrapState == ETrapState::Shoot)
     {
-        // (Target - Origin).Quaternion()
-        // AddActorRotation()
-        // ShootSpeed
+        FRotator ActorRotation = GetActorRotation();
+        
+        FQuat CurrentQuat = ActorRotation.Quaternion();
+        FQuat TargetQuat = Target.Quaternion();
+
+        FQuat DeltaQuat = TargetQuat * CurrentQuat.Inverse();
+
+        FVector RotationAxis;
+        float AngleDifferenceRadians;
+        DeltaQuat.ToAxisAndAngle(RotationAxis, AngleDifferenceRadians);
+
+        float DeltaAngleDegreesThisTick = ShootSpeed * DeltaTime;
+        float DeltaAngleRadiansThisTick = FMath::DegreesToRadians(DeltaAngleDegreesThisTick);
+
+        float StepAngleRadians = FMath::Min(DeltaAngleRadiansThisTick , AngleDifferenceRadians);
+
+        FQuat StepQuat(RotationAxis, StepAngleRadians);
+
+        AddActorRotation(StepQuat);
+
+        if (AngleDifferenceRadians < DeltaAngleRadiansThisTick)
+        {
+            SetTrapState(ETrapState::WaitChargeCooldown);
+        }
     }
     else if (TrapState == ETrapState::WaitChargeCooldown)
     {
@@ -38,7 +64,29 @@ void ARotateSpringTrap::UpdateState(float DeltaTime)
     }
     else if (TrapState == ETrapState::Charge)
     {
-        // TODO
-        // ChargeSpeed
+        FRotator ActorRotation = GetActorRotation();
+        
+        FQuat CurrentQuat = ActorRotation.Quaternion();
+        FQuat TargetQuat = Origin.Quaternion();
+
+        FQuat DeltaQuat = TargetQuat * CurrentQuat.Inverse();
+
+        FVector RotationAxis;
+        float AngleDifferenceRadians;
+        DeltaQuat.ToAxisAndAngle(RotationAxis, AngleDifferenceRadians);
+
+        float DeltaAngleDegreesThisTick = ChargeSpeed * DeltaTime;
+        float DeltaAngleRadiansThisTick = FMath::DegreesToRadians(DeltaAngleDegreesThisTick);
+
+        float StepAngleRadians = FMath::Min(DeltaAngleRadiansThisTick , AngleDifferenceRadians);
+
+        FQuat StepQuat(RotationAxis, StepAngleRadians);
+
+        AddActorRotation(StepQuat);
+
+        if (AngleDifferenceRadians < DeltaAngleRadiansThisTick)
+        {
+            SetTrapState(ETrapState::WaitShootCooldown);
+        }
     }
 }

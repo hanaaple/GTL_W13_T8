@@ -388,3 +388,9 @@ bool FQuat::IsIdentity() const
 {
     return X == 0.0f && Y == 0.0f && Z == 0.0f && W == 1.0f;
 }
+
+float FQuat::Error(const FQuat& Q1, const FQuat& Q2)
+{
+    const float cosom = FMath::Abs(Q1.X * Q2.X + Q1.Y * Q2.Y + Q1.Z * Q2.Z + Q1.W * Q2.W);
+    return (FMath::Abs(cosom) < 0.9999999f) ? FMath::Acos(cosom)*(1.f / PI) : 0.0f;
+}

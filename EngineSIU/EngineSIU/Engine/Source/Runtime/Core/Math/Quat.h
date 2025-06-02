@@ -153,6 +153,8 @@ public:
     FString ToString() const;
 
     bool IsIdentity() const;
+
+    static float Error(const FQuat& Q1, const FQuat& Q2);
 };
 
 inline FArchive& operator<<(FArchive& Ar, FQuat& Q)
