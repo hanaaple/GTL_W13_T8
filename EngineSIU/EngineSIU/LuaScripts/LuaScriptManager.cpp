@@ -173,7 +173,6 @@ void FLuaScriptManager::BindPrimitiveTypes()
     vectorTypeTable["SquaredLength"] = &FVector::SquaredLength;
     vectorTypeTable["Distance"] = &FVector::Distance;
     vectorTypeTable["Normal"] = &FVector::GetSafeNormal;
-    vectorTypeTable["Normalize"] = &FVector::Normalize;
     
     vectorTypeTable[mFunc::addition] = [](const FVector& a, const FVector& b) { return a + b; };
     vectorTypeTable[mFunc::subtraction] = [](const FVector& a, const FVector& b) { return a - b; };
@@ -414,8 +413,12 @@ void FLuaScriptManager::UpdateStub()
         file << "\n";
         file << "---@return number\n";
         file << "function FVector:Length() end\n";
+        file << "\n";
         file << "---@return number\n";
         file << "function FVector:SquaredLength() end\n";
+        file << "\n";
+        file << "---@return FVector\n";
+        file << "function FVector:Normal() end\n";
         file << "\n";
         // TODO: ...
 

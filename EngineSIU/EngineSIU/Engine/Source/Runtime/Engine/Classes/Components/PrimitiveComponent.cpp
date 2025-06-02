@@ -373,6 +373,11 @@ void UPrimitiveComponent::SetProperties(const TMap<FString, FString>& InProperti
     }
 }
 
+FBodyInstance* UPrimitiveComponent::GetBodyInstance() const 
+{
+    return BodyInstance;
+}
+
 void UPrimitiveComponent::BeginComponentOverlap(const FOverlapInfo& OtherOverlap, bool bDoNotifies)
 {
     // If pending kill, we should not generate any new overlaps

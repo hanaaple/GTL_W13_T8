@@ -79,6 +79,6 @@ void ULuaScriptComponent::CallLuaFunction(const FString& FunctionName, Arguments
     if (!res.valid())
     {
         sol::error err = res;
-        UE_LOG(ELogLevel::Error, "%s: Error while execute Function: %s: %s", GetData(ScriptPath), GetData(FunctionName), err.what());
+        UE_LOG(ELogLevel::Error, "%s: Error while execute Function: %s: \n%s", GetData(ScriptPath), GetData(FunctionName), err.what());
     }
 }

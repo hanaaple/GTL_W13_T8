@@ -46,6 +46,8 @@ public:
 
     FBodyInstance* BodyInstance = nullptr;
 
+    UFUNCTION_CONST(FBodyInstance*, GetBodyInstance)
+
     FComponentHitSignature OnComponentHit;
 
     FComponentBeginOverlapSignature OnComponentBeginOverlap;
