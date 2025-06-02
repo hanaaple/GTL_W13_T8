@@ -311,7 +311,7 @@ void PropertyEditorPanel::Render()
                     const TArray<FProperty*>& Properties = TempClass->GetProperties();
                     if (!Properties.IsEmpty())
                     {
-                        ImGui::SeparatorText(*Class->GetName());
+                        ImGui::SeparatorText(*TempClass->GetName());
                     }
 
                     for (const FProperty* Prop : Properties)

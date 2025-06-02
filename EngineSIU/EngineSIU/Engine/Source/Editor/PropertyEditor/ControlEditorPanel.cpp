@@ -9,7 +9,6 @@
 #include "Components/Light/LightComponent.h"
 #include "Components/Light/PointLightComponent.h"
 #include "Components/Light/SpotLightComponent.h"
-#include "Components/SphereComp.h"
 #include "Components/ParticleSubUVComponent.h"
 #include "Components/TextComponent.h"
 #include "Camera/CameraComponent.h"
@@ -38,7 +37,11 @@
 #include "GameFramework/PlayerController.h"
 #include "Renderer/CompositingPass.h"
 #include <Engine/FbxLoader.h>
+
+#include "Actors/Sphere.h"
 #include "Engine/Classes/Engine/AssetManager.h"
+#include "Engine/Contents/Actors/RotatePatrolPlatform.h"
+#include "Engine/Contents/Actors/TranslatePatrolPlatform.h"
 #include "GameFramework/PlayerStart.h"
 #include "Particles/ParticleSystemComponent.h"
 
@@ -357,10 +360,9 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                 {
                 case ESpawnObjectTypes::Sphere:
                 {
-                    SpawnedActor = World->SpawnActor<AActor>();
-                    SpawnedActor->SetActorLabel(TEXT("OBJ_SPHERE"));
-                    USphereComp* SphereComp = SpawnedActor->AddComponent<USphereComp>();
-                    SphereComp->SetStaticMesh(FObjManager::GetStaticMesh(L"Contents/Sphere.obj"));
+                    ASphere* SphereActor = World->SpawnActor<ASphere>();
+                    SphereActor->SetActorLabel(TEXT("OBJ_SPHERE"));
+                    SpawnedActor = SphereActor;
                     break;
                 }
                 case ESpawnObjectTypes::Cube:
@@ -368,6 +370,7 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                     // TODO: 다른 부분들 전부 Actor만 소환하도록 하고, Component 생성은 Actor가 자체적으로 하도록 변경.
                     ACube* CubeActor = World->SpawnActor<ACube>();
                     CubeActor->SetActorLabel(TEXT("OBJ_CUBE"));
+                    SpawnedActor = CubeActor;
                     break;
                 }
 
@@ -375,24 +378,28 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                 {
                     ASpotLight* SpotActor = World->SpawnActor<ASpotLight>();
                     SpotActor->SetActorLabel(TEXT("OBJ_SPOTLIGHT"));
+                    SpawnedActor = SpotActor;
                     break;
                 }
                 case ESpawnObjectTypes::Pointlight:
                 {
                     APointLight* LightActor = World->SpawnActor<APointLight>();
                     LightActor->SetActorLabel(TEXT("OBJ_POINTLIGHT"));
+                    SpawnedActor = LightActor;
                     break;
                 }
                 case ESpawnObjectTypes::DirectionalLight:
                 {
                     ADirectionalLight* LightActor = World->SpawnActor<ADirectionalLight>();
                     LightActor->SetActorLabel(TEXT("OBJ_DIRECTIONALLGIHT"));
+                    SpawnedActor = LightActor;
                     break;
                 }
                 case ESpawnObjectTypes::AmbientLight:
                 {
                     AAmbientLight* LightActor = World->SpawnActor<AAmbientLight>();
                     LightActor->SetActorLabel(TEXT("OBJ_AMBIENTLIGHT"));
+                    SpawnedActor = LightActor;
                     break;
                 }
                 case ESpawnObjectTypes::Particle_Legacy:
@@ -468,6 +475,20 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                 {
                     SpawnedActor = World->SpawnActor<APlayerStart>();
                     SpawnedActor->SetActorLabel(TEXT("OBJ_PLAYER_START"));
+                    break;
+                }
+                case ESpawnObjectTypes::TranslatePatrolPlatform:
+                {
+                    ATranslatePatrolPlatform* CubeActor = World->SpawnActor<ATranslatePatrolPlatform>();
+                    CubeActor->SetActorLabel(TEXT("OBJ_Translate_Patrol_Platform"));
+                    SpawnedActor = CubeActor;
+                    break;
+                }
+                case ESpawnObjectTypes::RotatePatrolPlatform:   
+                {
+                    ARotatePatrolPlatform* CubeActor = World->SpawnActor<ARotatePatrolPlatform>();
+                    CubeActor->SetActorLabel(TEXT("OBJ_Rotate_Patrol_Platform"));
+                    SpawnedActor = CubeActor;
                     break;
                 }
                 }

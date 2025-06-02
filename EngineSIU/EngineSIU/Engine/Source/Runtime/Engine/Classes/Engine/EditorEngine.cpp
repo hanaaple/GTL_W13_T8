@@ -173,7 +173,6 @@ void UEditorEngine::Tick(float DeltaTime)
                 TArray CachedActors = Level->Actors;
                 if (Level)
                 {
-
                     for (AActor* Actor : CachedActors)
                     {
                         if (Actor)
