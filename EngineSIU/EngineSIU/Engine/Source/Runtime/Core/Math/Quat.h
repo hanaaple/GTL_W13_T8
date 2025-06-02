@@ -154,6 +154,11 @@ public:
 
     bool IsIdentity() const;
 
+    /**
+     * Error measure (angle) between two quaternions, ranged [0..1].
+     * Returns the hypersphere-angle between two quaternions; alignment shouldn't matter, though 
+     * @note normalized input is expected.
+     */
     static float Error(const FQuat& Q1, const FQuat& Q2);
 };
 

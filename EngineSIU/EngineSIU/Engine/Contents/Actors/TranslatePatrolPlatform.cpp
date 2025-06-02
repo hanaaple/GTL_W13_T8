@@ -12,7 +12,6 @@ ATranslatePatrolPlatform::ATranslatePatrolPlatform()
         PrimitiveComponent->SetSimulate(true);
     }
 
-    TargetPos = &TargetA;
     SetActorLocation(TargetA);
 }
 
@@ -25,18 +24,20 @@ void ATranslatePatrolPlatform::Tick(float DeltaTime)
         FVector ActorLocation = GetActorLocation();
         if (FVector::Distance(TargetA, ActorLocation) < 1)
         {
-            TargetPos = &TargetB;
+            Target = ETarget::TargetB;
         }
         else if (FVector::Distance(TargetB, ActorLocation) < 1)
         {
-            TargetPos = &TargetA;
+            Target = ETarget::TargetA;
         }
 
-        FVector TranslateVector = (*TargetPos - ActorLocation).GetSafeNormal() * Speed * DeltaTime;
+        FVector TargetPos = Target == ETarget::TargetA ? TargetA : TargetB;
+        
+        FVector TranslateVector = (TargetPos - ActorLocation).GetSafeNormal() * Speed * DeltaTime;
 
-        if ((*TargetPos - ActorLocation).Length() < TranslateVector.Length())
+        if ((TargetPos - ActorLocation).Length() < TranslateVector.Length())
         {
-            TranslateVector = *TargetPos - ActorLocation;
+            TranslateVector = TargetPos - ActorLocation;
         }
                 
         AddActorLocation(TranslateVector);

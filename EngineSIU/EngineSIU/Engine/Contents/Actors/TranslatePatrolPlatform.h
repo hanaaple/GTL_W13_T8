@@ -19,5 +19,13 @@ public:
     UPROPERTY(EditAnywhere, FVector, TargetA, = FVector(0, 0, 0))
     UPROPERTY(EditAnywhere, FVector, TargetB, = FVector(1, 1, 1))
 
-    FVector* TargetPos = nullptr;
+
+private:
+    enum class ETarget
+    {
+        TargetA,
+        TargetB
+    };
+
+    ETarget Target = ETarget::TargetA;
 };

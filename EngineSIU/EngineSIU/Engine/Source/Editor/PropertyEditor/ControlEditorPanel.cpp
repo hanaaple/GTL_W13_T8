@@ -503,8 +503,9 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                 case ESpawnObjectTypes::RotateSpringTrap:
                 {
                     ARotateSpringTrap* CubeActor = World->SpawnActor<ARotateSpringTrap>();
-                    CubeActor->SetActorLabel(TEXT("OBJ_Rotate_SpringTrap"));
+                    CubeActor->SetActorLabel(TEXT("OBJ_Rotate_SpringTrap"));y
                     SpawnedActor = CubeActor;
+                    break;
                 }
                 }
 
