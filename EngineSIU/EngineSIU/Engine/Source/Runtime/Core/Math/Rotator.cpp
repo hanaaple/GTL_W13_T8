@@ -8,7 +8,9 @@
 const FRotator FRotator::ZeroRotator(0.0f, 0.0f, 0.0f);
 
 FRotator::FRotator(const FVector& InVector)
-    : Pitch(FMath::RadiansToDegrees(InVector.Y)), Yaw(FMath::RadiansToDegrees(InVector.Z)), Roll(FMath::RadiansToDegrees(InVector.X))
+    : Pitch(InVector.Y)
+    , Yaw(InVector.Z)
+    , Roll(InVector.X)
 {
 }
 
