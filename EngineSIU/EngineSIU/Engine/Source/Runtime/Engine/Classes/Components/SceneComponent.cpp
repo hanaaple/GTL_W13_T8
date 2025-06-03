@@ -372,17 +372,17 @@ void USceneComponent::SetRelativeTransform(const FTransform& InTransform)
     UpdateOverlaps();
 }
 
-inline FVector USceneComponent::GetRelativeLocation() const 
+FVector USceneComponent::GetRelativeLocation() const 
 { 
     return RelativeLocation;
 }
 
-inline FRotator USceneComponent::GetRelativeRotation() const 
+FRotator USceneComponent::GetRelativeRotation() const 
 { 
     return RelativeRotation;
 }
 
-inline FVector USceneComponent::GetRelativeScale3D() const 
+FVector USceneComponent::GetRelativeScale3D() const 
 { 
     return RelativeScale3D;
 }
