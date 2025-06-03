@@ -678,6 +678,27 @@ void USkeletalMeshComponent::DestroyPhysXGameObject()
         }
         delete Constraint;
     }
+    for (UBodySetup* Body : SkeletalMeshAsset->GetPhysicsAsset()->BodySetups)
+    {
+        for (physx::PxShape* BoxElem : Body->AggGeom.BoxElems)
+        {
+            BoxElem->release();
+        }
+
+        for (physx::PxShape* BoxElem : Body->AggGeom.CapsuleElems)
+        {
+            BoxElem->release();
+        }
+    
+        for (physx::PxShape* BoxElem : Body->AggGeom.SphereElems)
+        {
+            BoxElem->release();   
+        }
+
+        Body->AggGeom.BoxElems.Empty();
+        Body->AggGeom.CapsuleElems.Empty();
+        Body->AggGeom.SphereElems.Empty();
+    }
 
     for (FBodyInstance* Body : Bodies)
     {
@@ -839,6 +860,7 @@ void USkeletalMeshComponent::DuplicateSubObjects(const UObject* Source, UObject*
     Super::DuplicateSubObjects(Source, InOuter, Duplicator);
     const USkeletalMeshComponent* SrcComp = static_cast<const USkeletalMeshComponent*>(Source);
 
+    ClearAnimScriptInstance();
     InitAnim();
 
     BonePoseContext.Pose.Empty();
@@ -857,9 +879,7 @@ void USkeletalMeshComponent::DuplicateSubObjects(const UObject* Source, UObject*
     CPURenderData->Indices = SkeletalMeshAsset->GetRenderData()->Indices;
     CPURenderData->ObjectName = SkeletalMeshAsset->GetRenderData()->ObjectName;
     CPURenderData->MaterialSubsets = SkeletalMeshAsset->GetRenderData()->MaterialSubsets;
-
-    ClearAnimScriptInstance();
-
+    
     if (GetSkeletalMeshAsset() && AnimationMode == EAnimationMode::AnimationBlueprint)
     {
         InitializeAnimScriptInstance();

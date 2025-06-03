@@ -42,6 +42,7 @@
 #include "Engine/Classes/Engine/AssetManager.h"
 #include "Engine/Contents/Actors/RotatePatrolPlatform.h"
 #include "Engine/Contents/Actors/RotateSpringTrap.h"
+#include "Engine/Contents/Actors/ShootingTrap.h"
 #include "Engine/Contents/Actors/TranslatePatrolPlatform.h"
 #include "Engine/Contents/Actors/TranslateSpringTrap.h"
 #include "GameFramework/PlayerStart.h"
@@ -493,7 +494,7 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                     SpawnedActor = CubeActor;
                     break;
                 }
-                case ESpawnObjectTypes::TranslataeSpringTrap:
+                case ESpawnObjectTypes::TranslateSpringTrap:
                 {
                     ATranslateSpringTrap* CubeActor = World->SpawnActor<ATranslateSpringTrap>();
                     CubeActor->SetActorLabel(TEXT("OBJ_Translate_SpringTrap"));
@@ -504,6 +505,13 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                 {
                     ARotateSpringTrap* CubeActor = World->SpawnActor<ARotateSpringTrap>();
                     CubeActor->SetActorLabel(TEXT("OBJ_Rotate_SpringTrap"));
+                    SpawnedActor = CubeActor;
+                    break;
+                }
+                case ESpawnObjectTypes::ShootingTrap:
+                {
+                    AShootingTrap* CubeActor = World->SpawnActor<AShootingTrap>();
+                    CubeActor->SetActorLabel(TEXT("OBJ_ShootingTrap"));
                     SpawnedActor = CubeActor;
                     break;
                 }

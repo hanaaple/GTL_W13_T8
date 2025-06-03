@@ -58,4 +58,10 @@ void UStaticMesh::SerializeAsset(FArchive& Ar)
     }
 
     RenderData->Serialize(Ar);
+
+    if (Ar.IsLoading())
+    {
+        FName NewName = RenderData->DisplayName;
+        SetFName(NewName);
+    }
 }

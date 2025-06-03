@@ -660,6 +660,24 @@ void UPrimitiveComponent::DestroyPhysXGameObject()
         return;
     }
 
+    for (physx::PxShape* BoxElem : BodySetup->AggGeom.BoxElems)
+    {
+        BoxElem->release();
+    }
+
+    for (physx::PxShape* BoxElem : BodySetup->AggGeom.CapsuleElems)
+    {
+        BoxElem->release();
+    }
+    
+    for (physx::PxShape* BoxElem : BodySetup->AggGeom.SphereElems)
+    {
+        BoxElem->release();
+    }
+    BodySetup->AggGeom.BoxElems.Empty();
+    BodySetup->AggGeom.CapsuleElems.Empty();
+    BodySetup->AggGeom.SphereElems.Empty();
+
     if (BodyInstance->BIGameObject != nullptr)
     {
         GEngine->PhysicsManager->DestroyGameObject(BodyInstance->BIGameObject);

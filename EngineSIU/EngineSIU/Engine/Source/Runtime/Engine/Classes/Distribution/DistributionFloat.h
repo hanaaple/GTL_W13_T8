@@ -8,8 +8,8 @@ struct FDistributionFloat
     FDistributionFloat() : MinValue(1), MaxValue(1) {}
     FDistributionFloat(float InMinValue, float InMaxValue) : MinValue(InMinValue), MaxValue(InMaxValue) {}
 
-    UPROPERTY_WITH_FLAGS(EditAnywhere, float, MinValue)
-    UPROPERTY_WITH_FLAGS(EditAnywhere, float, MaxValue)
+    UPROPERTY_WITH_FLAGS(EditAnywhere, float, MinValue, = 1)
+    UPROPERTY_WITH_FLAGS(EditAnywhere, float, MaxValue, = 1)
 
     //float MinValue;
     //float MaxValue;

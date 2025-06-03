@@ -306,6 +306,13 @@ void PhysicsAssetViewerPanel::ClearRefSkeletalMeshComponent()
         delete CopiedRefSkeleton;
         CopiedRefSkeleton = nullptr;
     }
+
+    SkeletalMesh = nullptr;
+
+    SelectedBoneIndex = INDEX_NONE;
+    SelectedBodyIndex = INDEX_NONE;
+    SelectedConstraintIndex = INDEX_NONE;
+    
     //if (PrevAnimDataModel)
     //{
     //    PrevAnimDataModel = nullptr;

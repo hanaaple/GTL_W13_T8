@@ -677,6 +677,10 @@ void PropertyEditorPanel::RenderForStaticMesh(UStaticMeshComponent* StaticMeshCo
 
         if (ImGui::BeginCombo("##StaticMesh", GetData(PreviewName), ImGuiComboFlags_None))
         {
+            if (ImGui::Selectable("None", false))
+            {
+                StaticMeshComp->SetStaticMesh(nullptr);
+            }
             for (const auto& Asset : Assets)
             {
                 if (Asset.Value.AssetType != EAssetType::StaticMesh)

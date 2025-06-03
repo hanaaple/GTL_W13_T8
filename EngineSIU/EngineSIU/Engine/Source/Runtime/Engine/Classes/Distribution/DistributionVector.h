@@ -8,8 +8,8 @@ struct FDistributionVector
 {
     DECLARE_STRUCT(FDistributionVector)
 
-    UPROPERTY_WITH_FLAGS(EditAnywhere, FVector, MinValue)
-    UPROPERTY_WITH_FLAGS(EditAnywhere, FVector, MaxValue)
+    UPROPERTY_WITH_FLAGS(EditAnywhere, FVector, MinValue, = FVector::ZeroVector)
+    UPROPERTY_WITH_FLAGS(EditAnywhere, FVector, MaxValue, = FVector::ZeroVector)
 
     //FVector MinValue;
     //FVector MaxValue;
