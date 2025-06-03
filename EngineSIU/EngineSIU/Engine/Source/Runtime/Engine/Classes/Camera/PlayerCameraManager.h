@@ -9,6 +9,7 @@ class APlayerController;
 class UCameraModifier;
 
 DECLARE_MULTICAST_DELEGATE(FOnBlendComplete)
+DECLARE_MULTICAST_DELEGATE(FOnFadeComplete)
 
 enum EViewTargetBlendOrder : int
 {
@@ -177,6 +178,7 @@ public:
     uint32 bDefaultConstrainAspectRatio : 1;
 
     mutable FOnBlendComplete OnBlendCompleteEvent;
+    FOnFadeComplete OnFadeCompleteEvent;
 
   	/** Minimum view pitch, in degrees. */
     float ViewPitchMin;

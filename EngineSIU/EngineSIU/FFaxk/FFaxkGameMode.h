@@ -9,6 +9,7 @@ enum class EGameState : uint8
     Playing,    // 게임 플레이중
     Paused,     // ESC로 일시정지
     Died,       // 플레이어가 사망했을 때
+    End,
 };
 
 
