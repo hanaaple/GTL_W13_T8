@@ -3,8 +3,10 @@
 #include "Components/PrimitiveComponent.h"
 #include "World/World.h"
 
-ASpringTrap::ASpringTrap() : Super()
+void ASpringTrap::PostSpawnInitialize()
 {
+    AActor::PostSpawnInitialize();
+    
     for (UPrimitiveComponent* PrimitiveComponent : GetComponentsByClass<UPrimitiveComponent>())
     {
         PrimitiveComponent->RigidBodyType = ERigidBodyType::KINEMATIC;
@@ -28,6 +30,7 @@ void ASpringTrap::GetProperties(TMap<FString, FString>& OutProperties) const
     Super::GetProperties(OutProperties);
 
     OutProperties.Add("SpringTrapEnabled", bEnabled ? TEXT("true") : TEXT("false"));
+    OutProperties.Add("SpringTrapInitialCooldown", FString::SanitizeFloat(InitialCooldown));
     OutProperties.Add("SpringTrapShootCoolDown", FString::SanitizeFloat(ShootCoolDown));
     OutProperties.Add("SpringTrapChargeCoolDown", FString::SanitizeFloat(ChargeCoolDown));
     OutProperties.Add("SpringTrapShootSpeed", FString::SanitizeFloat(ShootSpeed));
@@ -45,6 +48,12 @@ void ASpringTrap::SetProperties(const TMap<FString, FString>& InProperties)
         bEnabled = (*TempStr == TEXT("true"));
     }
 
+    TempStr = InProperties.Find(TEXT("SpringTrapInitialCooldown"));
+    if (TempStr)
+    {
+        InitialCooldown = FCString::Atof(**TempStr);
+    }
+    
     TempStr = InProperties.Find(TEXT("SpringTrapShootCoolDown"));
     if (TempStr)
     {

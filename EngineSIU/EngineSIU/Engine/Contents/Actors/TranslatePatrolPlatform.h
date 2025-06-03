@@ -7,9 +7,11 @@ class ATranslatePatrolPlatform : public AActor
     DECLARE_CLASS(ATranslatePatrolPlatform, AActor)
 
 public:
-    ATranslatePatrolPlatform();
+    ATranslatePatrolPlatform() = default;
     virtual ~ATranslatePatrolPlatform() override = default;
 
+    virtual void BeginPlay() override;
+    
     virtual void Tick(float DeltaTime) override;
     virtual void GetProperties(TMap<FString, FString>& OutProperties) const override;
     virtual void SetProperties(const TMap<FString, FString>& InProperties) override;
@@ -28,4 +30,6 @@ private:
     };
 
     ETarget Target = ETarget::TargetA;
+
+    FVector Origin = FVector::ZeroVector;
 };

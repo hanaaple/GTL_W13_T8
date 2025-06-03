@@ -29,7 +29,7 @@ void AShootingTrap::GetProperties(TMap<FString, FString>& OutProperties) const
     OutProperties.Add(TEXT("SpawnInterval"), FString::SanitizeFloat(SpawnInterval));
     OutProperties.Add(TEXT("SpawnDirection"), SpawnDirection.ToString());
     OutProperties.Add(TEXT("SpawnLocation"), SpawnLocation.ToString());
-    OutProperties.Add(TEXT("SpawnLocation"), SpawnLocation.ToString());
+    OutProperties.Add(TEXT("SpawnScale"), SpawnScale.ToString());
     OutProperties.Add(TEXT("ForceDistributionMin"), FString::SanitizeFloat(ForceDistribution.MinValue));
     OutProperties.Add(TEXT("ForceDistributionMax"), FString::SanitizeFloat(ForceDistribution.MaxValue));
 
@@ -79,6 +79,12 @@ void AShootingTrap::SetProperties(const TMap<FString, FString>& InProperties)
         SpawnLocation.InitFromString(*TempStr);
     }
 
+    TempStr = InProperties.Find(TEXT("SpawnScale"));
+    if (TempStr)
+    {
+        SpawnScale.InitFromString(*TempStr);
+    }
+
     TempStr = InProperties.Find(TEXT("ForceDistributionMin"));
     if (TempStr)
     {
@@ -108,6 +114,26 @@ void AShootingTrap::Tick(float DeltaTime)
 {
     AActor::Tick(DeltaTime);
 
+    for (AActor* PendingActor : PendingActors)
+    {
+        for (UPrimitiveComponent* PrimitiveComponent : PendingActor->GetComponentsByClass<UPrimitiveComponent>())
+        {
+            if (PrimitiveComponent->BodyInstance && PrimitiveComponent->BodyInstance->BIGameObject)
+            {
+                if (PrimitiveComponent->BodyInstance->BIGameObject->DynamicRigidBody)
+                {
+                    if (PrimitiveComponent->BodyInstance->BIGameObject->DynamicRigidBody->getType() == PxActorType::eRIGID_DYNAMIC)
+                    {
+                        FVector FVecForce = GetActorForwardVector() * (ShootForceScalar + ForceDistribution.GetValue());
+                        PxVec3 Force = PxVec3(FVecForce.X, FVecForce.Y, FVecForce.Z);
+                        PrimitiveComponent->BodyInstance->BIGameObject->DynamicRigidBody->addForce(Force, PxForceMode::eVELOCITY_CHANGE);
+                    }
+                }
+            }
+        }
+    }
+    PendingActors.Empty();
+
     t += DeltaTime;
     if (t > SpawnInterval)
     {
@@ -132,21 +158,7 @@ void AShootingTrap::Shoot()
 {
     AActor* Actor = SpawnInternal();
 
-    for (UPrimitiveComponent* PrimitiveComponent : Actor->GetComponentsByClass<UPrimitiveComponent>())
-    {
-        if (PrimitiveComponent->BodyInstance && PrimitiveComponent->BodyInstance->BIGameObject)
-        {
-            if (PrimitiveComponent->BodyInstance->BIGameObject->DynamicRigidBody)
-            {
-                if (PrimitiveComponent->BodyInstance->BIGameObject->DynamicRigidBody->getType() == PxActorType::eRIGID_DYNAMIC)
-                {
-                    FVector FVecForce = (GetActorForwardVector() * ForceDirectionDistribution.GetValue()).GetSafeNormal() * (ShootForceScalar * ForceDistribution.GetValue());
-                    PxVec3 Force = PxVec3(FVecForce.X, FVecForce.Y, FVecForce.Z);
-                    PrimitiveComponent->BodyInstance->BIGameObject->DynamicRigidBody->addForce(Force, PxForceMode::eVELOCITY_CHANGE);
-                }
-            }
-        }
-    } 
+    PendingActors.Add(Actor);
 }
 
 AActor* AShootingTrap::SpawnInternal()
@@ -154,6 +166,7 @@ AActor* AShootingTrap::SpawnInternal()
     AActor* Actor = GetWorld()->SpawnActor(DuplicateTargetActor);
     Actor->SetActorLocation(GetActorLocation() + SpawnLocation);
     Actor->SetActorRotation(GetActorRotation() + SpawnDirection);
+    Actor->SetActorScale(SpawnScale);
     SpawnedActors.Add(Actor, FSpawnInfo{ Actor, 0 });
 
     return Actor;

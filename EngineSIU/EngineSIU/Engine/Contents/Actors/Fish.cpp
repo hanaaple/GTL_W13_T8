@@ -18,12 +18,15 @@ void AFish::PostSpawnInitialize()
 {
     Super::PostSpawnInitialize();
     SetActorLabel(TEXT("OBJ_FISH"));
+}
 
+void AFish::BeginPlay()
+{
     AggregateGeomAttributes GeomAttributes;
     GeomAttributes.GeomType = EGeomType::ECapsule;
     GeomAttributes.Offset = FVector(0, 8, 0);
     GeomAttributes.Rotation = FRotator(0, 90, 0); 
-    GeomAttributes.Extent = FVector(4.8, 1, 16.8);
+    GeomAttributes.Extent = FVector(4.8, 1, 16.8) * GetActorScale();
 
     StaticMeshComponent->RigidBodyType = ERigidBodyType::DYNAMIC;
     StaticMeshComponent->bApplyGravity = true;
@@ -65,4 +68,6 @@ void AFish::PostSpawnInitialize()
 
     StaticMeshComponent->SetSimulate(false);
     StaticMeshComponent->SetSimulate(true);
+
+    Super::BeginPlay();
 }

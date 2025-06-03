@@ -16,9 +16,11 @@ protected:
     };
 
 public:
-    ASpringTrap();
+    ASpringTrap() = default;
     virtual ~ASpringTrap() override = default;
 
+    virtual void PostSpawnInitialize() override;
+    
     virtual void Tick(float DeltaTime) override;
 
     virtual void GetProperties(TMap<FString, FString>& OutProperties) const override;
@@ -32,6 +34,8 @@ protected:
 
 public:
     UPROPERTY(EditAnywhere, bool, bEnabled, = false)
+
+    UPROPERTY(EditAnywhere, float, InitialCooldown, = 1)
     UPROPERTY(EditAnywhere, float, ShootCoolDown, = 1)
     UPROPERTY(EditAnywhere, float, ChargeCoolDown, = 1)
 

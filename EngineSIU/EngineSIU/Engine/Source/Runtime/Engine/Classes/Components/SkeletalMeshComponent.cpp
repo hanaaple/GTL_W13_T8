@@ -678,8 +678,8 @@ void USkeletalMeshComponent::DestroyPhysXGameObject()
         }
         delete Constraint;
     }
-    
-    if (SkeletalMeshAsset != nullptr)
+
+    if (SkeletalMeshAsset && SkeletalMeshAsset->GetPhysicsAsset())
     {
         for (UBodySetup* Body : SkeletalMeshAsset->GetPhysicsAsset()->BodySetups)
         {

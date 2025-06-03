@@ -9,9 +9,10 @@ class AFish : public AActor
 public:
     AFish();
 
-    virtual void PostSpawnInitialize() override;
-    
     virtual ~AFish() override = default;
+    
+    virtual void PostSpawnInitialize() override;
+    virtual void BeginPlay() override;
 
     UPROPERTY
     (class UStaticMeshComponent*, StaticMeshComponent, = nullptr);

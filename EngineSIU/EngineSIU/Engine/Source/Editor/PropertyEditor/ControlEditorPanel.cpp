@@ -362,6 +362,13 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                 AActor* SpawnedActor = nullptr;
                 switch (Primitive)
                 {
+                case ESpawnObjectTypes::Actor:
+                {
+                    AActor* Actor = World->SpawnActor<AActor>();
+                    Actor->SetActorLabel(TEXT("ACTOR"));
+                    SpawnedActor = Actor;
+                    break;
+                }
                 case ESpawnObjectTypes::Sphere:
                 {
                     ASphere* SphereActor = World->SpawnActor<ASphere>();

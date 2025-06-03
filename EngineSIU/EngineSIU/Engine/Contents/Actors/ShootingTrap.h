@@ -34,9 +34,10 @@ public:
     UPROPERTY(EditAnywhere, float, ShootForceScalar, = 1)
     UPROPERTY(EditAnywhere, FRotator, SpawnDirection, = FRotator::ZeroRotator)
     UPROPERTY(EditAnywhere, FVector, SpawnLocation, = FVector::ZeroVector)
+    UPROPERTY(EditAnywhere, FVector, SpawnScale, = FVector::OneVector)
 
-    UPROPERTY(EditAnywhere, FDistributionFloat, ForceDistribution, = FDistributionFloat(1, 1))
-    UPROPERTY(EditAnywhere, FDistributionVector, ForceDirectionDistribution, = FDistributionVector(FVector::OneVector, FVector::OneVector))
+    UPROPERTY(EditAnywhere, FDistributionFloat, ForceDistribution, = FDistributionFloat(0, 0))
+    UPROPERTY(EditAnywhere, FDistributionVector, ForceDirectionDistribution, = FDistributionVector(FVector::ZeroVector, FVector::ZeroVector))
     
 
     UPROPERTY(EditAnywhere, TSubclassOf<AActor>, DuplicateTargetActor, = nullptr)
@@ -51,4 +52,6 @@ private:
     };
     float t = 0;
     TMap<AActor*, FSpawnInfo> SpawnedActors;
+
+    TArray<AActor*> PendingActors;
 };

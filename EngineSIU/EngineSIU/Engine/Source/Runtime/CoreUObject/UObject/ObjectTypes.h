@@ -3,6 +3,8 @@
 
 enum class ESpawnObjectTypes : uint8
 {
+    Actor,
+    
     Cube,
     Sphere,
 

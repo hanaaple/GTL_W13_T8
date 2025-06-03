@@ -31,9 +31,15 @@ void ATranslateSpringTrap::UpdateState(float DeltaTime)
     {
         return;
     }
+    
+    if (InitialCooldown > 0.f)
+    {
+        InitialCooldown -= DeltaTime;
+        return;
+    }
 
     Super::UpdateState(DeltaTime);
-
+    
     if (TrapState == ETrapState::WaitShootCooldown)
     {
         CooldownTimer += DeltaTime;
@@ -50,16 +56,16 @@ void ATranslateSpringTrap::UpdateState(float DeltaTime)
     else if (TrapState == ETrapState::Shoot)
     {
         FVector ActorLocation = GetActorLocation();
-        FVector TranslateVector = (Target - ActorLocation).GetSafeNormal() * ShootSpeed * DeltaTime;
+        FVector TranslateVector = ((Target + Origin) - ActorLocation).GetSafeNormal() * ShootSpeed * DeltaTime;
 
-        if ((Target - ActorLocation).Length() < TranslateVector.Length())
+        if (((Target + Origin) - ActorLocation).Length() < TranslateVector.Length())
         {
-            TranslateVector = Target - ActorLocation;
+            TranslateVector = (Target + Origin) - ActorLocation;
         }
         
         AddActorLocation(TranslateVector);
 
-        if (FVector::Distance(Target, ActorLocation) < 0.1)
+        if (FVector::Distance((Target + Origin), ActorLocation) < 0.1)
         {
             SetTrapState(ETrapState::WaitChargeCooldown);
         }

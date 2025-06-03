@@ -32,6 +32,12 @@ void ARotateSpringTrap::UpdateState(float DeltaTime)
         return;
     }
 
+    if (InitialCooldown > 0.f)
+    {
+        InitialCooldown -= DeltaTime;
+        return;
+    }
+    
     Super::UpdateState(DeltaTime);
 
     if (TrapState == ETrapState::WaitShootCooldown)
@@ -52,7 +58,7 @@ void ARotateSpringTrap::UpdateState(float DeltaTime)
         FRotator ActorRotation = GetActorRotation();
         
         FQuat CurrentQuat = ActorRotation.Quaternion();
-        FQuat TargetQuat = Target.Quaternion();
+        FQuat TargetQuat = (Target + Origin).Quaternion();
 
         FQuat DeltaQuat = TargetQuat * CurrentQuat.Inverse();
 

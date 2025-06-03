@@ -2,6 +2,9 @@
 #include "Pawn.h"
 #include "PlayerController.h"
 #include "PlayerStart.h"
+#include "Engine/Engine.h"
+#include "LevelEditor/SLevelEditor.h"
+#include "UnrealEd/EditorViewportClient.h"
 #include "UObject/UObjectIterator.h"
 #include "World/World.h"
 
@@ -21,11 +24,21 @@ void AGameModeBase::InitGame()
     PlayerControllerInstance = NewPC;
     UE_LOG(ELogLevel::Display, "Spawned PlayerController: %s", *NewPC->GetName());
 
-    const AActor* PlayerStart = FindPlayerStart();
+    AActor* PlayerStart = FindPlayerStart();
     APawn* NewPawn = World->SpawnActor<APawn>(DefaultPawnClass);
     NewPawn->SetActorLocation(PlayerStart->GetActorLocation());
     NewPawn->SetActorRotation(PlayerStart->GetActorRotation());
     NewPawn->SetActorScale(PlayerStart->GetActorScale());
+
+    // Test Code
+    NewPawn->SetActorLocation(GEngineLoop.GetLevelEditor()->GetActiveViewportClient()->GetPerspectiveCamera()->GetLocation());
+    FVector Rotation = GEngineLoop.GetLevelEditor()->GetActiveViewportClient()->GetPerspectiveCamera()->GetRotation();
+    FRotator Rotator;
+    Rotator.Roll = Rotation.X;
+    Rotator.Pitch = -Rotation.Y;
+    Rotator.Yaw = Rotation.Z;
+    NewPawn->SetActorRotation(Rotator);
+    
     NewPC->Possess(NewPawn);
     UE_LOG(ELogLevel::Display, "Spawned Pawn: %s", *NewPawn->GetName());
 }

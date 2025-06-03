@@ -3,7 +3,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "World/World.h"
 
-ATranslatePatrolPlatform::ATranslatePatrolPlatform()
+void ATranslatePatrolPlatform::BeginPlay()
 {
     for (UPrimitiveComponent* PrimitiveComponent : GetComponentsByClass<UPrimitiveComponent>())
     {
@@ -11,8 +11,12 @@ ATranslatePatrolPlatform::ATranslatePatrolPlatform()
         PrimitiveComponent->bApplyGravity = false;
         PrimitiveComponent->SetSimulate(true);
     }
+    
+    Super::BeginPlay();
 
-    SetActorLocation(TargetA);
+    Origin = GetActorLocation();
+
+    SetActorLocation(Origin + TargetA);
 }
 
 void ATranslatePatrolPlatform::Tick(float DeltaTime)
@@ -22,16 +26,17 @@ void ATranslatePatrolPlatform::Tick(float DeltaTime)
     if (GetWorld()->WorldType == EWorldType::PIE)
     {
         FVector ActorLocation = GetActorLocation();
-        if (FVector::Distance(TargetA, ActorLocation) < 1)
+        if (FVector::Distance(TargetA + Origin, ActorLocation) < 1)
         {
             Target = ETarget::TargetB;
         }
-        else if (FVector::Distance(TargetB, ActorLocation) < 1)
+        else if (FVector::Distance(TargetB + Origin, ActorLocation) < 1)
         {
             Target = ETarget::TargetA;
         }
 
         FVector TargetPos = Target == ETarget::TargetA ? TargetA : TargetB;
+        TargetPos += Origin;
         
         FVector TranslateVector = (TargetPos - ActorLocation).GetSafeNormal() * Speed * DeltaTime;
 
