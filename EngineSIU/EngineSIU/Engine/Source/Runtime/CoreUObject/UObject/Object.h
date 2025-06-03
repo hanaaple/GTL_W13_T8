@@ -59,6 +59,7 @@ private:
     UClass* ClassPrivate = nullptr;
     UObject* OuterPrivate = nullptr;
 
+public:
     // FName을 키값으로 넣어주는 컨테이너를 모두 업데이트 해야합니다.
     void SetFName(const FName& InName) { NamePrivate = InName; }
 

@@ -934,7 +934,7 @@ UStaticMesh* FObjManager::CreateStaticMesh(const FString& FilePath)
         return StaticMesh;
     }
 
-    StaticMesh = FObjectFactory::ConstructObject<UStaticMesh>(nullptr); // TODO: 추후 AssetManager를 생성해서 관리.
+    StaticMesh = FObjectFactory::ConstructObject<UStaticMesh>(nullptr, StaticMeshRenderData->DisplayName); // TODO: 추후 AssetManager를 생성해서 관리.
     StaticMesh->SetData(StaticMeshRenderData);
 
     StaticMeshMap.Add(StaticMeshRenderData->ObjectName, StaticMesh); // TODO: 장기적으로 보면 파일 이름 대신 경로를 Key로 사용하는게 좋음.

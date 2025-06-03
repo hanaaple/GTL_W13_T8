@@ -204,7 +204,9 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\FBX\lib\x64\$
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Contents\Actors\Fish.cpp" />
     <ClCompile Include="Engine\Contents\Actors\RotateSpringTrap.cpp" />
+    <ClCompile Include="Engine\Contents\Actors\ShootingTrap.cpp" />
     <ClCompile Include="Engine\Contents\Actors\SpringTrap.cpp" />
     <ClCompile Include="Engine\Contents\Actors\TranslatePatrolPlatform.cpp" />
     <ClCompile Include="Engine\Contents\Actors\RotatePatrolPlatform.cpp" />
@@ -523,7 +525,9 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\FBX\lib\x64\$
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Contents\Actors\Fish.h" />
     <ClInclude Include="Engine\Contents\Actors\RotateSpringTrap.h" />
+    <ClInclude Include="Engine\Contents\Actors\ShootingTrap.h" />
     <ClInclude Include="Engine\Contents\Actors\SpringTrap.h" />
     <ClInclude Include="Engine\Contents\Actors\TranslatePatrolPlatform.h" />
     <ClInclude Include="Engine\Contents\Actors\RotatePatrolPlatform.h" />

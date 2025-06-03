@@ -11,6 +11,7 @@
 #include "UnrealEd/SceneManager.h"
 #include "GameFramework/GameMode.h"
 #include "Classes/Components/TextComponent.h"
+#include "Engine/EditorEngine.h"
 
 class UEditorEngine;
 
@@ -166,9 +167,15 @@ bool UWorld::DestroyActor(AActor* ThisActor)
         return true;
     }
     
-    // UEditorEngine* Engine = Cast<UEditorEngine>(GEngine);
-    //
-    // Engine->DeselectActor(ThisActor);
+    if (UEditorEngine* Engine = Cast<UEditorEngine>(GEngine))
+    {
+        Engine->DeselectActor(ThisActor);
+
+        for (USceneComponent* Component : ThisActor->GetComponentsByClass<USceneComponent>())
+        {
+            Engine->DeselectComponent(Component);
+        }
+    }
 
     // 액터의 Destroyed 호출
     ThisActor->Destroyed();
