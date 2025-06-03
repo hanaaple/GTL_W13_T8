@@ -1,4 +1,7 @@
 {
+    "Version": 1,
+    "NextUUID": 0,
+    "GameModeName": "AGameMode",
     "Actors": [
         {
             "ActorClass": "ASphere",
@@ -295,7 +298,7 @@
         {
             "ActorClass": "ATranslatePatrolPlatform",
             "ActorID": "CopyOf_ATranslatePatrolPlatform_305",
-            "ActorLabel": "OBJ_Translate_Patrol_Platform_305",
+            "ActorLabel": "OBJ_Translate_Patrol_Platform_306",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -473,7 +476,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_ACube_324",
-            "ActorLabel": "OBJ_CUBE_324",
+            "ActorLabel": "OBJ_CUBE_325",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -537,7 +540,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
-            "ActorLabel": "OBJ_CUBE_324",
+            "ActorLabel": "OBJ_CUBE_326",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -664,7 +667,7 @@
         {
             "ActorClass": "ATranslateSpringTrap",
             "ActorID": "CopyOf_ATranslateSpringTrap_351",
-            "ActorLabel": "OBJ_Translate_SpringTrap_351",
+            "ActorLabel": "OBJ_Translate_SpringTrap_352",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -727,7 +730,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
-            "ActorLabel": "OBJ_CUBE_324",
+            "ActorLabel": "OBJ_CUBE_327",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -791,7 +794,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
-            "ActorLabel": "OBJ_CUBE_324",
+            "ActorLabel": "OBJ_CUBE_328",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -1100,7 +1103,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_ACube_397",
-            "ActorLabel": "OBJ_CUBE_397",
+            "ActorLabel": "OBJ_CUBE_398",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -1164,7 +1167,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_ACube_397",
-            "ActorLabel": "OBJ_CUBE_397",
+            "ActorLabel": "OBJ_CUBE_399",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -1228,7 +1231,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_CopyOf_ACube_397",
-            "ActorLabel": "OBJ_CUBE_397",
+            "ActorLabel": "OBJ_CUBE_400",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -1292,7 +1295,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_397",
-            "ActorLabel": "OBJ_CUBE_397",
+            "ActorLabel": "OBJ_CUBE_401",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -1356,7 +1359,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_397",
-            "ActorLabel": "OBJ_CUBE_397",
+            "ActorLabel": "OBJ_CUBE_402",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -1420,7 +1423,7 @@
         {
             "ActorClass": "ARotateSpringTrap",
             "ActorID": "CopyOf_ARotateSpringTrap_393",
-            "ActorLabel": "OBJ_Rotate_SpringTrap_393",
+            "ActorLabel": "OBJ_Rotate_SpringTrap_394",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -1483,7 +1486,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_ACube_397",
-            "ActorLabel": "OBJ_CUBE_397",
+            "ActorLabel": "OBJ_CUBE_403",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -1547,7 +1550,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_ACube_397",
-            "ActorLabel": "OBJ_CUBE_397",
+            "ActorLabel": "OBJ_CUBE_404",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -1650,7 +1653,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_ACube_447",
-            "ActorLabel": "OBJ_CUBE_447",
+            "ActorLabel": "OBJ_CUBE_448",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -1714,7 +1717,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_ACube_447",
-            "ActorLabel": "OBJ_CUBE_447",
+            "ActorLabel": "OBJ_CUBE_449",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -1778,7 +1781,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_CopyOf_ACube_447",
-            "ActorLabel": "OBJ_CUBE_447",
+            "ActorLabel": "OBJ_CUBE_450",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -1842,7 +1845,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
-            "ActorLabel": "OBJ_CUBE_447",
+            "ActorLabel": "OBJ_CUBE_451",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -1906,7 +1909,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
-            "ActorLabel": "OBJ_CUBE_447",
+            "ActorLabel": "OBJ_CUBE_452",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -1970,7 +1973,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
-            "ActorLabel": "OBJ_CUBE_447",
+            "ActorLabel": "OBJ_CUBE_453",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -2034,7 +2037,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
-            "ActorLabel": "OBJ_CUBE_447",
+            "ActorLabel": "OBJ_CUBE_454",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -2098,7 +2101,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
-            "ActorLabel": "OBJ_CUBE_447",
+            "ActorLabel": "OBJ_CUBE_455",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -2704,7 +2707,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_ACube_1460",
-            "ActorLabel": "OBJ_CUBE_1460",
+            "ActorLabel": "OBJ_CUBE_1461",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -2764,7 +2767,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_ACube_1460",
-            "ActorLabel": "OBJ_CUBE_1460",
+            "ActorLabel": "OBJ_CUBE_1462",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -2824,7 +2827,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_ACube_1460",
-            "ActorLabel": "OBJ_CUBE_1460",
+            "ActorLabel": "OBJ_CUBE_1463",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -2884,7 +2887,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_CopyOf_ACube_1460",
-            "ActorLabel": "OBJ_CUBE_1460",
+            "ActorLabel": "OBJ_CUBE_1464",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -3225,7 +3228,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_ACube_10330",
-            "ActorLabel": "OBJ_CUBE_10330",
+            "ActorLabel": "OBJ_CUBE_10331",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -3301,7 +3304,7 @@
         {
             "ActorClass": "ACube",
             "ActorID": "CopyOf_CopyOf_ACube_324",
-            "ActorLabel": "OBJ_CUBE_324",
+            "ActorLabel": "OBJ_CUBE_329",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -3365,7 +3368,7 @@
         {
             "ActorClass": "AShootingTrap",
             "ActorID": "CopyOf_AShootingTrap_500",
-            "ActorLabel": "OBJ_ShootingTrap_500",
+            "ActorLabel": "OBJ_ShootingTrap_501",
             "ActorTickInEditor": "false",
             "Components": [
                 {
@@ -3473,8 +3476,5 @@
             },
             "RootComponentID": "CopyOf_USceneComponent_501"
         }
-    ],
-    "GameModeName": "AGameMode",
-    "NextUUID": 0,
-    "Version": 1
+    ]
 }
