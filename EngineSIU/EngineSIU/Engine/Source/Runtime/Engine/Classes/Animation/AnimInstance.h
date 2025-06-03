@@ -32,8 +32,14 @@ public:
     void TriggerAnimNotifies(float DeltaSeconds);
 
     USkeleton* GetCurrentSkeleton() const { return CurrentSkeleton; }
+
+    virtual void RegisterAnimState(FString InStateName, FString InAnimName);
+
+    virtual void UnregisterAnimState(FString InStateName);
     
-    virtual void SetAnimState(EAnimState InAnimState);
+    virtual void SetAnimState(FString InAnimState);
+    
+    virtual UAnimSequence* GetAnimSequence(FString InAnimState);
 
     virtual UAnimStateMachine* GetStateMachine() const;
 
@@ -44,6 +50,14 @@ public:
     virtual float GetBlendDuration() const;
 
     virtual void SetBlendDuration(float InBlendDuration);
+
+    FString GetCurrentState() const;
+
+    TMap<FString, UAnimSequence*> GetAnimSequenceMap() const;
+protected:
+    TMap<FString, UAnimSequence*> AnimSequenceMap;
+
+    FString CurrentState = "None";
 private:
     UPROPERTY(ShallowCopy, USkeleton*, CurrentSkeleton, = nullptr)
     

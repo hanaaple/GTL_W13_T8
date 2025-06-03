@@ -55,4 +55,7 @@ private:
     float NewNotifyTime = 0.0f;
     float RenameNotifyDuration = 1.0f; 
 
+    FString NameAnimSeq;
+    FString NameAnimSeqFullPath;
+    TCHAR NameStateBuffer[256] = "";
 };
