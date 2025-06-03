@@ -1,0 +1,2308 @@
+{
+    "Actors": [
+        {
+            "ActorClass": "ASphere",
+            "ActorID": "ASphere_285",
+            "ActorLabel": "OBJ_SPHERE_285",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=381.476 Y=381.475 Z=381.476",
+                        "AABB_min": "X=-381.475 Y=-381.476 Z=-381.476",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "ASphere_285",
+                        "ComponentOwnerClass": "ASphere",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=50.000 Y=50.000 Z=50.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Skysphere/Skysphere.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "ACube_288",
+            "ActorLabel": "OBJ_CUBE_288",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=10.487 Y=10.369 Z=3.303",
+                        "AABB_min": "X=-10.487 Y=-10.370 Z=-3.303",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "ACube_288",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=200.000 Y=200.000 Z=60.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=-73.548 Y=0.000 Z=-65.584",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=20.000 Y=20.000 Z=20.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_A.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "AActor",
+            "ActorID": "AActor_291",
+            "ActorLabel": "OBJ_SKELETALMESH_291",
+            "ActorTickInEditor": "true",
+            "Components": [
+                {
+                    "ComponentClass": "USkeletalMeshComponent",
+                    "ComponentID": "USkeletalMeshComponent_293",
+                    "Properties": {
+                        "AABB_max": "X=16.935 Y=85.118 Z=172.542",
+                        "AABB_min": "X=-17.117 Y=-85.258 Z=-0.002",
+                        "AnimClass": "None",
+                        "AnimToPlay": "None",
+                        "AnimationMode": "1",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "USkeletalMeshComponent",
+                        "ComponentName": "USkeletalMeshComponent_293",
+                        "ComponentOwner": "AActor_291",
+                        "ComponentOwnerClass": "AActor",
+                        "GeomAttributeNum": "0",
+                        "LoopEndFrame": "0",
+                        "LoopStartFrame": "0",
+                        "PlayRate": "1.000000",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "SkeletalMeshKey": "Contents/Character/Paladin_J_Nordstrom",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bLooping": "true",
+                        "bPlaying": "true",
+                        "bReverse": "false",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "USkeletalMeshComponent_293"
+        },
+        {
+            "ActorClass": "ATranslatePatrolPlatform",
+            "ActorID": "ATranslatePatrolPlatform_305",
+            "ActorLabel": "OBJ_Translate_Patrol_Platform_305",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "USceneComponent_306",
+                    "Properties": {
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "USceneComponent_306",
+                        "ComponentOwner": "ATranslatePatrolPlatform_305",
+                        "ComponentOwnerClass": "ATranslatePatrolPlatform",
+                        "RelativeLocation": "X=225.799 Y=89.752 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "UStaticMeshComponent_307",
+                    "Properties": {
+                        "AABB_max": "X=10.487 Y=10.369 Z=3.303",
+                        "AABB_min": "X=-10.487 Y=-10.370 Z=-3.303",
+                        "AttachParentID": "USceneComponent_306",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "UStaticMeshComponent_307",
+                        "ComponentOwner": "ATranslatePatrolPlatform_305",
+                        "ComponentOwnerClass": "ATranslatePatrolPlatform",
+                        "GeomAttribute 0Extent": "X=100.000 Y=100.000 Z=3.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=56.251 Y=43.998 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=10.000 Y=10.000 Z=1.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_A.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {
+                "PlatformSpeed": "1.000000",
+                "PlatformTargetA": "X=0.000 Y=0.000 Z=0.000",
+                "PlatformTargetB": "X=1.000 Y=1.000 Z=1.000"
+            },
+            "RootComponentID": "USceneComponent_306"
+        },
+        {
+            "ActorClass": "ATranslatePatrolPlatform",
+            "ActorID": "CopyOf_ATranslatePatrolPlatform_305",
+            "ActorLabel": "OBJ_Translate_Patrol_Platform_305",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "CopyOf_USceneComponent_306",
+                    "Properties": {
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "CopyOf_USceneComponent_306",
+                        "ComponentOwner": "CopyOf_ATranslatePatrolPlatform_305",
+                        "ComponentOwnerClass": "ATranslatePatrolPlatform",
+                        "RelativeLocation": "X=299.169 Y=-69.748 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_UStaticMeshComponent_307",
+                    "Properties": {
+                        "AABB_max": "X=10.487 Y=10.369 Z=3.303",
+                        "AABB_min": "X=-10.487 Y=-10.370 Z=-3.303",
+                        "AttachParentID": "CopyOf_USceneComponent_306",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_UStaticMeshComponent_307",
+                        "ComponentOwner": "CopyOf_ATranslatePatrolPlatform_305",
+                        "ComponentOwnerClass": "ATranslatePatrolPlatform",
+                        "GeomAttribute 0Extent": "X=100.000 Y=100.000 Z=3.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=171.188 Y=-25.039 Z=33.567",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=10.000 Y=10.000 Z=1.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_A.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {
+                "PlatformSpeed": "1.000000",
+                "PlatformTargetA": "X=0.000 Y=0.000 Z=0.000",
+                "PlatformTargetB": "X=1.000 Y=1.000 Z=1.000"
+            },
+            "RootComponentID": "CopyOf_USceneComponent_306"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "ACube_324",
+            "ActorLabel": "OBJ_CUBE_324",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=4.663 Y=5.191 Z=2.488",
+                        "AABB_min": "X=-4.663 Y=-5.191 Z=-2.488",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=225.000 Y=225.000 Z=115.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=929.932 Y=-196.885 Z=22.412",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=50.000 Y=50.000 Z=50.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_E.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_ACube_324",
+            "ActorLabel": "OBJ_CUBE_324",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=4.663 Y=5.191 Z=2.488",
+                        "AABB_min": "X=-4.663 Y=-5.191 Z=-2.488",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=225.000 Y=225.000 Z=115.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=1042.790 Y=-412.010 Z=29.610",
+                        "RelativeRotation": "Pitch=0.000 Yaw=48.800 Roll=-0.000",
+                        "RelativeScale3D": "X=50.000 Y=50.000 Z=50.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_E.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_ACube_324",
+            "ActorLabel": "OBJ_CUBE_324",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=4.663 Y=5.191 Z=2.488",
+                        "AABB_min": "X=-4.663 Y=-5.191 Z=-2.488",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=225.000 Y=225.000 Z=115.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=1307.790 Y=-167.510 Z=17.510",
+                        "RelativeRotation": "Pitch=0.000 Yaw=130.700 Roll=-0.000",
+                        "RelativeScale3D": "X=50.000 Y=50.000 Z=50.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_E.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_CopyOf_ACube_324",
+            "ActorLabel": "OBJ_CUBE_324",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=4.663 Y=5.191 Z=2.488",
+                        "AABB_min": "X=-4.663 Y=-5.191 Z=-2.488",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=225.000 Y=225.000 Z=115.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=1066.890 Y=47.190 Z=17.510",
+                        "RelativeRotation": "Pitch=0.000 Yaw=42.100 Roll=-0.000",
+                        "RelativeScale3D": "X=50.000 Y=50.000 Z=50.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_E.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
+            "ActorLabel": "OBJ_CUBE_324",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=4.663 Y=5.191 Z=2.488",
+                        "AABB_min": "X=-4.663 Y=-5.191 Z=-2.488",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=225.000 Y=225.000 Z=115.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=1563.590 Y=467.500 Z=17.510",
+                        "RelativeRotation": "Pitch=0.000 Yaw=42.100 Roll=-0.000",
+                        "RelativeScale3D": "X=50.000 Y=50.000 Z=50.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_E.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ATranslateSpringTrap",
+            "ActorID": "ATranslateSpringTrap_351",
+            "ActorLabel": "OBJ_Translate_SpringTrap_351",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "USceneComponent_352",
+                    "Properties": {
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "USceneComponent_352",
+                        "ComponentOwner": "ATranslateSpringTrap_351",
+                        "ComponentOwnerClass": "ATranslateSpringTrap",
+                        "RelativeLocation": "X=1699.706 Y=-117.963 Z=173.800",
+                        "RelativeRotation": "Pitch=0.000 Yaw=42.398 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "UStaticMeshComponent_353",
+                    "Properties": {
+                        "AABB_max": "X=0.150 Y=0.150 Z=0.271",
+                        "AABB_min": "X=-0.150 Y=-0.150 Z=-0.150",
+                        "AttachParentID": "USceneComponent_352",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "UStaticMeshComponent_353",
+                        "ComponentOwner": "ATranslateSpringTrap_351",
+                        "ComponentOwnerClass": "ATranslateSpringTrap",
+                        "GeomAttribute 0Extent": "X=80.000 Y=80.000 Z=80.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "0",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=-9.000 Yaw=0.000 Roll=-90.000",
+                        "RelativeScale3D": "X=500.000 Y=500.000 Z=500.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/Bomb/Bomb.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {
+                "SpringTrapChargeCoolDown": "1.000000",
+                "SpringTrapChargeSpeed": "1.000000",
+                "SpringTrapEnabled": "false",
+                "SpringTrapShootCoolDown": "1.000000",
+                "SpringTrapShootSpeed": "1.000000",
+                "SpringTrapTarget": "X=0.000 Y=0.000 Z=0.000"
+            },
+            "RootComponentID": "USceneComponent_352"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
+            "ActorLabel": "OBJ_CUBE_324",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=4.663 Y=5.191 Z=2.488",
+                        "AABB_min": "X=-4.663 Y=-5.191 Z=-2.488",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=225.000 Y=225.000 Z=115.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=1563.590 Y=467.500 Z=17.510",
+                        "RelativeRotation": "Pitch=0.000 Yaw=42.100 Roll=-0.000",
+                        "RelativeScale3D": "X=50.000 Y=50.000 Z=50.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_E.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ATranslateSpringTrap",
+            "ActorID": "CopyOf_ATranslateSpringTrap_351",
+            "ActorLabel": "OBJ_Translate_SpringTrap_351",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "CopyOf_USceneComponent_352",
+                    "Properties": {
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "CopyOf_USceneComponent_352",
+                        "ComponentOwner": "CopyOf_ATranslateSpringTrap_351",
+                        "ComponentOwnerClass": "ATranslateSpringTrap",
+                        "RelativeLocation": "X=1699.706 Y=-117.963 Z=405.066",
+                        "RelativeRotation": "Pitch=0.000 Yaw=42.398 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_UStaticMeshComponent_353",
+                    "Properties": {
+                        "AABB_max": "X=0.150 Y=0.150 Z=0.271",
+                        "AABB_min": "X=-0.150 Y=-0.150 Z=-0.150",
+                        "AttachParentID": "CopyOf_USceneComponent_352",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_UStaticMeshComponent_353",
+                        "ComponentOwner": "CopyOf_ATranslateSpringTrap_351",
+                        "ComponentOwnerClass": "ATranslateSpringTrap",
+                        "GeomAttribute 0Extent": "X=80.000 Y=80.000 Z=80.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "0",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=-9.000 Yaw=0.000 Roll=-90.000",
+                        "RelativeScale3D": "X=500.000 Y=500.000 Z=500.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/Bomb/Bomb.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {
+                "SpringTrapChargeCoolDown": "1.000000",
+                "SpringTrapChargeSpeed": "1.000000",
+                "SpringTrapEnabled": "false",
+                "SpringTrapShootCoolDown": "1.000000",
+                "SpringTrapShootSpeed": "1.000000",
+                "SpringTrapTarget": "X=0.000 Y=0.000 Z=0.000"
+            },
+            "RootComponentID": "CopyOf_USceneComponent_352"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
+            "ActorLabel": "OBJ_CUBE_324",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=13.770 Y=4.692 Z=1.868",
+                        "AABB_min": "X=-13.769 Y=-4.692 Z=-1.868",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=650.000 Y=210.000 Z=80.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=3078.948 Y=1325.283 Z=33.722",
+                        "RelativeRotation": "Pitch=0.000 Yaw=42.100 Roll=-0.000",
+                        "RelativeScale3D": "X=50.000 Y=50.000 Z=50.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_D.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
+            "ActorLabel": "OBJ_CUBE_324",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=13.770 Y=4.692 Z=1.868",
+                        "AABB_min": "X=-13.769 Y=-4.692 Z=-1.868",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=650.000 Y=210.000 Z=80.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=2307.990 Y=628.666 Z=33.722",
+                        "RelativeRotation": "Pitch=0.000 Yaw=42.100 Roll=-0.000",
+                        "RelativeScale3D": "X=50.000 Y=50.000 Z=50.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_D.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ARotatePatrolPlatform",
+            "ActorID": "CopyOf_ARotatePatrolPlatform_378",
+            "ActorLabel": "OBJ_Rotate_Patrol_Platform_378",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_UStaticMeshComponent_380",
+                    "Properties": {
+                        "AABB_max": "X=70.027 Y=0.384 Z=82.014",
+                        "AABB_min": "X=-78.133 Y=-376.344 Z=-72.744",
+                        "AttachParentID": "CopyOf_USceneComponent_379",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_UStaticMeshComponent_380",
+                        "ComponentOwner": "CopyOf_ARotatePatrolPlatform_378",
+                        "ComponentOwnerClass": "ARotatePatrolPlatform",
+                        "GeomAttribute 0Extent": "X=50.000 Y=190.000 Z=50.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=-190.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "0",
+                        "StaticMeshPath": "Contents/Totem/Totem.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "CopyOf_USceneComponent_379",
+                    "Properties": {
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "CopyOf_USceneComponent_379",
+                        "ComponentOwner": "CopyOf_ARotatePatrolPlatform_378",
+                        "ComponentOwnerClass": "ARotatePatrolPlatform",
+                        "RelativeLocation": "X=2522.031 Y=520.090 Z=178.735",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                }
+            ],
+            "Properties": {
+                "PlatformAngularSpeed": "1.000000",
+                "PlatformTargetA": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                "PlatformTargetB": "Pitch=30.000 Yaw=30.000 Roll=30.000"
+            },
+            "RootComponentID": "CopyOf_USceneComponent_379"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
+            "ActorLabel": "OBJ_CUBE_324",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=7.230 Y=10.056 Z=3.114",
+                        "AABB_min": "X=-7.230 Y=-10.056 Z=-3.114",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=300.000 Y=225.000 Z=100.000",
+                        "GeomAttribute 0Offset": "X=13.800 Y=-144.300 Z=44.800",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=-41.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttribute 1Extent": "X=300.000 Y=225.000 Z=100.000",
+                        "GeomAttribute 1Offset": "X=-13.400 Y=245.900 Z=-62.800",
+                        "GeomAttribute 1Rotation": "Pitch=-1.000 Yaw=-7.800 Roll=0.000",
+                        "GeomAttribute 1Type": "1",
+                        "GeomAttributeNum": "2",
+                        "RelativeLocation": "X=4281.434 Y=1872.446 Z=17.437",
+                        "RelativeRotation": "Pitch=0.000 Yaw=96.531 Roll=-0.000",
+                        "RelativeScale3D": "X=50.000 Y=50.000 Z=50.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_C.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ARotateSpringTrap",
+            "ActorID": "ARotateSpringTrap_393",
+            "ActorLabel": "OBJ_Rotate_SpringTrap_393",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "USceneComponent_373",
+                    "Properties": {
+                        "AttachParentID": "USceneComponent_394",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "USceneComponent_373",
+                        "ComponentOwner": "ARotateSpringTrap_393",
+                        "ComponentOwnerClass": "ARotateSpringTrap",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "USceneComponent_394",
+                    "Properties": {
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "USceneComponent_394",
+                        "ComponentOwner": "ARotateSpringTrap_393",
+                        "ComponentOwnerClass": "ARotateSpringTrap",
+                        "RelativeLocation": "X=4508.075 Y=1598.282 Z=139.472",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "UStaticMeshComponent_395",
+                    "Properties": {
+                        "AABB_max": "X=10.487 Y=10.369 Z=3.303",
+                        "AABB_min": "X=-10.487 Y=-10.370 Z=-3.303",
+                        "AttachParentID": "USceneComponent_394",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "UStaticMeshComponent_395",
+                        "ComponentOwner": "ARotateSpringTrap_393",
+                        "ComponentOwnerClass": "ARotateSpringTrap",
+                        "GeomAttribute 0Extent": "X=200.000 Y=200.000 Z=60.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=838.159 Y=150.840 Z=-85.700",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-32.658 Roll=-0.000",
+                        "RelativeScale3D": "X=20.000 Y=20.000 Z=20.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_A.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {
+                "SpringTrapChargeCoolDown": "1.000000",
+                "SpringTrapChargeSpeed": "1.000000",
+                "SpringTrapEnabled": "false",
+                "SpringTrapShootCoolDown": "1.000000",
+                "SpringTrapShootSpeed": "1.000000",
+                "SpringTrapTarget": "Pitch=0.000 Yaw=0.000 Roll=0.000"
+            },
+            "RootComponentID": "USceneComponent_394"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "ACube_397",
+            "ActorLabel": "OBJ_CUBE_397",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=10.487 Y=10.369 Z=3.303",
+                        "AABB_min": "X=-10.487 Y=-10.370 Z=-3.303",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "ACube_397",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=100.000 Y=100.000 Z=30.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=4861.340 Y=1928.380 Z=65.577",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=10.000 Y=10.000 Z=10.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_A.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_ACube_397",
+            "ActorLabel": "OBJ_CUBE_397",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_ACube_397",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=10.487 Y=10.369 Z=3.303",
+                        "AABB_min": "X=-10.487 Y=-10.370 Z=-3.303",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_ACube_397",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=100.000 Y=100.000 Z=30.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=5030.332 Y=1824.773 Z=65.577",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=10.000 Y=10.000 Z=10.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_A.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_ACube_397",
+            "ActorLabel": "OBJ_CUBE_397",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_ACube_397",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=10.487 Y=10.369 Z=3.303",
+                        "AABB_min": "X=-10.487 Y=-10.370 Z=-3.303",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_ACube_397",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=100.000 Y=100.000 Z=30.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=5035.296 Y=1567.658 Z=65.577",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=10.000 Y=10.000 Z=10.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_A.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_CopyOf_ACube_397",
+            "ActorLabel": "OBJ_CUBE_397",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_ACube_397",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=10.487 Y=10.369 Z=3.303",
+                        "AABB_min": "X=-10.487 Y=-10.370 Z=-3.303",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_ACube_397",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=100.000 Y=100.000 Z=30.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=4930.852 Y=1397.292 Z=65.577",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=10.000 Y=10.000 Z=10.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_A.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_397",
+            "ActorLabel": "OBJ_CUBE_397",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_397",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=10.487 Y=10.369 Z=3.303",
+                        "AABB_min": "X=-10.487 Y=-10.370 Z=-3.303",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_397",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=100.000 Y=100.000 Z=30.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=5205.604 Y=1462.759 Z=65.577",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=10.000 Y=10.000 Z=10.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_A.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_397",
+            "ActorLabel": "OBJ_CUBE_397",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=10.487 Y=10.369 Z=3.303",
+                        "AABB_min": "X=-10.487 Y=-10.370 Z=-3.303",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_397",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=100.000 Y=100.000 Z=30.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=5101.373 Y=1292.746 Z=65.577",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=10.000 Y=10.000 Z=10.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_A.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_397",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ARotateSpringTrap",
+            "ActorID": "CopyOf_ARotateSpringTrap_393",
+            "ActorLabel": "OBJ_Rotate_SpringTrap_393",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "CopyOf_USceneComponent_394",
+                    "Properties": {
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "CopyOf_USceneComponent_394",
+                        "ComponentOwner": "CopyOf_ARotateSpringTrap_393",
+                        "ComponentOwnerClass": "ARotateSpringTrap",
+                        "RelativeLocation": "X=4508.075 Y=1707.570 Z=139.472",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_UStaticMeshComponent_395",
+                    "Properties": {
+                        "AABB_max": "X=10.487 Y=10.369 Z=3.303",
+                        "AABB_min": "X=-10.487 Y=-10.370 Z=-3.303",
+                        "AttachParentID": "CopyOf_USceneComponent_394",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_UStaticMeshComponent_395",
+                        "ComponentOwner": "CopyOf_ARotateSpringTrap_393",
+                        "ComponentOwnerClass": "ARotateSpringTrap",
+                        "GeomAttribute 0Extent": "X=200.000 Y=200.000 Z=60.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=206.598 Y=-68.068 Z=-53.625",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-29.794 Roll=-0.000",
+                        "RelativeScale3D": "X=20.000 Y=20.000 Z=20.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_A.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {
+                "SpringTrapChargeCoolDown": "1.000000",
+                "SpringTrapChargeSpeed": "1.000000",
+                "SpringTrapEnabled": "false",
+                "SpringTrapShootCoolDown": "1.000000",
+                "SpringTrapShootSpeed": "1.000000",
+                "SpringTrapTarget": "Pitch=0.000 Yaw=0.000 Roll=0.000"
+            },
+            "RootComponentID": "CopyOf_USceneComponent_394"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_ACube_397",
+            "ActorLabel": "OBJ_CUBE_397",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_ACube_397",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=10.487 Y=10.369 Z=3.303",
+                        "AABB_min": "X=-10.487 Y=-10.370 Z=-3.303",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_ACube_397",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=100.000 Y=100.000 Z=30.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=4965.635 Y=2098.498 Z=65.577",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=10.000 Y=10.000 Z=10.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_A.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_ACube_397",
+            "ActorLabel": "OBJ_CUBE_397",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_ACube_397",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=10.487 Y=10.369 Z=3.303",
+                        "AABB_min": "X=-10.487 Y=-10.370 Z=-3.303",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_ACube_397",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=100.000 Y=100.000 Z=30.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=5134.902 Y=1994.720 Z=65.577",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=10.000 Y=10.000 Z=10.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_A.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "ACube_447",
+            "ActorLabel": "OBJ_CUBE_447",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=150.000 Y=150.000 Z=11.783",
+                        "AABB_min": "X=-150.000 Y=-150.000 Z=0.000",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=150.000 Y=150.000 Z=10.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=5582.294 Y=1703.305 Z=80.357",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_ACube_447",
+            "ActorLabel": "OBJ_CUBE_447",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=150.000 Y=150.000 Z=11.783",
+                        "AABB_min": "X=-150.000 Y=-150.000 Z=0.000",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=150.000 Y=150.000 Z=10.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=5425.325 Y=1447.268 Z=80.357",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_ACube_447",
+            "ActorLabel": "OBJ_CUBE_447",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=150.000 Y=150.000 Z=11.783",
+                        "AABB_min": "X=-150.000 Y=-150.000 Z=0.000",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=150.000 Y=150.000 Z=10.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=5268.025 Y=1190.705 Z=80.357",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_CopyOf_ACube_447",
+            "ActorLabel": "OBJ_CUBE_447",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=150.000 Y=150.000 Z=11.783",
+                        "AABB_min": "X=-150.000 Y=-150.000 Z=0.000",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=150.000 Y=150.000 Z=10.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=5681.729 Y=1290.747 Z=80.357",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
+            "ActorLabel": "OBJ_CUBE_447",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=150.000 Y=150.000 Z=11.783",
+                        "AABB_min": "X=-150.000 Y=-150.000 Z=0.000",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=150.000 Y=150.000 Z=10.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=5524.135 Y=1033.685 Z=80.357",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
+            "ActorLabel": "OBJ_CUBE_447",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=150.000 Y=150.000 Z=11.783",
+                        "AABB_min": "X=-150.000 Y=-150.000 Z=0.000",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=150.000 Y=150.000 Z=10.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=5838.307 Y=1546.136 Z=80.357",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
+            "ActorLabel": "OBJ_CUBE_447",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=150.000 Y=150.000 Z=11.783",
+                        "AABB_min": "X=-150.000 Y=-150.000 Z=0.000",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=150.000 Y=150.000 Z=10.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=6094.645 Y=1388.970 Z=80.357",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
+            "ActorLabel": "OBJ_CUBE_447",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=150.000 Y=150.000 Z=11.783",
+                        "AABB_min": "X=-150.000 Y=-150.000 Z=0.000",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=150.000 Y=150.000 Z=10.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=5781.391 Y=878.024 Z=80.357",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
+            "ActorLabel": "OBJ_CUBE_447",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=150.000 Y=150.000 Z=11.783",
+                        "AABB_min": "X=-150.000 Y=-150.000 Z=0.000",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=150.000 Y=150.000 Z=10.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=5937.961 Y=1133.401 Z=80.357",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ARotatePatrolPlatform",
+            "ActorID": "CopyOf_CopyOf_ARotatePatrolPlatform_378",
+            "ActorLabel": "OBJ_Rotate_Patrol_Platform_378",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_UStaticMeshComponent_380",
+                    "Properties": {
+                        "AABB_max": "X=70.027 Y=0.384 Z=82.014",
+                        "AABB_min": "X=-78.133 Y=-376.344 Z=-72.744",
+                        "AttachParentID": "CopyOf_CopyOf_USceneComponent_379",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_UStaticMeshComponent_380",
+                        "ComponentOwner": "CopyOf_CopyOf_ARotatePatrolPlatform_378",
+                        "ComponentOwnerClass": "ARotatePatrolPlatform",
+                        "GeomAttribute 0Extent": "X=50.000 Y=190.000 Z=50.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=-190.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "0",
+                        "StaticMeshPath": "Contents/Totem/Totem.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "CopyOf_CopyOf_USceneComponent_379",
+                    "Properties": {
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "CopyOf_CopyOf_USceneComponent_379",
+                        "ComponentOwner": "CopyOf_CopyOf_ARotatePatrolPlatform_378",
+                        "ComponentOwnerClass": "ARotatePatrolPlatform",
+                        "RelativeLocation": "X=3000.000 Y=1631.567 Z=187.829",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                }
+            ],
+            "Properties": {
+                "PlatformAngularSpeed": "1.000000",
+                "PlatformTargetA": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                "PlatformTargetB": "Pitch=30.000 Yaw=30.000 Roll=30.000"
+            },
+            "RootComponentID": "CopyOf_CopyOf_USceneComponent_379"
+        },
+        {
+            "ActorClass": "AAmbientLight",
+            "ActorID": "AAmbientLight_480",
+            "ActorLabel": "OBJ_AMBIENTLIGHT_480",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UAmbientLightComponent",
+                    "ComponentID": "UAmbientLightComponent_0",
+                    "Properties": {
+                        "AABB_Max": "X=1.000 Y=1.000 Z=0.100",
+                        "AABB_Min": "X=-1.000 Y=-1.000 Z=-0.100",
+                        "AmbientColor": "R=1.000 G=0.859 B=0.776 A=1.000",
+                        "AttachParentID": "UBillboardComponent_0",
+                        "ComponentClass": "UAmbientLightComponent",
+                        "ComponentName": "UAmbientLightComponent_0",
+                        "ComponentOwner": "AAmbientLight_480",
+                        "ComponentOwnerClass": "AAmbientLight",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "UBillboardComponent",
+                    "ComponentID": "UBillboardComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=0.000 Y=0.000 Z=0.000",
+                        "AABB_min": "X=0.000 Y=0.000 Z=0.000",
+                        "AttachParentID": "nullptr",
+                        "BufferKey": "Assets/Editor/Icon/AmbientLight_64x.png",
+                        "ComponentClass": "UBillboardComponent",
+                        "ComponentName": "UBillboardComponent_0",
+                        "ComponentOwner": "AAmbientLight_480",
+                        "ComponentOwnerClass": "AAmbientLight",
+                        "FinalIndexU": "0.000000",
+                        "FinalIndexV": "0.000000",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": "UBillboardComponent"
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "UBillboardComponent_0"
+        },
+        {
+            "ActorClass": "AHeightFogActor",
+            "ActorID": "AHeightFogActor_484",
+            "ActorLabel": "OBJ_FOG_484",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UHeightFogComponent",
+                    "ComponentID": "UHeightFogComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=0.000 Y=0.000 Z=0.000",
+                        "AABB_min": "X=0.000 Y=0.000 Z=0.000",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UHeightFogComponent",
+                        "ComponentName": "UHeightFogComponent_0",
+                        "ComponentOwner": "AHeightFogActor_484",
+                        "ComponentOwnerClass": "AHeightFogActor",
+                        "FogCutoffDistance": "0.750000",
+                        "FogDensity": "0.500000",
+                        "FogHeightFalloff": "0.050000",
+                        "FogInscatteringColor": "R=1.000 G=1.000 B=1.000 A=1.000",
+                        "FogMaxOpacity": "0.100000",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "0",
+                        "StartDistance": "0.000000",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "UHeightFogComponent_0"
+        },
+        {
+            "ActorClass": "ADirectionalLight",
+            "ActorID": "ADirectionalLight_487",
+            "ActorLabel": "OBJ_DIRECTIONALLGIHT_487",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UBillboardComponent",
+                    "ComponentID": "UBillboardComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=0.000 Y=0.000 Z=0.000",
+                        "AABB_min": "X=0.000 Y=0.000 Z=0.000",
+                        "AttachParentID": "nullptr",
+                        "BufferKey": "Assets/Editor/Icon/S_LightDirectional.PNG",
+                        "ComponentClass": "UBillboardComponent",
+                        "ComponentName": "UBillboardComponent_0",
+                        "ComponentOwner": "ADirectionalLight_487",
+                        "ComponentOwnerClass": "ADirectionalLight",
+                        "FinalIndexU": "0.000000",
+                        "FinalIndexV": "0.000000",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=-667.783 Z=123.379",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "0",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bSimulate": "false",
+                        "m_Type": "UBillboardComponent"
+                    }
+                },
+                {
+                    "ComponentClass": "UDirectionalLightComponent",
+                    "ComponentID": "UDirectionalLightComponent_0",
+                    "Properties": {
+                        "AABB_Max": "X=1.000 Y=1.000 Z=0.100",
+                        "AABB_Min": "X=-1.000 Y=-1.000 Z=-0.100",
+                        "AttachParentID": "UBillboardComponent_0",
+                        "ComponentClass": "UDirectionalLightComponent",
+                        "ComponentName": "UDirectionalLightComponent_0",
+                        "ComponentOwner": "ADirectionalLight_487",
+                        "ComponentOwnerClass": "ADirectionalLight",
+                        "Direction": "X=-1.000 Y=-0.000 Z=-0.000",
+                        "Intensity": "10.000000",
+                        "LightColor": "R=1.000 G=1.000 B=1.000 A=1.000",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=30.100 Yaw=-61.100 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "UBillboardComponent_0"
+        }
+    ],
+    "NextUUID": 0,
+    "Version": 1
+}
