@@ -46,7 +46,7 @@ void FLuaScriptManager::BindTypes()
     BindStructs();
 
     // Print
-    LuaState["ToString"] = &FLuaScriptManager::ToString;
+    LuaState["ToString"] = [](const sol::object& obj) { return FLuaScriptManager::ToString(obj);};
     LuaState["PrintObj"] = [](const sol::object& obj) {UE_LOG(ELogLevel::Display, "%s", ToString(obj).c_str());};
     LuaState["LogDisplay"] = [](const std::string& str) {UE_LOG(ELogLevel::Display, "%s", str.c_str());};
     LuaState["LogWarning"] = [](const std::string& str) {UE_LOG(ELogLevel::Warning, "%s", str.c_str());};

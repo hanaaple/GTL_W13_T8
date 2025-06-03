@@ -65,6 +65,7 @@ FRotator FBodyInstance::GetBodyRotation()
 {
     physx::PxTransform tf = BIGameObject->DynamicRigidBody->getGlobalPose();
     FQuat q(tf.q.x, tf.q.y, tf.q.z, tf.q.w);
+
     return FRotator(q);
 }
 
@@ -76,7 +77,6 @@ void FBodyInstance::SetBodyRotation(FRotator& Rotation )
     tf.q.y = q.Y;
     tf.q.z = q.Z;
     tf.q.w = q.W;
-    
     BIGameObject->DynamicRigidBody->setGlobalPose(tf);
 }
 

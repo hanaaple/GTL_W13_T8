@@ -207,7 +207,7 @@ void UPrimitiveComponent::TickComponent(float DeltaTime)
 {
     Super::TickComponent(DeltaTime);
 
-    if (RigidBodyType != ERigidBodyType::STATIC)
+     if (RigidBodyType != ERigidBodyType::STATIC)
     {
         if (BodyInstance && BodyInstance->BIGameObject)
         {

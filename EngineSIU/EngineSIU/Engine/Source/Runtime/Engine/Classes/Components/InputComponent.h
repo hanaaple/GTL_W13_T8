@@ -18,12 +18,17 @@ public:
     virtual void BeginPlay() override;
     virtual void TickComponent(float DeltaTime) override;
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-    UFUNCTION(uint64, BindKeyAction, const FString& Key, const std::function<void(float)>& Callback)
-    UFUNCTION(uint64, BindTargetedKeyAction, const FString& Key, AActor* TargetObj, const std::function<void(float)>& Callback)
+    
+    uint64 BindKeyAction(const FString& Key, const std::function<void(float)>& Callback);
+    uint64 BindTargetedKeyAction(const FString& Key, AActor* TargetObj, const std::function<void(float)>& Callback);
+    UFUNCTION(uint64, BindKeyAction, const FString& Key, const sol::function Callback)
+    UFUNCTION(uint64, BindTargetedKeyAction, const FString& Key, AActor* TargetObj, const sol::function Callback)
     UFUNCTION(void, UnBindKeyAction, const FString& Key, uint64 HandleId)
 
-    UFUNCTION(uint64, BindMouseMoveAction, const std::function<void(int, int)>& Callback)
-    UFUNCTION(uint64, BindTargetedMouseMoveAction, AActor* TargetObj, const std::function<void(int, int)>& Callback)
+    uint64 BindMouseMoveAction(const std::function<void(int, int)>& Callback);
+    uint64 BindTargetedMouseMoveAction(AActor* TargetObj, const std::function<void(int, int)>& Callback);
+    UFUNCTION(uint64, BindMouseMoveAction, const sol::function Callback)
+    UFUNCTION(uint64, BindTargetedMouseMoveAction, AActor* TargetObj, const sol::function Callback)
     UFUNCTION(void, UnBindMouseMoveAction, uint64 HandleId)
     
     void ProcessKeyInput(float DeltaTime);

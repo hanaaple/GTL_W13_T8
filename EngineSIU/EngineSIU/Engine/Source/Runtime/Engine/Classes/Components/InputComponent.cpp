@@ -134,10 +134,49 @@ uint64 UInputComponent::BindTargetedKeyAction(const FString& Key, AActor* Target
         return UINT64_MAX;
     }
 
-    // TODO: lua script 함수를 람다로 넘겨줬다 에러나면 Panic나면서 터진다. 람다 말고 다른 대안 없을까...
     FDelegateHandle Handle = KeyBindDelegate[Key].AddWeakLambda(TargetObj, [this, Callback](float DeltaTime)
     {
         Callback(DeltaTime);
+    });
+    BoundActionHandleIds.Add(Handle.GetHandleId());
+    return Handle.GetHandleId();
+}
+
+uint64 UInputComponent::BindKeyAction(const FString& Key, const sol::function Callback)
+{
+    if ( !Callback.valid() )
+    {
+        return UINT64_MAX;
+    }
+    
+    FDelegateHandle Handle = KeyBindDelegate[Key].AddLambda([this, Callback](float DeltaTime)
+    {
+        sol::protected_function_result res = Callback(DeltaTime);
+        if (!res.valid())
+        {
+            sol::error err = res;
+            UE_LOG(ELogLevel::Error, "Failed to execute event \n%s", err.what());
+        }
+    });
+    BoundActionHandleIds.Add(Handle.GetHandleId());
+    return Handle.GetHandleId();
+}
+
+uint64 UInputComponent::BindTargetedKeyAction(const FString& Key, AActor* TargetObj, const sol::function Callback)
+{
+    if ( !Callback.valid() )
+    {
+        return UINT64_MAX;
+    }
+    
+    FDelegateHandle Handle = KeyBindDelegate[Key].AddWeakLambda(TargetObj, [this, Callback](float DeltaTime)
+    {
+        sol::protected_function_result res = Callback(DeltaTime);
+        if (!res.valid())
+        {
+            sol::error err = res;
+            UE_LOG(ELogLevel::Error, "Failed to execute event \n%s", err.what());
+        }
     });
     BoundActionHandleIds.Add(Handle.GetHandleId());
     return Handle.GetHandleId();
@@ -171,10 +210,49 @@ uint64 UInputComponent::BindTargetedMouseMoveAction(AActor* TargetObj, const std
         return UINT64_MAX;
     }
 
-    // TODO: lua script 함수를 람다로 넘겨줬다 에러나면 Panic나면서 터진다. 람다 말고 다른 대안 없을까...
     FDelegateHandle Handle = MouseMoveDelegate.AddWeakLambda(TargetObj, [Callback](int dx, int dy)
     {
         Callback(dx, dy);
+    });
+    BoundActionHandleIds.Add(Handle.GetHandleId());
+    return Handle.GetHandleId();
+}
+
+uint64 UInputComponent::BindMouseMoveAction(const sol::function Callback)
+{
+    if ( !Callback.valid() )
+    {
+        return UINT64_MAX;
+    }
+    
+    FDelegateHandle Handle = MouseMoveDelegate.AddLambda([this, Callback](int dx, int dy)
+    {
+        sol::protected_function_result res = Callback(dx, dy);
+        if (!res.valid())
+        {
+            sol::error err = res;
+            UE_LOG(ELogLevel::Error, "Failed to execute event \n%s", err.what());
+        }
+    });
+    BoundActionHandleIds.Add(Handle.GetHandleId());
+    return Handle.GetHandleId();
+}
+
+uint64 UInputComponent::BindTargetedMouseMoveAction(AActor* TargetObj, const sol::function Callback)
+{
+    if ( !Callback.valid() )
+    {
+        return UINT64_MAX;
+    }
+    
+    FDelegateHandle Handle = MouseMoveDelegate.AddWeakLambda(TargetObj, [this, Callback](int dx, int dy)
+    {
+        sol::protected_function_result res = Callback(dx, dy);
+        if (!res.valid())
+        {
+            sol::error err = res;
+            UE_LOG(ELogLevel::Error, "Failed to execute event \n%s", err.what());
+        }
     });
     BoundActionHandleIds.Add(Handle.GetHandleId());
     return Handle.GetHandleId();
