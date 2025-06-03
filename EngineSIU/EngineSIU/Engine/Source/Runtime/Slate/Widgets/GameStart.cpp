@@ -2,6 +2,7 @@
 
 #include "Animation/AnimNotifyState.h"
 #include "Engine/Engine.h"
+#include "FFaxk/Character/FFaxkCharacter.h"
 #include "ImGui/imgui.h"
 #include "World/World.h"
 
@@ -41,7 +42,7 @@ void FGameStart::Update(float deltaTime)
                     {
                         FViewTargetTransitionParams Params = FViewTargetTransitionParams();
                         Params.BlendTime = 3.0f;
-                        PC->SetViewTarget(PC, Params);
+                        PC->SetViewTarget(PC->GetPawn(), Params);
                         
                         PC->GetCameraManager()->StartCameraFade(0.9f, 0.0f, 3.0f, FLinearColor::Black, true);
                     }

@@ -12,9 +12,16 @@ FGameEnd::FGameEnd()
 
 void FGameEnd::Update(float deltaTime)
 {
+    const AFFaxkGameMode* GM = GEngine->ActiveWorld->GetGameMode<AFFaxkGameMode>();
+
+    if (!IsValid(GM) || GM->GetGameState() != EGameState::End)
+    {
+        return;
+    }
+    
     if (AFFaxkGameMode* GM = GEngine->ActiveWorld->GetGameMode<AFFaxkGameMode>())
     {
-        if (IsValid(GM) && GM->GetGameState() == EGameState::Died)
+        if (IsValid(GM) && GM->GetGameState() == EGameState::End)
         {
             if (FSlateAppMessageHandler::IsAnyKeyPressed())
             {
@@ -23,6 +30,17 @@ void FGameEnd::Update(float deltaTime)
                 PC->GetPawn()->Destroy();
                 GM->RequestPlayerRespawn(PC);
                 GM->SetGameState(EGameState::Playing);
+                if (GEngine->ActiveWorld)
+                {
+                    if (AFFaxkGameMode* GameMode = GEngine->ActiveWorld->GetGameMode<AFFaxkGameMode>())
+                    {
+                        GameMode->SetGameState(EGameState::Died);
+                        if (APlayerCameraManager* PCM = GameMode->GetPlayerController()->GetCameraManager())
+                        {
+                            PCM->StartCameraFade(1.0f, 0.0f, 3.0f, FLinearColor::Black, true);
+                        }
+                    }
+                }
             }
         }
     }
@@ -33,7 +51,7 @@ void FGameEnd::Render()
 {
     const AFFaxkGameMode* GM = GEngine->ActiveWorld->GetGameMode<AFFaxkGameMode>();
 
-    if (!IsValid(GM) || GM->GetGameState() != EGameState::Died)
+    if (!IsValid(GM) || GM->GetGameState() != EGameState::End)
     {
         return;
     }

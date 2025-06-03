@@ -132,6 +132,7 @@ void APlayerCameraManager::StopCameraFade()
         // Make sure FadeAmount finishes at the desired value
         FadeAmount = FadeAlpha.Y;
         bEnableFading = false;
+        OnFadeCompleteEvent.Broadcast();
         //StopAudioFade();
     }
 }
