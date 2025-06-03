@@ -57,7 +57,7 @@ public:
     // Do not Set Directly, Use SetSimulate()
     UPROPERTY_WITH_FLAGS(EditAnywhere, bool, bSimulate, = false)
     UPROPERTY_WITH_FLAGS(EditAnywhere, bool, bApplyGravity, = false)
-    UPROPERTY_WITH_FLAGS(EditAnywhere, bool, bOverrideTransform, = false)
+    UPROPERTY_WITH_FLAGS(EditAnywhere, bool, bOverrideTransform, = true)
     UPROPERTY_WITH_FLAGS(EditAnywhere, ERigidBodyType, RigidBodyType, = ERigidBodyType::DYNAMIC)
 
     /** 

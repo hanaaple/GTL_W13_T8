@@ -82,22 +82,6 @@
             "Components": [
                 {
                     "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_306",
-                    "Properties": {
-                        "AttachParentID": "USkeletalMeshComponent_293",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_306",
-                        "ComponentOwner": "AActor_291",
-                        "ComponentOwnerClass": "AActor",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
                     "ComponentID": "USceneComponent_308",
                     "Properties": {
                         "AttachParentID": "USkeletalMeshComponent_293",
@@ -114,15 +98,15 @@
                 },
                 {
                     "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_504",
+                    "ComponentID": "USceneComponent_13682",
                     "Properties": {
                         "AttachParentID": "USkeletalMeshComponent_293",
                         "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_504",
+                        "ComponentName": "USceneComponent_13682",
                         "ComponentOwner": "AActor_291",
                         "ComponentOwnerClass": "AActor",
                         "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
                         "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
                         "bAutoActive": "true",
                         "bIsActive": "true"
@@ -161,6 +145,38 @@
                         "bSimulate": "false",
                         "m_Type": ""
                     }
+                },
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "USceneComponent_306",
+                    "Properties": {
+                        "AttachParentID": "USkeletalMeshComponent_293",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "USceneComponent_306",
+                        "ComponentOwner": "AActor_291",
+                        "ComponentOwnerClass": "AActor",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "USceneComponent_504",
+                    "Properties": {
+                        "AttachParentID": "USkeletalMeshComponent_293",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "USceneComponent_504",
+                        "ComponentOwner": "AActor_291",
+                        "ComponentOwnerClass": "AActor",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
                 }
             ],
             "Properties": {},
@@ -173,32 +189,35 @@
             "ActorTickInEditor": "false",
             "Components": [
                 {
-                    "ComponentClass": "UStaticMeshComponent",
-                    "ComponentID": "UStaticMeshComponent_307",
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "USceneComponent_13690",
                     "Properties": {
-                        "AABB_max": "X=10.487 Y=10.369 Z=3.303",
-                        "AABB_min": "X=-10.487 Y=-10.370 Z=-3.303",
                         "AttachParentID": "USceneComponent_306",
-                        "ComponentClass": "UStaticMeshComponent",
-                        "ComponentName": "UStaticMeshComponent_307",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "USceneComponent_13690",
                         "ComponentOwner": "ATranslatePatrolPlatform_305",
                         "ComponentOwnerClass": "ATranslatePatrolPlatform",
-                        "GeomAttribute 0Extent": "X=100.000 Y=100.000 Z=3.000",
-                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
-                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
-                        "GeomAttribute 0Type": "1",
-                        "GeomAttributeNum": "1",
-                        "RelativeLocation": "X=569.768 Y=43.998 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=10.000 Y=10.000 Z=1.000",
-                        "RigidBodyType": "2",
-                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_A.obj",
-                        "bApplyGravity": "false",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
                         "bAutoActive": "true",
-                        "bIsActive": "true",
-                        "bOverrideTransform": "false",
-                        "bSimulate": "true",
-                        "m_Type": ""
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "USceneComponent_311",
+                    "Properties": {
+                        "AttachParentID": "USceneComponent_306",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "USceneComponent_311",
+                        "ComponentOwner": "ATranslatePatrolPlatform_305",
+                        "ComponentOwnerClass": "ATranslatePatrolPlatform",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
                     }
                 },
                 {
@@ -251,22 +270,6 @@
                 },
                 {
                     "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_311",
-                    "Properties": {
-                        "AttachParentID": "USceneComponent_306",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_311",
-                        "ComponentOwner": "ATranslatePatrolPlatform_305",
-                        "ComponentOwnerClass": "ATranslatePatrolPlatform",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
                     "ComponentID": "USceneComponent_306",
                     "Properties": {
                         "AttachParentID": "nullptr",
@@ -297,11 +300,43 @@
             "Components": [
                 {
                     "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_323",
+                    "ComponentID": "USceneComponent_13697",
                     "Properties": {
                         "AttachParentID": "CopyOf_USceneComponent_306",
                         "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_323",
+                        "ComponentName": "USceneComponent_13697",
+                        "ComponentOwner": "CopyOf_ATranslatePatrolPlatform_305",
+                        "ComponentOwnerClass": "ATranslatePatrolPlatform",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "CopyOf_USceneComponent_306",
+                    "Properties": {
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "CopyOf_USceneComponent_306",
+                        "ComponentOwner": "CopyOf_ATranslatePatrolPlatform_305",
+                        "ComponentOwnerClass": "ATranslatePatrolPlatform",
+                        "RelativeLocation": "X=299.169 Y=-69.748 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "USceneComponent_316",
+                    "Properties": {
+                        "AttachParentID": "CopyOf_USceneComponent_306",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "USceneComponent_316",
                         "ComponentOwner": "CopyOf_ATranslatePatrolPlatform_305",
                         "ComponentOwnerClass": "ATranslatePatrolPlatform",
                         "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
@@ -329,14 +364,14 @@
                 },
                 {
                     "ComponentClass": "USceneComponent",
-                    "ComponentID": "CopyOf_USceneComponent_306",
+                    "ComponentID": "USceneComponent_323",
                     "Properties": {
-                        "AttachParentID": "nullptr",
+                        "AttachParentID": "CopyOf_USceneComponent_306",
                         "ComponentClass": "USceneComponent",
-                        "ComponentName": "CopyOf_USceneComponent_306",
+                        "ComponentName": "USceneComponent_323",
                         "ComponentOwner": "CopyOf_ATranslatePatrolPlatform_305",
                         "ComponentOwnerClass": "ATranslatePatrolPlatform",
-                        "RelativeLocation": "X=299.169 Y=-69.748 Z=0.000",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
                         "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
                         "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
                         "bAutoActive": "true",
@@ -375,7 +410,7 @@
                         "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
                         "GeomAttribute 0Type": "1",
                         "GeomAttributeNum": "1",
-                        "RelativeLocation": "X=665.692 Y=-25.039 Z=33.567",
+                        "RelativeLocation": "X=1070.627 Y=70.003 Z=33.567",
                         "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
                         "RelativeScale3D": "X=10.000 Y=10.000 Z=1.000",
                         "RigidBodyType": "2",
@@ -383,32 +418,16 @@
                         "bApplyGravity": "false",
                         "bAutoActive": "true",
                         "bIsActive": "true",
-                        "bOverrideTransform": "false",
+                        "bOverrideTransform": "true",
                         "bSimulate": "true",
                         "m_Type": ""
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_316",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_USceneComponent_306",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_316",
-                        "ComponentOwner": "CopyOf_ATranslatePatrolPlatform_305",
-                        "ComponentOwnerClass": "ATranslatePatrolPlatform",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
                     }
                 }
             ],
             "Properties": {
-                "PlatformSpeed": "200.000000",
+                "PlatformSpeed": "300.000000",
                 "PlatformTargetA": "X=0.000 Y=0.000 Z=0.000",
-                "PlatformTargetB": "X=-250.000 Y=0.000 Z=0.000"
+                "PlatformTargetB": "X=-400.000 Y=0.000 Z=0.000"
             },
             "RootComponentID": "CopyOf_USceneComponent_306"
         },
@@ -470,7 +489,7 @@
                         "ComponentOwnerClass": "ACube",
                         "GeomAttributeNum": "0",
                         "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
                         "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
                         "RigidBodyType": "1",
                         "StaticMeshPath": "None",
@@ -498,8 +517,8 @@
                         "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
                         "GeomAttribute 0Type": "1",
                         "GeomAttributeNum": "1",
-                        "RelativeLocation": "X=1772.531 Y=-1363.364 Z=29.610",
-                        "RelativeRotation": "Pitch=0.000 Yaw=48.800 Roll=-0.000",
+                        "RelativeLocation": "X=3596.201 Y=3924.163 Z=447.254",
+                        "RelativeRotation": "Pitch=-7.901 Yaw=-69.333 Roll=-0.000",
                         "RelativeScale3D": "X=50.000 Y=50.000 Z=50.000",
                         "RigidBodyType": "2",
                         "StaticMeshPath": "Contents/StonePlatform/StonePlatform_E.obj",
@@ -517,7 +536,7 @@
         },
         {
             "ActorClass": "ACube",
-            "ActorID": "CopyOf_CopyOf_ACube_324",
+            "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
             "ActorLabel": "OBJ_CUBE_324",
             "ActorTickInEditor": "false",
             "Components": [
@@ -527,10 +546,10 @@
                     "Properties": {
                         "AABB_max": "X=0.000 Y=0.000 Z=0.000",
                         "AABB_min": "X=0.000 Y=0.000 Z=0.000",
-                        "AttachParentID": "CopyOf_CopyOf_StaticMeshComponent_0",
+                        "AttachParentID": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
                         "ComponentClass": "UStaticMeshComponent",
                         "ComponentName": "StaticMeshComponent_0",
-                        "ComponentOwner": "CopyOf_CopyOf_ACube_324",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
                         "ComponentOwnerClass": "ACube",
                         "GeomAttributeNum": "0",
                         "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
@@ -546,45 +565,6 @@
                         "m_Type": ""
                     }
                 },
-                {
-                    "ComponentClass": "UStaticMeshComponent",
-                    "ComponentID": "CopyOf_CopyOf_StaticMeshComponent_0",
-                    "Properties": {
-                        "AABB_max": "X=4.663 Y=5.191 Z=2.488",
-                        "AABB_min": "X=-4.663 Y=-5.191 Z=-2.488",
-                        "AttachParentID": "nullptr",
-                        "ComponentClass": "UStaticMeshComponent",
-                        "ComponentName": "CopyOf_CopyOf_StaticMeshComponent_0",
-                        "ComponentOwner": "CopyOf_CopyOf_ACube_324",
-                        "ComponentOwnerClass": "ACube",
-                        "GeomAttribute 0Extent": "X=225.000 Y=225.000 Z=115.000",
-                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
-                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
-                        "GeomAttribute 0Type": "1",
-                        "GeomAttributeNum": "1",
-                        "RelativeLocation": "X=1307.790 Y=-167.510 Z=17.510",
-                        "RelativeRotation": "Pitch=0.000 Yaw=130.700 Roll=-0.000",
-                        "RelativeScale3D": "X=50.000 Y=50.000 Z=50.000",
-                        "RigidBodyType": "2",
-                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_E.obj",
-                        "bApplyGravity": "false",
-                        "bAutoActive": "true",
-                        "bIsActive": "true",
-                        "bOverrideTransform": "false",
-                        "bSimulate": "true",
-                        "m_Type": ""
-                    }
-                }
-            ],
-            "Properties": {},
-            "RootComponentID": "CopyOf_CopyOf_StaticMeshComponent_0"
-        },
-        {
-            "ActorClass": "ACube",
-            "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
-            "ActorLabel": "OBJ_CUBE_324",
-            "ActorTickInEditor": "false",
-            "Components": [
                 {
                     "ComponentClass": "UStaticMeshComponent",
                     "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
@@ -613,31 +593,6 @@
                         "bSimulate": "true",
                         "m_Type": ""
                     }
-                },
-                {
-                    "ComponentClass": "UStaticMeshComponent",
-                    "ComponentID": "StaticMeshComponent_0",
-                    "Properties": {
-                        "AABB_max": "X=0.000 Y=0.000 Z=0.000",
-                        "AABB_min": "X=0.000 Y=0.000 Z=0.000",
-                        "AttachParentID": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
-                        "ComponentClass": "UStaticMeshComponent",
-                        "ComponentName": "StaticMeshComponent_0",
-                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
-                        "ComponentOwnerClass": "ACube",
-                        "GeomAttributeNum": "0",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "RigidBodyType": "1",
-                        "StaticMeshPath": "None",
-                        "bApplyGravity": "false",
-                        "bAutoActive": "true",
-                        "bIsActive": "true",
-                        "bOverrideTransform": "false",
-                        "bSimulate": "false",
-                        "m_Type": ""
-                    }
                 }
             ],
             "Properties": {},
@@ -651,47 +606,15 @@
             "Components": [
                 {
                     "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_548",
+                    "ComponentID": "USceneComponent_352",
                     "Properties": {
-                        "AttachParentID": "USceneComponent_352",
+                        "AttachParentID": "nullptr",
                         "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_548",
+                        "ComponentName": "USceneComponent_352",
                         "ComponentOwner": "ATranslateSpringTrap_351",
                         "ComponentOwnerClass": "ATranslateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_354",
-                    "Properties": {
-                        "AttachParentID": "USceneComponent_352",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_354",
-                        "ComponentOwner": "ATranslateSpringTrap_351",
-                        "ComponentOwnerClass": "ATranslateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_349",
-                    "Properties": {
-                        "AttachParentID": "USceneComponent_352",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_349",
-                        "ComponentOwner": "ATranslateSpringTrap_351",
-                        "ComponentOwnerClass": "ATranslateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeLocation": "X=1699.706 Y=-117.963 Z=173.800",
+                        "RelativeRotation": "Pitch=0.000 Yaw=42.398 Roll=-0.000",
                         "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
                         "bAutoActive": "true",
                         "bIsActive": "true"
@@ -721,41 +644,9 @@
                         "bApplyGravity": "false",
                         "bAutoActive": "true",
                         "bIsActive": "true",
-                        "bOverrideTransform": "false",
+                        "bOverrideTransform": "true",
                         "bSimulate": "true",
                         "m_Type": ""
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_352",
-                    "Properties": {
-                        "AttachParentID": "nullptr",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_352",
-                        "ComponentOwner": "ATranslateSpringTrap_351",
-                        "ComponentOwnerClass": "ATranslateSpringTrap",
-                        "RelativeLocation": "X=1699.706 Y=-117.963 Z=173.800",
-                        "RelativeRotation": "Pitch=0.000 Yaw=42.398 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_344",
-                    "Properties": {
-                        "AttachParentID": "USceneComponent_352",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_344",
-                        "ComponentOwner": "ATranslateSpringTrap_351",
-                        "ComponentOwnerClass": "ATranslateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
                     }
                 }
             ],
@@ -764,7 +655,7 @@
                 "SpringTrapChargeSpeed": "1000.000000",
                 "SpringTrapEnabled": "true",
                 "SpringTrapInitialCooldown": "2.000000",
-                "SpringTrapShootCoolDown": "1.000000",
+                "SpringTrapShootCoolDown": "4.000000",
                 "SpringTrapShootSpeed": "10000.000000",
                 "SpringTrapTarget": "X=-500.000 Y=900.000 Z=0.000"
             },
@@ -778,54 +669,6 @@
             "Components": [
                 {
                     "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_357",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_USceneComponent_352",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_357",
-                        "ComponentOwner": "CopyOf_ATranslateSpringTrap_351",
-                        "ComponentOwnerClass": "ATranslateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_360",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_USceneComponent_352",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_360",
-                        "ComponentOwner": "CopyOf_ATranslateSpringTrap_351",
-                        "ComponentOwnerClass": "ATranslateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_560",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_USceneComponent_352",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_560",
-                        "ComponentOwner": "CopyOf_ATranslateSpringTrap_351",
-                        "ComponentOwnerClass": "ATranslateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
                     "ComponentID": "CopyOf_USceneComponent_352",
                     "Properties": {
                         "AttachParentID": "nullptr",
@@ -835,38 +678,6 @@
                         "ComponentOwnerClass": "ATranslateSpringTrap",
                         "RelativeLocation": "X=1699.706 Y=-117.963 Z=405.066",
                         "RelativeRotation": "Pitch=0.000 Yaw=42.398 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_354",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_USceneComponent_352",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_354",
-                        "ComponentOwner": "CopyOf_ATranslateSpringTrap_351",
-                        "ComponentOwnerClass": "ATranslateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_362",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_USceneComponent_352",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_362",
-                        "ComponentOwner": "CopyOf_ATranslateSpringTrap_351",
-                        "ComponentOwnerClass": "ATranslateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
                         "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
                         "bAutoActive": "true",
                         "bIsActive": "true"
@@ -896,25 +707,9 @@
                         "bApplyGravity": "false",
                         "bAutoActive": "true",
                         "bIsActive": "true",
-                        "bOverrideTransform": "false",
+                        "bOverrideTransform": "true",
                         "bSimulate": "true",
                         "m_Type": ""
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_367",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_USceneComponent_352",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_367",
-                        "ComponentOwner": "CopyOf_ATranslateSpringTrap_351",
-                        "ComponentOwnerClass": "ATranslateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
                     }
                 }
             ],
@@ -923,7 +718,7 @@
                 "SpringTrapChargeSpeed": "1000.000000",
                 "SpringTrapEnabled": "true",
                 "SpringTrapInitialCooldown": "0.000000",
-                "SpringTrapShootCoolDown": "1.000000",
+                "SpringTrapShootCoolDown": "3.000000",
                 "SpringTrapShootSpeed": "10000.000000",
                 "SpringTrapTarget": "X=-500.000 Y=800.000 Z=0.000"
             },
@@ -1001,6 +796,31 @@
             "Components": [
                 {
                     "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=0.000 Y=0.000 Z=0.000",
+                        "AABB_min": "X=0.000 Y=0.000 Z=0.000",
+                        "AttachParentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "None",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bOverrideTransform": "false",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
                     "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
                     "Properties": {
                         "AABB_max": "X=13.770 Y=4.692 Z=1.868",
@@ -1025,31 +845,6 @@
                         "bIsActive": "true",
                         "bOverrideTransform": "false",
                         "bSimulate": "true",
-                        "m_Type": ""
-                    }
-                },
-                {
-                    "ComponentClass": "UStaticMeshComponent",
-                    "ComponentID": "StaticMeshComponent_0",
-                    "Properties": {
-                        "AABB_max": "X=0.000 Y=0.000 Z=0.000",
-                        "AABB_min": "X=0.000 Y=0.000 Z=0.000",
-                        "AttachParentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
-                        "ComponentClass": "UStaticMeshComponent",
-                        "ComponentName": "StaticMeshComponent_0",
-                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
-                        "ComponentOwnerClass": "ACube",
-                        "GeomAttributeNum": "0",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "RigidBodyType": "1",
-                        "StaticMeshPath": "None",
-                        "bApplyGravity": "false",
-                        "bAutoActive": "true",
-                        "bIsActive": "true",
-                        "bOverrideTransform": "false",
-                        "bSimulate": "false",
                         "m_Type": ""
                     }
                 }
@@ -1081,6 +876,22 @@
                 },
                 {
                     "ComponentClass": "USceneComponent",
+                    "ComponentID": "USceneComponent_13749",
+                    "Properties": {
+                        "AttachParentID": "CopyOf_USceneComponent_379",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "USceneComponent_13749",
+                        "ComponentOwner": "CopyOf_ARotatePatrolPlatform_378",
+                        "ComponentOwnerClass": "ARotatePatrolPlatform",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "USceneComponent",
                     "ComponentID": "USceneComponent_377",
                     "Properties": {
                         "AttachParentID": "CopyOf_USceneComponent_379",
@@ -1093,51 +904,6 @@
                         "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
                         "bAutoActive": "true",
                         "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_376",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_USceneComponent_379",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_376",
-                        "ComponentOwner": "CopyOf_ARotatePatrolPlatform_378",
-                        "ComponentOwnerClass": "ARotatePatrolPlatform",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "UStaticMeshComponent",
-                    "ComponentID": "CopyOf_UStaticMeshComponent_380",
-                    "Properties": {
-                        "AABB_max": "X=70.027 Y=0.384 Z=82.014",
-                        "AABB_min": "X=-78.133 Y=-376.344 Z=-72.744",
-                        "AttachParentID": "CopyOf_USceneComponent_379",
-                        "ComponentClass": "UStaticMeshComponent",
-                        "ComponentName": "CopyOf_UStaticMeshComponent_380",
-                        "ComponentOwner": "CopyOf_ARotatePatrolPlatform_378",
-                        "ComponentOwnerClass": "ARotatePatrolPlatform",
-                        "GeomAttribute 0Extent": "X=50.000 Y=190.000 Z=50.000",
-                        "GeomAttribute 0Offset": "X=0.000 Y=-190.000 Z=0.000",
-                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
-                        "GeomAttribute 0Type": "1",
-                        "GeomAttributeNum": "1",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "RigidBodyType": "0",
-                        "StaticMeshPath": "Contents/Totem/Totem.obj",
-                        "bApplyGravity": "false",
-                        "bAutoActive": "true",
-                        "bIsActive": "true",
-                        "bOverrideTransform": "false",
-                        "bSimulate": "true",
-                        "m_Type": ""
                     }
                 },
                 {
@@ -1163,6 +929,22 @@
                         "AttachParentID": "CopyOf_USceneComponent_379",
                         "ComponentClass": "USceneComponent",
                         "ComponentName": "USceneComponent_381",
+                        "ComponentOwner": "CopyOf_ARotatePatrolPlatform_378",
+                        "ComponentOwnerClass": "ARotatePatrolPlatform",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "USceneComponent_376",
+                    "Properties": {
+                        "AttachParentID": "CopyOf_USceneComponent_379",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "USceneComponent_376",
                         "ComponentOwner": "CopyOf_ARotatePatrolPlatform_378",
                         "ComponentOwnerClass": "ARotatePatrolPlatform",
                         "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
@@ -1214,95 +996,11 @@
             "RootComponentID": "CopyOf_USceneComponent_379"
         },
         {
-            "ActorClass": "ACube",
-            "ActorID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
-            "ActorLabel": "OBJ_CUBE_324",
-            "ActorTickInEditor": "false",
-            "Components": [
-                {
-                    "ComponentClass": "UStaticMeshComponent",
-                    "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
-                    "Properties": {
-                        "AABB_max": "X=7.230 Y=10.056 Z=3.114",
-                        "AABB_min": "X=-7.230 Y=-10.056 Z=-3.114",
-                        "AttachParentID": "nullptr",
-                        "ComponentClass": "UStaticMeshComponent",
-                        "ComponentName": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
-                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
-                        "ComponentOwnerClass": "ACube",
-                        "GeomAttribute 0Extent": "X=300.000 Y=225.000 Z=100.000",
-                        "GeomAttribute 0Offset": "X=13.800 Y=-144.300 Z=44.800",
-                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=-41.000 Roll=0.000",
-                        "GeomAttribute 0Type": "1",
-                        "GeomAttribute 1Extent": "X=300.000 Y=225.000 Z=100.000",
-                        "GeomAttribute 1Offset": "X=-13.400 Y=245.900 Z=-62.800",
-                        "GeomAttribute 1Rotation": "Pitch=-1.000 Yaw=-7.800 Roll=0.000",
-                        "GeomAttribute 1Type": "1",
-                        "GeomAttributeNum": "2",
-                        "RelativeLocation": "X=4281.434 Y=1872.446 Z=17.437",
-                        "RelativeRotation": "Pitch=0.000 Yaw=96.531 Roll=-0.000",
-                        "RelativeScale3D": "X=50.000 Y=50.000 Z=50.000",
-                        "RigidBodyType": "2",
-                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_C.obj",
-                        "bApplyGravity": "false",
-                        "bAutoActive": "true",
-                        "bIsActive": "true",
-                        "bOverrideTransform": "false",
-                        "bSimulate": "true",
-                        "m_Type": ""
-                    }
-                },
-                {
-                    "ComponentClass": "UStaticMeshComponent",
-                    "ComponentID": "StaticMeshComponent_0",
-                    "Properties": {
-                        "AABB_max": "X=0.000 Y=0.000 Z=0.000",
-                        "AABB_min": "X=0.000 Y=0.000 Z=0.000",
-                        "AttachParentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
-                        "ComponentClass": "UStaticMeshComponent",
-                        "ComponentName": "StaticMeshComponent_0",
-                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_324",
-                        "ComponentOwnerClass": "ACube",
-                        "GeomAttributeNum": "0",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "RigidBodyType": "1",
-                        "StaticMeshPath": "None",
-                        "bApplyGravity": "false",
-                        "bAutoActive": "true",
-                        "bIsActive": "true",
-                        "bOverrideTransform": "false",
-                        "bSimulate": "false",
-                        "m_Type": ""
-                    }
-                }
-            ],
-            "Properties": {},
-            "RootComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0"
-        },
-        {
             "ActorClass": "ARotateSpringTrap",
             "ActorID": "ARotateSpringTrap_393",
             "ActorLabel": "OBJ_Rotate_SpringTrap_393",
             "ActorTickInEditor": "false",
             "Components": [
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_392",
-                    "Properties": {
-                        "AttachParentID": "USceneComponent_394",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_392",
-                        "ComponentOwner": "ARotateSpringTrap_393",
-                        "ComponentOwnerClass": "ARotateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
                 {
                     "ComponentClass": "UStaticMeshComponent",
                     "ComponentID": "UStaticMeshComponent_395",
@@ -1320,32 +1018,16 @@
                         "GeomAttribute 0Type": "1",
                         "GeomAttributeNum": "1",
                         "RelativeLocation": "X=838.159 Y=150.840 Z=-85.700",
-                        "RelativeRotation": "Pitch=-0.000 Yaw=-32.658 Roll=-0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=-31.500 Roll=-0.000",
                         "RelativeScale3D": "X=20.000 Y=20.000 Z=20.000",
                         "RigidBodyType": "2",
                         "StaticMeshPath": "Contents/StonePlatform/StonePlatform_A.obj",
                         "bApplyGravity": "false",
                         "bAutoActive": "true",
                         "bIsActive": "true",
-                        "bOverrideTransform": "false",
+                        "bOverrideTransform": "true",
                         "bSimulate": "true",
                         "m_Type": ""
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_395",
-                    "Properties": {
-                        "AttachParentID": "USceneComponent_394",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_395",
-                        "ComponentOwner": "ARotateSpringTrap_393",
-                        "ComponentOwnerClass": "ARotateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
                     }
                 },
                 {
@@ -1363,96 +1045,16 @@
                         "bAutoActive": "true",
                         "bIsActive": "true"
                     }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_589",
-                    "Properties": {
-                        "AttachParentID": "USceneComponent_394",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_589",
-                        "ComponentOwner": "ARotateSpringTrap_393",
-                        "ComponentOwnerClass": "ARotateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_373",
-                    "Properties": {
-                        "AttachParentID": "USceneComponent_394",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_373",
-                        "ComponentOwner": "ARotateSpringTrap_393",
-                        "ComponentOwnerClass": "ARotateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_387",
-                    "Properties": {
-                        "AttachParentID": "USceneComponent_394",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_387",
-                        "ComponentOwner": "ARotateSpringTrap_393",
-                        "ComponentOwnerClass": "ARotateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_379",
-                    "Properties": {
-                        "AttachParentID": "USceneComponent_394",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_379",
-                        "ComponentOwner": "ARotateSpringTrap_393",
-                        "ComponentOwnerClass": "ARotateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_398",
-                    "Properties": {
-                        "AttachParentID": "USceneComponent_394",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_398",
-                        "ComponentOwner": "ARotateSpringTrap_393",
-                        "ComponentOwnerClass": "ARotateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
                 }
             ],
             "Properties": {
                 "SpringTrapChargeCoolDown": "1.000000",
-                "SpringTrapChargeSpeed": "1.000000",
-                "SpringTrapEnabled": "false",
-                "SpringTrapInitialCooldown": "1.000000",
+                "SpringTrapChargeSpeed": "100.000000",
+                "SpringTrapEnabled": "true",
+                "SpringTrapInitialCooldown": "0.700000",
                 "SpringTrapShootCoolDown": "1.000000",
-                "SpringTrapShootSpeed": "1.000000",
-                "SpringTrapTarget": "Pitch=0.000 Yaw=0.000 Roll=0.000"
+                "SpringTrapShootSpeed": "1000.000000",
+                "SpringTrapTarget": "Pitch=90.000 Yaw=-30.000 Roll=0.000"
             },
             "RootComponentID": "USceneComponent_394"
         },
@@ -1631,31 +1233,6 @@
             "Components": [
                 {
                     "ComponentClass": "UStaticMeshComponent",
-                    "ComponentID": "StaticMeshComponent_0",
-                    "Properties": {
-                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
-                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
-                        "AttachParentID": "CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
-                        "ComponentClass": "UStaticMeshComponent",
-                        "ComponentName": "StaticMeshComponent_0",
-                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_ACube_397",
-                        "ComponentOwnerClass": "ACube",
-                        "GeomAttributeNum": "0",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "RigidBodyType": "1",
-                        "StaticMeshPath": "Contents/Reference/Reference.obj",
-                        "bApplyGravity": "false",
-                        "bAutoActive": "true",
-                        "bIsActive": "true",
-                        "bOverrideTransform": "false",
-                        "bSimulate": "false",
-                        "m_Type": ""
-                    }
-                },
-                {
-                    "ComponentClass": "UStaticMeshComponent",
                     "ComponentID": "CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
                     "Properties": {
                         "AABB_max": "X=10.487 Y=10.369 Z=3.303",
@@ -1680,6 +1257,31 @@
                         "bIsActive": "true",
                         "bOverrideTransform": "false",
                         "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=1.287 Y=1.199 Z=2.555",
+                        "AABB_min": "X=-1.287 Y=-1.199 Z=-0.000",
+                        "AttachParentID": "CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_ACube_397",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Reference/Reference.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bOverrideTransform": "false",
+                        "bSimulate": "false",
                         "m_Type": ""
                     }
                 }
@@ -1823,46 +1425,14 @@
             "Components": [
                 {
                     "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_431",
+                    "ComponentID": "CopyOf_USceneComponent_394",
                     "Properties": {
-                        "AttachParentID": "CopyOf_USceneComponent_394",
+                        "AttachParentID": "nullptr",
                         "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_431",
+                        "ComponentName": "CopyOf_USceneComponent_394",
                         "ComponentOwner": "CopyOf_ARotateSpringTrap_393",
                         "ComponentOwnerClass": "ARotateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_435",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_USceneComponent_394",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_435",
-                        "ComponentOwner": "CopyOf_ARotateSpringTrap_393",
-                        "ComponentOwnerClass": "ARotateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_422",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_USceneComponent_394",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_422",
-                        "ComponentOwner": "CopyOf_ARotateSpringTrap_393",
-                        "ComponentOwnerClass": "ARotateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeLocation": "X=4508.075 Y=1707.570 Z=139.472",
                         "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
                         "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
                         "bAutoActive": "true",
@@ -1893,84 +1463,20 @@
                         "bApplyGravity": "false",
                         "bAutoActive": "true",
                         "bIsActive": "true",
-                        "bOverrideTransform": "false",
+                        "bOverrideTransform": "true",
                         "bSimulate": "true",
                         "m_Type": ""
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_413",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_USceneComponent_394",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_413",
-                        "ComponentOwner": "CopyOf_ARotateSpringTrap_393",
-                        "ComponentOwnerClass": "ARotateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_625",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_USceneComponent_394",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_625",
-                        "ComponentOwner": "CopyOf_ARotateSpringTrap_393",
-                        "ComponentOwnerClass": "ARotateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_433",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_USceneComponent_394",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_433",
-                        "ComponentOwner": "CopyOf_ARotateSpringTrap_393",
-                        "ComponentOwnerClass": "ARotateSpringTrap",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "CopyOf_USceneComponent_394",
-                    "Properties": {
-                        "AttachParentID": "nullptr",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "CopyOf_USceneComponent_394",
-                        "ComponentOwner": "CopyOf_ARotateSpringTrap_393",
-                        "ComponentOwnerClass": "ARotateSpringTrap",
-                        "RelativeLocation": "X=4508.075 Y=1707.570 Z=139.472",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
                     }
                 }
             ],
             "Properties": {
                 "SpringTrapChargeCoolDown": "1.000000",
-                "SpringTrapChargeSpeed": "1.000000",
-                "SpringTrapEnabled": "false",
+                "SpringTrapChargeSpeed": "100.000000",
+                "SpringTrapEnabled": "true",
                 "SpringTrapInitialCooldown": "1.000000",
                 "SpringTrapShootCoolDown": "1.000000",
-                "SpringTrapShootSpeed": "1.000000",
-                "SpringTrapTarget": "Pitch=0.000 Yaw=0.000 Roll=0.000"
+                "SpringTrapShootSpeed": "1000.000000",
+                "SpringTrapTarget": "Pitch=0.000 Yaw=0.000 Roll=90.000"
             },
             "RootComponentID": "CopyOf_USceneComponent_394"
         },
@@ -2127,7 +1633,7 @@
                         "RelativeLocation": "X=5582.294 Y=1703.305 Z=80.357",
                         "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
                         "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "RigidBodyType": "2",
+                        "RigidBodyType": "0",
                         "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
                         "bApplyGravity": "false",
                         "bAutoActive": "true",
@@ -2191,7 +1697,7 @@
                         "RelativeLocation": "X=5425.325 Y=1447.268 Z=80.357",
                         "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
                         "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "RigidBodyType": "2",
+                        "RigidBodyType": "0",
                         "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
                         "bApplyGravity": "false",
                         "bAutoActive": "true",
@@ -2255,7 +1761,7 @@
                         "RelativeLocation": "X=5268.025 Y=1190.705 Z=80.357",
                         "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
                         "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "RigidBodyType": "2",
+                        "RigidBodyType": "0",
                         "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
                         "bApplyGravity": "false",
                         "bAutoActive": "true",
@@ -2319,7 +1825,7 @@
                         "RelativeLocation": "X=5681.729 Y=1290.747 Z=80.357",
                         "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
                         "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "RigidBodyType": "2",
+                        "RigidBodyType": "0",
                         "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
                         "bApplyGravity": "false",
                         "bAutoActive": "true",
@@ -2339,35 +1845,6 @@
             "ActorLabel": "OBJ_CUBE_447",
             "ActorTickInEditor": "false",
             "Components": [
-                {
-                    "ComponentClass": "UStaticMeshComponent",
-                    "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
-                    "Properties": {
-                        "AABB_max": "X=150.000 Y=150.000 Z=11.783",
-                        "AABB_min": "X=-150.000 Y=-150.000 Z=0.000",
-                        "AttachParentID": "nullptr",
-                        "ComponentClass": "UStaticMeshComponent",
-                        "ComponentName": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
-                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
-                        "ComponentOwnerClass": "ACube",
-                        "GeomAttribute 0Extent": "X=150.000 Y=150.000 Z=10.000",
-                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
-                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
-                        "GeomAttribute 0Type": "1",
-                        "GeomAttributeNum": "1",
-                        "RelativeLocation": "X=5524.135 Y=1033.685 Z=80.357",
-                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "RigidBodyType": "2",
-                        "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
-                        "bApplyGravity": "false",
-                        "bAutoActive": "true",
-                        "bIsActive": "true",
-                        "bOverrideTransform": "false",
-                        "bSimulate": "true",
-                        "m_Type": ""
-                    }
-                },
                 {
                     "ComponentClass": "UStaticMeshComponent",
                     "ComponentID": "StaticMeshComponent_0",
@@ -2390,6 +1867,35 @@
                         "bIsActive": "true",
                         "bOverrideTransform": "false",
                         "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=150.000 Y=150.000 Z=11.783",
+                        "AABB_min": "X=-150.000 Y=-150.000 Z=0.000",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=150.000 Y=150.000 Z=10.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=5524.135 Y=1033.685 Z=80.357",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "0",
+                        "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bOverrideTransform": "false",
+                        "bSimulate": "true",
                         "m_Type": ""
                     }
                 }
@@ -2447,7 +1953,7 @@
                         "RelativeLocation": "X=5838.307 Y=1546.136 Z=80.357",
                         "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
                         "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "RigidBodyType": "2",
+                        "RigidBodyType": "0",
                         "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
                         "bApplyGravity": "false",
                         "bAutoActive": "true",
@@ -2467,6 +1973,35 @@
             "ActorLabel": "OBJ_CUBE_447",
             "ActorTickInEditor": "false",
             "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=150.000 Y=150.000 Z=11.783",
+                        "AABB_min": "X=-150.000 Y=-150.000 Z=0.000",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=150.000 Y=150.000 Z=10.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=6094.645 Y=1388.970 Z=80.357",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "0",
+                        "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bOverrideTransform": "false",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                },
                 {
                     "ComponentClass": "UStaticMeshComponent",
                     "ComponentID": "StaticMeshComponent_0",
@@ -2489,35 +2024,6 @@
                         "bIsActive": "true",
                         "bOverrideTransform": "false",
                         "bSimulate": "false",
-                        "m_Type": ""
-                    }
-                },
-                {
-                    "ComponentClass": "UStaticMeshComponent",
-                    "ComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
-                    "Properties": {
-                        "AABB_max": "X=150.000 Y=150.000 Z=11.783",
-                        "AABB_min": "X=-150.000 Y=-150.000 Z=0.000",
-                        "AttachParentID": "nullptr",
-                        "ComponentClass": "UStaticMeshComponent",
-                        "ComponentName": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0",
-                        "ComponentOwner": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_ACube_447",
-                        "ComponentOwnerClass": "ACube",
-                        "GeomAttribute 0Extent": "X=150.000 Y=150.000 Z=10.000",
-                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
-                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
-                        "GeomAttribute 0Type": "1",
-                        "GeomAttributeNum": "1",
-                        "RelativeLocation": "X=6094.645 Y=1388.970 Z=80.357",
-                        "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "RigidBodyType": "2",
-                        "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
-                        "bApplyGravity": "false",
-                        "bAutoActive": "true",
-                        "bIsActive": "true",
-                        "bOverrideTransform": "false",
-                        "bSimulate": "true",
                         "m_Type": ""
                     }
                 }
@@ -2575,7 +2081,7 @@
                         "RelativeLocation": "X=5781.391 Y=878.024 Z=80.357",
                         "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
                         "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "RigidBodyType": "2",
+                        "RigidBodyType": "0",
                         "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
                         "bApplyGravity": "false",
                         "bAutoActive": "true",
@@ -2639,7 +2145,7 @@
                         "RelativeLocation": "X=5937.961 Y=1133.401 Z=80.357",
                         "RelativeRotation": "Pitch=-0.000 Yaw=-31.512 Roll=-0.000",
                         "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "RigidBodyType": "2",
+                        "RigidBodyType": "0",
                         "StaticMeshPath": "Contents/10450_Rectangular_Grass_Patch/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",
                         "bApplyGravity": "false",
                         "bAutoActive": "true",
@@ -2652,162 +2158,6 @@
             ],
             "Properties": {},
             "RootComponentID": "CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_CopyOf_StaticMeshComponent_0"
-        },
-        {
-            "ActorClass": "ARotatePatrolPlatform",
-            "ActorID": "CopyOf_CopyOf_ARotatePatrolPlatform_378",
-            "ActorLabel": "OBJ_Rotate_Patrol_Platform_378",
-            "ActorTickInEditor": "false",
-            "Components": [
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_494",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_CopyOf_USceneComponent_379",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_494",
-                        "ComponentOwner": "CopyOf_CopyOf_ARotatePatrolPlatform_378",
-                        "ComponentOwnerClass": "ARotatePatrolPlatform",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "UStaticMeshComponent",
-                    "ComponentID": "CopyOf_CopyOf_UStaticMeshComponent_380",
-                    "Properties": {
-                        "AABB_max": "X=70.027 Y=0.384 Z=82.014",
-                        "AABB_min": "X=-78.133 Y=-376.344 Z=-72.744",
-                        "AttachParentID": "CopyOf_CopyOf_USceneComponent_379",
-                        "ComponentClass": "UStaticMeshComponent",
-                        "ComponentName": "CopyOf_CopyOf_UStaticMeshComponent_380",
-                        "ComponentOwner": "CopyOf_CopyOf_ARotatePatrolPlatform_378",
-                        "ComponentOwnerClass": "ARotatePatrolPlatform",
-                        "GeomAttribute 0Extent": "X=50.000 Y=190.000 Z=50.000",
-                        "GeomAttribute 0Offset": "X=0.000 Y=-190.000 Z=0.000",
-                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
-                        "GeomAttribute 0Type": "1",
-                        "GeomAttributeNum": "1",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "RigidBodyType": "0",
-                        "StaticMeshPath": "Contents/Totem/Totem.obj",
-                        "bApplyGravity": "false",
-                        "bAutoActive": "true",
-                        "bIsActive": "true",
-                        "bOverrideTransform": "false",
-                        "bSimulate": "true",
-                        "m_Type": ""
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "CopyOf_CopyOf_USceneComponent_379",
-                    "Properties": {
-                        "AttachParentID": "nullptr",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "CopyOf_CopyOf_USceneComponent_379",
-                        "ComponentOwner": "CopyOf_CopyOf_ARotatePatrolPlatform_378",
-                        "ComponentOwnerClass": "ARotatePatrolPlatform",
-                        "RelativeLocation": "X=3000.000 Y=1631.567 Z=187.829",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_685",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_CopyOf_USceneComponent_379",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_685",
-                        "ComponentOwner": "CopyOf_CopyOf_ARotatePatrolPlatform_378",
-                        "ComponentOwnerClass": "ARotatePatrolPlatform",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_471",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_CopyOf_USceneComponent_379",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_471",
-                        "ComponentOwner": "CopyOf_CopyOf_ARotatePatrolPlatform_378",
-                        "ComponentOwnerClass": "ARotatePatrolPlatform",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_495",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_CopyOf_USceneComponent_379",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_495",
-                        "ComponentOwner": "CopyOf_CopyOf_ARotatePatrolPlatform_378",
-                        "ComponentOwnerClass": "ARotatePatrolPlatform",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_481",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_CopyOf_USceneComponent_379",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_481",
-                        "ComponentOwner": "CopyOf_CopyOf_ARotatePatrolPlatform_378",
-                        "ComponentOwnerClass": "ARotatePatrolPlatform",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_496",
-                    "Properties": {
-                        "AttachParentID": "CopyOf_CopyOf_USceneComponent_379",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_496",
-                        "ComponentOwner": "CopyOf_CopyOf_ARotatePatrolPlatform_378",
-                        "ComponentOwnerClass": "ARotatePatrolPlatform",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                }
-            ],
-            "Properties": {
-                "PlatformAngularSpeed": "1.000000",
-                "PlatformTargetA": "Pitch=0.000 Yaw=0.000 Roll=0.000",
-                "PlatformTargetB": "Pitch=30.000 Yaw=30.000 Roll=30.000",
-                "bJustRotate": "false"
-            },
-            "RootComponentID": "CopyOf_CopyOf_USceneComponent_379"
         },
         {
             "ActorClass": "AAmbientLight",
@@ -2971,6 +2321,22 @@
             "Components": [
                 {
                     "ComponentClass": "USceneComponent",
+                    "ComponentID": "USceneComponent_13873",
+                    "Properties": {
+                        "AttachParentID": "USceneComponent_501",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "USceneComponent_13873",
+                        "ComponentOwner": "AShootingTrap_500",
+                        "ComponentOwnerClass": "AShootingTrap",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "USceneComponent",
                     "ComponentID": "USceneComponent_515",
                     "Properties": {
                         "AttachParentID": "USceneComponent_501",
@@ -3002,6 +2368,22 @@
                     }
                 },
                 {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "USceneComponent_501",
+                    "Properties": {
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "USceneComponent_501",
+                        "ComponentOwner": "AShootingTrap_500",
+                        "ComponentOwnerClass": "AShootingTrap",
+                        "RelativeLocation": "X=3600.953 Y=3911.568 Z=555.753",
+                        "RelativeRotation": "Pitch=-7.901 Yaw=-69.333 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
                     "ComponentClass": "UStaticMeshComponent",
                     "ComponentID": "UStaticMeshComponent_502",
                     "Properties": {
@@ -3025,22 +2407,6 @@
                         "bSimulate": "false",
                         "m_Type": ""
                     }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_501",
-                    "Properties": {
-                        "AttachParentID": "nullptr",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_501",
-                        "ComponentOwner": "AShootingTrap_500",
-                        "ComponentOwnerClass": "AShootingTrap",
-                        "RelativeLocation": "X=1797.086 Y=-1361.310 Z=119.587",
-                        "RelativeRotation": "Pitch=0.000 Yaw=123.800 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
                 }
             ],
             "Properties": {
@@ -3050,9 +2416,9 @@
                 "ForceDistributionMax": "1.000000",
                 "ForceDistributionMin": "1.000000",
                 "LifeTime": "10.000000",
-                "ShootPowerScalar": "1000.000000",
+                "ShootPowerScalar": "2500.000000",
                 "SpawnDirection": "Pitch=0.000 Yaw=90.000 Roll=0.000",
-                "SpawnInterval": "0.800000",
+                "SpawnInterval": "2.500000",
                 "SpawnLocation": "X=0.000 Y=0.000 Z=187.000",
                 "SpawnScale": "X=10.000 Y=10.000 Z=10.000"
             },
@@ -3179,6 +2545,47 @@
             "Components": [
                 {
                     "ComponentClass": "USceneComponent",
+                    "ComponentID": "USceneComponent_13889",
+                    "Properties": {
+                        "AttachParentID": "USceneComponent_19394",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "USceneComponent_13889",
+                        "ComponentOwner": "ARotatePatrolPlatform_19393",
+                        "ComponentOwnerClass": "ARotatePatrolPlatform",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "UStaticMeshComponent_19399",
+                    "Properties": {
+                        "AABB_max": "X=70.027 Y=0.384 Z=82.014",
+                        "AABB_min": "X=-78.133 Y=-376.344 Z=-72.744",
+                        "AttachParentID": "USceneComponent_19394",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "UStaticMeshComponent_19399",
+                        "ComponentOwner": "ARotatePatrolPlatform_19393",
+                        "ComponentOwnerClass": "ARotatePatrolPlatform",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=180.000 Roll=-0.000",
+                        "RelativeScale3D": "X=0.500 Y=1.500 Z=0.500",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Totem/Totem.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bOverrideTransform": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "USceneComponent",
                     "ComponentID": "USceneComponent_530",
                     "Properties": {
                         "AttachParentID": "USceneComponent_19394",
@@ -3210,28 +2617,19 @@
                     }
                 },
                 {
-                    "ComponentClass": "UStaticMeshComponent",
-                    "ComponentID": "UStaticMeshComponent_19399",
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "USceneComponent_19394",
                     "Properties": {
-                        "AABB_max": "X=70.027 Y=0.384 Z=82.014",
-                        "AABB_min": "X=-78.133 Y=-376.344 Z=-72.744",
-                        "AttachParentID": "USceneComponent_19394",
-                        "ComponentClass": "UStaticMeshComponent",
-                        "ComponentName": "UStaticMeshComponent_19399",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "USceneComponent_19394",
                         "ComponentOwner": "ARotatePatrolPlatform_19393",
                         "ComponentOwnerClass": "ARotatePatrolPlatform",
-                        "GeomAttributeNum": "0",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=100.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=180.000 Roll=-0.000",
-                        "RelativeScale3D": "X=2.000 Y=2.000 Z=2.000",
-                        "RigidBodyType": "1",
-                        "StaticMeshPath": "Contents/Totem/Totem.obj",
-                        "bApplyGravity": "false",
+                        "RelativeLocation": "X=2365.937 Y=616.976 Z=162.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
                         "bAutoActive": "true",
-                        "bIsActive": "true",
-                        "bOverrideTransform": "false",
-                        "bSimulate": "false",
-                        "m_Type": ""
+                        "bIsActive": "true"
                     }
                 },
                 {
@@ -3246,40 +2644,24 @@
                         "ComponentOwner": "ARotatePatrolPlatform_19393",
                         "ComponentOwnerClass": "ARotatePatrolPlatform",
                         "GeomAttributeNum": "0",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=100.000",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
                         "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=2.000 Y=2.000 Z=2.000",
+                        "RelativeScale3D": "X=0.500 Y=1.500 Z=0.500",
                         "RigidBodyType": "1",
                         "StaticMeshPath": "Contents/Totem/Totem.obj",
                         "bApplyGravity": "false",
                         "bAutoActive": "true",
                         "bIsActive": "true",
-                        "bOverrideTransform": "false",
+                        "bOverrideTransform": "true",
                         "bSimulate": "false",
                         "m_Type": ""
-                    }
-                },
-                {
-                    "ComponentClass": "USceneComponent",
-                    "ComponentID": "USceneComponent_19394",
-                    "Properties": {
-                        "AttachParentID": "nullptr",
-                        "ComponentClass": "USceneComponent",
-                        "ComponentName": "USceneComponent_19394",
-                        "ComponentOwner": "ARotatePatrolPlatform_19393",
-                        "ComponentOwnerClass": "ARotatePatrolPlatform",
-                        "RelativeLocation": "X=2256.902 Y=-551.900 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
                     }
                 }
             ],
             "Properties": {
-                "PlatformAngularSpeed": "500.000000",
+                "PlatformAngularSpeed": "100.000000",
                 "PlatformTargetA": "Pitch=0.000 Yaw=0.000 Roll=0.000",
-                "PlatformTargetB": "Pitch=0.000 Yaw=30.000 Roll=0.000",
+                "PlatformTargetB": "Pitch=0.000 Yaw=10.000 Roll=0.000",
                 "bJustRotate": "true"
             },
             "RootComponentID": "USceneComponent_19394"
@@ -3447,31 +2829,6 @@
             "Components": [
                 {
                     "ComponentClass": "UStaticMeshComponent",
-                    "ComponentID": "StaticMeshComponent_0",
-                    "Properties": {
-                        "AABB_max": "X=0.000 Y=0.000 Z=0.000",
-                        "AABB_min": "X=0.000 Y=0.000 Z=0.000",
-                        "AttachParentID": "CopyOf_CopyOf_StaticMeshComponent_0",
-                        "ComponentClass": "UStaticMeshComponent",
-                        "ComponentName": "StaticMeshComponent_0",
-                        "ComponentOwner": "CopyOf_CopyOf_ACube_1460",
-                        "ComponentOwnerClass": "ACube",
-                        "GeomAttributeNum": "0",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "RigidBodyType": "1",
-                        "StaticMeshPath": "None",
-                        "bApplyGravity": "false",
-                        "bAutoActive": "true",
-                        "bIsActive": "true",
-                        "bOverrideTransform": "false",
-                        "bSimulate": "false",
-                        "m_Type": ""
-                    }
-                },
-                {
-                    "ComponentClass": "UStaticMeshComponent",
                     "ComponentID": "CopyOf_CopyOf_StaticMeshComponent_0",
                     "Properties": {
                         "AABB_max": "X=2.500 Y=2.500 Z=5.000",
@@ -3487,6 +2844,31 @@
                         "RelativeScale3D": "X=50.000 Y=50.000 Z=50.000",
                         "RigidBodyType": "1",
                         "StaticMeshPath": "Contents/WoodenBox/Wooden_Crate.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bOverrideTransform": "false",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=0.000 Y=0.000 Z=0.000",
+                        "AABB_min": "X=0.000 Y=0.000 Z=0.000",
+                        "AttachParentID": "CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_ACube_1460",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "None",
                         "bApplyGravity": "false",
                         "bAutoActive": "true",
                         "bIsActive": "true",
@@ -3566,6 +2948,56 @@
             "ActorTickInEditor": "false",
             "Components": [
                 {
+                    "ComponentClass": "USkeletalMeshComponent",
+                    "ComponentID": "USkeletalMeshComponent_564",
+                    "Properties": {
+                        "AABB_max": "X=16.935 Y=85.118 Z=172.542",
+                        "AABB_min": "X=-17.117 Y=-85.258 Z=-0.002",
+                        "AnimClass": "None",
+                        "AnimToPlay": "None",
+                        "AnimationMode": "1",
+                        "AttachParentID": "UStaticMeshComponent_562",
+                        "ComponentClass": "USkeletalMeshComponent",
+                        "ComponentName": "USkeletalMeshComponent_564",
+                        "ComponentOwner": "AActor_560",
+                        "ComponentOwnerClass": "AActor",
+                        "GeomAttributeNum": "0",
+                        "LoopEndFrame": "0",
+                        "LoopStartFrame": "0",
+                        "PlayRate": "1.000000",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=-32.602",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "SkeletalMeshKey": "Contents/Character/Paladin_J_Nordstrom",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bLooping": "true",
+                        "bOverrideTransform": "false",
+                        "bPlaying": "true",
+                        "bReverse": "false",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "USceneComponent_13921",
+                    "Properties": {
+                        "AttachParentID": "USceneComponent_561",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "USceneComponent_13921",
+                        "ComponentOwner": "AActor_560",
+                        "ComponentOwnerClass": "AActor",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
                     "ComponentClass": "USceneComponent",
                     "ComponentID": "USceneComponent_561",
                     "Properties": {
@@ -3575,7 +3007,7 @@
                         "ComponentOwner": "AActor_560",
                         "ComponentOwnerClass": "AActor",
                         "RelativeLocation": "X=-2874.421 Y=99.964 Z=855.560",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
                         "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
                         "bAutoActive": "true",
                         "bIsActive": "true"
@@ -3611,40 +3043,6 @@
                     }
                 },
                 {
-                    "ComponentClass": "USkeletalMeshComponent",
-                    "ComponentID": "USkeletalMeshComponent_564",
-                    "Properties": {
-                        "AABB_max": "X=16.935 Y=85.118 Z=172.542",
-                        "AABB_min": "X=-17.117 Y=-85.258 Z=-0.002",
-                        "AnimClass": "None",
-                        "AnimToPlay": "None",
-                        "AnimationMode": "1",
-                        "AttachParentID": "UStaticMeshComponent_562",
-                        "ComponentClass": "USkeletalMeshComponent",
-                        "ComponentName": "USkeletalMeshComponent_564",
-                        "ComponentOwner": "AActor_560",
-                        "ComponentOwnerClass": "AActor",
-                        "GeomAttributeNum": "0",
-                        "LoopEndFrame": "0",
-                        "LoopStartFrame": "0",
-                        "PlayRate": "1.000000",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=-32.602",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "RigidBodyType": "1",
-                        "SkeletalMeshKey": "Contents/Character/Paladin_J_Nordstrom",
-                        "bApplyGravity": "false",
-                        "bAutoActive": "true",
-                        "bIsActive": "true",
-                        "bLooping": "true",
-                        "bOverrideTransform": "false",
-                        "bPlaying": "true",
-                        "bReverse": "false",
-                        "bSimulate": "false",
-                        "m_Type": ""
-                    }
-                },
-                {
                     "ComponentClass": "ULuaScriptComponent",
                     "ComponentID": "ULuaScriptComponent_567",
                     "Properties": {
@@ -3661,9 +3059,422 @@
             ],
             "Properties": {},
             "RootComponentID": "USceneComponent_561"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "ACube_6526",
+            "ActorLabel": "OBJ_CUBE_6526",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=0.381 Y=0.381 Z=0.918",
+                        "AABB_min": "X=-0.381 Y=-0.381 Z=-0.000",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "ACube_6526",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=2365.940 Y=616.980 Z=20.901",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=200.000 Y=200.000 Z=200.000",
+                        "RigidBodyType": "0",
+                        "StaticMeshPath": "Contents/Barrel/Barrel.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bOverrideTransform": "false",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "AActor",
+            "ActorID": "AActor_10317",
+            "ActorLabel": "OBJ_SKELETALMESH_10317",
+            "ActorTickInEditor": "true",
+            "Components": [
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "USceneComponent_13933",
+                    "Properties": {
+                        "AttachParentID": "USkeletalMeshComponent_10319",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "USceneComponent_13933",
+                        "ComponentOwner": "AActor_10317",
+                        "ComponentOwnerClass": "AActor",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "USkeletalMeshComponent",
+                    "ComponentID": "USkeletalMeshComponent_10319",
+                    "Properties": {
+                        "AABB_max": "X=55.075 Y=316.785 Z=102.735",
+                        "AABB_min": "X=-60.139 Y=-93.636 Z=-65.315",
+                        "AnimClass": "None",
+                        "AnimToPlay": "None",
+                        "AnimationMode": "1",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "USkeletalMeshComponent",
+                        "ComponentName": "USkeletalMeshComponent_10319",
+                        "ComponentOwner": "AActor_10317",
+                        "ComponentOwnerClass": "AActor",
+                        "GeomAttributeNum": "0",
+                        "LoopEndFrame": "0",
+                        "LoopStartFrame": "0",
+                        "PlayRate": "1.000000",
+                        "RelativeLocation": "X=-3252.991 Y=3833.650 Z=2778.252",
+                        "RelativeRotation": "Pitch=-38.101 Yaw=-88.785 Roll=-0.000",
+                        "RelativeScale3D": "X=10.000 Y=10.000 Z=10.000",
+                        "RigidBodyType": "1",
+                        "SkeletalMeshKey": "Contents/Fish/Fish",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bLooping": "false",
+                        "bOverrideTransform": "true",
+                        "bPlaying": "false",
+                        "bReverse": "false",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "USceneComponent_10318",
+                    "Properties": {
+                        "AttachParentID": "USkeletalMeshComponent_10319",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "USceneComponent_10318",
+                        "ComponentOwner": "AActor_10317",
+                        "ComponentOwnerClass": "AActor",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "USkeletalMeshComponent_10319"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "ACube_10330",
+            "ActorLabel": "OBJ_CUBE_10330",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=12.998 Y=7.420 Z=4.473",
+                        "AABB_min": "X=-12.998 Y=-7.420 Z=-4.473",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "ACube_10330",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=232.300 Y=209.200 Z=34.400",
+                        "GeomAttribute 0Offset": "X=-280.500 Y=51.300 Z=-103.400",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttribute 1Extent": "X=240.000 Y=200.000 Z=52.000",
+                        "GeomAttribute 1Offset": "X=-85.800 Y=56.700 Z=-36.300",
+                        "GeomAttribute 1Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 1Type": "1",
+                        "GeomAttribute 2Extent": "X=138.000 Y=203.000 Z=40.000",
+                        "GeomAttribute 2Offset": "X=51.800 Y=19.900 Z=44.000",
+                        "GeomAttribute 2Rotation": "Pitch=0.000 Yaw=-20.700 Roll=0.000",
+                        "GeomAttribute 2Type": "1",
+                        "GeomAttribute 3Extent": "X=172.000 Y=200.000 Z=40.000",
+                        "GeomAttribute 3Offset": "X=274.100 Y=-45.700 Z=131.000",
+                        "GeomAttribute 3Rotation": "Pitch=0.000 Yaw=-34.100 Roll=0.000",
+                        "GeomAttribute 3Type": "1",
+                        "GeomAttributeNum": "4",
+                        "RelativeLocation": "X=3933.397 Y=2079.687 Z=178.104",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=45.000 Roll=-0.000",
+                        "RelativeScale3D": "X=40.000 Y=40.000 Z=40.000",
+                        "RigidBodyType": "0",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_B.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bOverrideTransform": "false",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_ACube_10330",
+            "ActorLabel": "OBJ_CUBE_10330",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=12.998 Y=7.420 Z=4.473",
+                        "AABB_min": "X=-12.998 Y=-7.420 Z=-4.473",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_ACube_10330",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=232.300 Y=209.200 Z=34.400",
+                        "GeomAttribute 0Offset": "X=-280.500 Y=51.300 Z=-103.400",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttribute 1Extent": "X=240.000 Y=200.000 Z=52.000",
+                        "GeomAttribute 1Offset": "X=-85.800 Y=56.700 Z=-36.300",
+                        "GeomAttribute 1Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 1Type": "1",
+                        "GeomAttribute 2Extent": "X=138.000 Y=203.000 Z=40.000",
+                        "GeomAttribute 2Offset": "X=51.800 Y=19.900 Z=44.000",
+                        "GeomAttribute 2Rotation": "Pitch=0.000 Yaw=-20.700 Roll=0.000",
+                        "GeomAttribute 2Type": "1",
+                        "GeomAttribute 3Extent": "X=172.000 Y=200.000 Z=40.000",
+                        "GeomAttribute 3Offset": "X=274.100 Y=-45.700 Z=131.000",
+                        "GeomAttribute 3Rotation": "Pitch=0.000 Yaw=-34.100 Roll=0.000",
+                        "GeomAttribute 3Type": "1",
+                        "GeomAttributeNum": "4",
+                        "RelativeLocation": "X=4565.022 Y=2212.041 Z=405.069",
+                        "RelativeRotation": "Pitch=-0.000 Yaw=1.400 Roll=-0.000",
+                        "RelativeScale3D": "X=40.000 Y=40.000 Z=40.000",
+                        "RigidBodyType": "0",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_B.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bOverrideTransform": "false",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=0.000 Y=0.000 Z=0.000",
+                        "AABB_min": "X=0.000 Y=0.000 Z=0.000",
+                        "AttachParentID": "CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_ACube_10330",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "None",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bOverrideTransform": "true",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "ACube",
+            "ActorID": "CopyOf_CopyOf_ACube_324",
+            "ActorLabel": "OBJ_CUBE_324",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=0.000 Y=0.000 Z=0.000",
+                        "AABB_min": "X=0.000 Y=0.000 Z=0.000",
+                        "AttachParentID": "CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "None",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bOverrideTransform": "false",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_CopyOf_StaticMeshComponent_0",
+                    "Properties": {
+                        "AABB_max": "X=4.663 Y=5.191 Z=2.488",
+                        "AABB_min": "X=-4.663 Y=-5.191 Z=-2.488",
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_CopyOf_StaticMeshComponent_0",
+                        "ComponentOwner": "CopyOf_CopyOf_ACube_324",
+                        "ComponentOwnerClass": "ACube",
+                        "GeomAttribute 0Extent": "X=225.000 Y=225.000 Z=115.000",
+                        "GeomAttribute 0Offset": "X=0.000 Y=0.000 Z=0.000",
+                        "GeomAttribute 0Rotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "GeomAttribute 0Type": "1",
+                        "GeomAttributeNum": "1",
+                        "RelativeLocation": "X=4508.448 Y=117.715 Z=247.830",
+                        "RelativeRotation": "Pitch=-8.302 Yaw=116.660 Roll=-0.000",
+                        "RelativeScale3D": "X=50.000 Y=50.000 Z=50.000",
+                        "RigidBodyType": "2",
+                        "StaticMeshPath": "Contents/StonePlatform/StonePlatform_E.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bOverrideTransform": "false",
+                        "bSimulate": "true",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {},
+            "RootComponentID": "CopyOf_CopyOf_StaticMeshComponent_0"
+        },
+        {
+            "ActorClass": "AShootingTrap",
+            "ActorID": "CopyOf_AShootingTrap_500",
+            "ActorLabel": "OBJ_ShootingTrap_500",
+            "ActorTickInEditor": "false",
+            "Components": [
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "CopyOf_USceneComponent_13873",
+                    "Properties": {
+                        "AttachParentID": "CopyOf_USceneComponent_501",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "CopyOf_USceneComponent_13873",
+                        "ComponentOwner": "CopyOf_AShootingTrap_500",
+                        "ComponentOwnerClass": "AShootingTrap",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "CopyOf_USceneComponent_515",
+                    "Properties": {
+                        "AttachParentID": "CopyOf_USceneComponent_501",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "CopyOf_USceneComponent_515",
+                        "ComponentOwner": "CopyOf_AShootingTrap_500",
+                        "ComponentOwnerClass": "AShootingTrap",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "CopyOf_USceneComponent_703",
+                    "Properties": {
+                        "AttachParentID": "CopyOf_USceneComponent_501",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "CopyOf_USceneComponent_703",
+                        "ComponentOwner": "CopyOf_AShootingTrap_500",
+                        "ComponentOwnerClass": "AShootingTrap",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "USceneComponent",
+                    "ComponentID": "CopyOf_USceneComponent_501",
+                    "Properties": {
+                        "AttachParentID": "nullptr",
+                        "ComponentClass": "USceneComponent",
+                        "ComponentName": "CopyOf_USceneComponent_501",
+                        "ComponentOwner": "CopyOf_AShootingTrap_500",
+                        "ComponentOwnerClass": "AShootingTrap",
+                        "RelativeLocation": "X=4508.448 Y=117.715 Z=360.330",
+                        "RelativeRotation": "Pitch=-8.302 Yaw=116.660 Roll=-0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
+                    "ComponentClass": "UStaticMeshComponent",
+                    "ComponentID": "CopyOf_UStaticMeshComponent_502",
+                    "Properties": {
+                        "AABB_max": "X=0.321 Y=0.949 Z=1.774",
+                        "AABB_min": "X=-0.325 Y=-0.951 Z=-0.000",
+                        "AttachParentID": "CopyOf_USceneComponent_501",
+                        "ComponentClass": "UStaticMeshComponent",
+                        "ComponentName": "CopyOf_UStaticMeshComponent_502",
+                        "ComponentOwner": "CopyOf_AShootingTrap_500",
+                        "ComponentOwnerClass": "AShootingTrap",
+                        "GeomAttributeNum": "0",
+                        "RelativeLocation": "X=-61.407 Y=-0.002 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=-90.000 Roll=-0.000",
+                        "RelativeScale3D": "X=100.000 Y=100.000 Z=100.000",
+                        "RigidBodyType": "1",
+                        "StaticMeshPath": "Contents/Alpaca/Alpaca.obj",
+                        "bApplyGravity": "false",
+                        "bAutoActive": "true",
+                        "bIsActive": "true",
+                        "bOverrideTransform": "false",
+                        "bSimulate": "false",
+                        "m_Type": ""
+                    }
+                }
+            ],
+            "Properties": {
+                "DuplicateTargetActor": "AFish",
+                "ForceDirectionDistributionMax": "X=1.000 Y=1.000 Z=1.000",
+                "ForceDirectionDistributionMin": "X=1.000 Y=1.000 Z=1.000",
+                "ForceDistributionMax": "1.000000",
+                "ForceDistributionMin": "1.000000",
+                "LifeTime": "10.000000",
+                "ShootPowerScalar": "2500.000000",
+                "SpawnDirection": "Pitch=0.000 Yaw=90.000 Roll=0.000",
+                "SpawnInterval": "2.000000",
+                "SpawnLocation": "X=0.000 Y=0.000 Z=187.000",
+                "SpawnScale": "X=10.000 Y=10.000 Z=10.000"
+            },
+            "RootComponentID": "CopyOf_USceneComponent_501"
         }
     ],
-    "GameModeName": "AFFaxkGameMode",
+    "GameModeName": "AGameMode",
     "NextUUID": 0,
     "Version": 1
 }
