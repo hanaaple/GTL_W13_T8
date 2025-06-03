@@ -48,11 +48,6 @@ public:
     static FResourceManager ResourceManager;
     static uint32 TotalAllocationBytes;
     static uint32 TotalAllocationCount;
-    
-    // TODO : Test용 코드 나중에 GameMode로 옮겨야함
-    static bool PauseRequestedPtr;
-    // TODO : Test용 코드 나중에 GameMode로 옮겨야함
-    static bool bIsDied;
 
     HWND AppWnd;
 

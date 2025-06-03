@@ -3,8 +3,12 @@
 #include "EngineLoop.h"
 #include "GameEnd.h"
 #include "DirectXTK/PostProcess.h"
+#include "Engine/Engine.h"
+#include "FFaxk/FFaxkGameMode.h"
 #include "ImGui/imgui.h"
 #include "UObject/Object.h"
+#include "World/World.h"
+
 
 void FGameMenu::Update(float deltaTime)
 {
@@ -12,7 +16,9 @@ void FGameMenu::Update(float deltaTime)
 
 void FGameMenu::Render()
 {
-    if (!FEngineLoop::PauseRequestedPtr)
+    AFFaxkGameMode* GM = GEngine->ActiveWorld->GetGameMode<AFFaxkGameMode>();
+
+    if (!IsValid(GM) || GM->GetGameState() != EGameState::Paused)
     {
         return;
     }
@@ -79,7 +85,7 @@ void FGameMenu::Render()
     DrawImageButton(DrawList, ResumeTexID, ResumeSize, posX, posY, "##ResumeBtn", [&]()
     {
         // TODO : ResumeButton 클릭 로직
-        FEngineLoop::PauseRequestedPtr = false;
+        GM->SetGameState(EGameState::Playing);
     });
 
     posX = (io.DisplaySize.x - RestartSize.x) * 0.5f;
@@ -87,8 +93,11 @@ void FGameMenu::Render()
     DrawImageButton(DrawList, RestartTexID, RestartSize, posX, posY, "##RestartBtn", [&]()
     {
         // TODO : RestartButton 클릭 로직
-        FEngineLoop::PauseRequestedPtr = false;
-        FEngineLoop::bIsDied = true;
+        GM->SetGameState(EGameState::Playing);
+
+        APlayerController* PC = GM->GetPlayerController();
+        PC->GetPawn()->Destroy();
+        GM->RequestPlayerRespawn(PC);
     });
 
     posX = (io.DisplaySize.x - ToMainSize.x) * 0.5f;
