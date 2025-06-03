@@ -33,6 +33,7 @@ private:
     float BlinkTimer;   // 깜빡임 타이머 (초 단위)
     bool  bShowPrompt;  // “Press Any Key” 문구를 보일지 여부
 
+    std::shared_ptr<FTexture> MainImage;
     std::shared_ptr<FTexture> TitleTexture; 
     ImVec2      TitleSize;   // 게임 타이틀 이미지 크기 (픽셀 단위)
 };

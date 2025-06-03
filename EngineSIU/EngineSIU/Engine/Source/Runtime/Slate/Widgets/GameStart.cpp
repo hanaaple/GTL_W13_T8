@@ -51,8 +51,38 @@ void FGameStart::Render()
     ImDrawList* DrawList = ImGui::GetWindowDrawList();
     
     // 2) 배경 전체를 검은색(불투명)으로 채우기
-    DrawFullScreenColor(DrawList, ScreenSize, IM_COL32(0, 0, 0, 255));
+    //DrawFullScreenColor(DrawList, ScreenSize, IM_COL32(0, 0, 0, 255));
+    if (std::shared_ptr<FTexture> TitleImage = FEngineLoop::ResourceManager.GetTexture(L"Assets/Texture/MainImage.png"))
+    {
+        // ----- 1) 텍스처 크기 가져오기 -----
+        float texW = TitleImage->Width;
+        float texH = TitleImage->Height;
 
+        // ----- 2) 화면 크기 가져오기 -----
+        float screenW = ScreenSize.x;
+        float screenH = ScreenSize.y;
+
+        // ----- 3) 스케일 계산 (화면에 들어가도록 가장 작은 스케일 선택) -----
+        float scaleX = screenW / texW;
+        float scaleY = screenH / texH;
+        float scale  = (scaleX < scaleY) ? scaleX : scaleY;
+
+        // ----- 4) 실제 렌더할 이미지 크기 -----
+        float renderW = texW * scale;
+        float renderH = texH * scale;
+
+        // ----- 5) 화면 중앙에 배치하기 위해 좌표 계산 -----
+        float posX = (screenW - renderW) * 0.5f;
+        float posY = (screenH - renderH) * 0.5f;
+
+        // ----- 6) UV 좌표: (0,0) ~ (1,1) (원본 전체 사용) -----
+        ImVec2 uv0(0.0f, 0.0f);
+        ImVec2 uv1(1.0f, 1.0f);
+
+        // ----- 7) 이미지 그리기 -----
+        DrawList->AddImage(reinterpret_cast<ImTextureID>(TitleImage->TextureSRV), ImVec2(posX, posY), ImVec2(posX + renderW, posY + renderH), uv0, uv1);
+    }
+        
     // 2. 화면 중앙에 이미지로 게임 타이틀 출력
     if (TitleTexture && TitleTexture->TextureSRV && TitleTexture->Width > 0 && TitleTexture->Height > 0)
     {
