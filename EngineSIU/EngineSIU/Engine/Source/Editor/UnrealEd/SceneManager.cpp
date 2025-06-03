@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 #include <fstream>
+
 #include "EditorViewportClient.h"
 #include "Engine/FObjLoader.h"
 #include "Engine/StaticMeshActor.h"
@@ -99,9 +100,10 @@ struct FSceneData
     //TMap<int32, UObject*> Primitives;
 
     TArray<FActorSaveData> Actors; // 씬에 있는 모든 액터 정보
+    FString GameModeName;
     //TMap<int32, UObject*> Cameras;
 
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(FSceneData, Version, NextUUID, Actors)
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(FSceneData, Version, NextUUID, Actors, GameModeName)
 };
 
 //TODO : 레벨 데이타 구현
@@ -244,6 +246,8 @@ FSceneData SceneManager::WorldToSceneData(const UWorld& InWorld)
         }
         sceneData.Actors.Add(actorData);
     }
+
+    sceneData.GameModeName = InWorld.GetGameModeClass() ? InWorld.GetGameModeClass()->GetName() : TEXT("");
     return sceneData;
 }
 
@@ -258,7 +262,8 @@ bool SceneManager::LoadWorldFromData(const FSceneData& sceneData, UWorld* target
     // 임시 맵: 저장된 ID와 새로 생성된 객체 포인터를 매핑
     TMap<FString, AActor*> SpawnedActorsMap;
     //TMap<FString, UActorComponent*> SpawnedComponentsMap;
-    
+
+    targetWorld->SetGameModeClass(UClass::FindClass(sceneData.GameModeName));
 
     // --- 1단계: 액터 및 컴포넌트 생성 ---
     UE_LOG(ELogLevel::Display, TEXT("Loading Scene Data: Phase 1 - Spawning Actors and Components..."));

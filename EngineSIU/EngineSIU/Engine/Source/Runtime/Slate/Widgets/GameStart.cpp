@@ -1,7 +1,9 @@
 #include "GameStart.h"
 
 #include "Animation/AnimNotifyState.h"
+#include "Engine/Engine.h"
 #include "ImGui/imgui.h"
+#include "World/World.h"
 
 void FGameStart::SetTitleImage(const std::shared_ptr<FTexture>& InTitleTexture, float InWidth, float InHeight)
 {
@@ -12,7 +14,9 @@ void FGameStart::SetTitleImage(const std::shared_ptr<FTexture>& InTitleTexture, 
 void FGameStart::Update(float deltaTime)
 {
     if (!bIsActive)
+    {
         return;
+    }
 
     // 1. 깜빡임 타이머 업데이트 (0.5초마다 상태 토글)
     BlinkTimer += deltaTime;
@@ -27,6 +31,21 @@ void FGameStart::Update(float deltaTime)
     //    해당 키가 눌려 있는 상태(VK 상태의 최상위 비트가 1)를 감지
     if (FSlateAppMessageHandler::IsAnyKeyPressed())
     {
+        if (bIsActive)
+        {
+            if (GEngine->ActiveWorld)
+            {
+                if (AGameModeBase* GameModeBase = GEngine->ActiveWorld->GetGameMode())
+                {
+                    if (APlayerController* PC = GameModeBase->GetPlayerController())
+                    {
+                        FViewTargetTransitionParams Params = FViewTargetTransitionParams();
+                        Params.BlendTime = 3.0f;
+                        PC->SetViewTarget(PC, Params);
+                    }
+                }
+            }
+        }
         bIsActive = false;
     }
 }
@@ -34,7 +53,9 @@ void FGameStart::Update(float deltaTime)
 void FGameStart::Render()
 {
     if (!bIsActive)
+    {
         return;
+    }
 
     const ImGuiIO& IO        = ImGui::GetIO();
     const ImVec2   ScreenSize    = IO.DisplaySize;

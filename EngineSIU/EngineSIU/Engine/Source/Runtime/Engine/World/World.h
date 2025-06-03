@@ -90,6 +90,7 @@ public:
     }
 
     void SetGameModeClass(const TSubclassOf<AGameModeBase>& InGameModeClass);
+    UClass* GetGameModeClass() const { return GameModeClass; }
 
     void InitGameMode();
     void DestroyGameMode();

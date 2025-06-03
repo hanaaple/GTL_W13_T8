@@ -2303,6 +2303,7 @@
             "RootComponentID": "UBillboardComponent_0"
         }
     ],
+    "GameModeName" : "AFFaxkGameMode",
     "NextUUID": 0,
     "Version": 1
 }

@@ -21,6 +21,7 @@
 #include "World/World.h"
 
 #include "tinyfiledialogs.h"
+#include "Actors/CameraActor.h"
 #include "Widgets/GameEnd.h"
 #include "Widgets/GameHUD.h"
 #include "Widgets/GameMenu.h"
@@ -43,7 +44,6 @@ void UEditorEngine::Init()
 
     // Initialize the engine
     GEngine = this;
-
     FWorldContext& EditorWorldContext = CreateNewWorldContext(EWorldType::Editor);
 
     EditorWorld = UWorld::CreateWorld(this, EWorldType::Editor, FString("EditorWorld"));
@@ -307,12 +307,12 @@ void UEditorEngine::StartPIE()
     
     std::shared_ptr<FGameHUD> gameHUD = std::make_shared<FGameHUD>();
     GEngineLoop.GetGameUIManager()->AddElement(gameHUD);
-
+    
     std::shared_ptr<FGameMenu> gameMenu = std::make_shared<FGameMenu>();
     GEngineLoop.GetGameUIManager()->AddElement(gameMenu);
     
-    std::shared_ptr<FGameStart> gameStart = std::make_shared<FGameStart>();
-
+    std::shared_ptr<FGameStart> gameStart = std::make_shared<FGameStart>();   
+    
     std::shared_ptr<FGameEnd> GameEnd = std::make_shared<FGameEnd>();
     GEngineLoop.GetGameUIManager()->AddElement(GameEnd);
     
@@ -326,6 +326,19 @@ void UEditorEngine::StartPIE()
 
     FEngineLoop::ScriptSys.InitPIEScripts(PIEWorld->GetActiveLevel()->Actors);
     PIEWorld->BeginPlay();
+
+    for (ACameraActor* CameraActor : TObjectRange<ACameraActor>())
+    {
+        if (CameraActor->GetWorld() == GEngine->ActiveWorld)
+        {
+            if (CameraActor->GetCameraMode() == ECameraMode::Start)
+            {
+                const FViewTargetTransitionParams Params = FViewTargetTransitionParams();
+                GEngine->ActiveWorld->GetGameMode()->GetPlayerController()->SetViewTarget(CameraActor, Params);
+                break;
+            }
+        }
+    }
     // 여기서 Actor들의 BeginPlay를 해줄지 안에서 해줄 지 고민.
     // WorldList.Add(GetWorldContextFromWorld(PIEWorld));
 }

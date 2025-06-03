@@ -678,28 +678,32 @@ void USkeletalMeshComponent::DestroyPhysXGameObject()
         }
         delete Constraint;
     }
-    for (UBodySetup* Body : SkeletalMeshAsset->GetPhysicsAsset()->BodySetups)
-    {
-        for (physx::PxShape* BoxElem : Body->AggGeom.BoxElems)
-        {
-            BoxElem->release();
-        }
-
-        for (physx::PxShape* BoxElem : Body->AggGeom.CapsuleElems)
-        {
-            BoxElem->release();
-        }
     
-        for (physx::PxShape* BoxElem : Body->AggGeom.SphereElems)
+    if (SkeletalMeshAsset != nullptr)
+    {
+        for (UBodySetup* Body : SkeletalMeshAsset->GetPhysicsAsset()->BodySetups)
         {
-            BoxElem->release();   
+            for (physx::PxShape* BoxElem : Body->AggGeom.BoxElems)
+            {
+                BoxElem->release();
+            }
+
+            for (physx::PxShape* BoxElem : Body->AggGeom.CapsuleElems)
+            {
+                BoxElem->release();
+            }
+    
+            for (physx::PxShape* BoxElem : Body->AggGeom.SphereElems)
+            {
+                BoxElem->release();   
+            }
+
+            Body->AggGeom.BoxElems.Empty();
+            Body->AggGeom.CapsuleElems.Empty();
+            Body->AggGeom.SphereElems.Empty();
         }
-
-        Body->AggGeom.BoxElems.Empty();
-        Body->AggGeom.CapsuleElems.Empty();
-        Body->AggGeom.SphereElems.Empty();
     }
-
+    
     for (FBodyInstance* Body : Bodies)
     {
         if (Body->BIGameObject != nullptr)

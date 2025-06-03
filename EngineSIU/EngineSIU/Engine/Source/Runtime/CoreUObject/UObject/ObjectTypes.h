@@ -30,6 +30,7 @@ enum class ESpawnObjectTypes : uint8
     RotateSpringTrap,
     
     ShootingTrap,
+    CameraActor,
 };
 
 enum ARROW_DIR : uint8

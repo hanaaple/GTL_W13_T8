@@ -38,6 +38,7 @@
 #include "Renderer/CompositingPass.h"
 #include <Engine/FbxLoader.h>
 
+#include "Actors/CameraActor.h"
 #include "Actors/Sphere.h"
 #include "Engine/Classes/Engine/AssetManager.h"
 #include "Engine/Contents/Actors/RotatePatrolPlatform.h"
@@ -514,6 +515,12 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                     CubeActor->SetActorLabel(TEXT("OBJ_ShootingTrap"));
                     SpawnedActor = CubeActor;
                     break;
+                }
+                case ESpawnObjectTypes::CameraActor:
+                {
+                    ACameraActor* CubeActor = World->SpawnActor<ACameraActor>();
+                    CubeActor->SetActorLabel(TEXT("OBJ_CAMERAActor"));
+                    SpawnedActor = CubeActor;
                 }
                 }
 
