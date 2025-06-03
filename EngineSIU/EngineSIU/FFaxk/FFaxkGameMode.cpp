@@ -57,5 +57,6 @@ void AFFaxkGameMode::RespawnPlayer(APlayerController* PlayerControllerToRespawn)
         const FVector PlayerStartLocation = FindPlayerStart()->GetActorLocation();
         NewPawn->SetActorLocation(PlayerStartLocation);
         PlayerControllerToRespawn->Possess(NewPawn);
+        GameState = EGameState::Playing;
     }
 }

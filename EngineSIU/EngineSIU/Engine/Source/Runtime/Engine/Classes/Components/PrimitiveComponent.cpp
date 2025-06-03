@@ -612,6 +612,12 @@ void UPrimitiveComponent::CreatePhysXGameObject()
     ////////////// 테스트 코드
     BodyInstance->bSimulatePhysics = bSimulate;
     BodyInstance->bEnableGravity = bApplyGravity;
+
+    BodyInstance->CollisionEnabled = ECollisionEnabled::QueryAndPhysics;  // 물리와 쿼리 모두 활성화
+    BodyInstance->bUseCCD = true;                                        // CCD 활성화
+    BodyInstance->bStartAwake = true;                                    // 항상 깨어있는 상태로 시작
+    BodyInstance->PositionSolverIterationCount = 8;                     // 위치 솔버 반복 횟수 증가
+    BodyInstance->VelocitySolverIterationCount = 4;                     // 속도 솔버 반복 횟수 증가
     ////////////////////////
     
     FVector Location = GetComponentLocation();

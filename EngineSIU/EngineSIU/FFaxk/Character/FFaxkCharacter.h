@@ -30,7 +30,7 @@ private:
         UCameraComponent*, CameraComponent, ;
     )
 
-    // UPROPERTY(
-    //     ULuaScriptComponent*, LuaComponent, ;
-    // )
+    UPROPERTY(
+        ULuaScriptComponent*, LuaComponent, ;
+    )
 };

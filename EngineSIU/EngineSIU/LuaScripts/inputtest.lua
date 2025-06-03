@@ -1,6 +1,6 @@
 turnSpeed = 80
-MoveSpeed = 10
-MaxMoveSpeed = 10
+MoveSpeed = 300
+MaxMoveSpeed = 300
 
 MouseHorizontalSensitive = 0.1
 MouseVerticalSensitive = 0.001
@@ -16,6 +16,8 @@ local bodyInstance
 
 ---@type UAnimSingleNodeInstance
 local animInstance
+
+local hasLanded = false
 
 function BeginPlay()
     inputComp = obj:GetWorld():GetPlayerController():GetInputComponent()
@@ -48,7 +50,7 @@ function InitBodyInstance()
     bodyInstance.bLockXRotation = true
     bodyInstance.bLockYRotation = true
     bodyInstance.bLockZRotation = true
-    bodyInstance.InertiaTensorScale = FVector(5000, 5000, 5000)
+    bodyInstance.InertiaTensorScale = FVector(10000, 10000, 10000)
     bodyInstance:UpdateBodyProperty()
 end
 
@@ -84,8 +86,10 @@ end
 
 function OnPressX(dt)
     if (not isAir) then
-        bodyInstance:AddBodyVelocity(FVector(0, 0, 4.5))
+        bodyInstance:AddBodyVelocity(FVector(0, 0, 10))
         animInstance:SetAnimState(FString("Jump"))
+        isAir = true
+        hasLanded = false
     end
 end
 
@@ -108,28 +112,37 @@ end
 function Tick(dt)
     if (bodyInstance == nil) then InitBodyInstance() end
 
-    if (math.abs(bodyInstance:GetBodyVelocity().z) < KINDA_SMALL_NUMBER and bodyInstance:RayCast(FVector(0, 0, -1), 5 + KINDA_SMALL_NUMBER)) then
-        isAir = false
-        if (animInstance:GetCurrentState() == FString("Jump")) then
+    -- 바닥 감지
+    local hit = bodyInstance:RayCast(FVector(0, 0, -1), 44)
+
+    if (hit) then
+        if (isAir and not hasLanded) then
             animInstance:SetAnimState(FString("Idle"))
+            hasLanded = true
         end
+        isAir = false
     else
+        if (not isAir) then
+            -- 공중으로 이륙할 때만 한 번 Jump 애니메이션 세팅
+            animInstance:SetAnimState(FString("Jump"))
+        end
         isAir = true
+        hasLanded = false
     end
 
-    if (bodyInstance:GetBodyVelocity():Length() > KINDA_SMALL_NUMBER and not isAir) then
+    -- 걸음 애니메이션 전환
+    local velocity = bodyInstance:GetBodyVelocity()
+    if (velocity:Length() > KINDA_SMALL_NUMBER and not isAir) then
         if (animInstance:GetCurrentState() == FString("Idle")) then
             animInstance:SetAnimState(FString("Walking"))
         end
-    elseif (bodyInstance:GetBodyVelocity():Length() < KINDA_SMALL_NUMBER and not isAir) then
+    elseif (velocity:Length() < KINDA_SMALL_NUMBER and not isAir) then
         if (animInstance:GetCurrentState() == FString("Walking")) then
             animInstance:SetAnimState(FString("Idle"))
         end
     end
-    ACamera = obj:GetWorld():GetPlayerController():GetCameraManager()
-    ACamera:SetViewTarget(obj)
-    -- LogDisplay(animInstance:GetCurrentState():ToString())
 end
+
 
 function BeginOverlap()
 end

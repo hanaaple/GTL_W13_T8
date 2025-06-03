@@ -46,6 +46,7 @@
 #include "Engine/Contents/Actors/ShootingTrap.h"
 #include "Engine/Contents/Actors/TranslatePatrolPlatform.h"
 #include "Engine/Contents/Actors/TranslateSpringTrap.h"
+#include "FFaxk/Character/FFaxkCharacter.h"
 #include "GameFramework/PlayerStart.h"
 #include "Particles/ParticleSystemComponent.h"
 
@@ -436,14 +437,8 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                 }
                 case ESpawnObjectTypes::TextRender:
                 {
-                    SpawnedActor = World->SpawnActor<AActor>();
-                    SpawnedActor->SetActorLabel(TEXT("OBJ_TEXT"));
-                    UTextComponent* TextComponent = SpawnedActor->AddComponent<UTextComponent>();
-                    TextComponent->SetTexture(L"Assets/Texture/font.png");
-                    TextComponent->SetRowColumnCount(106, 106);
-                    TextComponent->SetText(L"Default");
-                    SpawnedActor->SetRootComponent(TextComponent);
-                    
+                    SpawnedActor = World->SpawnActor<AFFaxkCharacter>();
+                    SpawnedActor->SetActorLabel(TEXT("OBJ_FFaxkCharacter"));
                     break;
                 }
                 case ESpawnObjectTypes::Fog:

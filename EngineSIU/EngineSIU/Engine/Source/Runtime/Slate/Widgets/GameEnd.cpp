@@ -34,7 +34,6 @@ void FGameEnd::Update(float deltaTime)
                 {
                     if (AFFaxkGameMode* GameMode = GEngine->ActiveWorld->GetGameMode<AFFaxkGameMode>())
                     {
-                        GameMode->SetGameState(EGameState::Died);
                         if (APlayerCameraManager* PCM = GameMode->GetPlayerController()->GetCameraManager())
                         {
                             PCM->StartCameraFade(1.0f, 0.0f, 3.0f, FLinearColor::Black, true);

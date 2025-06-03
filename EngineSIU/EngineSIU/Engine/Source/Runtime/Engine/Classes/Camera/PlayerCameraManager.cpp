@@ -3,6 +3,7 @@
 #include "CameraModifier.h"
 #include "GameFramework/PlayerController.h"
 #include "Camera/CameraModifier_CameraShake.h"
+#include "Engine/Engine.h"
 #include "World/World.h"
 
 bool FTViewTarget::Equal(const FTViewTarget& OtherTarget) const
@@ -325,7 +326,7 @@ void APlayerCameraManager::SetViewTarget(AActor* NewTarget) {
 void APlayerCameraManager::UpdateViewTarget(FTViewTarget& OutVT, float DeltaTime)
 {
     // Don't update outgoing viewtarget during an interpolation 
-    if (PendingViewTarget.Target != nullptr && OutVT.Equal(ViewTarget))
+    if (IsValid(PendingViewTarget.Target) && OutVT.Equal(ViewTarget))
 	{
 		return;
 	}
@@ -340,17 +341,36 @@ void APlayerCameraManager::UpdateViewTarget(FTViewTarget& OutVT, float DeltaTime
 
 	bool bDoNotApplyModifiers = false;
 
-    OutVT.POV.Location = OutVT.Target->GetActorLocation();
-    OutVT.POV.Rotation = OutVT.Target->GetActorRotation();
-    OutVT.POV.Rotation.Roll = 0.0f;
+    if (IsValid(OutVT.Target))
+    {
+        OutVT.POV.Location = OutVT.Target->GetActorLocation();
+        OutVT.POV.Rotation = OutVT.Target->GetActorRotation();
+        OutVT.POV.Rotation.Roll = 0.0f;
+        
+	    if (UCameraComponent* CamComp = OutVT.Target->GetComponentByClass<UCameraComponent>())
+	    {
+		    // Viewing through a camera actor.
+		    CamComp->GetCameraView(DeltaTime, OutVT.POV);
+	    }
+        
+	    ApplyCameraModifiers(DeltaTime, OutVT.POV);
+    }
+    else
+    {
+        OutVT.Target = GEngine->ActiveWorld->GetGameMode()->GetPlayerController()->GetPawn();
+        OutVT.POV.Location = OutVT.Target->GetActorLocation();
+        OutVT.POV.Rotation = OutVT.Target->GetActorRotation();
+        OutVT.POV.Rotation.Roll = 0.0f;
+        
+        if (UCameraComponent* CamComp = OutVT.Target->GetComponentByClass<UCameraComponent>())
+        {
+            // Viewing through a camera actor.
+            CamComp->GetCameraView(DeltaTime, OutVT.POV);
+        }
+        
+        ApplyCameraModifiers(DeltaTime, OutVT.POV);
+    }
     
-	if (UCameraComponent* CamComp = OutVT.Target->GetComponentByClass<UCameraComponent>())
-	{
-		// Viewing through a camera actor.
-		CamComp->GetCameraView(DeltaTime, OutVT.POV);
-	}
-    
-	ApplyCameraModifiers(DeltaTime, OutVT.POV);
 }
 
 void APlayerCameraManager::SetCameraVignette(float InIntensity, float InRadius, float InSmoothness)

@@ -2,6 +2,7 @@
 
 #include "Animation/AnimNotifyState.h"
 #include "Engine/Engine.h"
+#include "FFaxk/FFaxkGameMode.h"
 #include "FFaxk/Character/FFaxkCharacter.h"
 #include "ImGui/imgui.h"
 #include "World/World.h"
@@ -36,15 +37,16 @@ void FGameStart::Update(float deltaTime)
         {
             if (GEngine->ActiveWorld)
             {
-                if (AGameModeBase* GameModeBase = GEngine->ActiveWorld->GetGameMode())
+                if (AFFaxkGameMode* GameMode = GEngine->ActiveWorld->GetGameMode<AFFaxkGameMode>())
                 {
-                    if (APlayerController* PC = GameModeBase->GetPlayerController())
+                    if (APlayerController* PC = GameMode->GetPlayerController())
                     {
                         FViewTargetTransitionParams Params = FViewTargetTransitionParams();
                         Params.BlendTime = 3.0f;
                         PC->SetViewTarget(PC->GetPawn(), Params);
                         
                         PC->GetCameraManager()->StartCameraFade(0.9f, 0.0f, 3.0f, FLinearColor::Black, true);
+                        GameMode->SetGameState(EGameState::Playing);
                     }
                 }
             }

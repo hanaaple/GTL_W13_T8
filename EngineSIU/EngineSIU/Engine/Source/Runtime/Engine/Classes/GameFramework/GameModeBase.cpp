@@ -29,15 +29,6 @@ void AGameModeBase::InitGame()
     NewPawn->SetActorLocation(PlayerStart->GetActorLocation());
     NewPawn->SetActorRotation(PlayerStart->GetActorRotation());
     NewPawn->SetActorScale(PlayerStart->GetActorScale());
-
-    // Test Code
-    NewPawn->SetActorLocation(GEngineLoop.GetLevelEditor()->GetActiveViewportClient()->GetPerspectiveCamera()->GetLocation());
-    FVector Rotation = GEngineLoop.GetLevelEditor()->GetActiveViewportClient()->GetPerspectiveCamera()->GetRotation();
-    FRotator Rotator;
-    Rotator.Roll = Rotation.X;
-    Rotator.Pitch = -Rotation.Y;
-    Rotator.Yaw = Rotation.Z;
-    NewPawn->SetActorRotation(Rotator);
     
     NewPC->Possess(NewPawn);
     UE_LOG(ELogLevel::Display, "Spawned Pawn: %s", *NewPawn->GetName());

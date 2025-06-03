@@ -23,28 +23,9 @@ void FGameHUD::Render()
     ImGuiIO& IO      = ImGui::GetIO();
     ImVec2   ScreenSize  = IO.DisplaySize;
     // 여백(Padding) 값
-    const float margin = 40.0f;
-
-    // 1) 좌측 상단에 Distance: 표시
-    {
-        // 윈도우 플래그: 테두리·제목바 없고, 크기/위치 변경 불가
-        ImGuiWindowFlags flags =
-            ImGuiWindowFlags_NoDecoration |
-            ImGuiWindowFlags_NoMove       |
-            ImGuiWindowFlags_NoResize     |
-            ImGuiWindowFlags_AlwaysAutoResize |
-            ImGuiWindowFlags_NoBackground;
-
-        // 왼쪽 위(margin, margin) 위치 고정
-        ImGui::SetNextWindowPos(ImVec2(margin, margin), ImGuiCond_Always);
-        ImGui::Begin("##DistanceOverlay", nullptr, flags);
-
-        float distanceValue = 0.0f;
-        ImGui::Text("Distance: %.1f", distanceValue);
-
-        ImGui::End();
-    }
-
+    const float marginX = 400.0f;
+    const float marginY = 100.0f;
+    
     // 2) 우측 상단에 일시정지 버튼
     {
         // 버튼 크기
@@ -64,8 +45,8 @@ void FGameHUD::Render()
         ImGui::SetNextWindowSize(btnSize, ImGuiCond_Always);
 
         // 화면 오른쪽 위 (margin, margin) 에 배치
-        float posX = ScreenSize.x - btnSize.x - margin;
-        float posY = margin;
+        float posX = ScreenSize.x - btnSize.x - marginX;
+        float posY = marginY;
         ImGui::SetNextWindowPos(ImVec2(posX, posY), ImGuiCond_Always);
 
         ImGui::Begin("##PauseButtonOverlay", nullptr, btnWindowFlags);
