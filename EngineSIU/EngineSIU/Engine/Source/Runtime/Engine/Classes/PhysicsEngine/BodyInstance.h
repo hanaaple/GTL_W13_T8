@@ -21,60 +21,60 @@ struct FBodyInstance
     void SetGameObject(GameObject* InGameObject);
 
     // BodyInstance Name
-    UPROPERTY_WITH_FLAGS(EditAnywhere, FName, BodyInstanceName)
+    UPROPERTY_WITH_FLAGS(EditAnywhere | LuaReadWrite, FName, BodyInstanceName)
 
     // ==================== 질량과 관성 ====================
     
     /** 바디의 질량 (킬로그램) */
-    UPROPERTY_WITH_FLAGS(EditAnywhere, float, MassInKg, = 100.0f)
+    UPROPERTY_WITH_FLAGS(EditAnywhere | LuaReadWrite, float, MassInKg, = 100.0f)
     
     /** 질량 중심 오프셋 */
-    UPROPERTY_WITH_FLAGS(EditAnywhere, FVector, COMNudge)
+    UPROPERTY_WITH_FLAGS(EditAnywhere | LuaReadWrite, FVector, COMNudge)
     
     /** 관성 텐서 스케일 (회전 저항) */
-    UPROPERTY_WITH_FLAGS(EditAnywhere, FVector, InertiaTensorScale, = FVector(3.0f, 3.0f, 3.0f))
+    UPROPERTY_WITH_FLAGS(EditAnywhere | LuaReadWrite, FVector, InertiaTensorScale, = FVector(3.0f, 3.0f, 3.0f))
     
     // ==================== 시뮬레이션 설정 ====================
     
     /** 물리 시뮬레이션을 할지 여부 */
-    UPROPERTY_WITH_FLAGS(EditAnywhere, bool, bSimulatePhysics, = true)
+    UPROPERTY_WITH_FLAGS(EditAnywhere | LuaReadWrite, bool, bSimulatePhysics, = true)
     
     /** 중력을 적용할지 여부 */
-    UPROPERTY_WITH_FLAGS(EditAnywhere, bool, bEnableGravity, = true)
+    UPROPERTY_WITH_FLAGS(EditAnywhere | LuaReadWrite, bool, bEnableGravity, = true)
     
     /** 자동으로 인접한 바디와 용접할지 여부 */
-    UPROPERTY_WITH_FLAGS(EditAnywhere, bool, bAutoWeld, = true)
+    UPROPERTY_WITH_FLAGS(EditAnywhere | LuaReadWrite, bool, bAutoWeld, = true)
     
     /** 시작할 때 깨어있는 상태인지 (잠들어있으면 CPU 절약) */
-    UPROPERTY_WITH_FLAGS(EditAnywhere, bool, bStartAwake, = true)
+    UPROPERTY_WITH_FLAGS(EditAnywhere | LuaReadWrite, bool, bStartAwake, = true)
     
     // ==================== 움직임 제한 ====================
     
     /** X축 이동 잠금 */
-    UPROPERTY_WITH_FLAGS(EditAnywhere, bool, bLockXTranslation, = false)
+    UPROPERTY_WITH_FLAGS(EditAnywhere | LuaReadWrite, bool, bLockXTranslation, = false)
     
     /** Y축 이동 잠금 */
-    UPROPERTY_WITH_FLAGS(EditAnywhere, bool, bLockYTranslation, = false)
+    UPROPERTY_WITH_FLAGS(EditAnywhere | LuaReadWrite, bool, bLockYTranslation, = false)
     
     /** Z축 이동 잠금 */
-    UPROPERTY_WITH_FLAGS(EditAnywhere, bool, bLockZTranslation, = false)
+    UPROPERTY_WITH_FLAGS(EditAnywhere | LuaReadWrite, bool, bLockZTranslation, = false)
     
     /** X축 회전 잠금 */
-    UPROPERTY_WITH_FLAGS(EditAnywhere, bool, bLockXRotation, = false)
+    UPROPERTY_WITH_FLAGS(EditAnywhere | LuaReadWrite, bool, bLockXRotation, = false)
     
     /** Y축 회전 잠금 */
-    UPROPERTY_WITH_FLAGS(EditAnywhere, bool, bLockYRotation, = false)
+    UPROPERTY_WITH_FLAGS(EditAnywhere | LuaReadWrite, bool, bLockYRotation, = false)
     
     /** Z축 회전 잠금 */
-    UPROPERTY_WITH_FLAGS(EditAnywhere, bool, bLockZRotation, = false)
+    UPROPERTY_WITH_FLAGS(EditAnywhere | LuaReadWrite, bool, bLockZRotation, = false)
     
     // ==================== 댐핑 (저항) ====================
     
     /** 선형 댐핑 - 이동 속도 감소율 */
-    UPROPERTY_WITH_FLAGS(EditAnywhere, float, LinearDamping, = 0.1f)
+    UPROPERTY_WITH_FLAGS(EditAnywhere | LuaReadWrite, float, LinearDamping, = 0.1f)
     
     /** 각속도 댐핑 - 회전 속도 감소율 */
-    UPROPERTY_WITH_FLAGS(EditAnywhere, float, AngularDamping, = 0.1f)
+    UPROPERTY_WITH_FLAGS(EditAnywhere | LuaReadWrite, float, AngularDamping, = 0.1f)
     
     // ==================== 충돌 설정 (TODO: 충돌 시스템 구현 후 추가) ====================
     
@@ -112,6 +112,8 @@ struct FBodyInstance
     UPROPERTY_WITH_FLAGS(EditAnywhere, uint8, VelocitySolverIterationCount, = 2)
     
     
+    UFUNCTION(void, UpdateBodyProperty)
+
     // PhysX 객체 참조
     physx::PxRigidActor* RigidActorSync;   // 동기 액터
     physx::PxRigidActor* RigidActorAsync;  // 비동기 액터
@@ -121,4 +123,31 @@ struct FBodyInstance
     UPrimitiveComponent* OwnerComponent;
     
     int32 BoneIndex;
+
+    UFUNCTION(FVector, GetBodyLocation)
+
+    UFUNCTION(void, SetBodyLocation, FVector& Location)
+
+    UFUNCTION(FRotator, GetBodyRotation)
+
+    UFUNCTION(void, SetBodyRotation, FRotator& Rotation)
+
+    UFUNCTION(FVector, GetBodyVelocity)
+
+    UFUNCTION(void, SetBodyVelocity, FVector& Velocity)
+
+    UFUNCTION(FRotator, GetBodyAngularVelocity)
+
+    UFUNCTION(void, SetBodyAngularVelocity, FRotator& Rotation)
+
+    UFUNCTION(void, AddBodyVelocity, FVector& Velocity)
+
+    UFUNCTION(void, AddBodyAccelation, FVector& Accelation)
+
+    UFUNCTION(void, AddBodyForce, FVector& Force)
+
+    UFUNCTION(void, AddBodyImpulse, FVector& Impulse)
+
+    UFUNCTION(bool, RayCast, FVector& Direction, float Distance)
+
 };

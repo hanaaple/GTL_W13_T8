@@ -46,7 +46,7 @@ void FLuaScriptManager::BindTypes()
     BindStructs();
 
     // Print
-    LuaState["ToString"] = &FLuaScriptManager::ToString;
+    LuaState["ToString"] = [](const sol::object& obj) { return FLuaScriptManager::ToString(obj);};
     LuaState["PrintObj"] = [](const sol::object& obj) {UE_LOG(ELogLevel::Display, "%s", ToString(obj).c_str());};
     LuaState["LogDisplay"] = [](const std::string& str) {UE_LOG(ELogLevel::Display, "%s", str.c_str());};
     LuaState["LogWarning"] = [](const std::string& str) {UE_LOG(ELogLevel::Warning, "%s", str.c_str());};
@@ -173,7 +173,6 @@ void FLuaScriptManager::BindPrimitiveTypes()
     vectorTypeTable["SquaredLength"] = &FVector::SquaredLength;
     vectorTypeTable["Distance"] = &FVector::Distance;
     vectorTypeTable["Normal"] = &FVector::GetSafeNormal;
-    vectorTypeTable["Normalize"] = &FVector::Normalize;
     
     vectorTypeTable[mFunc::addition] = [](const FVector& a, const FVector& b) { return a + b; };
     vectorTypeTable[mFunc::subtraction] = [](const FVector& a, const FVector& b) { return a - b; };
@@ -213,9 +212,6 @@ void FLuaScriptManager::BindPrimitiveTypes()
     stringTypeTable[mFunc::addition] = [](const FString& a, const FString& b) { return a + b; };
     stringTypeTable[mFunc::equal_to] = [](const FString& a, const FString& b) { return a == b; };
 
-    // TArray
-    
-    
 }
 
 void FLuaScriptManager::BindUObject()
@@ -414,8 +410,12 @@ void FLuaScriptManager::UpdateStub()
         file << "\n";
         file << "---@return number\n";
         file << "function FVector:Length() end\n";
+        file << "\n";
         file << "---@return number\n";
         file << "function FVector:SquaredLength() end\n";
+        file << "\n";
+        file << "---@return FVector\n";
+        file << "function FVector:Normal() end\n";
         file << "\n";
         // TODO: ...
 
@@ -432,6 +432,31 @@ void FLuaScriptManager::UpdateStub()
         file << "local FString = {}\n";
         file << "\n";
 
+        file.close();
+    }
+    {
+        std::filesystem::path filePath = basePath / "_array.lua";
+        std::ofstream file(filePath.string());
+        if (!file.is_open())
+        {
+            UE_LOG(ELogLevel::Error, "Failed to open %s", filePath.c_str());
+            return;
+        }
+        for (const auto& [name, type]: UClass::GetClassMap())
+        {
+            if (!type->IsChildOf(UActorComponent::StaticClass()))
+            {
+                continue;
+            }
+
+            std::string classname = GetData(name.ToString());
+            file << "---@class " << classname << "Table" << '\n';
+            file << "local " << classname << "Table" << " = {}" << '\n';
+            file << "\n";
+            file << "---@return table \n";
+            file << "function " << classname << "Table" << ":GetContainer() end\n";
+            file << "\n";
+        }
         file.close();
     }
 }
@@ -504,6 +529,7 @@ void FLuaScriptManager::PanicHandler(sol::optional<std::string> MaybeMsg)
     {
         const std::string& msg = MaybeMsg.value();
         UE_LOG(ELogLevel::Error, "%s", msg.c_str());
+        assert(0, msg.c_str());
     }
 }
 

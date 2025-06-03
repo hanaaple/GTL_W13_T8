@@ -1,74 +1,101 @@
 turnSpeed = 80
 MoveSpeed = 10
-local VerticalSpeed = 0
-local Gravity = 45
+MaxMoveSpeed = 10
+
+MouseHorizontalSensitive = 0.1
+MouseVerticalSensitive = 0.001
+
+---@type table
+local primitiveComps
+
+---@type FBodyInstance
+local bodyInstance
 
 function BeginPlay()
-    LogDisplay("[BeginPlay]")
-    PrintObj(obj:GetWorld():GetPlayerController())
     inputComp = obj:GetWorld():GetPlayerController():GetInputComponent()
-    inputComp:BindTargetedAction(FString("W"), obj, OnPressW)
-    inputComp:BindTargetedAction(FString("A"), obj, OnPressA)
-    inputComp:BindTargetedAction(FString("S"), obj, OnPressS)
-    inputComp:BindTargetedAction(FString("D"), obj, OnPressD)
-    inputComp:BindTargetedAction(FString("X"), obj, OnPressX)
+    inputComp:BindTargetedKeyLuaAction(FString("W"), obj, OnPressW)
+    inputComp:BindTargetedKeyLuaAction(FString("A"), obj, OnPressA)
+    inputComp:BindTargetedKeyLuaAction(FString("S"), obj, OnPressS)
+    inputComp:BindTargetedKeyLuaAction(FString("D"), obj, OnPressD)
+    inputComp:BindTargetedKeyLuaAction(FString("X"), obj, OnPressX)
+    inputComp:BindTargetedMouseMoveLuaAction(obj, OnMouseMove)
     inputComp:SetPossess()
 
+    InitBodyInstance()
+end
 
-
-    -- SpawnActor("ACube")
+function InitBodyInstance()
+    PrintObj(obj:GetUPrimitiveComponents())
+    primitiveComps = obj:GetUPrimitiveComponents():GetContainer()
+    for k, v in pairs(primitiveComps) do
+        if (v:GetBodyInstance() ~= nil) then
+            bodyInstance = v:GetBodyInstance()
+            break
+        end
+        LogDisplay(string.format("%s %s", ToString(k), ToString(v)))
+    end
+    if (bodyInstance == nil) then return end
+    bodyInstance.bLockXRotation = true
+    bodyInstance.bLockYRotation = true
+    bodyInstance.bLockZRotation = true
+    bodyInstance.InertiaTensorScale = FVector(5000, 5000, 5000)
+    bodyInstance:UpdateBodyProperty()
 end
 
 function EndPlay()
-    LogDisplay("[EndPlay]")
 end
 
 function OnOverlap(OtherActor)
 end
 
 function OnPressW(dt)
-    local currentPos = obj:GetActorLocation()
-    currentPos = currentPos + obj:GetActorForwardVector() * dt * MoveSpeed
-    obj:SetActorLocation(currentPos)
+    if (bodyInstance:GetBodyVelocity():Length() < MaxMoveSpeed) then
+        bodyInstance:AddBodyVelocity(obj:GetActorForwardVector() * dt * MoveSpeed)
+    end
 end
 
 function OnPressS(dt)
-    local currentPos = obj:GetActorLocation()
-    currentPos = currentPos - obj:GetActorForwardVector() * dt * MoveSpeed
-    obj:SetActorLocation(currentPos)
+    if (bodyInstance:GetBodyVelocity():Length() < MaxMoveSpeed) then
+        bodyInstance:AddBodyVelocity(obj:GetActorForwardVector() * -dt * MoveSpeed)
+    end
 end
 
 function OnPressA(dt)
-    local rot = obj:GetActorRotation()
-    rot.Yaw = rot.Yaw - turnSpeed * dt
-    obj:SetActorRotation(rot)
+    if (bodyInstance:GetBodyVelocity():Length() < MaxMoveSpeed) then
+        bodyInstance:AddBodyVelocity(obj:GetActorRightVector() * -dt * MoveSpeed)
+    end
 end
 
 function OnPressD(dt)
-    local rot = obj:GetActorRotation()
-    rot.Yaw = rot.Yaw + turnSpeed * dt
-    obj:SetActorRotation(rot)
+    if (bodyInstance:GetBodyVelocity():Length() < MaxMoveSpeed) then
+        bodyInstance:AddBodyVelocity(obj:GetActorRightVector() * dt * MoveSpeed)
+    end
 end
 
 function OnPressX(dt)
-    local pos = obj:GetActorLocation()
-    if (pos.z < KINDA_SMALL_NUMBER) then
-        VerticalSpeed = 10
+    if (bodyInstance:RayCast(FVector(0, 0, -1), 5 + KINDA_SMALL_NUMBER)) then
+        bodyInstance:AddBodyVelocity(FVector(0, 0, 1))
     end
 end
 
+function OnMouseMove(dx, dy)
+    -- local rot = FRotator(0, 0, dx * MouseHorizontalSensitive)
+    -- bodyInstance:SetBodyAngularVelocity(rot)
+    -- local rot = bodyInstance:GetBodyRotation()
+    -- local prevrot = rot
+    -- rot.Yaw = rot.Yaw + dx * MouseHorizontalSensitive
+    -- bodyInstance:SetBodyRotation(rot)
+    -- rot = bodyInstance:GetBodyRotation()
+    -- -- PrintObj(string.format("%s", "asdf"))
+    -- -- GetActorByName(ToString(rot))
+    -- LogDisplay(string.format("%s %s", ToString(prevrot), ToString(rot)))
+
+    obj:GetUPrimitiveComponent():AddRotation(FRotator(0, dx * MouseHorizontalSensitive, 0))
+
+end
+
 function Tick(dt)
-    local speed = FVector(0, 0, VerticalSpeed)
-    VerticalSpeed = VerticalSpeed - Gravity * dt
-    obj:AddActorLocation(speed * dt)
-
-    local pos = obj:GetActorLocation()
-    if (pos.z < 0) then
-        pos.z = 0
-        VerticalSpeed = 0
-    end
-    obj:SetActorLocation(pos)
-
+    if (bodyInstance == nil) then InitBodyInstance() end
     ACamera = obj:GetWorld():GetPlayerController():GetCameraManager()
     ACamera:SetViewTarget(obj)
 end

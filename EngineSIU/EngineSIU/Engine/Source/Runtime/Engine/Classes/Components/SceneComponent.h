@@ -23,14 +23,14 @@ public:
     virtual int CheckRayIntersection(const FVector& InRayOrigin, const FVector& InRayDirection, float& OutHitDistance) const;
     virtual void DestroyComponent(bool bPromoteChildren = false) override;
 
-    FVector GetForwardVector() const;
-    FVector GetRightVector() const;
-    FVector GetUpVector() const;
+    UFUNCTION_CONST(FVector, GetForwardVector)
+    UFUNCTION_CONST(FVector, GetRightVector)
+    UFUNCTION_CONST(FVector, GetUpVector)
     
-    void AddLocation(const FVector& InAddValue);
-    void AddRotation(const FRotator& InAddValue);
+    UFUNCTION(void, AddLocation, const FVector& InAddValue)
+    UFUNCTION(void, AddRotation, const FRotator& InAddValue)
+    UFUNCTION(void, AddScale, const FVector& InAddValue)
     void AddRotation(const FQuat& InAddValue);
-    void AddScale(const FVector& InAddValue);
 
     USceneComponent* GetAttachParent() const { return AttachParent; }
     const TArray<USceneComponent*>& GetAttachChildren() const { return AttachChildren; }
@@ -40,27 +40,26 @@ public:
     void DetachFromComponent(USceneComponent* Target);
     
 public:
-    void SetRelativeLocation(const FVector& InLocation) { RelativeLocation = InLocation; }
-    void SetRelativeRotation(const FRotator& InRotation);
+    UFUNCTION(void, SetRelativeLocation, const FVector& InLocation);
+    UFUNCTION(void, SetRelativeRotation, const FRotator& InRotation);
+    UFUNCTION(void, SetRelativeScale3D, const FVector& InScale);
     void SetRelativeRotation(const FQuat& InQuat);
-    void SetRelativeScale3D(const FVector& InScale) { RelativeScale3D = InScale; }
     void SetRelativeTransform(const FTransform& InTransform);
     
-    FVector GetRelativeLocation() const { return RelativeLocation; }
-    FRotator GetRelativeRotation() const { return RelativeRotation; }
-    FVector GetRelativeScale3D() const { return RelativeScale3D; }
+    UFUNCTION_CONST(FVector, GetRelativeLocation)
+    UFUNCTION_CONST(FRotator, GetRelativeRotation)
+    UFUNCTION_CONST(FVector, GetRelativeScale3D)
     FTransform GetRelativeTransform() const;
 
-    void SetWorldLocation(const FVector& InLocation);
-    void SetWorldRotation(const FRotator& InRotation);
+    UFUNCTION(void, SetWorldLocation, const FVector& InLocation);
+    UFUNCTION(void, SetWorldRotation, const FRotator& InRotation);
+    UFUNCTION(void, SetWorldScale3D, const FVector& InScale);
     void SetWorldRotation(const FQuat& InQuat);
-    
-    void SetWorldScale3D(const FVector& InScale);
     void SetWorldTransform(const FTransform& InTransform);
     
-    FVector GetComponentLocation() const;
-    FRotator GetComponentRotation() const;
-    FVector GetComponentScale3D() const;
+    UFUNCTION_CONST(FVector, GetComponentLocation)
+    UFUNCTION_CONST(FRotator, GetComponentRotation)
+    UFUNCTION_CONST(FVector, GetComponentScale3D)
     FTransform GetComponentTransform() const;
 
     FMatrix GetScaleMatrix() const;

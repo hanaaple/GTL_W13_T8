@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOneFloatDelegate, const float&)
+DECLARE_MULTICAST_DELEGATE_TwoParams(FMouseMoveDelegate, const int&, const int&)
 
 class UInputComponent : public UActorComponent
 {
@@ -17,11 +18,21 @@ public:
     virtual void BeginPlay() override;
     virtual void TickComponent(float DeltaTime) override;
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-    UFUNCTION(uint64, BindAction, const FString& Key, const std::function<void(float)>& Callback)
-    UFUNCTION(uint64, BindTargetedAction, const FString& Key, AActor* TargetObj, const std::function<void(float)>& Callback)
-    UFUNCTION(void, UnBindAction, const FString& Key, uint64 HandleId)
+    
+    uint64 BindKeyAction(const FString& Key, const std::function<void(float)>& Callback);
+    uint64 BindTargetedKeyAction(const FString& Key, AActor* TargetObj, const std::function<void(float)>& Callback);
+    UFUNCTION(uint64, BindKeyLuaAction, const FString& Key, const sol::function Callback)
+    UFUNCTION(uint64, BindTargetedKeyLuaAction, const FString& Key, AActor* TargetObj, const sol::function Callback)
+    UFUNCTION(void, UnBindKeyAction, const FString& Key, uint64 HandleId)
 
-    void ProcessInput(float DeltaTime);
+    uint64 BindMouseMoveAction(const std::function<void(int, int)>& Callback);
+    uint64 BindTargetedMouseMoveAction(AActor* TargetObj, const std::function<void(int, int)>& Callback);
+    UFUNCTION(uint64, BindMouseMoveLuaAction, const sol::function Callback)
+    UFUNCTION(uint64, BindTargetedMouseMoveLuaAction, AActor* TargetObj, const sol::function Callback)
+    UFUNCTION(void, UnBindMouseMoveAction, uint64 HandleId)
+    
+    void ProcessKeyInput(float DeltaTime);
+    void ProcessMouseMoveInput(int dx, int dy);
     
     UFUNCTION(void, SetPossess)
     UFUNCTION(void, UnPossess)
@@ -34,8 +45,13 @@ private:
     TMap<FString, FOneFloatDelegate> KeyBindDelegate;
     TArray<FDelegateHandle> BindKeyDownDelegateHandles;
     TArray<FDelegateHandle> BindKeyUpDelegateHandles;
+    
+    FMouseMoveDelegate MouseMoveDelegate;
+    uint64 BindMouseMoveDelegateHandleId;
+    
     TArray<uint64> BoundActionHandleIds;
     TSet<EKeys::Type> PressedKeys;
 
     void UnBindAllAction();
+    bool bIsPossess = false;
 };

@@ -109,9 +109,8 @@ void ULuaScriptComponent::LoadScriptAndBind()
     
     // compile script
     sol::load_result loadResult = FEngineLoop::ScriptSys.GetState().load_buffer(scriptInfo.Source.c_str(), scriptInfo.Source.length());
-    sol::function script = loadResult;
 
-    if (!loadResult.valid() || !script.valid())
+    if (!loadResult.valid())
     {
         // compile error
         sol::error err = loadResult;
@@ -119,7 +118,8 @@ void ULuaScriptComponent::LoadScriptAndBind()
         bScriptValid = false;
         return;
     }
-
+    
+    sol::function script = loadResult;
     if (!script.valid())
     {
         sol::error err = loadResult;

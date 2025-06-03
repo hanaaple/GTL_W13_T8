@@ -15,6 +15,8 @@ class UActorComponent;
 
 namespace SolTypeBinding
 {
+    // inline static TMap<FString, sol::table> RegisteredComponentType;
+
     // Register to AActor::GetComponentByClass
     // IsCompleteType_v<T>의 인스턴스화 위해 AActor, UActorComponent 역시 템플릿으로 받음.
     template <typename A, typename C, typename T>
@@ -22,9 +24,19 @@ namespace SolTypeBinding
     {
         if constexpr ( IsCompleteType_v<A> && IsCompleteType_v<C> && std::derived_from<T, C> )
         {
-            auto funcPtr = static_cast<T* (A::*)() const>(&A::template GetComponentByClass<T>);
-            A::GetLuaUserType(lua)["Get" + className] = funcPtr;
-            A::StaticClass()->Annotation.AddFunction(className, "Get" + className, "");
+            {
+                auto funcPtr = static_cast<T* (A::*)() const>(&A::template GetComponentByClass<T>);
+                A::GetLuaUserType(lua)["Get" + className] = funcPtr;
+                A::StaticClass()->Annotation.AddFunction(className, "Get" + className, "");
+            }
+            {
+                sol::usertype<TArray<T*>> typeTable = lua.new_usertype<TArray<T*>>(className+"Table");
+                typeTable["GetContainer"] = static_cast<typename TArray<T*>::ArrayType& (TArray<T*>::*)()>(&TArray<T*>::GetContainerPrivate);
+                auto funcPtr = static_cast<TArray<T*> (A::*)() const>(&A::template GetComponentsByClass<T>);
+                A::GetLuaUserType(lua)["Get" + className + "s"] = funcPtr;
+                A::StaticClass()->Annotation.AddFunction(className + "Table", "Get" + className + "s", "");
+            }
+            
             UE_LOG(ELogLevel::Display, "Register AActor::Get%s", className.c_str());
         } 
     }

@@ -5,6 +5,7 @@
 //#include <windows.h>
 //#include <tchar.h>
 
+#include "tinyfiledialogs.h"
 #include "WindowsFileDialog.h"
 #include "Actors/Player.h"
 #include "Animation/AnimationAsset.h"
@@ -555,12 +556,7 @@ void PropertyEditorPanel::RenderForActor(AActor* SelectedActor, USceneComponent*
 
                 LuaComponent->SetDisplayName(RelativePath.generic_string());
                 LuaComponent->SetScriptPath(FilePath.generic_string()); // 선택된 경로(상대 또는 전체)로 업데이트
-
-                // 중요: 스크립트 경로가 변경되었으므로 컴포넌트를 다시 초기화하거나
-                // 스크립트를 다시 로드하는 로직 호출 필요
-                // 예: LuaComp->ReloadScript(); 또는 LuaComp->InitializeComponent();
                 FEngineLoop::ScriptSys.Reload();
-                //std::cout << "LuaComponent: Script path changed. Need to reload script: " << GetData(LuaComponent->GetScriptPath()) << '\n'; // 임시 로그
             }
         }
         FString LuaDisplayPath = LuaComponent->GetDisplayName();
@@ -622,6 +618,48 @@ void PropertyEditorPanel::RenderForActor(AActor* SelectedActor, USceneComponent*
                     "Error",
                     MB_OK | MB_ICONERROR
                 );
+            }
+        }
+        
+        ImGui::SameLine();
+        
+        if (ImGui::Button("Select Script")) 
+        {
+            // tinyfd를 사용하여 Lua 스크립트 파일 열기 대화상자 표시
+            char const* lFilterPatterns[1] = { "*.lua" };
+            const char* SelectedFilePath = tinyfd_openFileDialog(
+                "Select Lua Script",                      // 대화상자 제목
+                GetData(BasePath), // 기본 경로 (스크립트 폴더)
+                1,                                       // 필터 개수
+                lFilterPatterns,                         // 필터 패턴 (".lua")
+                "Lua Script (*.lua)",                    // 필터 설명
+                0                                        // 다중 선택 비활성화
+            );
+
+            // Lua Script Component 생성 및 추가
+            ULuaScriptComponent* NewScriptComp = SelectedActor->AddComponent<ULuaScriptComponent>();
+            
+            if ( SelectedFilePath != nullptr ) // 사용자가 파일을 선택했다면
+            {
+                // 선택된 전체 경로
+                std::string SelectedFullPath = SelectedFilePath;
+                // (선택 사항) 스크립트 기본 경로 기준 상대 경로로 변환
+                std::string RelativePathStr = SelectedFullPath; // 기본값은 전체 경로
+                
+                std::filesystem::path FullPath(SelectedFullPath);
+                std::filesystem::path AbsoluteBasePath = std::filesystem::absolute(GetData(BasePath));
+                std::filesystem::path RelativePath = std::filesystem::relative(FullPath, AbsoluteBasePath);
+
+                if ( !RelativePath.empty() && RelativePath.native().find(L"..") != 0 ) {
+                    RelativePathStr = RelativePath.generic_string();
+                } else {
+                    RelativePathStr = FullPath.generic_string();
+                }
+
+                NewScriptComp->SetDisplayName(RelativePath.generic_string());
+                NewScriptComp->SetScriptPath(FullPath.generic_string()); // 선택된 경로(상대 또는 전체)로 업데이트
+
+                GEngineLoop.ScriptSys.Reload();
             }
         }
     }
