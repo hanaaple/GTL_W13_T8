@@ -12,17 +12,21 @@ FGameEnd::FGameEnd()
 
 void FGameEnd::Update(float deltaTime)
 {
-    if (FSlateAppMessageHandler::IsAnyKeyPressed())
+    if (AFFaxkGameMode* GM = GEngine->ActiveWorld->GetGameMode<AFFaxkGameMode>())
     {
-        // TODO : Restart나 Retrun To Main 로직
-        if (AFFaxkGameMode* GM = GEngine->ActiveWorld->GetGameMode<AFFaxkGameMode>())
+        if (IsValid(GM) && GM->GetGameState() == EGameState::Died)
         {
-            if (IsValid(GM))
+            if (FSlateAppMessageHandler::IsAnyKeyPressed())
             {
+                // TODO : Restart나 Retrun To Main 로직
+                APlayerController* PC = GM->GetPlayerController();
+                PC->GetPawn()->Destroy();
+                GM->RequestPlayerRespawn(PC);
                 GM->SetGameState(EGameState::Playing);
             }
         }
     }
+
 }
 
 void FGameEnd::Render()
