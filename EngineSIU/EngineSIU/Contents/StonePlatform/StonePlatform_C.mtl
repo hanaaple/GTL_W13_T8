@@ -1,0 +1,14 @@
+# Blender 4.4.3 MTL File: 'StonePlatform_C.blend'
+# www.blender.org
+
+newmtl StonePlatform_Base
+Kd 0.525000 0.525000 0.525000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd StonePlatforms_Base_BaseColor.png
+map_Bump StonePlatforms_Base_Normal.png
+map_Pr StonePlatforms_Base_Roughness.png
+map_Pm  StonePlatforms_Base_Metalness.png
