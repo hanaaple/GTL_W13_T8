@@ -315,8 +315,6 @@ void UEditorEngine::StartPIE()
 
     std::shared_ptr<FGameEnd> GameEnd = std::make_shared<FGameEnd>();
     GEngineLoop.GetGameUIManager()->AddElement(GameEnd);
-    // TODO : 나중에 GameMode에서 관리해야함
-    FEngineLoop::bIsDied = false;
     
     gameStart->SetTitleImage(FEngineLoop::ResourceManager.GetTexture(L"Assets/Texture/GameTitle.png"), 200.f, 100.f);
     GEngineLoop.GetGameUIManager()->AddElement(gameStart);
@@ -611,8 +609,6 @@ void UEditorEngine::EndPIE()
     Handler->OnPIEModeEnd();
     // 다시 EditorWorld로 돌아옴.
     ActiveWorld = EditorWorld;
-    // TODO : 나중에 GameMode에서 관리해야함
-    FEngineLoop::bIsDied = false;
 }
 
 void UEditorEngine::EndSkeletalMeshViewer()

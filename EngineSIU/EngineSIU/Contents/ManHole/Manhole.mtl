@@ -1,0 +1,13 @@
+# Blender 4.4.3 MTL File: 'Manhole.blend'
+# www.blender.org
+
+newmtl Manhole_Cubical_Mat
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Manhole_Cubical_BaseColor.png
+map_Pm Manhole_Cubical_Metallic.png
+map_Pr Manhole_Cubical_Roughness.png
+map_Bump -bm 1.000000 Manhole_Cubical_Normal.png

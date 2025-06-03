@@ -32,15 +32,18 @@ public:
 private:
     float Width = 0;
     float Height = 0;
-    USkeletalMesh* SkeletalMesh;
 
     void LoadBoneIcon();
     void CopyRefSkeleton();
 
     void RenderBoneTree(const FReferenceSkeleton & RefSkeleton, int32 BoneIndex, UEditorEngine * Engine);
 
-    FString GetCleanBoneName(const FString & InFullName);
+    FString GetCleanBoneName(const FString& InFullName);
 
+
+    
+    USkeletalMesh* SkeletalMesh = nullptr;
+    
     ID3D11ShaderResourceView* BoneIconSRV = nullptr;
     ID3D11ShaderResourceView* NonWeightBoneIconSRV = nullptr;
     ID3D11ShaderResourceView* BodyInstanceIconSRV = nullptr;

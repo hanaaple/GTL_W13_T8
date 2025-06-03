@@ -1,0 +1,13 @@
+# Blender 4.4.3 MTL File: 'Wooden Crate.blend'
+# www.blender.org
+
+newmtl Material.001
+Ks 0.122081 0.122081 0.122081
+Ke 0.000000 0.000000 0.000000
+Ni 1.330000
+d 1.000000
+illum 2
+ map_Kd Wooden_Crate_Crate_BaseColor.png
+ map_Bump Wooden_Crate_Crate_Normal.png
+ map_Pr Wooden_Crate_Crate_Roughness.png
+ map_Pm Wooden_Crate_Crate_Metallic.png

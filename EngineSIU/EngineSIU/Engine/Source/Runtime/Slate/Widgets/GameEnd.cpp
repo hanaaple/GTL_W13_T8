@@ -1,7 +1,10 @@
 #include "GameEnd.h"
 
+#include "Engine/Engine.h"
+#include "FFaxk/FFaxkGameMode.h"
 #include "ImGui/imgui.h"
 #include "UObject/Object.h"
+#include "World/World.h"
 
 FGameEnd::FGameEnd()
 {
@@ -9,16 +12,28 @@ FGameEnd::FGameEnd()
 
 void FGameEnd::Update(float deltaTime)
 {
-    if (FSlateAppMessageHandler::IsAnyKeyPressed())
+    if (AFFaxkGameMode* GM = GEngine->ActiveWorld->GetGameMode<AFFaxkGameMode>())
     {
-        // TODO : Restart나 Retrun To Main 로직
-        FEngineLoop::bIsDied = false;
+        if (IsValid(GM) && GM->GetGameState() == EGameState::Died)
+        {
+            if (FSlateAppMessageHandler::IsAnyKeyPressed())
+            {
+                // TODO : Restart나 Retrun To Main 로직
+                APlayerController* PC = GM->GetPlayerController();
+                PC->GetPawn()->Destroy();
+                GM->RequestPlayerRespawn(PC);
+                GM->SetGameState(EGameState::Playing);
+            }
+        }
     }
+
 }
 
 void FGameEnd::Render()
 {
-    if (FEngineLoop::bIsDied == false)
+    const AFFaxkGameMode* GM = GEngine->ActiveWorld->GetGameMode<AFFaxkGameMode>();
+
+    if (!IsValid(GM) || GM->GetGameState() != EGameState::Died)
     {
         return;
     }

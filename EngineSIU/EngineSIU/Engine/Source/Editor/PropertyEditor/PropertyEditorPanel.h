@@ -58,7 +58,6 @@ private:
     static void HSVToRGB(float H, float S, float V, float& R, float& G, float& B);
 
     void RenderForSceneComponent(USceneComponent* SceneComponent, AEditorPlayer* Player) const;
-    void RenderForCameraComponent(UCameraComponent* InCameraComponent);
     void RenderForActor(AActor* SelectedActor, USceneComponent* TargetComponent) const;
     
     /* Static Mesh Settings */

@@ -24,9 +24,10 @@ void UBodySetup::SerializeAsset(FArchive& Ar)
 void UBodySetup::DuplicateSubObjects(const UObject* Source, UObject* InOuter, FObjectDuplicator& Duplicator)
 {
     Super::DuplicateSubObjects(Source, InOuter, Duplicator);
-    
-    const UBodySetup* SrcBodySetup = static_cast<const UBodySetup*>(Source);
-    AggGeom = SrcBodySetup->AggGeom;
+
+    AggGeom.BoxElems.Empty();
+    AggGeom.SphereElems.Empty();
+    AggGeom.CapsuleElems.Empty();
 }
 
 bool UPhysicsAsset::SetPreviewMesh(USkeletalMesh* PreviewMesh)

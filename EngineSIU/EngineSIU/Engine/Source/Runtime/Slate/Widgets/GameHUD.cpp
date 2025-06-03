@@ -1,7 +1,10 @@
 #include "GameHUD.h"
 
 #include "EngineLoop.h"
+#include "Engine/Engine.h"
+#include "FFaxk/FFaxkGameMode.h"
 #include "ImGui/imgui.h"
+#include "World/World.h"
 
 FGameHUD::FGameHUD()
 {
@@ -79,7 +82,13 @@ void FGameHUD::Render()
         // 클릭 시 PauseRequestedPtr = true
         DrawImageButton(ImGui::GetWindowDrawList(), pauseID, btnSize, posX, posY, "##PauseBtnHUD",[]()
         {
-            FEngineLoop::PauseRequestedPtr = true;
+            if (AFFaxkGameMode* GM = GEngine->ActiveWorld->GetGameMode<AFFaxkGameMode>())
+            {
+                if (IsValid(GM))
+                {
+                    GM->SetGameState(EGameState::Paused);
+                }
+            }
         });
 
         ImGui::PopStyleColor(3);

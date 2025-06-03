@@ -5,48 +5,44 @@
 //#include <windows.h>
 //#include <tchar.h>
 
-#include "World/World.h"
+#include "WindowsFileDialog.h"
 #include "Actors/Player.h"
 #include "Animation/AnimationAsset.h"
 #include "Animation/AnimSequence.h"
 #include "Animation/AnimSingleNodeInstance.h"
 #include "Components/BoxComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "Components/Light/LightComponent.h"
-#include "Components/Light/PointLightComponent.h"
-#include "Components/Light/SpotLightComponent.h"
-#include "Components/Light/DirectionalLightComponent.h"
-#include "Components/Light/AmbientLightComponent.h"
-#include "Components/StaticMeshComponent.h"
-#include "Components/TextComponent.h"
-#include "Engine/EditorEngine.h"
-#include "Engine/FObjLoader.h"
-#include "UnrealEd/ImGuiWidget.h"
-#include "UObject/ObjectFactory.h"
-#include "Engine/Engine.h"
 #include "Components/HeightFogComponent.h"
 #include "Components/ProjectileMovementComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/SphereComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "Components/TextComponent.h"
+#include "Components/Light/AmbientLightComponent.h"
+#include "Components/Light/DirectionalLightComponent.h"
+#include "Components/Light/LightComponent.h"
+#include "Components/Light/PointLightComponent.h"
+#include "Components/Light/SpotLightComponent.h"
 #include "Engine/AssetManager.h"
+#include "Engine/EditorEngine.h"
+#include "Engine/Engine.h"
+#include "Engine/FObjLoader.h"
 #include "Engine/SkeletalMesh.h"
 #include "Engine/Asset/SkeletalMeshAsset.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "LevelEditor/SLevelEditor.h"
-#include "Math/JungleMath.h"
-#include "Renderer/ShadowManager.h"
-#include "UnrealEd/EditorViewportClient.h"
-#include "UObject/UObjectIterator.h"
 #include "LuaScripts/LuaScriptComponent.h"
 #include "LuaScripts/LuaScriptFileUtils.h"
-#include "imgui/imgui_bezier.h"
-#include "imgui/imgui_curve.h"
+#include "Math/JungleMath.h"
 #include "Math/Transform.h"
-#include "Animation/AnimStateMachine.h"
-#include "Particles/ParticleEmitter.h"
 #include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
-#include "tinyfiledialogs.h"
+#include "Renderer/ShadowManager.h"
+#include "UnrealEd/EditorViewportClient.h"
+#include "UnrealEd/ImGuiWidget.h"
+#include "UObject/ObjectFactory.h"
+#include "UObject/UObjectIterator.h"
+#include "World/World.h"
 
 namespace
 {
@@ -125,15 +121,21 @@ void PropertyEditorPanel::Render()
 
     AActor* SelectedActor = Engine->GetSelectedActor();
     USceneComponent* SelectedComponent = Engine->GetSelectedComponent();
-    USceneComponent* TargetComponent = nullptr;
+    USceneComponent* TargetComponent;
 
-    if (SelectedComponent != nullptr)
+    if (IsValid(SelectedComponent))
     {
         TargetComponent = SelectedComponent;
     }
-    else if (SelectedActor != nullptr)
+    else if (IsValid(SelectedActor) && IsValid(SelectedActor->GetRootComponent()))
     {        
         TargetComponent = SelectedActor->GetRootComponent();
+    }
+    else
+    {
+        SelectedActor = nullptr;
+        TargetComponent = nullptr;
+        SelectedComponent = nullptr;
     }
 
     if (SelectedActor)
@@ -261,11 +263,6 @@ void PropertyEditorPanel::Render()
         RenderForExponentialHeightFogComponent(FogComponent);
     }
 
-    if (UCameraComponent* CameraComponent = GetTargetComponent<UCameraComponent>(SelectedActor, SelectedComponent))
-    {
-        RenderForCameraComponent(CameraComponent);
-    }
-  
     if (UShapeComponent* ShapeComponent = GetTargetComponent<UShapeComponent>(SelectedActor, SelectedComponent))
     {
         RenderForShapeComponent(ShapeComponent);
@@ -284,24 +281,25 @@ void PropertyEditorPanel::Render()
     if (SelectedActor)
     {
         ImGui::Separator();
-        
-        ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
-        const FString SelectedActorLabel = FString("Selected Actor: ") + SelectedActor->GetName();
-        if (ImGui::TreeNodeEx(GetData(SelectedActorLabel), ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
-        {
-            const UClass* Class = SelectedActor->GetClass();
 
-            for (; Class; Class = Class->GetSuperClass())
+        ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
+        const FString SelectedActorLabel = FString::Printf(TEXT("Selected Actor: %s"), *SelectedActor->GetActorLabel());
+        if (ImGui::TreeNodeEx(SelectedActorLabel.ToAnsiString().c_str(), ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            for (const UClass* Class = SelectedActor->GetClass(); Class; Class = Class->GetSuperClass())
             {
                 const TArray<FProperty*>& Properties = Class->GetProperties();
                 if (Properties.IsEmpty())
                 {
                     continue;
                 }
-                
+
                 const FString InheritedLabel = (Class == SelectedActor->GetClass() ? FString("") : FString("Inherited ")) + Class->GetName();
-                ImGui::SeparatorText(GetData(InheritedLabel));
-                
+                if (std::ranges::any_of(Properties, [](const FProperty* Prop) { return HasAnyFlags(Prop->Flags, EditAnywhere | VisibleAnywhere); }))
+                {
+                    ImGui::SeparatorText(*InheritedLabel);
+                }
+
                 for (const FProperty* Prop : Properties)
                 {
                     Prop->DisplayInImGui(SelectedActor);
@@ -311,20 +309,30 @@ void PropertyEditorPanel::Render()
             ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.f, 0.f, 0.f, 0.f));
             for (UActorComponent* ActorComponent : SelectedActor->GetComponents())
             {
-                // ImGui::Separator();
-                const UClass* TempClass = ActorComponent->GetClass();
-                const FString Label = TempClass->GetName() + FString("##") + std::to_string(ActorComponent->GetUUID());
+                const FString Label = FString::Printf(TEXT("%s##%d"), *ActorComponent->GetClass()->GetName(), ActorComponent->GetUUID());
                 if (ImGui::TreeNodeEx(GetData(Label), ImGuiTreeNodeFlags_Framed))
                 {
-                    for (; TempClass; TempClass = TempClass->GetSuperClass())
+                    for (const UClass* CompClass = ActorComponent->GetClass(); CompClass; CompClass = CompClass->GetSuperClass())
                     {
-                        const TArray<FProperty*>& Properties = TempClass->GetProperties();
+                        const TArray<FProperty*>& Properties = CompClass->GetProperties();
                         if (Properties.IsEmpty())
                         {
                             continue;
                         }
-                        const FString InheritedLabel = (TempClass == ActorComponent->GetClass() ? FString("") : FString("Inherited ")) + TempClass->GetName();
-                        ImGui::SeparatorText(GetData(InheritedLabel));
+
+                        FString InheritedLabel = CompClass->GetName();
+                        if (CompClass != ActorComponent->GetClass()) [[likely]]
+                        {
+                            InheritedLabel = FString::Printf("%s %s", "Inherited", *InheritedLabel);
+                        }
+
+                        if (std::ranges::any_of(
+                            Properties, [](const FProperty* Prop) { return HasAnyFlags(Prop->Flags, EditAnywhere | VisibleAnywhere); }
+                        ))
+                        {
+                            ImGui::SeparatorText(*InheritedLabel);
+                        }
+
                         for (const FProperty* Prop : Properties)
                         {
                             Prop->DisplayInImGui(ActorComponent);
@@ -338,27 +346,36 @@ void PropertyEditorPanel::Render()
         }
         ImGui::PopStyleColor();
     }
-
+    
     if (USceneComponent* TempTargetComponent = GetTargetComponent<USceneComponent>(SelectedActor, SelectedComponent))
     {
         ImGui::Separator();
         ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
-        const FString SelectedCompLabel = FString("Selected Component: ") + TempTargetComponent->GetName();
-        if (ImGui::TreeNodeEx(GetData(SelectedCompLabel), ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
-        {
-            const UClass* Class = TempTargetComponent->GetClass();
 
-            for (; Class; Class = Class->GetSuperClass())
+        const FString SelectedCompLabel = FString::Printf("Selected Component: %s", *TempTargetComponent->GetName());
+        if (ImGui::TreeNodeEx(*SelectedCompLabel, ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            for (const UClass* Class = TempTargetComponent->GetClass(); Class; Class = Class->GetSuperClass())
             {
                 const TArray<FProperty*>& Properties = Class->GetProperties();
                 if (Properties.IsEmpty())
                 {
                     continue;
                 }
-                
-                const FString InheritedLabel = (Class == TempTargetComponent->GetClass() ? FString("") : FString("Inherited ")) + Class->GetName();
-                ImGui::SeparatorText(GetData(InheritedLabel));
 
+                FString InheritedLabel = TempTargetComponent->GetName();
+                if (Class == TempTargetComponent->GetClass()) [[likely]]
+                {
+                    InheritedLabel = FString::Printf("%s %s", "Inherited", *InheritedLabel);
+                }
+
+                if (std::ranges::any_of(
+                    Properties, [](const FProperty* Prop) { return HasAnyFlags(Prop->Flags, EditAnywhere | VisibleAnywhere); }
+                ))
+                {
+                    ImGui::SeparatorText(*InheritedLabel);
+                }
+                
                 for (const FProperty* Prop : Properties)
                 {
                     Prop->DisplayInImGui(TempTargetComponent);
@@ -368,7 +385,6 @@ void PropertyEditorPanel::Render()
         }
         ImGui::PopStyleColor();
     }
-
     ImGui::End();
 }
 
@@ -472,22 +488,39 @@ void PropertyEditorPanel::RenderForSceneComponent(USceneComponent* SceneComponen
     ImGui::PopStyleColor();
 }
 
-void PropertyEditorPanel::RenderForCameraComponent(UCameraComponent* InCameraComponent)
-{
-    
-}
-
 void PropertyEditorPanel::RenderForActor(AActor* SelectedActor, USceneComponent* TargetComponent) const
 {
-    if (ImGui::Button("Duplicate"))
+    if (ImGui::TreeNodeEx("Editor Control Panel", ImGuiTreeNodeFlags_DefaultOpen))
     {
         UEditorEngine* Engine = Cast<UEditorEngine>(GEngine);
-        AActor* NewActor = static_cast<AActor*>(Engine->ActiveWorld->DuplicateActor(Engine->GetSelectedActor()));
-        Engine->SelectActor(NewActor);
-        Engine->DeselectComponent(Engine->GetSelectedComponent());
+        if (ImGui::TreeNodeEx("Actor Snap", ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            if (ImGui::Button("Move to Camera"))
+            {
+                if (const FViewportCamera* Camera = GEngineLoop.GetLevelEditor()->GetActiveViewportClient()->GetPerspectiveCamera())
+                {
+                    SelectedActor->SetActorLocation(Camera->GetLocation());
+                    const FVector& CameraRotation = Camera->GetRotation();
+                    SelectedActor->SetActorRotation(FRotator(-CameraRotation.Y, CameraRotation.Z, 0.0f));
+                }
+            }
+            ImGui::TreePop();
+        }
+
+        if (ImGui::TreeNodeEx("Actor Control", ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            if (ImGui::Button("Duplicate"))
+            {
+                AActor* NewActor = Engine->ActiveWorld->DuplicateActor(Engine->GetSelectedActor());
+                Engine->SelectActor(NewActor);
+                Engine->DeselectComponent(Engine->GetSelectedComponent());
+            }
+            ImGui::TreePop();
+        }
+        ImGui::TreePop();
     }
-    
-    FString BasePath = GEngineLoop.ScriptSys.GetBasePath();
+
+    FString BasePath = std::filesystem::absolute(FEngineLoop::ScriptSys.GetBasePath().ToWideString()).generic_wstring();
     
     if (ULuaScriptComponent* LuaComponent = SelectedActor->GetComponentByClass<ULuaScriptComponent>())
     {
@@ -502,38 +535,27 @@ void PropertyEditorPanel::RenderForActor(AActor* SelectedActor, USceneComponent*
         ImGui::SameLine();
         if (ImGui::Button("Select Script")) 
         {
-            // tinyfd를 사용하여 Lua 스크립트 파일 열기 대화상자 표시
-            char const* lFilterPatterns[1] = { "*.lua" };
-            const char* SelectedFilePath = tinyfd_openFileDialog(
-                "Select Lua Script",                      // 대화상자 제목
-                GetData(BasePath), // 기본 경로 (스크립트 폴더)
-                1,                                       // 필터 개수
-                lFilterPatterns,                         // 필터 패턴 (".lua")
-                "Lua Script (*.lua)",                    // 필터 설명
-                0                                        // 다중 선택 비활성화
-            );
-
-            if ( SelectedFilePath != nullptr ) // 사용자가 파일을 선택했다면
+            // Lua 스크립트 파일 열기 대화상자 표시
+            TArray<FString> OutFilenames;
+            if (FDesktopPlatformWindows::OpenFileDialog(
+                "Select Lua Script", // 대화상자 제목
+                BasePath,            // 기본 경로 (스크립트 폴더)
+                {
+                    {
+                        .FilterPattern = "*.lua",
+                        .Description = "Lua Script (*.lua)"
+                    }
+                },
+                EFileDialogFlag::None,
+                OutFilenames
+            ))
             {
-                // 선택된 전체 경로
-                std::string SelectedFullPath = SelectedFilePath;
-                // (선택 사항) 스크립트 기본 경로 기준 상대 경로로 변환
-                std::string RelativePathStr = SelectedFullPath; // 기본값은 전체 경로
-                
-                std::filesystem::path FullPath(SelectedFullPath);
-                std::filesystem::path AbsoluteBasePath = std::filesystem::absolute(GetData(BasePath));
-                std::filesystem::path RelativePath = std::filesystem::relative(FullPath, AbsoluteBasePath);
-
-                if ( !RelativePath.empty() && RelativePath.native().find(L"..") != 0 ) {
-                    RelativePathStr = RelativePath.generic_string();
-                } else {
-                    RelativePathStr = FullPath.generic_string();
-                }
+                std::filesystem::path FilePath(OutFilenames.Pop().ToWideString());
+                std::filesystem::path RelativePath = FilePath.lexically_relative(std::filesystem::current_path());
 
                 LuaComponent->SetDisplayName(RelativePath.generic_string());
-                LuaComponent->SetScriptPath(FullPath.generic_string()); // 선택된 경로(상대 또는 전체)로 업데이트
-
-                GEngineLoop.ScriptSys.Reload();
+                LuaComponent->SetScriptPath(FilePath.generic_string()); // 선택된 경로(상대 또는 전체)로 업데이트
+                FEngineLoop::ScriptSys.Reload();
             }
         }
         FString LuaDisplayPath = LuaComponent->GetDisplayName();
@@ -589,7 +611,12 @@ void PropertyEditorPanel::RenderForActor(AActor* SelectedActor, USceneComponent*
             }
             catch (const std::filesystem::filesystem_error& e)
             {
-                MessageBoxA(nullptr, "Failed to Create Script File for writing: ", "Error", MB_OK | MB_ICONERROR);
+                MessageBoxA(
+                    nullptr,
+                    std::format("Failed to Create Script File for writing: {}", e.what()).c_str(),
+                    "Error",
+                    MB_OK | MB_ICONERROR
+                );
             }
         }
         
@@ -687,6 +714,10 @@ void PropertyEditorPanel::RenderForStaticMesh(UStaticMeshComponent* StaticMeshCo
 
         if (ImGui::BeginCombo("##StaticMesh", GetData(PreviewName), ImGuiComboFlags_None))
         {
+            if (ImGui::Selectable("None", false))
+            {
+                StaticMeshComp->SetStaticMesh(nullptr);
+            }
             for (const auto& Asset : Assets)
             {
                 if (Asset.Value.AssetType != EAssetType::StaticMesh)
@@ -1139,7 +1170,7 @@ void PropertyEditorPanel::RenderForPointLightComponent(UPointLightComponent* Poi
         FShadowCubeMapArrayRHI* pointRHI = FEngineLoop::Renderer.ShadowManager->GetPointShadowCubeMapRHI();
         const char* faceNames[] = { "+X", "-X", "+Y", "-Y", "+Z", "-Z" };
         float imageSize = 128.0f;
-        int index =  PointlightComponent->GetPointLightInfo().ShadowMapArrayIndex;
+        uint32 index = PointlightComponent->GetPointLightInfo().ShadowMapArrayIndex;
         // CubeMap이므로 6개의 ShadowMap을 그립니다.
         for (int i = 0; i < 6; ++i)
         {
@@ -1330,7 +1361,7 @@ void PropertyEditorPanel::RenderForTextComponent(UTextComponent* TextComponent) 
                 int wLen = MultiByteToWideChar(CP_UTF8, 0, Buf, -1, nullptr, 0);
                 FWString wNewText(wLen, L'\0');
                 MultiByteToWideChar(CP_UTF8, 0, Buf, -1, wNewText.data(), wLen);
-                TextComponent->SetText(wNewText.c_str());
+                TextComponent->SetText(wNewText);
             }
             ImGui::PopItemFlag();
         }

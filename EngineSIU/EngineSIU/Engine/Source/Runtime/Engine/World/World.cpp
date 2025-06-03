@@ -12,6 +12,7 @@
 #include "UnrealEd/SceneManager.h"
 #include "GameFramework/GameMode.h"
 #include "Classes/Components/TextComponent.h"
+#include "Engine/EditorEngine.h"
 
 class UEditorEngine;
 
@@ -56,7 +57,10 @@ void UWorld::Tick(float DeltaTime)
     {
         for (AActor* Actor : PendingBeginPlayActors)
         {
-            Actor->BeginPlay();
+            if (IsValid(Actor))
+            {
+                Actor->BeginPlay();
+            }
         }
         PendingBeginPlayActors.Empty();
     }
@@ -167,9 +171,15 @@ bool UWorld::DestroyActor(AActor* ThisActor)
         return true;
     }
     
-    // UEditorEngine* Engine = Cast<UEditorEngine>(GEngine);
-    //
-    // Engine->DeselectActor(ThisActor);
+    if (UEditorEngine* Engine = Cast<UEditorEngine>(GEngine))
+    {
+        Engine->DeselectActor(ThisActor);
+
+        for (USceneComponent* Component : ThisActor->GetComponentsByClass<USceneComponent>())
+        {
+            Engine->DeselectComponent(Component);
+        }
+    }
 
     // 액터의 Destroyed 호출
     ThisActor->Destroyed();
@@ -203,25 +213,6 @@ ULevel* UWorld::GetActiveLevel() const
     return ActiveLevel;
 }
 
-void UWorld::SetMainPlayer(APawn* InPlayer)
-{
-    MainPlayer = InPlayer;
-}
-
-APawn* UWorld::GetMainPlayer() const
-{
-    if (MainPlayer)
-    {
-        return MainPlayer;
-    }
-    return nullptr;
-}
-
-void UWorld::SetPlayerController(APlayerController* InPlayerController)
-{
-    PlayerController = InPlayerController;
-}
-
 APlayerController* UWorld::GetPlayerController() const
 {
     if (PlayerController)
@@ -239,6 +230,11 @@ APlayerController* UWorld::GetPlayerController() const
     }
 
     return nullptr;
+}
+
+void UWorld::SetPlayerController(APlayerController* InPlayerController)
+{
+    PlayerController = InPlayerController;
 }
 
 void UWorld::SetGameModeClass(const TSubclassOf<AGameModeBase>& InGameModeClass)

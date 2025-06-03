@@ -445,7 +445,7 @@ void UPrimitiveComponent::BeginComponentOverlap(const FOverlapInfo& OtherOverlap
 void UPrimitiveComponent::EndComponentOverlap(const FOverlapInfo& OtherOverlap, bool bDoNotifies, bool bSkipNotifySelf)
 {
     UPrimitiveComponent* OtherComp = OtherOverlap.OverlapInfo.Component;
-    if (OtherComp == nullptr)
+    if (!IsValid(OtherComp))
     {
         return;
     }
@@ -670,6 +670,24 @@ void UPrimitiveComponent::DestroyPhysXGameObject()
     {
         return;
     }
+
+    for (physx::PxShape* BoxElem : BodySetup->AggGeom.BoxElems)
+    {
+        BoxElem->release();
+    }
+
+    for (physx::PxShape* BoxElem : BodySetup->AggGeom.CapsuleElems)
+    {
+        BoxElem->release();
+    }
+    
+    for (physx::PxShape* BoxElem : BodySetup->AggGeom.SphereElems)
+    {
+        BoxElem->release();
+    }
+    BodySetup->AggGeom.BoxElems.Empty();
+    BodySetup->AggGeom.CapsuleElems.Empty();
+    BodySetup->AggGeom.SphereElems.Empty();
 
     if (BodyInstance->BIGameObject != nullptr)
     {
