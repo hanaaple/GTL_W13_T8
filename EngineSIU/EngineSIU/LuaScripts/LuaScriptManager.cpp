@@ -212,9 +212,6 @@ void FLuaScriptManager::BindPrimitiveTypes()
     stringTypeTable[mFunc::addition] = [](const FString& a, const FString& b) { return a + b; };
     stringTypeTable[mFunc::equal_to] = [](const FString& a, const FString& b) { return a == b; };
 
-    // TArray
-    
-    
 }
 
 void FLuaScriptManager::BindUObject()
@@ -437,6 +434,31 @@ void FLuaScriptManager::UpdateStub()
 
         file.close();
     }
+    {
+        std::filesystem::path filePath = basePath / "_array.lua";
+        std::ofstream file(filePath.string());
+        if (!file.is_open())
+        {
+            UE_LOG(ELogLevel::Error, "Failed to open %s", filePath.c_str());
+            return;
+        }
+        for (const auto& [name, type]: UClass::GetClassMap())
+        {
+            if (!type->IsChildOf(UActorComponent::StaticClass()))
+            {
+                continue;
+            }
+
+            std::string classname = GetData(name.ToString());
+            file << "---@class " << classname << "Table" << '\n';
+            file << "local " << classname << "Table" << " = {}" << '\n';
+            file << "\n";
+            file << "---@return table \n";
+            file << "function " << classname << "Table" << ":GetContainer() end\n";
+            file << "\n";
+        }
+        file.close();
+    }
 }
 
 bool FLuaScriptManager::LoadFile(const FString& FileName)
@@ -507,6 +529,7 @@ void FLuaScriptManager::PanicHandler(sol::optional<std::string> MaybeMsg)
     {
         const std::string& msg = MaybeMsg.value();
         UE_LOG(ELogLevel::Error, "%s", msg.c_str());
+        assert(0, msg.c_str());
     }
 }
 

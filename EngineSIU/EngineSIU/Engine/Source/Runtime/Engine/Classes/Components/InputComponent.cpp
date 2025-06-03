@@ -142,7 +142,7 @@ uint64 UInputComponent::BindTargetedKeyAction(const FString& Key, AActor* Target
     return Handle.GetHandleId();
 }
 
-uint64 UInputComponent::BindKeyAction(const FString& Key, const sol::function Callback)
+uint64 UInputComponent::BindKeyLuaAction(const FString& Key, const sol::function Callback)
 {
     if ( !Callback.valid() )
     {
@@ -162,7 +162,7 @@ uint64 UInputComponent::BindKeyAction(const FString& Key, const sol::function Ca
     return Handle.GetHandleId();
 }
 
-uint64 UInputComponent::BindTargetedKeyAction(const FString& Key, AActor* TargetObj, const sol::function Callback)
+uint64 UInputComponent::BindTargetedKeyLuaAction(const FString& Key, AActor* TargetObj, const sol::function Callback)
 {
     if ( !Callback.valid() )
     {
@@ -218,7 +218,7 @@ uint64 UInputComponent::BindTargetedMouseMoveAction(AActor* TargetObj, const std
     return Handle.GetHandleId();
 }
 
-uint64 UInputComponent::BindMouseMoveAction(const sol::function Callback)
+uint64 UInputComponent::BindMouseMoveLuaAction(const sol::function Callback)
 {
     if ( !Callback.valid() )
     {
@@ -238,7 +238,7 @@ uint64 UInputComponent::BindMouseMoveAction(const sol::function Callback)
     return Handle.GetHandleId();
 }
 
-uint64 UInputComponent::BindTargetedMouseMoveAction(AActor* TargetObj, const sol::function Callback)
+uint64 UInputComponent::BindTargetedMouseMoveLuaAction(AActor* TargetObj, const sol::function Callback)
 {
     if ( !Callback.valid() )
     {

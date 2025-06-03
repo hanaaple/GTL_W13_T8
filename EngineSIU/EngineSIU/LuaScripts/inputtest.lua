@@ -5,32 +5,40 @@ MaxMoveSpeed = 10
 MouseHorizontalSensitive = 0.1
 MouseVerticalSensitive = 0.001
 
----@type UPrimitiveComponent
-local primitiveComp
+---@type table
+local primitiveComps
 
 ---@type FBodyInstance
 local bodyInstance
 
 function BeginPlay()
     inputComp = obj:GetWorld():GetPlayerController():GetInputComponent()
-    inputComp:BindTargetedKeyAction(FString("W"), obj, OnPressW)
-    inputComp:BindTargetedKeyAction(FString("A"), obj, OnPressA)
-    inputComp:BindTargetedKeyAction(FString("S"), obj, OnPressS)
-    inputComp:BindTargetedKeyAction(FString("D"), obj, OnPressD)
-    inputComp:BindTargetedKeyAction(FString("X"), obj, OnPressX)
-    inputComp:BindTargetedMouseMoveAction(obj, OnMouseMove)
+    inputComp:BindTargetedKeyLuaAction(FString("W"), obj, OnPressW)
+    inputComp:BindTargetedKeyLuaAction(FString("A"), obj, OnPressA)
+    inputComp:BindTargetedKeyLuaAction(FString("S"), obj, OnPressS)
+    inputComp:BindTargetedKeyLuaAction(FString("D"), obj, OnPressD)
+    inputComp:BindTargetedKeyLuaAction(FString("X"), obj, OnPressX)
+    inputComp:BindTargetedMouseMoveLuaAction(obj, OnMouseMove)
     inputComp:SetPossess()
 
     InitBodyInstance()
 end
 
 function InitBodyInstance()
-    primitiveComp = obj:GetUPrimitiveComponent()
-    bodyInstance = primitiveComp:GetBodyInstance()
+    PrintObj(obj:GetUPrimitiveComponents())
+    primitiveComps = obj:GetUPrimitiveComponents():GetContainer()
+    for k, v in pairs(primitiveComps) do
+        if (v:GetBodyInstance() ~= nil) then
+            bodyInstance = v:GetBodyInstance()
+            break
+        end
+        LogDisplay(string.format("%s %s", ToString(k), ToString(v)))
+    end
     if (bodyInstance == nil) then return end
     bodyInstance.bLockXRotation = true
     bodyInstance.bLockYRotation = true
     bodyInstance.bLockZRotation = true
+    bodyInstance.InertiaTensorScale = FVector(5000, 5000, 5000)
     bodyInstance:UpdateBodyProperty()
 end
 
@@ -65,7 +73,7 @@ function OnPressD(dt)
 end
 
 function OnPressX(dt)
-    if (bodyInstance:RayCast(FVector(0, 0, -1), 1 + KINDA_SMALL_NUMBER)) then
+    if (bodyInstance:RayCast(FVector(0, 0, -1), 5 + KINDA_SMALL_NUMBER)) then
         bodyInstance:AddBodyVelocity(FVector(0, 0, 1))
     end
 end
@@ -82,7 +90,7 @@ function OnMouseMove(dx, dy)
     -- -- GetActorByName(ToString(rot))
     -- LogDisplay(string.format("%s %s", ToString(prevrot), ToString(rot)))
 
-    primitiveComp:AddRotation(FRotator(0, dx * MouseHorizontalSensitive, 0))
+    obj:GetUPrimitiveComponent():AddRotation(FRotator(0, dx * MouseHorizontalSensitive, 0))
 
 end
 

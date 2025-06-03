@@ -207,7 +207,7 @@ void UPrimitiveComponent::TickComponent(float DeltaTime)
 {
     Super::TickComponent(DeltaTime);
 
-     if (RigidBodyType != ERigidBodyType::STATIC)
+    if (RigidBodyType != ERigidBodyType::STATIC && bOverrideTransform)
     {
         if (BodyInstance && BodyInstance->BIGameObject)
         {
@@ -298,6 +298,7 @@ void UPrimitiveComponent::GetProperties(TMap<FString, FString>& OutProperties) c
     OutProperties.Add(TEXT("AABB_max"), AABB.MaxLocation.ToString());
     OutProperties.Add(TEXT("bSimulate"), bSimulate ? TEXT("true") : TEXT("false"));
     OutProperties.Add(TEXT("bApplyGravity"), bApplyGravity ? TEXT("true") : TEXT("false"));
+    OutProperties.Add(TEXT("bOverrideTransform"), bOverrideTransform ? TEXT("true") : TEXT("false"));
     OutProperties.Add(TEXT("RigidBodyType"), FString::FromInt(static_cast<uint8>(RigidBodyType)));
 
     OutProperties.Add(TEXT("GeomAttributeNum"), FString::FromInt(GetBodySetup()->GeomAttributes.Num()));
@@ -349,6 +350,11 @@ void UPrimitiveComponent::SetProperties(const TMap<FString, FString>& InProperti
     if (InProperties.Contains(TEXT("bApplyGravity")))
     {
         bApplyGravity = InProperties[TEXT("bApplyGravity")] == "true";
+    }
+
+    if (InProperties.Contains(TEXT("bOverrideTransform")))
+    {
+        bOverrideTransform = InProperties[TEXT("bOverrideTransform")] == "true";
     }
 
     if (InProperties.Contains(TEXT("RigidBodyType")))
