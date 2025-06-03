@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "AnimStateMachine.h"
 #include "UObject/Object.h"
 #include "UObject/ObjectMacros.h"
@@ -32,8 +32,14 @@ public:
     void TriggerAnimNotifies(float DeltaSeconds);
 
     USkeleton* GetCurrentSkeleton() const { return CurrentSkeleton; }
+
+    virtual void RegisterAnimState(FString InStateName, FString InAnimName);
+
+    virtual void UnregisterAnimState(FString InStateName);
     
-    virtual void SetAnimState(EAnimState InAnimState);
+    virtual UFUNCTION(void, SetAnimState, FString InAnimState)
+    
+    virtual UAnimSequence* GetAnimSequence(FString InAnimState);
 
     virtual UAnimStateMachine* GetStateMachine() const;
 
@@ -44,6 +50,14 @@ public:
     virtual float GetBlendDuration() const;
 
     virtual void SetBlendDuration(float InBlendDuration);
+
+    UFUNCTION_CONST(FString, GetCurrentState);
+
+    TMap<FString, UAnimSequence*> GetAnimSequenceMap() const;
+protected:
+    TMap<FString, UAnimSequence*> AnimSequenceMap;
+
+    FString CurrentState = "None";
 private:
     UPROPERTY(ShallowCopy, USkeleton*, CurrentSkeleton, = nullptr)
     

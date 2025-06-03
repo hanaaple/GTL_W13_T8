@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Animation/Animinstance.h"
 #include "Animation/AnimStateMachine.h"
 #include "UObject/ObjectMacros.h"
@@ -96,10 +96,10 @@ public:
     {
         CurrentKey = InCurrentKey;
     }
+    
+    virtual UFUNCTION(void, SetAnimState, FString InAnimState);
 
-    virtual void SetAnimState(EAnimState InAnimState) override;
-
-    UAnimSequence* GetAnimForState(EAnimState InAnimState);
+    virtual UAnimSequence* GetAnimSequence(FString InAnimState) override;
 
     virtual UAnimStateMachine* GetStateMachine() const override { return StateMachine; }
 
@@ -111,11 +111,6 @@ public:
 
     virtual void SetBlendDuration(float InBlendDuration) override { BlendDuration = InBlendDuration; }
 private:
-    UPROPERTY(EditAnywhere | ShallowCopy, UAnimationAsset*, IDLE, = nullptr )
-    UPROPERTY(EditAnywhere | ShallowCopy, UAnimationAsset*, Dance, = nullptr )
-    UPROPERTY(EditAnywhere | ShallowCopy, UAnimationAsset*, SlowRun, = nullptr )
-    UPROPERTY(EditAnywhere | ShallowCopy, UAnimationAsset*, NarutoRun, = nullptr )
-    UPROPERTY(EditAnywhere | ShallowCopy, UAnimationAsset*, FastRun, = nullptr )
 
     UPROPERTY(EditAnywhere, float, ElapsedTime, = 0.0f)
 

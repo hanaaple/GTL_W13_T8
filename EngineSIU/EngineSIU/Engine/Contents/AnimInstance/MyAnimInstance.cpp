@@ -1,4 +1,4 @@
-﻿#include "MyAnimInstance.h"
+#include "MyAnimInstance.h"
 
 #include "Animation/AnimationAsset.h"
 #include "Animation/AnimationRuntime.h"
@@ -28,11 +28,12 @@ UMyAnimInstance::UMyAnimInstance()
     , bIsBlending(false)
 {
     StateMachine = FObjectFactory::ConstructObject<UAnimStateMachine>(this);
-    IDLE = UAssetManager::Get().GetAnimation(FString("Contents/Asset/Idle"));
-    Dance = UAssetManager::Get().GetAnimation(FString("Contents/Asset/GangnamStyle"));
-    SlowRun = UAssetManager::Get().GetAnimation(FString("Contents/Asset/SlowRun"));
-    NarutoRun = UAssetManager::Get().GetAnimation(FString("Contents/Asset/NarutoRun"));
-    FastRun = UAssetManager::Get().GetAnimation(FString("Contents/Asset/FastRun"));
+
+    // TODO: 하드코딩 덜어내기
+    // 하지만 넌 지워지지 않겠지
+    AnimSequenceMap["Idle"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/Armature|Idle"));
+    AnimSequenceMap["Jump"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/Armature|PaladinJump"));
+    AnimSequenceMap["Walking"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/mixamo.com"));
 }
 
 void UMyAnimInstance::NativeInitializeAnimation()
@@ -42,7 +43,7 @@ void UMyAnimInstance::NativeInitializeAnimation()
 void UMyAnimInstance::NativeUpdateAnimation(float DeltaSeconds, FPoseContext& OutPose)
 {
     UAnimInstance::NativeUpdateAnimation(DeltaSeconds, OutPose);
-    StateMachine->ProcessState();
+    // StateMachine->ProcessState();
     
 #pragma region MyAnim
     USkeletalMeshComponent* SkeletalMeshComp = GetSkelMeshComponent();
@@ -72,10 +73,10 @@ void UMyAnimInstance::NativeUpdateAnimation(float DeltaSeconds, FPoseContext& Ou
     // TODO: FPoseContext의 BoneContainer로 바꾸기
     const FReferenceSkeleton& RefSkeleton = this->GetCurrentSkeleton()->GetReferenceSkeleton();
     
-    if (PrevAnim->GetSkeleton()->GetReferenceSkeleton().GetRawBoneNum()!= RefSkeleton.RawRefBoneInfo.Num() || CurrAnim->GetSkeleton()->GetReferenceSkeleton().GetRawBoneNum() != RefSkeleton.RawRefBoneInfo.Num())
-    {
-        return;
-    }
+    //if (PrevAnim->GetSkeleton()->GetReferenceSkeleton().GetRawBoneNum()!= RefSkeleton.RawRefBoneInfo.Num() || CurrAnim->GetSkeleton()->GetReferenceSkeleton().GetRawBoneNum() != RefSkeleton.RawRefBoneInfo.Num())
+    //{
+    //    return;
+    //}
     
     FPoseContext PrevPose(this);
     FPoseContext CurrPose(this);
@@ -98,12 +99,13 @@ void UMyAnimInstance::NativeUpdateAnimation(float DeltaSeconds, FPoseContext& Ou
 #pragma endregion
 }
 
-void UMyAnimInstance::SetAnimState(EAnimState InAnimState)
+void UMyAnimInstance::SetAnimState(FString InAnimState)
 {
-    if (CurrAnim != GetAnimForState(InAnimState))
+    if (CurrAnim != GetAnimSequence(InAnimState))
     {
         PrevAnim = CurrAnim;
-        CurrAnim = GetAnimForState(InAnimState);
+        CurrAnim = GetAnimSequence(InAnimState);
+        CurrentState = InAnimState;
 
         BlendAlpha = 0.f;
         BlendStartTime = ElapsedTime;
@@ -112,15 +114,7 @@ void UMyAnimInstance::SetAnimState(EAnimState InAnimState)
     }
 }
 
-UAnimSequence* UMyAnimInstance::GetAnimForState(EAnimState InAnimState)
+UAnimSequence* UMyAnimInstance::GetAnimSequence(FString InAnimState)
 {
-    switch (InAnimState)
-    {
-    case AS_Idle:      return Cast<UAnimSequence>(IDLE);
-    case AS_Dance:     return Cast<UAnimSequence>(Dance);
-    case AS_SlowRun:   return Cast<UAnimSequence>(SlowRun);
-    case AS_NarutoRun: return Cast<UAnimSequence>(NarutoRun);
-    case AS_FastRun:   return Cast<UAnimSequence>(FastRun);
-    default:           return nullptr;
-    }
+    return AnimSequenceMap.Contains(InAnimState) ? AnimSequenceMap[InAnimState] : nullptr;
 }

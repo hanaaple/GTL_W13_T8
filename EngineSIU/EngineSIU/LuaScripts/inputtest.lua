@@ -5,11 +5,17 @@ MaxMoveSpeed = 10
 MouseHorizontalSensitive = 0.1
 MouseVerticalSensitive = 0.001
 
+local isAir = false
+
 ---@type table
 local primitiveComps
 
 ---@type FBodyInstance
 local bodyInstance
+
+
+---@type UAnimSingleNodeInstance
+local animInstance
 
 function BeginPlay()
     inputComp = obj:GetWorld():GetPlayerController():GetInputComponent()
@@ -22,6 +28,10 @@ function BeginPlay()
     inputComp:SetPossess()
 
     InitBodyInstance()
+
+    skelComp = obj:GetUSkeletalMeshComponent()
+    animInstance = skelComp:GetSingleNodeInstance()
+    animInstance:SetAnimState(FString("Idle"))
 end
 
 function InitBodyInstance()
@@ -73,8 +83,9 @@ function OnPressD(dt)
 end
 
 function OnPressX(dt)
-    if (bodyInstance:RayCast(FVector(0, 0, -1), 5 + KINDA_SMALL_NUMBER)) then
-        bodyInstance:AddBodyVelocity(FVector(0, 0, 1))
+    if (not isAir) then
+        bodyInstance:AddBodyVelocity(FVector(0, 0, 4.5))
+        animInstance:SetAnimState(FString("Jump"))
     end
 end
 
@@ -90,14 +101,34 @@ function OnMouseMove(dx, dy)
     -- -- GetActorByName(ToString(rot))
     -- LogDisplay(string.format("%s %s", ToString(prevrot), ToString(rot)))
 
-    obj:GetUPrimitiveComponent():AddRotation(FRotator(0, dx * MouseHorizontalSensitive, 0))
+    obj:AddActorRotation(FRotator(0, dx * MouseHorizontalSensitive, 0))
 
 end
 
 function Tick(dt)
     if (bodyInstance == nil) then InitBodyInstance() end
+
+    if (math.abs(bodyInstance:GetBodyVelocity().z) < KINDA_SMALL_NUMBER and bodyInstance:RayCast(FVector(0, 0, -1), 5 + KINDA_SMALL_NUMBER)) then
+        isAir = false
+        if (animInstance:GetCurrentState() == FString("Jump")) then
+            animInstance:SetAnimState(FString("Idle"))
+        end
+    else
+        isAir = true
+    end
+
+    if (bodyInstance:GetBodyVelocity():Length() > KINDA_SMALL_NUMBER and not isAir) then
+        if (animInstance:GetCurrentState() == FString("Idle")) then
+            animInstance:SetAnimState(FString("Walking"))
+        end
+    elseif (bodyInstance:GetBodyVelocity():Length() < KINDA_SMALL_NUMBER and not isAir) then
+        if (animInstance:GetCurrentState() == FString("Walking")) then
+            animInstance:SetAnimState(FString("Idle"))
+        end
+    end
     ACamera = obj:GetWorld():GetPlayerController():GetCameraManager()
     ACamera:SetViewTarget(obj)
+    -- LogDisplay(animInstance:GetCurrentState():ToString())
 end
 
 function BeginOverlap()

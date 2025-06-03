@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "AnimInstance.h"
 #include "UObject/ObjectMacros.h"
 
@@ -14,6 +14,8 @@ public:
     UAnimSingleNodeInstance();
 
     virtual void SetAnimationAsset(UAnimationAsset* NewAsset, bool bIsLooping=true, float InPlayRate=1.f);
+
+    virtual UFUNCTION(void, SetAnimState, FString InAnimState)
     
     virtual void NativeInitializeAnimation() override;
 
@@ -44,15 +46,9 @@ public:
         return bReverse;
     }
 
-    void SetLooping(bool bIsLooping)
-    {
-        bLooping = bIsLooping;
-    }
+    UFUNCTION(void, SetLooping, bool bIsLooping);
 
-    bool IsLooping() const
-    {
-        return bLooping;
-    }
+    UFUNCTION_CONST(bool, IsLooping);
 
     void SetElapsedTime(float InElapsedTime)
     {
@@ -64,15 +60,9 @@ public:
         return ElapsedTime;
     }
 
-    float GetPlayRate() const
-    {
-        return PlayRate;
-    }
+    UFUNCTION_CONST(float, GetPlayRate)
 
-    void SetPlayRate(float InPlayRate)
-    {
-        PlayRate = InPlayRate;
-    }
+    UFUNCTION(void, SetPlayRate, float InPlayRate);
 
     int32 GetLoopStartFrame() const
     {

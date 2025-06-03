@@ -1,4 +1,4 @@
-﻿#include "AnimSingleNodeInstance.h"
+#include "AnimSingleNodeInstance.h"
 
 #include "Components/SkeletalMeshComponent.h"
 #include "AnimationAsset.h"
@@ -58,6 +58,20 @@ void UAnimSingleNodeInstance::SetAnimationAsset(UAnimationAsset* NewAsset, bool 
     {
         LoopEndFrame = AnimSequence->GetDataModel()->GetNumberOfFrames();
     }
+}
+
+void UAnimSingleNodeInstance::SetAnimState(FString InAnimState) 
+{
+    // TODO: 하드코딩 덜어내기
+    // 하지만 넌 지워지지 않겠지
+    if ( AnimSequenceMap.IsEmpty() ) {
+        AnimSequenceMap["Idle"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/Armature|Idle"));
+        AnimSequenceMap["Jump"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/Armature|PaladinJump"));
+        AnimSequenceMap["Walking"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/mixamo.com"));
+    }
+
+    SetAnimationAsset(AnimSequenceMap[InAnimState]);
+    CurrentState = InAnimState;
 }
 
 void UAnimSingleNodeInstance::NativeInitializeAnimation()
@@ -144,4 +158,24 @@ void UAnimSingleNodeInstance::NativeUpdateAnimation(float DeltaSeconds, FPoseCon
         OutPose.Pose[BoneIdx] = RefBoneTransform * DataModel->EvaluateBoneTrackTransform(BoneName, FrameTime, EAnimInterpolationType::Linear);
     }
 #pragma endregion
+}
+
+float UAnimSingleNodeInstance::GetPlayRate() const 
+{
+    return PlayRate;
+}
+
+void UAnimSingleNodeInstance::SetPlayRate(float InPlayRate) 
+{
+    PlayRate = InPlayRate;
+}
+
+void UAnimSingleNodeInstance::SetLooping(bool bIsLooping) 
+{
+    bLooping = bIsLooping;
+}
+
+bool UAnimSingleNodeInstance::IsLooping() const 
+{
+    return bLooping;
 }

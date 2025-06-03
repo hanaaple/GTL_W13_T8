@@ -1083,3 +1083,13 @@ void USkeletalMeshComponent::SetLoopEndFrame(int32 InLoopEndFrame)
         SingleNodeInstance->SetLoopEndFrame(InLoopEndFrame);
     }
 }
+
+UAnimInstance* USkeletalMeshComponent::GetAnimInstance()
+{
+    return AnimScriptInstance;
+}
+
+UMyAnimInstance* USkeletalMeshComponent::GetMyAnimInstance() 
+{
+    return Cast<UMyAnimInstance>(AnimScriptInstance);
+}

@@ -5,14 +5,15 @@
 #include "Engine/Asset/SkeletalMeshAsset.h"
 #include "Template/SubclassOf.h"
 #include "Animation/AnimNodeBase.h"
+#include "Animation/AnimInstance.h"
+#include "Animation/AnimSingleNodeInstance.h"
+#include "Engine/Contents/AnimInstance/MyAnimInstance.h"
 
 struct FConstraintInstance;
 class UAnimSequence;
 class USkeletalMesh;
 class FAnimNotifyEvent;
 class UAnimSequenceBase;
-class UAnimInstance;
-class UAnimSingleNodeInstance;
 
 enum class EAnimationMode : uint8
 {
@@ -158,8 +159,12 @@ public:
     TSubclassOf<UAnimInstance> AnimClass;
 
     UPROPERTY(EditAnywhere, UAnimInstance*, AnimScriptInstance, = nullptr)
+
+    UFUNCTION(UAnimInstance*, GetAnimInstance);
+
+    UFUNCTION(UMyAnimInstance*, GetMyAnimInstance);
     
-    UAnimSingleNodeInstance* GetSingleNodeInstance() const;
+    UFUNCTION_CONST(UAnimSingleNodeInstance*, GetSingleNodeInstance);
 
     void SetAnimClass(UClass* NewClass);
     

@@ -2,14 +2,7 @@
 #include<UObject/Object.h>
 #include "UObject/ObjectMacros.h"
 
-enum EAnimState
-{
-    AS_Idle,
-    AS_Dance,
-    AS_SlowRun,
-    AS_NarutoRun,
-    AS_FastRun,
-};
+
 class UAnimStateMachine : public UObject
 {
     DECLARE_CLASS(UAnimStateMachine, UObject)
@@ -17,17 +10,12 @@ class UAnimStateMachine : public UObject
     public:
     UAnimStateMachine();
     virtual ~UAnimStateMachine() override = default;
-    void ProcessState();
     void MoveFast();
     void MoveSlow();
-    void Dance();
-    void StopDance();
     
-    FString GetStateName(EAnimState State) const;
-    EAnimState GetState() const;
+    FString GetState() const;
     
 private:
-    EAnimState CurrentState;
+    FString State;
     int MoveSpeed;
-    bool bIsDancing;
 };
