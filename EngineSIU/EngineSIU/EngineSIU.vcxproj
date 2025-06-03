@@ -442,6 +442,9 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\FBX\lib\x64\$
     <ClCompile Include="Engine\Source\ThirdParty\ImGui\include\ImGui\imgui_tables.cpp" />
     <ClCompile Include="Engine\Source\ThirdParty\ImGui\include\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Engine\Source\ThirdParty\tinyfiledialogs\include\tinyfiledialogs.cpp" />
+    <ClCompile Include="FFaxk\Character\FFaxkCharacter.cpp" />
+    <ClCompile Include="FFaxk\FFaxkController.cpp" />
+    <ClCompile Include="FFaxk\FFaxkGameMode.cpp" />
     <ClCompile Include="LuaScripts\LuaScriptComponent.cpp" />
     <None Include="Shaders\ParticleSpriteVertexShader.hlsl" />
     <None Include="Shaders\ParticleSpritePixelShader.hlsl" />
@@ -873,6 +876,9 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\FBX\lib\x64\$
     <ClInclude Include="Engine\Source\ThirdParty\sol2\include\sol\forward.hpp" />
     <ClInclude Include="Engine\Source\ThirdParty\sol2\include\sol\sol.hpp" />
     <ClInclude Include="Engine\Source\ThirdParty\tinyfiledialogs\include\tinyfiledialogs.h" />
+    <ClInclude Include="FFaxk\Character\FFaxkCharacter.h" />
+    <ClInclude Include="FFaxk\FFaxkController.h" />
+    <ClInclude Include="FFaxk\FFaxkGameMode.h" />
     <ClInclude Include="LuaScripts\LuaBindingHelpers.h" />
     <ClInclude Include="LuaScripts\LuaScriptComponent.h" />
     <ClInclude Include="LuaScripts\LuaScriptFileUtils.h" />

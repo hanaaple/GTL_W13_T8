@@ -56,7 +56,10 @@ void UWorld::Tick(float DeltaTime)
     {
         for (AActor* Actor : PendingBeginPlayActors)
         {
-            Actor->BeginPlay();
+            if (IsValid(Actor))
+            {
+                Actor->BeginPlay();
+            }
         }
         PendingBeginPlayActors.Empty();
     }
@@ -203,25 +206,6 @@ ULevel* UWorld::GetActiveLevel() const
     return ActiveLevel;
 }
 
-void UWorld::SetMainPlayer(APawn* InPlayer)
-{
-    MainPlayer = InPlayer;
-}
-
-APawn* UWorld::GetMainPlayer() const
-{
-    if (MainPlayer)
-    {
-        return MainPlayer;
-    }
-    return nullptr;
-}
-
-void UWorld::SetPlayerController(APlayerController* InPlayerController)
-{
-    PlayerController = InPlayerController;
-}
-
 APlayerController* UWorld::GetPlayerController() const
 {
     if (PlayerController)
@@ -239,6 +223,11 @@ APlayerController* UWorld::GetPlayerController() const
     }
 
     return nullptr;
+}
+
+void UWorld::SetPlayerController(APlayerController* InPlayerController)
+{
+    PlayerController = InPlayerController;
 }
 
 void UWorld::SetGameModeClass(const TSubclassOf<AGameModeBase>& InGameModeClass)
