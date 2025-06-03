@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "AnimStateMachine.h"
 #include "UObject/Object.h"
 #include "UObject/ObjectMacros.h"
@@ -37,7 +37,7 @@ public:
 
     virtual void UnregisterAnimState(FString InStateName);
     
-    virtual void SetAnimState(FString InAnimState);
+    virtual UFUNCTION(void, SetAnimState, FString InAnimState)
     
     virtual UAnimSequence* GetAnimSequence(FString InAnimState);
 
@@ -51,7 +51,7 @@ public:
 
     virtual void SetBlendDuration(float InBlendDuration);
 
-    FString GetCurrentState() const;
+    UFUNCTION_CONST(FString, GetCurrentState);
 
     TMap<FString, UAnimSequence*> GetAnimSequenceMap() const;
 protected:

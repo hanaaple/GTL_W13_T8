@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Animation/Animinstance.h"
 #include "Animation/AnimStateMachine.h"
 #include "UObject/ObjectMacros.h"
@@ -97,7 +97,7 @@ public:
         CurrentKey = InCurrentKey;
     }
     
-    virtual void SetAnimState(FString InAnimState) override;
+    virtual UFUNCTION(void, SetAnimState, FString InAnimState);
 
     virtual UAnimSequence* GetAnimSequence(FString InAnimState) override;
 
