@@ -1,6 +1,7 @@
 turnSpeed = 80
 MoveSpeed = 300
 MaxMoveSpeed = 300
+JumpPower = 50
 
 MouseHorizontalSensitive = 0.1
 MouseVerticalSensitive = 0.001
@@ -86,7 +87,7 @@ end
 
 function OnPressX(dt)
     if (not isAir) then
-        bodyInstance:AddBodyVelocity(FVector(0, 0, 10))
+        bodyInstance:AddBodyVelocity(FVector(0, 0, 1 * JumpPower))
         animInstance:SetAnimState(FString("Jump"))
         isAir = true
         hasLanded = false
