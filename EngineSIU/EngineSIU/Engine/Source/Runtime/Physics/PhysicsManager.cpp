@@ -61,7 +61,7 @@ void FPhysicsManager::CreateAndSetScene(UWorld* World)
     {
         PxSceneDesc SceneDesc(Physics->getTolerancesScale());
     
-        SceneDesc.gravity = PxVec3(0, 0, -50.0f);
+        SceneDesc.gravity = PxVec3(0, 0, -9.81f) * 50;
     
         unsigned int hc = std::thread::hardware_concurrency();
         Dispatcher = PxDefaultCpuDispatcherCreate(hc-2);
