@@ -54,6 +54,10 @@ public:
     UFUNCTION_CONST(FString, GetCurrentState);
 
     TMap<FString, UAnimSequence*> GetAnimSequenceMap() const;
+
+protected:
+    void AddSoundNotify(UAnimSequence* TargetAnim, FName SoundKey, FName SoundNotifyName, float MagicNumber) const;
+    
 protected:
     TMap<FString, UAnimSequence*> AnimSequenceMap;
 

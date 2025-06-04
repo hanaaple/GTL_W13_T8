@@ -1,6 +1,7 @@
 ﻿#include "AnimInstance.h"
 
 #include "AnimSequence.h"
+#include "AnimSoundNotify.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/SkeletalMesh.h"
 #include "UObject/Casts.h"
@@ -72,6 +73,33 @@ FString UAnimInstance::GetCurrentState() const
 TMap<FString, UAnimSequence*> UAnimInstance::GetAnimSequenceMap() const
 {
     return AnimSequenceMap;
+}
+
+void UAnimInstance::AddSoundNotify(UAnimSequence* TargetAnim, FName SoundKey, FName SoundNotifyName, float MagicNumber) const
+{
+    if (TargetAnim == nullptr)
+    {
+        return;
+    }
+
+    FName NewTrackName = FName("SoundTrack");
+    
+    int32 NewTrackIdx = INDEX_NONE;
+    TargetAnim->AddNotifyTrack(NewTrackName, NewTrackIdx);
+    if (NewTrackIdx != -1)
+    {
+        int32 NotifyIndex = TargetAnim->Notifies.Num();
+        if (!TargetAnim->GetNotifyEvent(NotifyIndex))
+        {
+            TargetAnim->AddNotifyEvent(0, MagicNumber, 0, SoundNotifyName, NotifyIndex);
+        }
+        if (FAnimNotifyEvent* NotifyEvent = TargetAnim->GetNotifyEvent(NotifyIndex))
+        {
+            auto* Notify = FObjectFactory::ConstructObject<UAnimSoundNotify>(nullptr);
+            Notify->SetSoundName(SoundKey);
+            NotifyEvent->SetAnimNotify(Notify);
+        }
+    }
 }
 
 USkeletalMeshComponent* UAnimInstance::GetSkelMeshComponent() const

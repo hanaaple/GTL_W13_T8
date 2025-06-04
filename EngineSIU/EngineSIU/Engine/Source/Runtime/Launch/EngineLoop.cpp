@@ -104,6 +104,7 @@ int32 FEngineLoop::Init(HINSTANCE hInstance)
     FSoundManager::GetInstance().Initialize();
     FSoundManager::GetInstance().LoadSound("fishdream", "Contents/Sounds/fishdream.mp3");
     FSoundManager::GetInstance().LoadSound("sizzle", "Contents/Sounds/sizzle.mp3");
+    FSoundManager::GetInstance().LoadSound("Footprint", "Contents/Sounds/footprint.mp3");
     //FSoundManager::GetInstance().PlaySound("fishdream");
 
     UpdateUI();
