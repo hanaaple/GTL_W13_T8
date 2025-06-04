@@ -131,6 +131,8 @@ public:
 
     virtual void InitAnim();
 
+    TArray<FBodyInstance*> GetBodies();
+
 protected:
     bool NeedToSpawnAnimScriptInstance() const;
 

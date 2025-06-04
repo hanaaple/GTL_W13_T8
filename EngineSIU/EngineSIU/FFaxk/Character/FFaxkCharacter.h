@@ -17,6 +17,9 @@ public:
     virtual void BeginPlay() override;
     virtual void Tick(float DeltaTime) override;
 
+    void OnBeginOverlap(AActor* OverlappedActor, AActor* OtherActor);
+    void OnEndOverlap(AActor* OverlappedActor, AActor* OtherActor);
+
     void Die();
 
 private:

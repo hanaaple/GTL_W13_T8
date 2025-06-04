@@ -19,4 +19,9 @@ public:
 
     UPROPERTY
     (class USkeletalMeshComponent*, SkeletalMeshComponent, = nullptr);
+
+    UPROPERTY
+    (class UCapsuleComponent*, CapsuleComponent, = nullptr);
+    
+    float Power = 2000;
 };

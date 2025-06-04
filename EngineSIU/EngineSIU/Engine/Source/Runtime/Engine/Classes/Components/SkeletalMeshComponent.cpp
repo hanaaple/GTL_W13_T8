@@ -557,6 +557,11 @@ void USkeletalMeshComponent::InitAnim()
     }
 }
 
+TArray<FBodyInstance*> USkeletalMeshComponent::GetBodies()
+{
+    return Bodies;
+}
+
 void USkeletalMeshComponent::CreatePhysXGameObject()
 {
     if (bSimulate == false || Bodies.Num() > 0)

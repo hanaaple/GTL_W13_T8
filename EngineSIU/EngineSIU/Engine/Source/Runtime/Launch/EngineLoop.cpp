@@ -28,6 +28,7 @@ uint32 FEngineLoop::TotalAllocationBytes = 0;
 uint32 FEngineLoop::TotalAllocationCount = 0;
 
 float GDeltaScale = 1.0f;
+float GTargetDeltaScale = 1.0f;
 
 FEngineLoop::FEngineLoop()
     : AppWnd(nullptr)
@@ -174,8 +175,11 @@ void FEngineLoop::Tick()
                 break;
             }
         }
-
+        static float InterporSpeed = 1.f;
         const float DeltaTime = static_cast<float>(ElapsedTime / 1000.f);
+        
+        GDeltaScale = FMath::FInterpTo(GDeltaScale, GTargetDeltaScale, DeltaTime, InterporSpeed);
+        
         ScriptSys.Reload();
         GEngine->Tick(DeltaTime * GDeltaScale);
         LevelEditor->Tick(DeltaTime);
@@ -188,11 +192,13 @@ void FEngineLoop::Tick()
         EngineProfiler.Render(GraphicDevice.DeviceContext, GraphicDevice.ScreenWidth, GraphicDevice.ScreenHeight);
         GameUIManager->RenderAll();
 
-        ImGui::Begin("Test");
-        {
-            ImGui::DragFloat("DeltaScale", &GDeltaScale, 0.01f, 0.0f, 10.0f);
-        }
-        ImGui::End();
+        // ImGui::Begin("Test");
+        // {
+        //     ImGui::DragFloat("DeltaScale", &GDeltaScale, 0.01f, 0.0f, 10.0f);
+        //     ImGui::DragFloat("TargetDeltaScale", &GTargetDeltaScale, 0.01f, 0.0f, 10.0f);
+        //     ImGui::DragFloat("speeeeeed", &speeeeeed, 0.01f, 0.0f, 10.0f);
+        // }
+        // ImGui::End();
         UIManager->EndFrame();
 
         // Pending 처리된 오브젝트 제거

@@ -1,6 +1,7 @@
 ﻿#include "Fish.h"
 
 #include "Animation/AnimSequence.h"
+#include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/StaticMeshComponent.h"
 
@@ -12,6 +13,13 @@ AFish::AFish()
     SkeletalMeshComponent = AddComponent<USkeletalMeshComponent>("SkeletalMeshComponent_0");
     SkeletalMeshComponent->SetupAttachment(StaticMeshComponent);
     SetActorTickInEditor(false);
+
+    CapsuleComponent = AddComponent<UCapsuleComponent>("CapsuleComponent_0");
+    CapsuleComponent->SetupAttachment(SkeletalMeshComponent);
+    CapsuleComponent->SetRelativeLocation(FVector(0, 90, 0));
+    CapsuleComponent->SetRelativeRotation(FRotator(0, 0, 90));
+    CapsuleComponent->SetHalfHeight(200);
+    CapsuleComponent->SetRadius(65);
 }
 
 void AFish::PostSpawnInitialize()

@@ -9,6 +9,8 @@ ACharacter::ACharacter()
 {
     CapsuleComponent = AddComponent<UCapsuleComponent>(TEXT("CapsuleComponent"));
     SetRootComponent(CapsuleComponent);
+    CapsuleComponent->SetHalfHeight(10.f);
+    CapsuleComponent->SetRadius(5.f);
     CapsuleComponent->bSimulate = true;
     CapsuleComponent->bApplyGravity = true;
     CapsuleComponent->bOverrideTransform = true;
