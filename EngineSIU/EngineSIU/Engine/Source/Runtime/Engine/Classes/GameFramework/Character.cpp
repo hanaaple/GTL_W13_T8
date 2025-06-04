@@ -14,7 +14,7 @@ ACharacter::ACharacter()
     CapsuleComponent->bOverrideTransform = true;
     AggregateGeomAttributes geomAttributes;
     geomAttributes.GeomType = EGeomType::ECapsule;
-    geomAttributes.Offset = FVector(0, 0, 88.0f);
+    geomAttributes.Offset = FVector(0, 0, 64.0f);
     geomAttributes.Rotation = FRotator(90, 0, 0);
     geomAttributes.Extent = FVector(20.0f, 0.0f, 88.0f);
 

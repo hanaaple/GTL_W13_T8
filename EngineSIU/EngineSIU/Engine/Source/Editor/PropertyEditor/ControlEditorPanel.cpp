@@ -523,6 +523,14 @@ void ControlEditorPanel::CreateModifyButton(const ImVec2 ButtonSize, ImFont* Ico
                     ACameraActor* CubeActor = World->SpawnActor<ACameraActor>();
                     CubeActor->SetActorLabel(TEXT("OBJ_CAMERAActor"));
                     SpawnedActor = CubeActor;
+                    break;
+                }
+                case ESpawnObjectTypes::Character:
+                {
+                    AFFaxkCharacter* CubeActor = World->SpawnActor<AFFaxkCharacter>();
+                    CubeActor->SetActorLabel(TEXT("OBJ_AFFaxkCharacter"));
+                    SpawnedActor = CubeActor;
+                    break;
                 }
                 }
 

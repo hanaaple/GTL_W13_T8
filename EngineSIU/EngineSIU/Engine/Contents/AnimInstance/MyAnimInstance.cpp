@@ -32,7 +32,10 @@ UMyAnimInstance::UMyAnimInstance()
     // TODO: 하드코딩 덜어내기
     // 하지만 넌 지워지지 않겠지
     AnimSequenceMap["Idle"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/Armature|Idle"));
-    AnimSequenceMap["Jump"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/Armature|PaladinJump"));
+    //AnimSequenceMap["Jump"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/Armature|PaladinJump"));
+    AnimSequenceMap["JumpUp"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/Armature|JumpUp"));
+    AnimSequenceMap["Falling"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/Armature|Falling"));
+    AnimSequenceMap["JumpDown"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/Armature|JumpDown"));
     AnimSequenceMap["Walking"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/mixamo.com"));
 }
 

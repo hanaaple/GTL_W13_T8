@@ -210,7 +210,7 @@ void UEditorEngine::Tick(float DeltaTime)
         else if (WorldContext->WorldType == EWorldType::SkeletalViewer)
         {
             if (UWorld* World = WorldContext->World())
-            {
+            { 
                 World->Tick(DeltaTime);
                 EditorPlayer->Tick(DeltaTime);
                 ULevel* Level = World->GetActiveLevel();

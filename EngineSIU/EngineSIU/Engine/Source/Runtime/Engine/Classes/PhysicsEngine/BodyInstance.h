@@ -150,4 +150,5 @@ struct FBodyInstance
 
     UFUNCTION(bool, RayCast, FVector& Direction, float Distance)
 
+    UFUNCTION(bool, RayCast, FVector& Origin, FVector& Direction, float Distance)
 };

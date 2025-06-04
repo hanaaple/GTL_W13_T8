@@ -1,6 +1,7 @@
 #pragma once
 #include "AnimationAsset.h"
 #include "AnimTypes.h"
+#include "AnimData/AnimDataModel.h"
 
 class UAnimDataController;
 class UAnimDataModel;
@@ -21,6 +22,8 @@ public:
     UPROPERTY(EditAnywhere, float,  RateScale, = 1.0f)
 
     UPROPERTY(EditAnywhere, bool,  bLoop, = true)
+
+    float GetPlayLength() { return DataModel->GetPlayLength(); }
 
 protected:
     UPROPERTY(ShallowCopy, UAnimDataModel*, DataModel, = nullptr)

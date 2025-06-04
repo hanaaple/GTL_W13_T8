@@ -907,6 +907,22 @@ void FEditorRenderPass::RenderCapsuleInstanced(uint64 ShowFlag)
                 BufferAll.Add(b);
             }
         }
+        
+
+        for (const auto& GeomAttribute : ShapeComponent->GetBodySetup()->GeomAttributes)
+        {
+            if (GeomAttribute.GeomType == EGeomType::ECapsule)
+            {
+                FConstantBufferDebugCapsule b;
+                FMatrix WorldMatrix =
+                    FTransform(GeomAttribute.Rotation, GeomAttribute.Offset).ToMatrixWithScale()
+                    * ShapeComponent->GetWorldMatrix().GetMatrixWithoutScale();
+                b.WorldMatrix = WorldMatrix;
+                b.Radius = GeomAttribute.Extent.X;
+                b.Height = GeomAttribute.Extent.Z;
+                BufferAll.Add(b);
+            }
+        }
     }
 
     for (const UStaticMeshComponent* StaticComp : Resources.Components.StaticMeshComponent)

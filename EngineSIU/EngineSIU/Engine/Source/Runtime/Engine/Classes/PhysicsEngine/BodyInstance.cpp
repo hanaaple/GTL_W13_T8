@@ -158,3 +158,25 @@ bool FBodyInstance::RayCast(FVector& Direction, float Distance)
     );
     return hit.hasBlock;
 }
+
+bool FBodyInstance::RayCast(FVector& Origin, FVector& Direction, float Distance) 
+{
+    physx::PxRigidBody* body = BIGameObject->DynamicRigidBody;
+    physx::PxVec3 origin = physx::PxVec3(Origin.X, Origin.Y, Origin.Z);
+    physx::PxVec3 dir = physx::PxVec3(Direction.X, Direction.Y, Direction.Z).getNormalized();
+    
+    RayFilterIgnoreActor filter = RayFilterIgnoreActor(body);
+    physx::PxRaycastBuffer hit;
+    PxQueryFilterData filterData;
+    filterData.flags |= PxQueryFlag::ePREFILTER;
+    bool isHit = body->getScene()->raycast(
+        origin,
+        dir,
+        Distance,
+        hit,
+        PxHitFlag::eDEFAULT,
+        filterData,
+        &filter
+    );
+    return hit.hasBlock;
+}

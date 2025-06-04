@@ -25,11 +25,8 @@ public:
     {
         return CurrentAsset;
     }
-    
-    void SetPlaying(bool bIsPlaying)
-    {
-        bPlaying = bIsPlaying;
-    }
+
+    UFUNCTION(void, SetPlaying, bool bIsPlaying)
 
     bool IsPlaying() const
     {
@@ -61,6 +58,10 @@ public:
     }
 
     UFUNCTION_CONST(float, GetPlayRate)
+    
+    UFUNCTION_CONST(float, GetAnimCurrentTime)
+
+    UFUNCTION_CONST(float, GetAnimLength)
 
     UFUNCTION(void, SetPlayRate, float InPlayRate);
 

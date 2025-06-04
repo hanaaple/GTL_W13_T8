@@ -64,14 +64,19 @@ void UAnimSingleNodeInstance::SetAnimState(FString InAnimState)
 {
     // TODO: 하드코딩 덜어내기
     // 하지만 넌 지워지지 않겠지
-    if ( AnimSequenceMap.IsEmpty() ) {
+    if ( AnimSequenceMap.IsEmpty() )
+    {
         AnimSequenceMap["Idle"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/Armature|Idle"));
-        AnimSequenceMap["Jump"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/Armature|PaladinJump"));
+        //AnimSequenceMap["Jump"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/Armature|PaladinJump"));
+        AnimSequenceMap["JumpUp"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/Armature|JumpUp"));
+        AnimSequenceMap["Falling"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/Armature|Falling"));
+        AnimSequenceMap["JumpDown"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/Armature|JumpDown"));
         AnimSequenceMap["Walking"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/mixamo.com"));
     }
 
     SetAnimationAsset(AnimSequenceMap[InAnimState]);
     CurrentState = InAnimState;
+    UE_LOG(ELogLevel::Warning, TEXT("Curretn AnimState : %s"), *InAnimState);
 }
 
 void UAnimSingleNodeInstance::NativeInitializeAnimation()
@@ -165,6 +170,27 @@ float UAnimSingleNodeInstance::GetPlayRate() const
     return PlayRate;
 }
 
+float UAnimSingleNodeInstance::GetAnimCurrentTime() const
+{
+    return ElapsedTime;
+}
+
+float UAnimSingleNodeInstance::GetAnimLength() const
+{
+    if (UAnimSequence* AnimSequence = Cast<UAnimSequence>(CurrentAsset))
+    {
+        const UAnimDataModel* DataModel = AnimSequence->GetDataModel();
+        if (DataModel)
+        {
+            float FrameRate = static_cast<float>(DataModel->GetFrameRate());
+            int32 NumberOfFrames = DataModel->GetNumberOfFrames();
+            // 프레임 수 / 프레임 레이트 = 애니메이션 길이 (초)
+            return NumberOfFrames / FrameRate;
+        }
+    }
+    return 0.f;
+}
+
 void UAnimSingleNodeInstance::SetPlayRate(float InPlayRate) 
 {
     PlayRate = InPlayRate;
@@ -178,4 +204,9 @@ void UAnimSingleNodeInstance::SetLooping(bool bIsLooping)
 bool UAnimSingleNodeInstance::IsLooping() const 
 {
     return bLooping;
+}
+
+void UAnimSingleNodeInstance::SetPlaying(bool bIsPlaying)
+{
+    bPlaying = bIsPlaying;
 }
