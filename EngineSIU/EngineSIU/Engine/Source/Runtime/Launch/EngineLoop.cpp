@@ -27,6 +27,8 @@ FResourceManager FEngineLoop::ResourceManager;
 uint32 FEngineLoop::TotalAllocationBytes = 0;
 uint32 FEngineLoop::TotalAllocationCount = 0;
 
+float GDeltaScale = 1.0f;
+
 FEngineLoop::FEngineLoop()
     : AppWnd(nullptr)
     , UIManager(nullptr)
@@ -175,7 +177,7 @@ void FEngineLoop::Tick()
 
         const float DeltaTime = static_cast<float>(ElapsedTime / 1000.f);
         ScriptSys.Reload();
-        GEngine->Tick(DeltaTime);
+        GEngine->Tick(DeltaTime * GDeltaScale);
         LevelEditor->Tick(DeltaTime);
         GameUIManager->UpdateAll(DeltaTime);
         Render();
@@ -185,6 +187,12 @@ void FEngineLoop::Tick()
         FConsole::GetInstance().Draw();
         EngineProfiler.Render(GraphicDevice.DeviceContext, GraphicDevice.ScreenWidth, GraphicDevice.ScreenHeight);
         GameUIManager->RenderAll();
+
+        ImGui::Begin("Test");
+        {
+            ImGui::DragFloat("DeltaScale", &GDeltaScale, 0.01f, 0.0f, 10.0f);
+        }
+        ImGui::End();
         UIManager->EndFrame();
 
         // Pending 처리된 오브젝트 제거
