@@ -73,7 +73,8 @@ bool UAnimSequenceBase::AddNotifyTrack(const FName& TrackName, int32& OutNewTrac
     {
         return false;
     }
-    if (FindNotifyTrackIndex(TrackName) != INDEX_NONE)
+    OutNewTrackIndex = FindNotifyTrackIndex(TrackName);
+    if (OutNewTrackIndex != INDEX_NONE)
     {
         return false;
     }

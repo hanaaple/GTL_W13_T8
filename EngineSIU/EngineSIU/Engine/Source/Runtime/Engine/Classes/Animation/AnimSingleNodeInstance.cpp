@@ -7,6 +7,7 @@
 #include "Animation/Skeleton.h"
 #include "Animation/AnimData/AnimDataModel.h"
 #include "Animation/AnimSequence.h"
+#include "Developer/AnimDataController/AnimDataController.h"
 #include "Engine/SkeletalMesh.h"
 #include "Misc/FrameTime.h"
 #include "UObject/Casts.h"
@@ -72,6 +73,12 @@ void UAnimSingleNodeInstance::SetAnimState(FString InAnimState)
         AnimSequenceMap["Falling"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/Armature|Falling"));
         AnimSequenceMap["JumpDown"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/Armature|JumpDown"));
         AnimSequenceMap["Walking"] = Cast<UAnimSequence>(UAssetManager::Get().GetAnimation("Contents/Character/mixamo.com"));
+
+        float TotalFrame = static_cast<float>(AnimSequenceMap["Walking"]->GetDataModel()->GetNumberOfFrames());
+        // TODO Find Magic Number
+        AddSoundNotify(AnimSequenceMap["Walking"], FName("Footprint"), FName("Right"), 11.f / TotalFrame);
+
+        AddSoundNotify(AnimSequenceMap["Walking"], FName("Footprint"), FName("Left"), 26.f / TotalFrame);
     }
 
     SetAnimationAsset(AnimSequenceMap[InAnimState]);

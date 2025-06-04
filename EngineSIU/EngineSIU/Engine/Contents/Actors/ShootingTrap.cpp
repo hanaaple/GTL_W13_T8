@@ -116,17 +116,20 @@ void AShootingTrap::Tick(float DeltaTime)
 
     for (AActor* PendingActor : PendingActors)
     {
-        for (UPrimitiveComponent* PrimitiveComponent : PendingActor->GetComponentsByClass<UPrimitiveComponent>())
+        if (IsValid(PendingActor))
         {
-            if (PrimitiveComponent->BodyInstance && PrimitiveComponent->BodyInstance->BIGameObject)
+            for (UPrimitiveComponent* PrimitiveComponent : PendingActor->GetComponentsByClass<UPrimitiveComponent>())
             {
-                if (PrimitiveComponent->BodyInstance->BIGameObject->DynamicRigidBody)
+                if (PrimitiveComponent->BodyInstance && PrimitiveComponent->BodyInstance->BIGameObject)
                 {
-                    if (PrimitiveComponent->BodyInstance->BIGameObject->DynamicRigidBody->getType() == PxActorType::eRIGID_DYNAMIC)
+                    if (PrimitiveComponent->BodyInstance->BIGameObject->DynamicRigidBody)
                     {
-                        FVector FVecForce = GetActorForwardVector() * (ShootForceScalar + ForceDistribution.GetValue());
-                        PxVec3 Force = PxVec3(FVecForce.X, FVecForce.Y, FVecForce.Z);
-                        PrimitiveComponent->BodyInstance->BIGameObject->DynamicRigidBody->addForce(Force, PxForceMode::eVELOCITY_CHANGE);
+                        if (PrimitiveComponent->BodyInstance->BIGameObject->DynamicRigidBody->getType() == PxActorType::eRIGID_DYNAMIC)
+                        {
+                            FVector FVecForce = GetActorForwardVector() * (ShootForceScalar + ForceDistribution.GetValue());
+                            PxVec3 Force = PxVec3(FVecForce.X, FVecForce.Y, FVecForce.Z);
+                            PrimitiveComponent->BodyInstance->BIGameObject->DynamicRigidBody->addForce(Force, PxForceMode::eVELOCITY_CHANGE);
+                        }
                     }
                 }
             }
