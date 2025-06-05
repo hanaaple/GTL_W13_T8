@@ -42,7 +42,7 @@ void FGameMenu::Render()
 
     ImDrawList* DrawList = ImGui::GetWindowDrawList();
     // 회색(50,50,50)에 알파 192 정도로 반투명 처리
-    DrawList->AddRectFilled(ImVec2(0, 0), ImVec2(ScreenSize.x, ScreenSize.y), IM_COL32(50, 50, 50, 192));
+    DrawFullScreenColor(DrawList, ScreenSize, IM_COL32(0, 0, 0, 255));
 
     ImGui::PopStyleVar(); // WindowPadding
     

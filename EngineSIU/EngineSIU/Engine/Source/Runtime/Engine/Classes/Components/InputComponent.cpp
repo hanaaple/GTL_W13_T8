@@ -44,7 +44,7 @@ void UInputComponent::BindInputDelegate()
         InputKey(InKeyEvent);
     }));
 
-    BindMouseMoveDelegateHandleId = Handler->OnMouseMoveDelegate.AddLambda([this](const FPointerEvent& InMouseEvent)
+    BindMouseMoveDelegateHandleId = Handler->OnRawMouseInputDelegate.AddLambda([this](const FPointerEvent& InMouseEvent)
     {
         FVector2D delta = InMouseEvent.GetCursorDelta();
         MouseMoveDelegate.Broadcast(delta.X, delta.Y);
@@ -74,7 +74,7 @@ void UInputComponent::ClearBindDelegate()
         Handler->OnKeyUpDelegate.Remove(DelegateHandle);
     }
 
-    Handler->OnMouseMoveDelegate.Remove(FDelegateHandle(BindMouseMoveDelegateHandleId));
+    Handler->OnRawMouseInputDelegate.Remove(FDelegateHandle(BindMouseMoveDelegateHandleId));
     
     BindKeyDownDelegateHandles.Empty();
     BindKeyUpDelegateHandles.Empty();

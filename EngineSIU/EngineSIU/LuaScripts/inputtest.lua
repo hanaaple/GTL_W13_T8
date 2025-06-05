@@ -65,39 +65,31 @@ function OnOverlap(OtherActor)
 end
 
 function OnPressW(dt)
-    if jumpState == "Idle" or jumpState == "Walking" then
         local velLen = bodyInstance:GetBodyVelocity():Length()
         if (velLen < MaxMoveSpeed) then
             bodyInstance:AddBodyVelocity(obj:GetActorForwardVector() * dt * MoveSpeed)
         end
-    end 
 end
 
 function OnPressS(dt)
-    if jumpState == "Idle" or jumpState == "Walking" then
         local velLen = bodyInstance:GetBodyVelocity():Length()
         if (velLen < MaxMoveSpeed) then
             bodyInstance:AddBodyVelocity(obj:GetActorForwardVector() * -dt * MoveSpeed)
         end
-    end
 end
 
 function OnPressA(dt)
-    if jumpState == "Idle" or jumpState == "Walking" then
         local velLen = bodyInstance:GetBodyVelocity():Length()
         if (velLen < MaxMoveSpeed) then
             bodyInstance:AddBodyVelocity(obj:GetActorRightVector() * -dt * MoveSpeed)
         end
-    end
 end
 
 function OnPressD(dt)
-    if jumpState == "Idle" or jumpState == "Walking" then
         local velLen = bodyInstance:GetBodyVelocity():Length()
         if (velLen < MaxMoveSpeed) then
             bodyInstance:AddBodyVelocity(obj:GetActorRightVector() * dt * MoveSpeed)
         end
-    end
 end
 
 function OnPressX(dt)
@@ -129,6 +121,27 @@ function OnMouseMove(dx, dy)
 
     obj:AddActorRotation(FRotator(0, dx * MouseHorizontalSensitive, 0))
 
+    local SpringArm = obj:GetUSpringArmComponent()
+    if SpringArm ~= nil then
+        local curRot = SpringArm:GetRelativeRotation()
+        -- 입력값에 따른 포텐셜 피치 계산
+        local desiredPitch = curRot.Pitch - dy * MouseHorizontalSensitive
+
+        -- 피치를 -80도에서 +80도로 제한 (원하는 범위로 조정 가능)
+        local minPitch = -70
+        local maxPitch = 70
+        -- Lua는 math.clamp이 없으므로 math.min/math.max 조합 사용
+        if desiredPitch < minPitch then
+            desiredPitch = minPitch
+        elseif desiredPitch > maxPitch then
+            desiredPitch = maxPitch
+        end
+
+        -- 클램프된 피치로 새로운 회전값 구성
+        local nextRot = FRotator(desiredPitch, curRot.Yaw, curRot.Roll)
+        SpringArm:SetRelativeRotation(nextRot)
+    end
+    
 end
 
 function Tick(dt)

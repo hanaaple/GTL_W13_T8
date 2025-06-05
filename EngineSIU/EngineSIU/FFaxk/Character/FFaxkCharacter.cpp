@@ -3,6 +3,7 @@
 #include <thread>
 
 #include "PhysicsManager.h"
+#include "SoundManager.h"
 #include "Camera/CameraComponent.h"
 #include "Camera/Shakes/SimpleCameraShakePattern.h"
 #include "Engine/Engine.h"
@@ -41,6 +42,7 @@ AFFaxkCharacter::AFFaxkCharacter()
     SpringArm = AddComponent<USpringArmComponent>(TEXT("SpringArmComponent"));
     SpringArm->bEnableCameraLag = false;
     SpringArm->bEnableCameraRotationLag = false;
+    SpringArm->bInheritPitch = false;
     SpringArm->TargetOffset = FVector(-15.0f, 0.0f, 150.0f);
     SpringArm->TargetArmLength = 200.0f;
     SpringArm->SetupAttachment(RootComponent);
@@ -160,6 +162,7 @@ void AFFaxkCharacter::Die()
                 GameMode->SetGameState(EGameState::Died);
                 if (APlayerCameraManager* PCM = GameMode->GetPlayerController()->GetCameraManager())
                 {
+                    FSoundManager::GetInstance().PlaySound("Scream");
                     PCM->StartCameraFade(0.0f, 1.0f, 3.0f, FLinearColor::Black, true);
                     PCM->OnFadeCompleteEvent.AddWeakLambda(this, [&]()
                     {

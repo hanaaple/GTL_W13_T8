@@ -47,8 +47,12 @@ public:
         }
 
         FMOD::Sound* sound = nullptr;
-        FMOD_MODE mode = FMOD_DEFAULT | FMOD_LOOP_OFF | FMOD_CREATECOMPRESSEDSAMPLE;
-
+        FMOD_MODE mode = FMOD_DEFAULT | FMOD_CREATECOMPRESSEDSAMPLE;
+        if (loop) {
+            mode |= FMOD_LOOP_NORMAL;  // 무한 반복
+        } else {
+            mode |= FMOD_LOOP_OFF;     // 한 번만 재생
+        }
         if (system->createSound(filePath.c_str(), mode, nullptr, &sound) != FMOD_OK) {
             std::cerr << "Failed to load sound: " << filePath << std::endl;
             return false;

@@ -4,6 +4,7 @@
 #include "FObjLoader.h"
 #include "Level.h"
 #include "SkeletalMesh.h"
+#include "SoundManager.h"
 #include "Actors/DirectionalLightActor.h"
 #include "Animation/SkeletalMeshActor.h"
 #include "Classes/Engine/AssetManager.h"
@@ -341,6 +342,8 @@ void UEditorEngine::StartPIE()
     }
     // 여기서 Actor들의 BeginPlay를 해줄지 안에서 해줄 지 고민.
     // WorldList.Add(GetWorldContextFromWorld(PIEWorld));
+
+    FSoundManager::GetInstance().PlaySound("BGM");
 }
 
 void UEditorEngine::StartSkeletalMeshViewer(FName SkeletalMeshName, UAnimationAsset* AnimAsset)
